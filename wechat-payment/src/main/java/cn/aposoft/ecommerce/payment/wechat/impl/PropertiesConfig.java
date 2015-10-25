@@ -112,7 +112,7 @@ public class PropertiesConfig implements Config {
 	 * 用于开发人员进行测试使用，以防误操作上传真实配置文件内容
 	 * 
 	 * @param fileName
-	 *            文件路径+名称
+	 *            文件路径+名称[E:/wechat/wechatpay.properties]
 	 * @param encoding
 	 *            读取编码
 	 * @author Yujinshui

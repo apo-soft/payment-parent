@@ -157,7 +157,10 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		CloseableHttpClient httpsClient = httpsClients.get(config.mchId());
 		if (httpsClient == null) {
 			try {
-				httpsClients.putIfAbsent(config.mchId(), getPkcs12Client(config));
+				httpsClient = httpsClients.putIfAbsent(config.mchId(), getPkcs12Client(config));
+				if(httpsClient==null){
+					httpsClient = httpsClients.get(config.mchId());
+				}
 			} catch (Exception e) {
 				log.error("当执行微信交易过程中,尝试创建客户端失败,请检查.", e);
 			}
