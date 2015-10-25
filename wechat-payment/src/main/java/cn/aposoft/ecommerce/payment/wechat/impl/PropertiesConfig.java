@@ -22,7 +22,7 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
  * 配置文件默认名称：wechatpay.properties<br>
  * 可以指定配置文件名称
  * 
- * @author LiuJian
+ * @author Yujinshui
  */
 public class PropertiesConfig implements Config {
 	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
@@ -98,18 +98,16 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
-	 * 默认配置文件
+	 * 通过读取默认配置文件加载微信支付的商户及系统配置信息
+	 * <p>
+	 * 读取默认配置文件 : classpath:wechatpay.properties
 	 */
 	public PropertiesConfig() {
 		getProperties("wechatpay.properties");
 	}
 
-	public PropertiesConfig(String fileName, String encoding) {
-		getFileProperties(fileName, encoding);
-	}
-
 	/**
-	 * 读取指定位置配置文件
+	 * 通过读取指定位置配置文件加载微信支付的商户及系统配置信息
 	 * <p>
 	 * 用于开发人员进行测试使用，以防误操作上传真实配置文件内容
 	 * 
@@ -120,7 +118,11 @@ public class PropertiesConfig implements Config {
 	 * @author Yujinshui
 	 * @time 2015年10月25日 上午11:52:08
 	 */
-	public void getFileProperties(String fileName, String encoding) {
+	public PropertiesConfig(String fileName, String encoding) {
+		getFileProperties(fileName, encoding);
+	}
+
+	private void getFileProperties(String fileName, String encoding) {
 		InputStreamReader reader = null;
 		try {
 			reader = new InputStreamReader(new FileInputStream(fileName), encoding);
@@ -145,7 +147,7 @@ public class PropertiesConfig implements Config {
 	 * @param fileName
 	 * @author Yujinshui
 	 */
-	public void getProperties(String fileName) {
+	private void getProperties(String fileName) {
 		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
 		Properties p = new Properties();
 		try {
@@ -220,5 +222,4 @@ public class PropertiesConfig implements Config {
 	public String orderUrl() {
 		return ORDER_URL;
 	}
-
 }
