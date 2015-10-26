@@ -7,7 +7,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * @author Jann Liu
  *
  */
-public class PayResponse extends PayResponseBase {
+public class PayResponse extends ResponseBase {
 	/************ 以下字段在return_code 和result_code都为SUCCESS的时候有返回 ****************/
 	/**
 	 * <font color=red>必需</font>-交易类型

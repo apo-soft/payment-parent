@@ -158,7 +158,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		if (httpsClient == null) {
 			try {
 				httpsClient = httpsClients.putIfAbsent(config.mchId(), getPkcs12Client(config));
-				if(httpsClient==null){
+				if (httpsClient == null) {
 					httpsClient = httpsClients.get(config.mchId());
 				}
 			} catch (Exception e) {
@@ -197,4 +197,5 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 
 		return httpclient;
 	}
+
 }

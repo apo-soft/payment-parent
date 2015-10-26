@@ -5,6 +5,8 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.Order;
+import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
+import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.PaymentService;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
@@ -61,6 +63,23 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		RefundResponse payRefundResponse = entityUtil.parsePayRefundResponseXml(responseText);
 		return payRefundResponse;
+	}
+
+	/**
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#query(cn.aposoft.ecommerce.payment.wechat.OrderQuery)
+	 */
+	@Override
+	public OrderQueryResponse query(OrderQuery params) {
+		String request = entityUtil.generateOrderQueryXml(params, config);
+		String responseText = "";
+		try {
+			responseText = httpUtil.post(request, config, config.orderUrl());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		OrderQueryResponse orderQueryResponse = entityUtil.parseOrderQueryResponseXml(responseText);
+		return orderQueryResponse;
 	}
 
 }

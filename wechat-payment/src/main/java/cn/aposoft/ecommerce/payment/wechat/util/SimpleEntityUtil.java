@@ -14,6 +14,8 @@ import org.xml.sax.SAXException;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
+import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
+import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
@@ -393,6 +395,18 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("transaction_id", value.getTransaction_id());
 
 		return parameters;
+	}
+
+	@Override
+	public String generateOrderQueryXml(OrderQuery params, Config config) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrderQueryResponse parseOrderQueryResponseXml(String responseText) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
