@@ -10,14 +10,16 @@ package cn.aposoft.ecommerce.payment.wechat;
  *
  */
 public interface Config {
-	
+
 	/**
 	 * 订单查询URL
+	 * 
 	 * @return
 	 * @author Yujinshui
 	 * @time 2015年10月24日 下午9:01:34
 	 */
 	String orderUrl();
+
 	/**
 	 * 认证证书位置
 	 * 
@@ -60,4 +62,5 @@ public interface Config {
 	 * @return
 	 */
 	String refundUrl();
+
 }

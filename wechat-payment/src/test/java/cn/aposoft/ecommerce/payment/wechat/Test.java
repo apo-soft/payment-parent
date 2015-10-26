@@ -20,7 +20,7 @@ public class Test {
 	 */
 	public static void refundTest_1() {
 
-		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties");
+		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties","utf-8");
 		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
 		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
@@ -36,8 +36,8 @@ public class Test {
 		;
 		refund.setNonce_str("1098415178");
 		refund.setOp_user_id("op_user_id 操作员 于津水");
-		refund.setOut_refund_no("1010090240201510231298712127");// 退款单号（支付单号）
-		refund.setOut_trade_no("20151023_2");
+		refund.setOut_refund_no("1002240240201510251334363255");// 退款单号（支付单号）
+		refund.setOut_trade_no("20151025_1");
 		refund.setRefund_fee(order.getTotal_fee());
 		refund.setRefund_fee_type("CNY");
 		refund.setTotal_fee(order.getTotal_fee());
@@ -65,7 +65,7 @@ public class Test {
 		order.setNonce_str("1234567890321");
 		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
 		// order.setOpenid(openid);
-		order.setOut_trade_no("20151023_2");//只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151025_1");//只要未支付，即可继续重复使用该单号
 		// order.setProduct_id(product_id);
 		order.setSpbill_create_ip("127.0.0.1");
 		// order.setTime_start(getTime());//设定交易有效的时间范围
@@ -107,8 +107,8 @@ public class Test {
  
 	public static void main(String[] args) {
 		//生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
-		payInfo_1();
-//		 refundTest_1();
+//		payInfo_1();
+		 refundTest_1();
 
 	}
 
