@@ -4,6 +4,7 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 /**
+ * 支付响应对象
  * @author Jann Liu
  *
  */

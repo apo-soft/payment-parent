@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import java.io.IOException;
+
 import cn.aposoft.ecommerce.payment.wechat.Config;
 
 /**
@@ -21,8 +23,9 @@ public interface HttpClientUtil {
 	 *            请求的url地址
 	 * @return
 	 * @author Yujinshui
+	 * @throws IOException 
 	 */
-	String post(String request, Config config, String url);
+	String post(String request, Config config, String url) throws IOException;
 
 	/**
 	 * 退款post

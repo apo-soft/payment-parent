@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
+import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
@@ -69,6 +71,7 @@ public interface EntityUtil {
 
 	/**
 	 * TODO 创建订单查询xml字符串
+	 * 
 	 * @param params
 	 * @param config
 	 * @return
@@ -76,13 +79,57 @@ public interface EntityUtil {
 	 * @time 2015年10月26日 下午10:30:40
 	 */
 	String generateOrderQueryXml(OrderQuery params, Config config);
-	
+
 	/**
 	 * TODO 解析订单查询字符结果，并返回OrderQueryResponse对象
+	 * 
 	 * @param responseText
 	 * @return
 	 * @author Yujinshui
 	 * @time 2015年10月26日 下午10:31:20
 	 */
 	OrderQueryResponse parseOrderQueryResponseXml(String responseText);
+
+	/**
+	 * 构建"关闭订单"业务xml格式字符串
+	 * 
+	 * @param params
+	 *            传入的关闭订单参数对象
+	 * @param config
+	 *            商户配置信息
+	 * @return "关闭订单"业务xml格式字符串
+	 * 
+	 *         <pre>
+					<xml>
+						<appid>wx2421b1c4370ec43b</appid>
+						<mch_id>10000100</mch_id>
+						<nonce_str>4ca93f17ddf3443ceabf72f26d64fe0e</nonce_str>
+						<out_trade_no>1415983244</out_trade_no>
+						<sign>59FF1DF214B2D279A0EA7077C54DD95D</sign>
+					</xml>
+	 *         </pre>
+	 */
+	String generateCloseOrderXml(CloseOrder params, Config config);
+
+	/**
+	 * 解析关闭订单返回结果响应对象实例
+	 * 
+	 * @param xml
+	 *            微信服务器返回的订单结果响应报文
+	 * 
+	 *            <pre>
+					<xml>
+					   <return_code><![CDATA[SUCCESS]]></return_code>
+					   <return_msg><![CDATA[OK]]></return_msg>
+					   <appid><![CDATA[wx2421b1c4370ec43b]]></appid>
+					   <mch_id><![CDATA[10000100]]></mch_id>
+					   <nonce_str><![CDATA[BFK89FC6rxKCOjLX]]></nonce_str>
+					   <sign><![CDATA[72B321D92A7BFA0B2509F3D13C7B1631]]></sign>
+					   <result_code><![CDATA[SUCCESS]]></result_code>
+					</xml>
+	 *            </pre>
+	 * 
+	 * @return "关闭订单"结果响应的对标实例
+	 */
+	CloseOrderResponse parseCloseOrderResponseXml(String xml);
 }

@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
+import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
+import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
@@ -19,6 +21,7 @@ import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
@@ -475,12 +478,12 @@ public class SimpleEntityUtil implements EntityUtil {
 		response.setTrade_type(result.get("trade_type"));
 		response.setTrade_state(result.get("trade_state"));
 		response.setBank_type(result.get("bank_type"));
-		response.setTotal_fee(Integer.parseInt(result.get("total_fee")));
+		response.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
 		response.setFee_type(result.get("fee_type"));
-		response.setCash_fee(Integer.parseInt(result.get("cash_fee")));
+		response.setCash_fee(CommonUtil.parseNum(result.get("cash_fee")));
 		response.setCash_fee_type(result.get("cash_fee_type"));
-		response.setCoupon_fee(Integer.parseInt(result.get("coupon_fee")));
-		response.setCoupon_count(Integer.parseInt(result.get("coupon_count")));
+		response.setCoupon_fee(CommonUtil.parseNum(result.get("coupon_fee")));
+		response.setCoupon_count(CommonUtil.parseNum(result.get("coupon_count")));
 		response.setTransaction_id(result.get("transaction_id"));
 		response.setOut_trade_no(result.get("out_trade_no"));
 		response.setAttach(result.get("attach"));
@@ -505,11 +508,11 @@ public class SimpleEntityUtil implements EntityUtil {
 	@Override
 	public String generateOrderQueryXml(OrderQuery params, Config config) {
 		checkConfig(config);
-		if (params.getTransaction_id() == null && params.getOut_trade_no() == null) {
+		if (params == null || (params.getTransaction_id() == null || params.getTransaction_id().isEmpty())
+				&& (params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty())) {
 			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
 		}
-		OrderQueryRequest values = null;
-		values = createOrderQueryRequest(params, config);
+		OrderQueryRequest values = createOrderQueryRequest(params, config);
 		SortedMap<String, Object> parameters = createOrderQueryTransferMap(values);
 		return XMLUtil.createXML(parameters);
 	}
@@ -574,6 +577,90 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("sign", request.getSign());
 		parameters.put("out_trade_no", request.getOut_trade_no());
 		parameters.put("transaction_id", request.getTransaction_id());
+		return parameters;
+	}
+
+	/**
+	 * 解析closeOrder接口的返回报文
+	 * 
+	 * @return 关闭订单接口返回的报文对象
+	 */
+	@Override
+	public CloseOrderResponse parseCloseOrderResponseXml(String xml) {
+		Map<String, String> result = null;
+		try {
+			result = XMLUtil.getMapFromXML(xml);
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			return null;
+		}
+
+		CloseOrderResponse response = new CloseOrderResponse();
+
+		response.setReturn_code(result.get("return_code"));
+		response.setReturn_msg(result.get("return_msg"));
+		// 当return_code =="SUCCESS"时,有以下内容
+		response.setAppid(result.get("appid"));
+		response.setMch_id(result.get("mch_id"));
+
+		response.setNonce_str(result.get("nonce_str"));
+		response.setSign(result.get("sign"));
+		response.setErr_code(result.get("err_code"));
+		response.setErr_code_des(result.get("err_code_des"));
+
+		return response;
+	}
+
+	@Override
+	public String generateCloseOrderXml(CloseOrder params, Config config) {
+		checkConfig(config);
+		if (params == null || params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty()) {
+			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
+		}
+		CloseOrderRequest values = createCloseOrderRequest(params, config);
+		SortedMap<String, Object> parameters = createCloseOrderTransferMap(values);
+		return XMLUtil.createXML(parameters);
+	}
+
+	private SortedMap<String, Object> createCloseOrderTransferMap(CloseOrderRequest request) {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("sign", request.getSign());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		return parameters;
+	}
+
+	private CloseOrderRequest createCloseOrderRequest(CloseOrder params, Config config) {
+		CloseOrderRequest request = new CloseOrderRequest();
+		request.setAppid(config.appId());
+		request.setMch_id(config.mchId());
+		request.setOut_trade_no(params.getOut_trade_no());
+		request.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
+
+		// 签名
+		Map<String, String> mapRequest = createCloseOrderSignMap(request);
+		String sign = Signature.getMapSign(mapRequest, config.key());
+		request.setSign(sign);
+
+		return request;
+	}
+
+	/**
+	 * 创建关闭订单发送接口的Map数据格式
+	 * 
+	 * @param request
+	 *            发送的关闭订单请求对象
+	 * @return 返回对象对应的Map数据格式
+	 */
+	private Map<String, String> createCloseOrderSignMap(CloseOrderRequest request) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("sign", request.getSign());
 		return parameters;
 	}
 
