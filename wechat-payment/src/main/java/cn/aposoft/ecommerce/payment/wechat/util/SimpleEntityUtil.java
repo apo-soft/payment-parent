@@ -20,10 +20,13 @@ import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
+import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
+import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
 
 /**
@@ -581,8 +584,10 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * 解析closeOrder接口的返回报文
+	 * 解析{@code closeOrder} 关闭订单接口的返回报文
 	 * 
+	 * @param xml
+	 *            接收的微信的响应报文内容
 	 * @return 关闭订单接口返回的报文对象
 	 */
 	@Override
@@ -611,6 +616,15 @@ public class SimpleEntityUtil implements EntityUtil {
 		return response;
 	}
 
+	/**
+	 * 生成关闭订单请求的xml报文
+	 * 
+	 * @param params
+	 *            订单关闭请求的参数
+	 * @param config
+	 *            商户配置信息
+	 * @return 发送的"关闭订单"报文
+	 */
 	@Override
 	public String generateCloseOrderXml(CloseOrder params, Config config) {
 		checkConfig(config);
@@ -620,16 +634,6 @@ public class SimpleEntityUtil implements EntityUtil {
 		CloseOrderRequest values = createCloseOrderRequest(params, config);
 		SortedMap<String, Object> parameters = createCloseOrderTransferMap(values);
 		return XMLUtil.createXML(parameters);
-	}
-
-	private SortedMap<String, Object> createCloseOrderTransferMap(CloseOrderRequest request) {
-		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
-		parameters.put("appid", request.getAppid());
-		parameters.put("mch_id", request.getMch_id());
-		parameters.put("nonce_str", request.getNonce_str());
-		parameters.put("sign", request.getSign());
-		parameters.put("out_trade_no", request.getOut_trade_no());
-		return parameters;
 	}
 
 	private CloseOrderRequest createCloseOrderRequest(CloseOrder params, Config config) {
@@ -661,6 +665,118 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("out_trade_no", request.getOut_trade_no());
 		parameters.put("sign", request.getSign());
+		return parameters;
+	}
+
+	private SortedMap<String, Object> createCloseOrderTransferMap(CloseOrderRequest request) {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("sign", request.getSign());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		return parameters;
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public RefundQueryResponse parseRefundQueryResponseXml(String xml) {
+		Map<String, String> result = null;
+		try {
+			result = XMLUtil.getMapFromXML(xml);
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			return null;
+		}
+
+		RefundQueryResponse response = new RefundQueryResponse();
+
+		response.setReturn_code(result.get("return_code"));
+		response.setReturn_msg(result.get("return_msg"));
+		// 当return_code =="SUCCESS"时,有以下内容
+		response.setResult_code(result.get("result_code"));
+		response.setErr_code(result.get("err_code"));
+		response.setErr_code_des(result.get("err_code_des"));
+		response.setAppid(result.get("appid"));
+		response.setMch_id(result.get("mch_id"));
+		response.setDevice_info(result.get("device_info"));
+		response.setNonce_str(result.get("nonce_str"));
+		response.setSign(result.get("sign"));
+
+		// 退款信息
+		
+		return response;
+	}
+
+	/**
+	 * 生成退款查询请求的xml报文
+	 * 
+	 * @param params
+	 *            订单关闭请求的参数
+	 * @param config
+	 *            商户配置信息
+	 * @return 发送的"关闭订单"报文
+	 */
+	@Override
+	public String generateRefundQueryXml(RefundQuery params, Config config) {
+
+		if (params == null || params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty()) {
+			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
+		}
+		RefundQueryRequest values = createRefundQueryRequest(params, config);
+		SortedMap<String, Object> parameters = createRefundQueryTransferMap(values);
+		return XMLUtil.createXML(parameters);
+	}
+
+	private RefundQueryRequest createRefundQueryRequest(RefundQuery params, Config config) {
+		RefundQueryRequest request = new RefundQueryRequest();
+		request.setAppid(config.appId());
+		request.setMch_id(config.mchId());
+		request.setDevice_info(params.getDevice_info());
+		request.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
+
+		request.setTransaction_id(params.getTransaction_id());
+		request.setOut_trade_no(params.getOut_trade_no());
+		request.setOut_refund_no(params.getOut_refund_no());
+		request.setRefund_id(params.getRefund_id());
+
+		// 签名
+		Map<String, String> mapRequest = createRefundQuerySignMap(request);
+		String sign = Signature.getMapSign(mapRequest, config.key());
+		request.setSign(sign);
+
+		return request;
+	}
+
+	private Map<String, String> createRefundQuerySignMap(RefundQueryRequest request) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("device_info", request.getDevice_info());
+		parameters.put("sign", request.getSign());
+
+		parameters.put("transaction_id", request.getTransaction_id());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("out_refund_no", request.getOut_refund_no());
+		parameters.put("refund_id", request.getRefund_id());
+		return parameters;
+	}
+
+	private SortedMap<String, Object> createRefundQueryTransferMap(RefundQueryRequest request) {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("device_info", request.getDevice_info());
+		parameters.put("sign", request.getSign());
+
+		parameters.put("transaction_id", request.getTransaction_id());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("out_refund_no", request.getOut_refund_no());
+		parameters.put("refund_id", request.getRefund_id());
 		return parameters;
 	}
 

@@ -12,6 +12,8 @@ import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
+import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
+import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 
 /**
@@ -132,4 +134,24 @@ public interface EntityUtil {
 	 * @return "关闭订单"结果响应的对标实例
 	 */
 	CloseOrderResponse parseCloseOrderResponseXml(String xml);
+
+	/**
+	 * 构建退款查询请求xml报文信息
+	 * 
+	 * @param params
+	 *            退款查询请求参数
+	 * @param config
+	 *            商户配置信息
+	 * @return 退款查询请求的xml报文内容
+	 */
+	String generateRefundQueryXml(RefundQuery params, Config config);
+
+	/**
+	 * 构建退款查询响应的Xml文件
+	 * 
+	 * @param xml
+	 *            退款查询返回的报文协议文本
+	 * @return 退款查询响应实体
+	 */
+	RefundQueryResponse parseRefundQueryResponseXml(String xml);
 }

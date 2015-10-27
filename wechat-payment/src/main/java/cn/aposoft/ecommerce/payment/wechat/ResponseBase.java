@@ -42,7 +42,7 @@ public class ResponseBase {
 	 */
 	private String result_code;
 	/**
-
+	
 	 */
 	private String err_code;
 	/**

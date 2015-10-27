@@ -62,4 +62,12 @@ public interface PaymentService {
 	 */
 	public CloseOrderResponse closeOrder(CloseOrder params);
 
+	/**
+	 * 退款查询服务接口:
+	 * {@link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_5}
+	 * <p>
+	 * 接口地址: https://api.mch.weixin.qq.com/pay/refundquery
+	 * <p>
+	 */
+	public RefundQueryResponse refundQuery(RefundQuery params);
 }
