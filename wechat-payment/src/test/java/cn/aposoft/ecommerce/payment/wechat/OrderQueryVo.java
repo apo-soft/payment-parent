@@ -40,4 +40,13 @@ public class OrderQueryVo implements OrderQuery {
 		return out_trade_no;
 	}
 
+	public void setTransaction_id(String transaction_id) {
+		this.transaction_id = transaction_id;
+	}
+
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	
 }

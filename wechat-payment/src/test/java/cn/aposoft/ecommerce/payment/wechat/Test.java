@@ -20,7 +20,7 @@ public class Test {
 	 */
 	public static void refundTest_1() {
 
-		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties","utf-8");
+		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
 		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
@@ -65,7 +65,7 @@ public class Test {
 		order.setNonce_str("1234567890321");
 		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
 		// order.setOpenid(openid);
-		order.setOut_trade_no("20151025_1");//只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
 		// order.setProduct_id(product_id);
 		order.setSpbill_create_ip("127.0.0.1");
 		// order.setTime_start(getTime());//设定交易有效的时间范围
@@ -91,7 +91,7 @@ public class Test {
 	}
 
 	public static void payInfo_1() {
-		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties","utf-8");
+		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
 		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
@@ -104,11 +104,50 @@ public class Test {
 		System.out.println(result.getReturn_code());
 		System.out.println(result.getReturn_msg());
 	}
- 
+
+	/**
+	 * 订单查询
+	 * 
+	 * @author Yujinshui
+	 * @time 2015年10月27日 下午10:40:06
+	 */
+	public static void orderQuery() {
+		Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
+		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
+		OrderQueryVo query = setQuery();
+		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
+		OrderQueryResponse outquery = payService.query(query);
+		System.out.println("订单信息展示：");
+		System.out.println(outquery.getAppid());
+		System.out.println(outquery.getTrade_state());
+		System.out.println(outquery.getBank_type());
+		 System.out.println(outquery.getTrade_type());
+		 System.out.println(outquery.getDevice_info());
+		 System.out.println(outquery.getTotal_fee());
+		 System.out.println(outquery.getAttach());
+	}
+
+	/**
+	 * 订单查询
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年10月27日 下午11:00:15
+	 */
+	public static OrderQueryVo setQuery() {
+		OrderQueryVo query = new OrderQueryVo();
+		// query.setOut_trade_no("");
+		query.setTransaction_id("1005680240201510261343957061");
+		return query;
+	}
+
 	public static void main(String[] args) {
-		//生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
-//		payInfo_1();
-		 refundTest_1();
+		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
+		// payInfo_1();//支付测试
+		// refundTest_1();//退款测试
+		orderQuery();// 订单测试
 
 	}
 
