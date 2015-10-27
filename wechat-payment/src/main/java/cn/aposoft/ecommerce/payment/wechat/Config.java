@@ -12,6 +12,13 @@ package cn.aposoft.ecommerce.payment.wechat;
 public interface Config {
 
 	/**
+	 * 支付成功通知的URL
+	 * 
+	 * @return URL字符串
+	 */
+	String notifyUrl();
+
+	/**
 	 * 订单查询URL
 	 * 
 	 * @return
@@ -59,8 +66,28 @@ public interface Config {
 	/**
 	 * 退款URL
 	 * 
-	 * @return
+	 * @return 关闭订单地址
 	 */
 	String refundUrl();
+
+	/**
+	 * 关闭订单地址
+	 * @return 关闭订单地址
+	 */
+	String closeOrderUrl();
+
+	/**
+	 * 下载订单对账单地址
+	 * 
+	 * @return 下载对账单地址
+	 */
+	String downloadBillUrl();
+
+	/**
+	 * 退款查询地址
+	 * 
+	 * @return 下载对账单地址
+	 */
+	String refundQueryUrl();
 
 }

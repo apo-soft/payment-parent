@@ -54,11 +54,30 @@ public class PropertiesConfig implements Config {
 	 * 退款-请求URL
 	 */
 	private String REFUND_URL = null;
+	/**
+	 * 关闭订单URL
+	 */
+	private String CLOSE_ORDER_URL = null;
+	/**
+	 * 支付成功提醒反馈URL地址
+	 */
+	private String NOTIFY_URL;
+
+	/**
+	 * 退款查询URL
+	 */
+	private String REFUND_QUERY_URL;
+
+	/**
+	 * 下载订单对账单地址
+	 */
+	private String DOWNLOAD_BILL_URL;
 
 	/**
 	 * 配置参数赋值
 	 * 
 	 * @param p
+	 *            属性信息
 	 * @author Yujinshui
 	 * @time 2015年10月25日 上午11:57:18
 	 */
@@ -67,9 +86,13 @@ public class PropertiesConfig implements Config {
 		MCH_ID = p.getProperty("MCH_ID");
 		KEY = p.getProperty("KEY");
 		URL = p.getProperty("URL");
+		NOTIFY_URL = p.getProperty("NOTIFY_URL");
 		REFUND_URL = p.getProperty("REFUND_URL");
-		PKCS12 = p.getProperty("PKCS12");
 		ORDER_URL = p.getProperty("ORDER_URL");
+		CLOSE_ORDER_URL = p.getProperty("CLOSE_ORDER_URL");
+		REFUND_QUERY_URL = p.getProperty("REFUND_QUERY_URL");
+		DOWNLOAD_BILL_URL = p.getProperty("DOWNLOAD_BILL_URL");
+		PKCS12 = p.getProperty("PKCS12");
 	}
 
 	/**
@@ -88,9 +111,13 @@ public class PropertiesConfig implements Config {
 		MCH_ID = map.get("MCH_ID");
 		KEY = map.get("KEY");
 		URL = map.get("URL");
+		NOTIFY_URL = map.get("NOTIFY_URL");
 		REFUND_URL = map.get("REFUND_URL");
-		PKCS12 = map.get("PKCS12");
 		ORDER_URL = map.get("ORDER_URL");
+		CLOSE_ORDER_URL = map.get("CLOSE_ORDER_URL");
+		REFUND_QUERY_URL = map.get("REFUND_QUERY_URL");
+		DOWNLOAD_BILL_URL = map.get("DOWNLOAD_BILL_URL");
+		PKCS12 = map.get("PKCS12");
 	}
 
 	public PropertiesConfig(String fileName) {
@@ -199,6 +226,8 @@ public class PropertiesConfig implements Config {
 
 	/**
 	 * 微信支付URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#url()
 	 */
 	@Override
 	public String url() {
@@ -206,7 +235,19 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
+	 * 订单交易返回URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#notifyUrl()
+	 */
+	@Override
+	public String notifyUrl() {
+		return NOTIFY_URL;
+	}
+
+	/**
 	 * 退款-请求URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#refundUrl()
 	 */
 	@Override
 	public String refundUrl() {
@@ -222,4 +263,35 @@ public class PropertiesConfig implements Config {
 	public String orderUrl() {
 		return ORDER_URL;
 	}
+
+	/**
+	 * 关闭订单URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String closeOrderUrl() {
+		return CLOSE_ORDER_URL;
+	}
+
+	/**
+	 * 下载订单对账单地址
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String downloadBillUrl() {
+		return DOWNLOAD_BILL_URL;
+	}
+
+	/**
+	 * 退款查询地址
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String refundQueryUrl() {
+		return REFUND_QUERY_URL;
+	}
+
 }

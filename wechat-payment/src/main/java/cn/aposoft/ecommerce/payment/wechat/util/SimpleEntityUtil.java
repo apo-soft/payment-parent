@@ -146,8 +146,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		payRequest.setMch_id(config.mchId());
 		// 随机数创建
 		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
-
-		payRequest.setNotify_url(order.getNotify_url());
+		// 支付成功,微信反馈的url地址
+		payRequest.setNotify_url(config.notifyUrl());
 		// payRequest.setOpenid(openid);// 暂时用不到
 		// 商户订单号
 		payRequest.setOut_trade_no(order.getOut_trade_no());
