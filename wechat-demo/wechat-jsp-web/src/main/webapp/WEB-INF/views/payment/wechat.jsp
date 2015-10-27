@@ -7,6 +7,6 @@
 <title>Wechat Payment Page</title>
 </head>
 <body>
-
+    Display this to as spring mvc demo.
 </body>
 </html>

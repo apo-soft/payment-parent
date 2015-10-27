@@ -19,6 +19,7 @@ import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
 
@@ -42,33 +43,142 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
+	 * 用于检查config的信息载入是否正确
+	 * 
+	 * @param config
+	 *            待检测的配置信息
+	 * @throws IllegalArgumentException
+	 *             当config参数不正确时,抛出此异常
+	 */
+	private void checkConfig(Config config) {
+		if (config == null) {
+			throw new IllegalArgumentException("支付配置信息不能为NULL.");
+		}
+
+		if (config.appId() == null || config.appId().isEmpty()) {
+			throw new IllegalArgumentException("商户配置信息的app_id不能为空.");
+		}
+
+		if (config.mchId() == null || config.mchId().isEmpty()) {
+			throw new IllegalArgumentException("商户配置信息的mch_id不能为空.");
+		}
+
+		if (config.key() == null || config.key().isEmpty()) {
+			throw new IllegalArgumentException("商户配置信息的key不能为空.");
+		}
+	}
+
+	/**
+	 * [支付]将返回的map结果解析成PayResponse-javabean
+	 * 
+	 * @param xml
+	 *            响应的原始报文字符串
+	 * @return 支付响应结果
+	 */
+	@Override
+	public PayResponse parsePayResponseXml(String xml) {
+		Map<String, String> result = null;
+		try {
+			result = XMLUtil.getMapFromXML(xml);
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			return null;
+		}
+		PayResponse response = new PayResponse();
+
+		response.setReturn_code(result.get("return_code"));
+		response.setReturn_msg(result.get("return_msg"));
+
+		response.setAppid(result.get("appid"));
+		response.setMch_id(result.get("mch_id"));
+		response.setDevice_info(result.get("device_info"));
+		response.setNonce_str(result.get("nonce_str"));
+		response.setSign(result.get("sign"));
+		response.setResult_code(result.get("result_code"));
+		response.setErr_code(result.get("err_code"));
+		response.setErr_code_des(result.get("err_code_des"));
+
+		response.setTrade_type(result.get("trade_type"));
+		response.setPrepay_id(result.get("prepay_id"));
+		response.setCode_url(result.get("code_url"));
+
+		return response;
+	}
+
+	/**
 	 * 根据order和config创建待发送的xml字符串
 	 * 
 	 * @param order
 	 *            订单信息
 	 * @param config
 	 *            配置内容
-	 * @return
+	 * @return 支付传输的xml文件格式
 	 */
 	@Override
 	public String generatePayXml(Order order, Config config) {
+		checkConfig(config);
 		PayRequest values = null;
-		try {
-			values = createPayRequest(order, config);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		SortedMap<String, Object> parameters = getMapPayValues(values);
+		values = createPayRequest(order, config);
+		SortedMap<String, Object> parameters = createPayTransferMap(values);
 		return XMLUtil.createXML(parameters);
 	}
 
 	/**
-	 * 将数据封装为map类型，用于创建xml数据
+	 * 根据Order和config生成PayRequest
+	 * 
+	 * @param order
+	 *            用于支付的订单信息
+	 * @param config
+	 *            商户配置信息
+	 * @return 创建的用于订单支付的完整请求对象
+	 */
+	private PayRequest createPayRequest(Order order, Config config) {
+		PayRequest payRequest = new PayRequest();
+
+		payRequest.setAppid(config.appId());
+		payRequest.setAttach(order.getAttach());
+		// 商品描述
+		payRequest.setBody(order.getBody());
+		payRequest.setDetail(order.getDetail());
+		payRequest.setDevice_info(order.getDevice_info());
+		payRequest.setFee_type(order.getFee_type());
+		payRequest.setGoods_tag(order.getGoods_tag());
+		payRequest.setMch_id(config.mchId());
+		// 随机数创建
+		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
+
+		payRequest.setNotify_url(order.getNotify_url());
+		// payRequest.setOpenid(openid);// 暂时用不到
+		// 商户订单号
+		payRequest.setOut_trade_no(order.getOut_trade_no());
+		// 此id为二维码中包含的商品ID
+		payRequest.setProduct_id(order.getProduct_id());
+
+		payRequest.setSpbill_create_ip(order.getSpbill_create_ip());
+		payRequest.setTime_expire(order.getTime_expire());
+		payRequest.setTime_start(order.getTime_start());
+		// 总金额
+		payRequest.setTotal_fee(order.getTotal_fee());
+		payRequest.setTrade_type(order.getTrade_type());
+
+		// 签名
+		Map<String, String> mapRequest = createPaySignMap(payRequest);
+		String sign = Signature.getMapSign(mapRequest, config.key());
+		payRequest.setSign(sign);
+
+		return payRequest;
+
+	}
+
+	/**
+	 * {@code createPayTransferMap}将数据封装为map类型，用于创建XML数据
 	 * 
 	 * @param value
-	 * @return
+	 *            用于交易的订单内容
+	 * @return 用于数据传输的Map类型数据
+	 * @bugfix: 2015/10/27 重命名方法,可见性改为私有
 	 */
-	private SortedMap<String, Object> getMapPayValues(PayRequest value) {
+	private SortedMap<String, Object> createPayTransferMap(PayRequest value) {
 		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
 		parameters.put("appid", value.getAppid());
 		parameters.put("mch_id", value.getMch_id());
@@ -93,7 +203,39 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * 将支付成功后返回的结果进行javabean格式化
+	 * {@code createPaySignMap}将PayRequest 封装为Map类型,用于数据签名计算
+	 * 
+	 * @param payRequest
+	 *            支付请求内容
+	 * @return 支付请求内容的Map格式数据
+	 * @bugfix: 2015/10/27 重命名方法,可见性改为私有
+	 */
+	private Map<String, String> createPaySignMap(PayRequest payRequest) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("appid", payRequest.getAppid());
+		map.put("mch_id", payRequest.getMch_id());
+		map.put("device_info", payRequest.getDevice_info());
+		map.put("nonce_str", payRequest.getNonce_str());
+		map.put("sign", payRequest.getSign());
+		map.put("body", payRequest.getBody());
+		map.put("detail", payRequest.getDetail());
+		map.put("attach", payRequest.getAttach());
+		map.put("out_trade_no", payRequest.getOut_trade_no());
+		map.put("fee_type", payRequest.getFee_type());
+		map.put("total_fee", payRequest.getTotal_fee() + "");
+		map.put("spbill_create_ip", payRequest.getSpbill_create_ip());
+		map.put("time_start", payRequest.getTime_start());
+		map.put("time_expire", payRequest.getTime_expire());
+		map.put("goods_tag", payRequest.getGoods_tag());
+		map.put("notify_url", payRequest.getNotify_url());
+		map.put("trade_type", payRequest.getTrade_type());
+		map.put("product_id", payRequest.getProduct_id());
+		map.put("openid", payRequest.getOpenid());
+		return map;
+	}
+
+	/**
+	 * 将支付成功后返回的原始xml报文转换为Notification对象
 	 */
 	@Override
 	public Notification parseNotificationXml(String xml) {
@@ -111,7 +253,8 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * 将map类型映射为javabean，返回给用户
 	 * 
 	 * @param resultMap
-	 * @return
+	 *            结果Map
+	 * @return 支付成功返回请求
 	 * @author Yujinshui
 	 */
 	private Notification convertToNotification(Map<String, String> resultMap) {
@@ -146,63 +289,22 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * [支付]将返回的map结果解析成PayResponse-javabean
-	 * 
-	 * @param xml
-	 * @return
-	 */
-	@Override
-	public PayResponse parsePayResponseXml(String xml) {
-		Map<String, String> result = null;
-		try {
-			result = XMLUtil.getMapFromXML(xml);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-		PayResponse response = new PayResponse();
-
-		response.setReturn_code(result.get("return_code"));
-		response.setReturn_msg(result.get("return_msg"));
-
-		response.setAppid(result.get("appid"));
-		response.setMch_id(result.get("mch_id"));
-		response.setDevice_info(result.get("device_info"));
-		response.setNonce_str(result.get("nonce_str"));
-		response.setSign(result.get("sign"));
-		response.setResult_code(result.get("result_code"));
-		response.setErr_code(result.get("err_code"));
-		response.setErr_code_des(result.get("err_code_des"));
-
-		response.setTrade_type(result.get("trade_type"));
-		response.setPrepay_id(result.get("prepay_id"));
-		response.setCode_url(result.get("code_url"));
-
-		return response;
-	}
-
-	/**
 	 * [退款]将返回的xml结果解析成javabean
 	 * 
 	 * @param xml
-	 * @return
+	 *            退款响应的xml原始报文
+	 * @return 退款响应数据
 	 * @author Yujinshui
 	 */
 	@Override
-	public RefundResponse parsePayRefundResponseXml(String xml) {
+	public RefundResponse parseRefundResponseXml(String xml) {
 
 		Map<String, String> result = null;
 		try {
 			result = XMLUtil.getMapFromXML(xml);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析退款结果时发生错误: " + e.getMessage(), e);
+			return null;
 		}
 		RefundResponse refundResponse = new RefundResponse();
 
@@ -235,90 +337,28 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * 根据Order和config生成PayRequest
-	 * 
-	 * @param order
-	 * @param config
-	 * @return
+	 * 创建退款传输的Xml字符串
 	 */
-	private PayRequest createPayRequest(Order order, Config config) throws IllegalAccessException {
-		PayRequest payRequest = new PayRequest();
-
-		payRequest.setAppid(config.appId());
-		payRequest.setAttach(order.getAttach());
-		// 商品描述
-		payRequest.setBody(order.getBody());
-		payRequest.setDetail(order.getDetail());
-		payRequest.setDevice_info(order.getDevice_info());
-		payRequest.setFee_type(order.getFee_type());
-		payRequest.setGoods_tag(order.getGoods_tag());
-		payRequest.setMch_id(config.mchId());
-		// 随机数创建
-		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20) + "");
-
-		payRequest.setNotify_url(order.getNotify_url());
-		// payRequest.setOpenid(openid);// 暂时用不到
-		// 商户订单号
-		payRequest.setOut_trade_no(order.getOut_trade_no());
-		// 此id为二维码中包含的商品ID
-		payRequest.setProduct_id(order.getProduct_id());
-
-		payRequest.setSpbill_create_ip(order.getSpbill_create_ip());
-		payRequest.setTime_expire(order.getTime_expire());
-		payRequest.setTime_start(order.getTime_start());
-		// 总金额
-		payRequest.setTotal_fee(order.getTotal_fee());
-		payRequest.setTrade_type(order.getTrade_type());
-
-		// 签名
-		Map<String, String> mapRequest = parseRequest(payRequest);
-		String sign = Signature.getMapSign(mapRequest, config.key());
-		payRequest.setSign(sign);
-
-		return payRequest;
-
+	@Override
+	public String generateRefundXml(Refund refund, Config config) {
+		checkConfig(config);
+		RefundRequest values = null;
+		values = createRefundRequest(refund, config);
+		SortedMap<String, Object> parameters = createRefundTransferMap(values);
+		return XMLUtil.createXML(parameters);
 	}
 
 	/**
-	 * 将数据封装为map类型
-	 * 
-	 * @param payRequest
-	 * @return
-	 * @author Yujinshui
-	 */
-	public Map<String, String> parseRequest(PayRequest payRequest) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("appid", payRequest.getAppid());
-		map.put("mch_id", payRequest.getMch_id());
-		map.put("device_info", payRequest.getDevice_info());
-		map.put("nonce_str", payRequest.getNonce_str());
-		map.put("sign", payRequest.getSign());
-		map.put("body", payRequest.getBody());
-		map.put("detail", payRequest.getDetail());
-		map.put("attach", payRequest.getAttach());
-		map.put("out_trade_no", payRequest.getOut_trade_no());
-		map.put("fee_type", payRequest.getFee_type());
-		map.put("total_fee", payRequest.getTotal_fee() + "");
-		map.put("spbill_create_ip", payRequest.getSpbill_create_ip());
-		map.put("time_start", payRequest.getTime_start());
-		map.put("time_expire", payRequest.getTime_expire());
-		map.put("goods_tag", payRequest.getGoods_tag());
-		map.put("notify_url", payRequest.getNotify_url());
-		map.put("trade_type", payRequest.getTrade_type());
-		map.put("product_id", payRequest.getProduct_id());
-		map.put("openid", payRequest.getOpenid());
-		return map;
-	}
-
-	/**
-	 * 退款操作
+	 * 创建退款传输实例数据对象
 	 * 
 	 * @param refund
+	 *            退款数据对象
 	 * @param config
-	 * @return
+	 *            商户配置信息
+	 * @return 退款请求完整信息
 	 * @author Yujinshui
 	 */
-	private RefundRequest createPayRefundRequest(Refund refund, Config config) throws IllegalAccessException {
+	private RefundRequest createRefundRequest(Refund refund, Config config) {
 		RefundRequest payRefund = new RefundRequest();
 		payRefund.setAppid(refund.getAppid());
 		payRefund.setDevice_info(refund.getDevice_info());
@@ -331,7 +371,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		payRefund.setRefund_fee_type(refund.getRefund_fee_type());
 		payRefund.setTotal_fee(refund.getTotal_fee());
 
-		Map<String, String> parameters = parseMapReFundValue(payRefund);
+		Map<String, String> parameters = createRefundSignMap(payRefund);
 		String sign = Signature.getMapSign(parameters, config.key());
 
 		payRefund.setSign(sign);
@@ -342,19 +382,14 @@ public class SimpleEntityUtil implements EntityUtil {
 		return payRefund;
 	}
 
-	@Override
-	public String generatePayRefundXml(Refund refund, Config config) {
-		RefundRequest values = null;
-		try {
-			values = createPayRefundRequest(refund, config);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		SortedMap<String, Object> parameters = getMapReFundValues(values);
-		return XMLUtil.createXML(parameters);
-	}
-
-	private Map<String, String> parseMapReFundValue(RefundRequest value) {
+	/**
+	 * {@code createRefundSignMap}将RefundRequest 封装为Map类型,用于数据签名计算
+	 * 
+	 * @param value
+	 *            退款请求数据
+	 * @return 用于签名计算的 退款请求数据的Map格式
+	 */
+	private Map<String, String> createRefundSignMap(RefundRequest value) {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("appid", value.getAppid());
 		parameters.put("mch_id", value.getMch_id());
@@ -373,13 +408,14 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * 将退款数据封装为map类型，创建xml数据
+	 * {@code createReFundTransferMap}将退款数据封装为Map类型，用于创建构造post请求报文的XML文件
 	 * 
 	 * @param values
-	 * @return
+	 *            退款请求数据对象
+	 * @return 用于生成支付xml文件的Map格式数据
 	 * @author Yujinshui
 	 */
-	private SortedMap<String, Object> getMapReFundValues(RefundRequest value) {
+	private SortedMap<String, Object> createRefundTransferMap(RefundRequest value) {
 		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
 		parameters.put("appid", value.getAppid());
 		parameters.put("mch_id", value.getMch_id());
@@ -397,16 +433,148 @@ public class SimpleEntityUtil implements EntityUtil {
 		return parameters;
 	}
 
+	/**
+	 * {@code parseOrderQueryResponseXml}用于解析订单查询结果的原始报文响应
+	 * <p>
+	 * TODO coupon_batch_id_$n ,coupon_id_$n ,coupon_fee_$n 尚需要处理
+	 * 
+	 * @param responseText
+	 *            订单查询响应的原始xml报文信息
+	 * @return 订单查询响应的实例化对象
+	 */
 	@Override
-	public String generateOrderQueryXml(OrderQuery params, Config config) {
-		// TODO Auto-generated method stub
-		return null;
+	public OrderQueryResponse parseOrderQueryResponseXml(String xml) {
+
+		Map<String, String> result = null;
+		try {
+			result = XMLUtil.getMapFromXML(xml);
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			return null;
+		}
+
+		OrderQueryResponse response = new OrderQueryResponse();
+
+		response.setReturn_code(result.get("return_code"));
+		response.setReturn_msg(result.get("return_msg"));
+		// 当return_code =="SUCCESS"时,有以下内容
+		response.setAppid(result.get("appid"));
+		response.setMch_id(result.get("mch_id"));
+
+		response.setNonce_str(result.get("nonce_str"));
+		response.setSign(result.get("sign"));
+		response.setResult_code(result.get("result_code"));
+		response.setErr_code(result.get("err_code"));
+		response.setErr_code_des(result.get("err_code_des"));
+		// 当return_code =="SUCCESS" && result_code =="SUCCESS" 时,有以下内容
+		// 为ResponseBase的内容
+		response.setDevice_info(result.get("device_info"));
+		// 以下为OrderQueryResponse的内容
+		response.setOpenid(result.get("openid"));
+		response.setIs_subscribe(result.get("is_subscribe"));
+		response.setTrade_type(result.get("trade_type"));
+		response.setTrade_state(result.get("trade_state"));
+		response.setBank_type(result.get("bank_type"));
+		response.setTotal_fee(Integer.parseInt(result.get("total_fee")));
+		response.setFee_type(result.get("fee_type"));
+		response.setCash_fee(Integer.parseInt(result.get("cash_fee")));
+		response.setCash_fee_type(result.get("cash_fee_type"));
+		response.setCoupon_fee(Integer.parseInt(result.get("coupon_fee")));
+		response.setCoupon_count(Integer.parseInt(result.get("coupon_count")));
+		response.setTransaction_id(result.get("transaction_id"));
+		response.setOut_trade_no(result.get("out_trade_no"));
+		response.setAttach(result.get("attach"));
+		response.setTime_end(result.get("time_end"));
+		response.setTrade_state_desc(result.get("trade_state_desc"));
+		return response;
 	}
 
+	/**
+	 * 将订单查询信息转换成为可发送的xml格式字符串
+	 * <p>
+	 * TODO: 需要针对文件创建错误异常进行处理
+	 * 
+	 * @param params
+	 *            查询条件 两个id不能全部为空
+	 * @param config
+	 *            商户的支付配置信息
+	 * @return 生成的xml结果值
+	 * @throws IllegalArgumentException
+	 *             当config的必要信息为空或者params的查询参数均为空时,抛出此异常
+	 */
 	@Override
-	public OrderQueryResponse parseOrderQueryResponseXml(String responseText) {
-		// TODO Auto-generated method stub
-		return null;
+	public String generateOrderQueryXml(OrderQuery params, Config config) {
+		checkConfig(config);
+		if (params.getTransaction_id() == null && params.getOut_trade_no() == null) {
+			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
+		}
+		OrderQueryRequest values = null;
+		values = createOrderQueryRequest(params, config);
+		SortedMap<String, Object> parameters = createOrderQueryTransferMap(values);
+		return XMLUtil.createXML(parameters);
+	}
+
+	/**
+	 * 创建订单查询请求对象,包含随机数生成及签名的计算
+	 * 
+	 * @param params
+	 *            订单查询参数
+	 * @param config
+	 *            商户配置信息
+	 * @return 用于post请求的数据完整对象
+	 */
+	private OrderQueryRequest createOrderQueryRequest(OrderQuery params, Config config) {
+		OrderQueryRequest values = new OrderQueryRequest();
+		values.setAppid(config.appId());
+		values.setMch_id(config.mchId());
+		values.setTransaction_id(params.getTransaction_id());
+		values.setOut_trade_no(params.getOut_trade_no());
+		// 随机字符串生成
+		values.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
+
+		// 签名
+		Map<String, String> mapRequest = createOrderQuerySignMap(values);
+		String sign = Signature.getMapSign(mapRequest, config.key());
+		values.setSign(sign);
+
+		return values;
+	}
+
+	/**
+	 * {@code createOrderQuerySignMap} 用于创建订单查询对象签名的Map数据对象.
+	 * 
+	 * @param request
+	 *            订单查询请求数据
+	 * @return 订单查询请求数据Map
+	 */
+	private Map<String, String> createOrderQuerySignMap(OrderQueryRequest request) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("transaction_id", request.getTransaction_id());
+		parameters.put("sign", request.getSign());
+		return parameters;
+	}
+
+	/**
+	 * {@code createOrderQueryTransferMap}用于将Java订单查询对象转换为Map数据格式
+	 * 
+	 * @param request
+	 *            订单查询请求对象
+	 * @return 订单查询对象的Map表示形式
+	 */
+	private SortedMap<String, Object> createOrderQueryTransferMap(OrderQueryRequest request) {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("sign", request.getSign());
+		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("transaction_id", request.getTransaction_id());
+		return parameters;
 	}
 
 }

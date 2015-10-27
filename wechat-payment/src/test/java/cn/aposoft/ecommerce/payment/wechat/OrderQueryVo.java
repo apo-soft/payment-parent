@@ -21,17 +21,23 @@ package cn.aposoft.ecommerce.payment.wechat;
  */
 public class OrderQueryVo implements OrderQuery {
 
+	private String transaction_id;
+	private String out_trade_no;
+
+	/**
+	 * 微信订单号
+	 */
 	@Override
 	public String getTransaction_id() {
-		// TODO Auto-generated method stub
-		return null;
+		return transaction_id;
 	}
 
+	/**
+	 * 商户订单号
+	 */
 	@Override
 	public String getOut_trade_no() {
-		// TODO Auto-generated method stub
-		return null;
+		return out_trade_no;
 	}
-	
 
 }

@@ -40,7 +40,7 @@ public interface EntityUtil {
 	 * @return
 	 * @author Yujinshui
 	 */
-	String generatePayRefundXml(Refund refund, Config config);
+	String generateRefundXml(Refund refund, Config config);
 
 	/**
 	 * [支付]将返回的map结果解析成PayResponse-javabean
@@ -65,7 +65,7 @@ public interface EntityUtil {
 	 * @return
 	 * @author Yujinshui
 	 */
-	RefundResponse parsePayRefundResponseXml(String xml);
+	RefundResponse parseRefundResponseXml(String xml);
 
 	/**
 	 * TODO 创建订单查询xml字符串

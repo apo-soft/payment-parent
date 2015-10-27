@@ -54,14 +54,14 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Override
 	public RefundResponse refund(Refund refund) {
-		String request = entityUtil.generatePayRefundXml(refund, config);
+		String request = entityUtil.generateRefundXml(refund, config);
 		String responseText = "";
 		try {
 			responseText = httpUtil.refundPost(request, config, config.refundUrl());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RefundResponse payRefundResponse = entityUtil.parsePayRefundResponseXml(responseText);
+		RefundResponse payRefundResponse = entityUtil.parseRefundResponseXml(responseText);
 		return payRefundResponse;
 	}
 

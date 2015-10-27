@@ -35,6 +35,13 @@ package cn.aposoft.ecommerce.payment.wechat;
  */
 public class OrderQueryResponse extends ResponseBase {
 	/**
+	 * 用户标识 openid 是 String(128) wxd930ea5d5a258f4f
+	 * <p>
+	 * 用户在商户appid下的唯一标识
+	 */
+	private String openid;
+
+	/**
 	 * 是否关注公众账号 String(1) Y/N 用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
 	 */
 	private String is_subscribe;
@@ -138,4 +145,156 @@ public class OrderQueryResponse extends ResponseBase {
 	 * 交易状态描述 trade_state_desc 是 String(256) 支付失败，请重新下单支付 对当前查询订单状态的描述和下一步操作的指引
 	 */
 	private String trade_state_desc;
+
+	public String getIs_subscribe() {
+		return is_subscribe;
+	}
+
+	public void setIs_subscribe(String is_subscribe) {
+		this.is_subscribe = is_subscribe;
+	}
+
+	public String getTrade_type() {
+		return trade_type;
+	}
+
+	public void setTrade_type(String trade_type) {
+		this.trade_type = trade_type;
+	}
+
+	public String getTrade_state() {
+		return trade_state;
+	}
+
+	public void setTrade_state(String trade_state) {
+		this.trade_state = trade_state;
+	}
+
+	public String getBank_type() {
+		return bank_type;
+	}
+
+	public void setBank_type(String bank_type) {
+		this.bank_type = bank_type;
+	}
+
+	public Integer getTotal_fee() {
+		return total_fee;
+	}
+
+	public void setTotal_fee(Integer total_fee) {
+		this.total_fee = total_fee;
+	}
+
+	public String getFee_type() {
+		return fee_type;
+	}
+
+	public void setFee_type(String fee_type) {
+		this.fee_type = fee_type;
+	}
+
+	public Integer getCash_fee() {
+		return cash_fee;
+	}
+
+	public void setCash_fee(Integer cash_fee) {
+		this.cash_fee = cash_fee;
+	}
+
+	public String getCash_fee_type() {
+		return cash_fee_type;
+	}
+
+	public void setCash_fee_type(String cash_fee_type) {
+		this.cash_fee_type = cash_fee_type;
+	}
+
+	public Integer getCoupon_fee() {
+		return coupon_fee;
+	}
+
+	public void setCoupon_fee(Integer coupon_fee) {
+		this.coupon_fee = coupon_fee;
+	}
+
+	public Integer getCoupon_count() {
+		return coupon_count;
+	}
+
+	public void setCoupon_count(Integer coupon_count) {
+		this.coupon_count = coupon_count;
+	}
+
+	public String getCoupon_batch_id_$n() {
+		return coupon_batch_id_$n;
+	}
+
+	public void setCoupon_batch_id_$n(String coupon_batch_id_$n) {
+		this.coupon_batch_id_$n = coupon_batch_id_$n;
+	}
+
+	public String getCoupon_id_$n() {
+		return coupon_id_$n;
+	}
+
+	public void setCoupon_id_$n(String coupon_id_$n) {
+		this.coupon_id_$n = coupon_id_$n;
+	}
+
+	public Integer getCoupon_fee_$n() {
+		return coupon_fee_$n;
+	}
+
+	public void setCoupon_fee_$n(Integer coupon_fee_$n) {
+		this.coupon_fee_$n = coupon_fee_$n;
+	}
+
+	public String getTransaction_id() {
+		return transaction_id;
+	}
+
+	public void setTransaction_id(String transaction_id) {
+		this.transaction_id = transaction_id;
+	}
+
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	public String getAttach() {
+		return attach;
+	}
+
+	public void setAttach(String attach) {
+		this.attach = attach;
+	}
+
+	public String getTime_end() {
+		return time_end;
+	}
+
+	public void setTime_end(String time_end) {
+		this.time_end = time_end;
+	}
+
+	public String getTrade_state_desc() {
+		return trade_state_desc;
+	}
+
+	public void setTrade_state_desc(String trade_state_desc) {
+		this.trade_state_desc = trade_state_desc;
+	}
+
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
 }
