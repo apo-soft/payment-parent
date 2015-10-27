@@ -16,4 +16,15 @@
 		<module>wechat-spring-controller</module>
 		<module>wechat-jsp-web</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>wechat-spring-controller</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+
+	</dependencyManagement>
 </project>

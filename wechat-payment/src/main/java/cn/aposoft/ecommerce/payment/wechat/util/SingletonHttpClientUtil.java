@@ -60,9 +60,10 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	 *            请求的url地址
 	 * @return
 	 * @author Yujinshui
+	 * @throws IOException 
 	 */
 	@Override
-	public String post(String request, Config config, String url) {
+	public String post(String request, Config config, String url) throws IOException {
 		// 请求结果
 		String result = "";
 		// CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -80,7 +81,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 			HttpEntity entity = response.getEntity();
 			result = EntityUtils.toString(entity, "UTF-8");
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		} finally {
 			// 关闭响应
 			try {

@@ -3,6 +3,12 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
+import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
@@ -15,11 +21,19 @@ import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
 
 /**
+ * 支付服务业务实现类
+ * <ul>
+ * <li>{@code preparePay} 实现微信支付的统一下单接口封装</li>
+ * <li>{@code refund} 实现微信支付的申请退款接口</li>
+ * <li>{@code query} 实现微信支付的订单查询接口</li>
+ * <li>{@code closeOrder} 实现微信支付的关闭订单接口 </li>
+ * </ul>
+ * 
  * @author LiuJian
  *
  */
 public class PaymentServiceImpl implements PaymentService {
-
+	private static final Logger logger = Logger.getLogger(PaymentServiceImpl.class);
 	private Config config;
 
 	private EntityUtil entityUtil;
@@ -40,9 +54,15 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public PayResponse preparePay(Order order) {
 		String request = entityUtil.generatePayXml(order, config);
-		String responseText = httpUtil.post(request, config, config.url());
-		PayResponse payResponse = entityUtil.parsePayResponseXml(responseText);
-		return payResponse;
+		String responseText;
+		try {
+			responseText = httpUtil.post(request, config, config.url());
+			PayResponse payResponse = entityUtil.parsePayResponseXml(responseText);
+			return payResponse;
+		} catch (IOException e) {
+			logger.error("订单支付时,发生错误:" + e.getMessage(), e);
+			return null;
+		}
 	}
 
 	/**
@@ -54,14 +74,14 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Override
 	public RefundResponse refund(Refund refund) {
-		String request = entityUtil.generatePayRefundXml(refund, config);
+		String request = entityUtil.generateRefundXml(refund, config);
 		String responseText = "";
 		try {
 			responseText = httpUtil.refundPost(request, config, config.refundUrl());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("发送退款请求时,发生错误:" + e.getMessage(), e);
 		}
-		RefundResponse payRefundResponse = entityUtil.parsePayRefundResponseXml(responseText);
+		RefundResponse payRefundResponse = entityUtil.parseRefundResponseXml(responseText);
 		return payRefundResponse;
 	}
 
@@ -75,11 +95,32 @@ public class PaymentServiceImpl implements PaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.orderUrl());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
 		OrderQueryResponse orderQueryResponse = entityUtil.parseOrderQueryResponseXml(responseText);
 		return orderQueryResponse;
+	}
+
+	/**
+	 * 关闭订单请求的实现
+	 * 
+	 * <p>
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#closeOrder(CloseOrder
+	 *      params)
+	 */
+	@Override
+	public CloseOrderResponse closeOrder(CloseOrder params) {
+		String request = entityUtil.generateCloseOrderXml(params, config);
+		String responseText = "";
+		try {
+			responseText = httpUtil.post(request, config, config.orderUrl());
+		} catch (IOException e) {
+			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
+		}
+		CloseOrderResponse closeOrderResponse = entityUtil.parseCloseOrderResponseXml(responseText);
+		return closeOrderResponse;
 	}
 
 }
