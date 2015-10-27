@@ -67,6 +67,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>wechat-jsp-web</finalName>
+		<finalName>/</finalName>
 	</build>
 </project>
