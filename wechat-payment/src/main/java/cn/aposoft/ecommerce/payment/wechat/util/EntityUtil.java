@@ -6,6 +6,8 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
@@ -154,4 +156,24 @@ public interface EntityUtil {
 	 * @return 退款查询响应实体
 	 */
 	RefundQueryResponse parseRefundQueryResponseXml(String xml);
+
+	/**
+	 * 生成下载对账单的xml请求报文
+	 * 
+	 * @param params
+	 *            对账单查询参数
+	 * @param config
+	 *            商户配置信息
+	 * @return 发送到微信端的请求报文
+	 */
+	String generateDownloadBillXml(DownloadBill params, Config config);
+
+	/**
+	 * 微信对账单返回信息的定制查询
+	 * 
+	 * @param responseText
+	 *            响应报文
+	 * @return 响应信息的实例对象
+	 */
+	DownloadBillResponse parseDownloadBillResponseXml(String responseText);
 }

@@ -14,6 +14,8 @@ import org.xml.sax.SAXException;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
@@ -706,7 +708,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		response.setSign(result.get("sign"));
 
 		// 退款信息
-		
+
 		return response;
 	}
 
@@ -777,6 +779,105 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("out_trade_no", request.getOut_trade_no());
 		parameters.put("out_refund_no", request.getOut_refund_no());
 		parameters.put("refund_id", request.getRefund_id());
+		return parameters;
+	}
+
+	/**
+	 * {@code parseDownloadBillResponseXml(String xml)} 完成对账单的解析和拆分
+	 * 
+	 * @param xml
+	 *            返回的响应报文内容:
+	 *            <p>
+	 *            失败时:内容应为xml格式的错误信息
+	 *            <p>
+	 *            成功时:报文为对账单,不包含xml格式信息
+	 * @see cn.aposoft.ecommerce.payment.wechat.util.EntityUtil#parseDownloadBillResponseXml(String)
+	 */
+	@Override
+	public DownloadBillResponse parseDownloadBillResponseXml(String xml) {
+		Map<String, String> result = null;
+		try {
+			result = XMLUtil.getMapFromXML(xml);
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			if (xml == null || xml.isEmpty())
+				return null;
+		}
+
+		DownloadBillResponse response = new DownloadBillResponse();
+		if (result != null) {
+			response.setReturn_code(result.get("return_code"));
+			response.setReturn_msg(result.get("return_msg"));
+		} else if (xml != null && !xml.isEmpty()) {
+			// 当return_code ==null 时,有以下内容
+			response.setData(xml);
+		}
+
+		return response;
+	}
+
+	/**
+	 * {@code generateDownloadBillXml(DownloadBill params, Config config)}
+	 * 下载对账单请求对象构建方法
+	 * 
+	 * @param params
+	 *            下载对账单查询参数
+	 * @param config
+	 *            商户配置信息
+	 * @see cn.aposoft.ecommerce.payment.wechat.util.EntityUtil#generateDownloadBillXml(DownloadBill,Config)
+	 */
+	@Override
+	public String generateDownloadBillXml(DownloadBill params, Config config) {
+		checkConfig(config);
+		if (params == null || params.getBill_date() == null) {
+			throw new IllegalArgumentException("查询信息不能为空,日志不能为空.");
+		}
+		DownloadBillRequest values = createDownloadBillRequest(params, config);
+		SortedMap<String, Object> parameters = createDownloadBillTransferMap(values);
+		return XMLUtil.createXML(parameters);
+
+	}
+
+	private DownloadBillRequest createDownloadBillRequest(DownloadBill params, Config config) {
+		DownloadBillRequest request = new DownloadBillRequest();
+		request.setAppid(config.appId());
+		request.setMch_id(config.mchId());
+		request.setDevice_info(params.getDevice_info());
+		request.setBill_date(params.getBill_date());
+		request.setBill_type(params.getBill_type());
+		request.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
+
+		// 签名
+		Map<String, String> mapRequest = createDownloadBillSignMap(request);
+		String sign = Signature.getMapSign(mapRequest, config.key());
+		request.setSign(sign);
+
+		return request;
+	}
+
+	private Map<String, String> createDownloadBillSignMap(DownloadBillRequest request) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("device_info", request.getDevice_info());
+		parameters.put("sign", request.getSign());
+
+		parameters.put("transaction_id", request.getBill_date());
+		parameters.put("out_trade_no", request.getBill_type());
+		return parameters;
+	}
+
+	private SortedMap<String, Object> createDownloadBillTransferMap(DownloadBillRequest request) {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("appid", request.getAppid());
+		parameters.put("mch_id", request.getMch_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("device_info", request.getDevice_info());
+		parameters.put("sign", request.getSign());
+
+		parameters.put("transaction_id", request.getBill_date());
+		parameters.put("out_trade_no", request.getBill_type());
 		return parameters;
 	}
 
