@@ -3,6 +3,9 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * 
@@ -156,6 +159,12 @@ public class OrderQueryResponse extends ResponseBase {
 	 */
 	private String trade_state_desc;
 
+	/**
+	 * 用于封装查询结果中涉及到优惠券$n的三个字段: coupon_batch_id_$n , coupon_id_$n , coupon_fee_$n
+	 * 
+	 */
+	private List<Coupon> couponItems;
+
 	public String getIs_subscribe() {
 		return is_subscribe;
 	}
@@ -306,5 +315,13 @@ public class OrderQueryResponse extends ResponseBase {
 
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+
+	public List<Coupon> getCouponItems() {
+		return couponItems;
+	}
+
+	public void setCouponItems(List<Coupon> couponItems) {
+		this.couponItems = couponItems;
 	}
 }

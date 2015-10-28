@@ -3,13 +3,11 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
-import java.util.Date;
-
 /**
  * 下载对账单查询参数接口
  * 
  * <pre>
-  	<xml>
+ 	<xml>
 	  <appid>wx2421b1c4370ec43b</appid>
 	  <bill_date>20141110</bill_date>
 	  <bill_type>ALL</bill_type>

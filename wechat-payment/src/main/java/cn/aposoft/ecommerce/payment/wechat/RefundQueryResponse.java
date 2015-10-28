@@ -89,9 +89,144 @@ public class RefundQueryResponse extends ResponseBase {
 	/**
 	 * 微信退款单号 refund_id_$n 是 String(28) 1217752501201407033233368018 微信退款单号
 	 */
+
 	/**
 	 * 退款渠道 refund_channel_$n 否 String(16) ORIGINAL ORIGINAL—原路退款 BALANCE—退回到余额
 	 */
+	/**
+	 * @return the transaction_id
+	 */
+	public String getTransaction_id() {
+		return transaction_id;
+	}
+
+	/**
+	 * @param transaction_id
+	 *            the transaction_id to set
+	 */
+	public void setTransaction_id(String transaction_id) {
+		this.transaction_id = transaction_id;
+	}
+
+	/**
+	 * @return the out_trade_no
+	 */
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	/**
+	 * @param out_trade_no
+	 *            the out_trade_no to set
+	 */
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	/**
+	 * @return the total_fee
+	 */
+	public Integer getTotal_fee() {
+		return total_fee;
+	}
+
+	/**
+	 * @param total_fee
+	 *            the total_fee to set
+	 */
+	public void setTotal_fee(Integer total_fee) {
+		this.total_fee = total_fee;
+	}
+
+	/**
+	 * @return the fee_type
+	 */
+	public String getFee_type() {
+		return fee_type;
+	}
+
+	/**
+	 * @param fee_type
+	 *            the fee_type to set
+	 */
+	public void setFee_type(String fee_type) {
+		this.fee_type = fee_type;
+	}
+
+	/**
+	 * @return the cash_fee
+	 */
+	public Integer getCash_fee() {
+		return cash_fee;
+	}
+
+	/**
+	 * @param cash_fee
+	 *            the cash_fee to set
+	 */
+	public void setCash_fee(Integer cash_fee) {
+		this.cash_fee = cash_fee;
+	}
+
+	/**
+	 * @return the cash_fee_type
+	 */
+	public String getCash_fee_type() {
+		return cash_fee_type;
+	}
+
+	/**
+	 * @param cash_fee_type
+	 *            the cash_fee_type to set
+	 */
+	public void setCash_fee_type(String cash_fee_type) {
+		this.cash_fee_type = cash_fee_type;
+	}
+
+	/**
+	 * @return the refund_fee
+	 */
+	public Integer getRefund_fee() {
+		return refund_fee;
+	}
+
+	/**
+	 * @param refund_fee
+	 *            the refund_fee to set
+	 */
+	public void setRefund_fee(Integer refund_fee) {
+		this.refund_fee = refund_fee;
+	}
+
+	/**
+	 * @return the coupon_refund_fee
+	 */
+	public Integer getCoupon_refund_fee() {
+		return coupon_refund_fee;
+	}
+
+	/**
+	 * @param coupon_refund_fee
+	 *            the coupon_refund_fee to set
+	 */
+	public void setCoupon_refund_fee(Integer coupon_refund_fee) {
+		this.coupon_refund_fee = coupon_refund_fee;
+	}
+
+	/**
+	 * @return the refund_count
+	 */
+	public Integer getRefund_count() {
+		return refund_count;
+	}
+
+	/**
+	 * @param refund_count
+	 *            the refund_count to set
+	 */
+	public void setRefund_count(Integer refund_count) {
+		this.refund_count = refund_count;
+	}
 
 	/** 退款金额 refund_fee_$n 是 Int 100 退款总金额,单位为分,可以做部分退款 */
 	/**
@@ -115,7 +250,7 @@ public class RefundQueryResponse extends ResponseBase {
 	 * 代金券或立减优惠ID coupon_refund_id_$n_$m 否 String(20) 10000 代金券或立减优惠ID,
 	 * $n为下标，$m为下标，从0开始编号
 	 */
-	
+
 	/**
 	 * 单个代金券或立减优惠支付金额 coupon_refund_fee_$n_$m 否 Int 100
 	 * 单个代金券或立减优惠支付金额,$n为下标，$m为下标， 从0开始编号

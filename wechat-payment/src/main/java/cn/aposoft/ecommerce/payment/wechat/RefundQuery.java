@@ -23,7 +23,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * refund_id>out_refund_no>transaction_id>out_trade_no
  * 
  * @author Jann Liu
- *	
+ * 
  */
 public interface RefundQuery {
 

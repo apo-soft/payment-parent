@@ -1,8 +1,11 @@
 package cn.aposoft.ecommerce.payment.wechat.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -14,6 +17,7 @@ import org.xml.sax.SAXException;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
+import cn.aposoft.ecommerce.payment.wechat.Coupon;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
@@ -30,6 +34,7 @@ import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
+import cn.aposoft.ecommerce.payment.wechat.util.CouponParserFactory.ParserType;
 
 /**
  * 支付与退款的封装过程操作
@@ -443,8 +448,6 @@ public class SimpleEntityUtil implements EntityUtil {
 
 	/**
 	 * {@code parseOrderQueryResponseXml}用于解析订单查询结果的原始报文响应
-	 * <p>
-	 * TODO coupon_batch_id_$n ,coupon_id_$n ,coupon_fee_$n 尚需要处理
 	 * 
 	 * @param responseText
 	 *            订单查询响应的原始xml报文信息
@@ -489,12 +492,85 @@ public class SimpleEntityUtil implements EntityUtil {
 		response.setCash_fee_type(result.get("cash_fee_type"));
 		response.setCoupon_fee(CommonUtil.parseNum(result.get("coupon_fee")));
 		response.setCoupon_count(CommonUtil.parseNum(result.get("coupon_count")));
+
 		response.setTransaction_id(result.get("transaction_id"));
 		response.setOut_trade_no(result.get("out_trade_no"));
 		response.setAttach(result.get("attach"));
 		response.setTime_end(result.get("time_end"));
 		response.setTrade_state_desc(result.get("trade_state_desc"));
+
+		/*
+		 * 代金券或立减优惠批次ID coupon_batch_id_$n 否 String(20) 100 代金券或立减优惠批次ID
+		 * ,$n为下标，从0开始编号 代金券或立减优惠ID coupon_id_$n 否 String(20) 10000 代金券或立减优惠ID,
+		 * $n为下标，从0开始编号 单个代金券或立减优惠支付金额 coupon_fee_$n 否 Int 100 单个代金券或立减优惠支付金额,
+		 * $n为下标，从0开始编号
+		 */
+		// 优惠券明细列表
+		response.setCouponItems(createCouponItems(result, CouponParserFactory.getParser(ParserType.OrderQuery)));
+
 		return response;
+	}
+
+	/**
+	 * 用于订单查询的CouponItems的生成Coupon集合
+	 * 
+	 * @param result
+	 *            订单查询响应的xml解析结果
+	 * @param couponParser
+	 * @return 查询结果中的Coupon集合
+	 */
+	private List<Coupon> createCouponItems(Map<String, String> result, CouponParser couponParser) {
+
+		Map<Integer, Coupon> couponMap = new HashMap<Integer, Coupon>();
+		for (Entry<String, String> entry : result.entrySet()) {
+			checkAndSetCoupon(entry, couponMap, couponParser);
+		}
+		List<Coupon> couponItems = new ArrayList<Coupon>(couponMap.size());
+
+		couponItems.addAll(couponMap.values());
+
+		return couponItems;
+	}
+
+	/**
+	 * 用于订单查询检查并添加CouponList的数据
+	 * 
+	 * @param couponDataItem
+	 *            优惠券数据项键值对
+	 * @param couponMap
+	 *            优惠券集合
+	 * @param couponParser
+	 */
+	private void checkAndSetCoupon(Entry<String, String> couponDataItem, Map<Integer, Coupon> couponMap,
+			CouponParser couponParser) {
+
+		if (couponParser.isCoupon_batch_id(couponDataItem.getKey())) {
+			int n = couponParser.getN(couponDataItem.getKey());
+			Coupon coupon = checkAndGet(couponMap, n);
+			coupon.setCoupon_batch_id(couponDataItem.getValue());
+		}
+
+		if (couponParser.isCoupon_id(couponDataItem.getKey())) {
+			int n = couponParser.getN(couponDataItem.getKey());
+			Coupon coupon = checkAndGet(couponMap, n);
+			coupon.setCoupon_id(couponDataItem.getValue());
+		}
+
+		if (couponParser.isCoupon_fee(couponDataItem.getKey())) {
+			int n = couponParser.getN(couponDataItem.getKey());
+			Coupon coupon = checkAndGet(couponMap, n);
+			coupon.setCoupon_fee(CommonUtil.parseNum(couponDataItem.getValue()));
+		}
+	}
+
+	private Coupon checkAndGet(Map<Integer, Coupon> couponMap, int n) {
+		Coupon coupon = couponMap.get(n);
+		if (coupon == null) {
+			coupon = new Coupon();
+			coupon.setN(n);
+			couponMap.put(n, coupon);
+		}
+		return coupon;
 	}
 
 	/**
@@ -708,7 +784,15 @@ public class SimpleEntityUtil implements EntityUtil {
 		response.setSign(result.get("sign"));
 
 		// 退款信息
+		response.setTransaction_id(result.get("transaction_id"));
+		response.setOut_trade_no(result.get("out_trade_no"));
+		response.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
+		response.setFee_type(result.get("fee_type"));
+		response.setCash_fee(CommonUtil.parseNum(result.get("cash_fee")));
+		response.setRefund_count(CommonUtil.parseNum(result.get("refund_count")));
 
+		// 退款记录
+		
 		return response;
 	}
 
