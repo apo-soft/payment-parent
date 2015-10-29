@@ -54,7 +54,7 @@ public class Test {
 
 	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
 		OrderVo order = new OrderVo();
-		order.setAppid(config.appId());
+		// order.setAppid(config.appId());
 		// order.setAttach(attach);
 		order.setBody("Ipad mini  16G  白色1023_2");
 		// order.setDetail(detail);

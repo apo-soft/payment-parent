@@ -1,11 +1,8 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 public class OrderVo implements Order {
-	private String appid; // 公众账号ID-
-	private String mch_id; // 商户号-
+
 	private String device_info; // 设备号-
-	private String nonce_str; // 随机字符串-
-	private String sign; // 签名-
 	private String body; // 商品描述
 	private String detail; // 商品详情
 	private String attach; // 附加数据
@@ -21,44 +18,12 @@ public class OrderVo implements Order {
 	private String product_id; // 商品ID
 	private String openid; // 用户标识
 
-	public String getAppid() {
-		return appid;
-	}
-
-	public void setAppid(String appid) {
-		this.appid = appid;
-	}
-
-	public String getMch_id() {
-		return mch_id;
-	}
-
-	public void setMch_id(String mch_id) {
-		this.mch_id = mch_id;
-	}
-
 	public String getDevice_info() {
 		return device_info;
 	}
 
 	public void setDevice_info(String device_info) {
 		this.device_info = device_info;
-	}
-
-	public String getNonce_str() {
-		return nonce_str;
-	}
-
-	public void setNonce_str(String nonce_str) {
-		this.nonce_str = nonce_str;
-	}
-
-	public String getSign() {
-		return sign;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
 	}
 
 	public String getOut_trade_no() {
