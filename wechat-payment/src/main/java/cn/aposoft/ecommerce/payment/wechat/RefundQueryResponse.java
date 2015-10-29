@@ -3,8 +3,51 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.util.List;
+
 /**
  * 退款查询响应报文
+ * <p>
+ * 退款金额 refund_fee_$n 是 Int 100 退款总金额,单位为分,可以做部分退款
+ * </p>
+ * <p>
+ * 货币种类 fee_type_$n 否 String(8) CNY 货币类型，符合ISO
+ * 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+ * </p>
+ * <p>
+ * 代金券或立减优惠退款金额 coupon_refund_fee_$n 否 Int 100
+ * 代金券或立减优惠退款金额<=退款金额，退款金额-代金券或立减优惠退款金额为现金，说明详见代金券或立减优惠
+ * </p>
+ * <p>
+ * 代金券或立减优惠使用数量 coupon_refund_count_$n 否 Int 1 代金券或立减优惠使用数量 ,$n为下标,从0开始编号
+ * </p>
+ * <p>
+ * 代金券或立减优惠批次ID coupon_refund_batch_id_$n_$m
+ * 
+ * 否 String(20) 100 批次ID ,$n为下标，$m为下标，从0开始编号
+ * </p>
+ * <p>
+ * 代金券或立减优惠ID coupon_refund_id_$n_$m 否 String(20) 10000 代金券或立减优惠ID,
+ * $n为下标，$m为下标，从0开始编号
+ * </p>
+ * <p>
+ * 单个代金券或立减优惠支付金额 coupon_refund_fee_$n_$m 否 Int 100 单个代金券或立减优惠支付金额,$n为下标，$m为下标，
+ * 从0开始编号
+ * </p>
+ * <p>
+ * 退款状态 refund_status_$n 是 String(16) SUCCESS 退款状态：
+ * 
+ * SUCCESS—退款成功
+ * 
+ * FAIL—退款失败
+ * 
+ * PROCESSING—退款处理中
+ * 
+ * NOTSURE—未确定，需要商户原退款单号重新发起
+ * 
+ * CHANGE—转入代发，退款到银行发现用户的卡作废或者冻结了，导致原路退款银行卡失败，资金回流到商户的现金帐号，需要商户人工干预，
+ * 通过线下或者财付通转账的方式进行退款。
+ * </p>
  * 
  * <pre>
    <xml>
@@ -81,8 +124,16 @@ public class RefundQueryResponse extends ResponseBase {
 	 * 满立减金额不会退回
 	 */
 	private Integer coupon_refund_fee;
-	/** 退款笔数 refund_count 是 Int 1 退款记录数 */
+	/**
+	 * 退款笔数 refund_count 是 Int 1 退款记录数
+	 */
 	private Integer refund_count;
+
+	/**
+	 * 退款单明细列表
+	 */
+	private List<RefundBill> refundBillItems;
+
 	/**
 	 * 商户退款单号 out_refund_no_$n 是String(32) 1217752501201407033233368018 商户退款单号
 	 */
@@ -228,46 +279,23 @@ public class RefundQueryResponse extends ResponseBase {
 		this.refund_count = refund_count;
 	}
 
-	/** 退款金额 refund_fee_$n 是 Int 100 退款总金额,单位为分,可以做部分退款 */
 	/**
-	 * 货币种类 fee_type_$n 否 String(8) CNY 货币类型，符合ISO
-	 * 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
+	 * 退款单明细记录列表
+	 * 
+	 * @return 退款单明细记录列表
 	 */
-	/**
-	 * 代金券或立减优惠退款金额 coupon_refund_fee_$n 否 Int 100
-	 * 代金券或立减优惠退款金额<=退款金额，退款金额-代金券或立减优惠退款金额为现金，说明详见代金券或立减优惠
-	 */
+	public List<RefundBill> getRefundBillItems() {
+		return refundBillItems;
+	}
 
 	/**
-	 * 代金券或立减优惠使用数量 coupon_refund_count_$n 否 Int 1 代金券或立减优惠使用数量 ,$n为下标,从0开始编号
-	 */
-	/**
-	 * 代金券或立减优惠批次ID coupon_refund_batch_id_$n_$m
+	 * 设置退款单明细记录
 	 * 
-	 * 否 String(20) 100 批次ID ,$n为下标，$m为下标，从0开始编号
+	 * @param refundBillItems
+	 *            待设置的退款单明细记录
 	 */
-	/**
-	 * 代金券或立减优惠ID coupon_refund_id_$n_$m 否 String(20) 10000 代金券或立减优惠ID,
-	 * $n为下标，$m为下标，从0开始编号
-	 */
+	public void setRefundBillItems(List<RefundBill> refundBillItems) {
+		this.refundBillItems = refundBillItems;
+	}
 
-	/**
-	 * 单个代金券或立减优惠支付金额 coupon_refund_fee_$n_$m 否 Int 100
-	 * 单个代金券或立减优惠支付金额,$n为下标，$m为下标， 从0开始编号
-	 */
-
-	/**
-	 * 退款状态 refund_status_$n 是 String(16) SUCCESS 退款状态：
-	 * 
-	 * SUCCESS—退款成功
-	 * 
-	 * FAIL—退款失败
-	 * 
-	 * PROCESSING—退款处理中
-	 * 
-	 * NOTSURE—未确定，需要商户原退款单号重新发起
-	 * 
-	 * CHANGE—转入代发，退款到银行发现用户的卡作废或者冻结了，导致原路退款银行卡失败，资金回流到商户的现金帐号，需要商户人工干预，
-	 * 通过线下或者财付通转账的方式进行退款。
-	 */
 }

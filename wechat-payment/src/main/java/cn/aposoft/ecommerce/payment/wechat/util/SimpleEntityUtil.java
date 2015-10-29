@@ -2,6 +2,7 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
+import cn.aposoft.ecommerce.payment.wechat.RefundBill;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
 import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
@@ -34,7 +36,7 @@ import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
-import cn.aposoft.ecommerce.payment.wechat.util.CouponParserFactory.ParserType;
+import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory.ParserType;
 
 /**
  * 支付与退款的封装过程操作
@@ -506,7 +508,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		 * $n为下标，从0开始编号
 		 */
 		// 优惠券明细列表
-		response.setCouponItems(createCouponItems(result, CouponParserFactory.getParser(ParserType.OrderQuery)));
+		response.setCouponItems(createCouponItems(result, ParserFactory.getCouponParser(ParserType.OrderQuery)));
 
 		return response;
 	}
@@ -528,7 +530,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		List<Coupon> couponItems = new ArrayList<Coupon>(couponMap.size());
 
 		couponItems.addAll(couponMap.values());
-
+		// 根据N进行排序
+		Collections.sort(couponItems);
 		return couponItems;
 	}
 
@@ -546,28 +549,30 @@ public class SimpleEntityUtil implements EntityUtil {
 
 		if (couponParser.isCoupon_batch_id(couponDataItem.getKey())) {
 			int n = couponParser.getN(couponDataItem.getKey());
-			Coupon coupon = checkAndGet(couponMap, n);
+			Coupon coupon = checkAndGetCoupon(couponMap, n);
 			coupon.setCoupon_batch_id(couponDataItem.getValue());
+			return;
 		}
 
 		if (couponParser.isCoupon_id(couponDataItem.getKey())) {
 			int n = couponParser.getN(couponDataItem.getKey());
-			Coupon coupon = checkAndGet(couponMap, n);
+			Coupon coupon = checkAndGetCoupon(couponMap, n);
 			coupon.setCoupon_id(couponDataItem.getValue());
+			return;
 		}
 
 		if (couponParser.isCoupon_fee(couponDataItem.getKey())) {
 			int n = couponParser.getN(couponDataItem.getKey());
-			Coupon coupon = checkAndGet(couponMap, n);
+			Coupon coupon = checkAndGetCoupon(couponMap, n);
 			coupon.setCoupon_fee(CommonUtil.parseNum(couponDataItem.getValue()));
+			return;
 		}
 	}
 
-	private Coupon checkAndGet(Map<Integer, Coupon> couponMap, int n) {
+	private Coupon checkAndGetCoupon(Map<Integer, Coupon> couponMap, int n) {
 		Coupon coupon = couponMap.get(n);
 		if (coupon == null) {
-			coupon = new Coupon();
-			coupon.setN(n);
+			coupon = new Coupon(n);
 			couponMap.put(n, coupon);
 		}
 		return coupon;
@@ -757,7 +762,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	}
 
 	/**
-	 * 
+	 * 解析退款查询响应的xml文件
 	 */
 	@Override
 	public RefundQueryResponse parseRefundQueryResponseXml(String xml) {
@@ -792,8 +797,164 @@ public class SimpleEntityUtil implements EntityUtil {
 		response.setRefund_count(CommonUtil.parseNum(result.get("refund_count")));
 
 		// 退款记录
-		
+		response.setRefundBillItems(createRefundBillItems(result, ParserFactory.getRefundResultParser()));
+
 		return response;
+	}
+
+	/**
+	 * {@code createRefundBillItems}从微信响应返回值中,读取退款单明细记录内容,并以列表形式返回
+	 * 
+	 * @param srcItemsMap
+	 * @param refundResultParser
+	 *            解析算法策略类
+	 * @return 退款单记录明细列表
+	 */
+	private List<RefundBill> createRefundBillItems(Map<String, String> srcItemsMap,
+			RefundResultParser refundResultParser) {
+		Map<Integer, RefundBill> bills = new HashMap<Integer, RefundBill>();
+		for (Entry<String, String> entry : srcItemsMap.entrySet()) {
+			checkAndSetRefundBill(entry, bills, refundResultParser);
+		}
+		List<RefundBill> result = new ArrayList<RefundBill>(bills.size());
+		result.addAll(bills.values());
+		Collections.sort(result);
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param couponDataItem
+	 *            退款数据对象条目
+	 * @param bills
+	 *            退款单明细
+	 * @param refundResultParser
+	 *            退款单明细相关判断算法
+	 */
+	private void checkAndSetRefundBill(Entry<String, String> refundBillDataItem, Map<Integer, RefundBill> bills,
+			RefundResultParser refundResultParser) {
+		// RefundBill信息
+		if (refundResultParser.isOut_refund_no(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setOut_refund_no(refundBillDataItem.getValue());
+			return;
+		}
+
+		if (refundResultParser.isRefund_id(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setRefund_id(refundBillDataItem.getValue());
+			return;
+		}
+
+		if (refundResultParser.isRefund_channel(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setRefund_channel(refundBillDataItem.getValue());
+			return;
+		}
+
+		if (refundResultParser.isRefund_fee(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setRefund_fee(CommonUtil.parseNum(refundBillDataItem.getValue()));
+			return;
+		}
+
+		if (refundResultParser.isCoupon_refund_fee(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setCoupon_refund_fee(CommonUtil.parseNum(refundBillDataItem.getValue()));
+			return;
+		}
+
+		if (refundResultParser.isCoupon_refund_count(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setCoupon_refund_count(CommonUtil.parseNum(refundBillDataItem.getValue()));
+			return;
+		}
+
+		if (refundResultParser.isRefund_status(refundBillDataItem.getKey())) {
+			int n = refundResultParser.getN(refundBillDataItem.getKey());
+			RefundBill bill = checkAndGetRefundBill(bills, n);
+			bill.setRefund_status(refundBillDataItem.getValue());
+			return;
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Coupon 信息
+		if (refundResultParser.isCoupon_batch_id(refundBillDataItem.getKey())) {
+			Coupon coupon = checkAndgetRefundBillCoupon(bills, refundBillDataItem.getKey(), refundResultParser);
+			coupon.setCoupon_batch_id(refundBillDataItem.getValue());
+		}
+
+		if (refundResultParser.isCoupon_id(refundBillDataItem.getKey())) {
+			Coupon coupon = checkAndgetRefundBillCoupon(bills, refundBillDataItem.getKey(), refundResultParser);
+			coupon.setCoupon_id(refundBillDataItem.getValue());
+		}
+
+		if (refundResultParser.isCoupon_fee(refundBillDataItem.getKey())) {
+			Coupon coupon = checkAndgetRefundBillCoupon(bills, refundBillDataItem.getKey(), refundResultParser);
+			coupon.setCoupon_fee(CommonUtil.parseNum(refundBillDataItem.getValue()));
+		}
+	}
+
+	/**
+	 * 验证并创建RefundBill和其子Coupon的封装方法
+	 * 
+	 * @param bills
+	 * @param key
+	 * @param refundResultParser
+	 * @return
+	 */
+	private Coupon checkAndgetRefundBillCoupon(Map<Integer, RefundBill> bills, String key,
+			RefundResultParser refundResultParser) {
+		int n = refundResultParser.getN(key);
+		RefundBill bill = checkAndGetRefundBill(bills, n);
+		int m = refundResultParser.getM(key);
+		Coupon coupon = checkAndGetCoupon(bill, m);
+		return coupon;
+	}
+
+	/*
+	 * 检查bill是否包含coupon,如果不存在则添加,最终返回指定序号的coupon
+	 * 
+	 * @param bill 退款单实例
+	 * 
+	 * @param m coupon在退款单中的序号
+	 * 
+	 * @return 优惠券对象实例
+	 */
+	private Coupon checkAndGetCoupon(RefundBill bill, int m) {
+		List<Coupon> couponItems = bill.getCouponItems();
+		if (couponItems == null) {
+			couponItems = new ArrayList<Coupon>();
+			bill.setCouponItems(couponItems);
+		}
+		// 检查如果存在则返回
+		for (Coupon coupon : couponItems) {
+			if (coupon.getN() == m) {
+				return coupon;
+			} else if (coupon.getN() > m) {
+				break;
+			}
+		}
+		// 不存在则添加
+		Coupon coupon = new Coupon(m);
+		couponItems.add(coupon);
+		// 每次添加后都重排list,保持优惠券有序
+		Collections.sort(couponItems);
+		return coupon;
+	}
+
+	private RefundBill checkAndGetRefundBill(Map<Integer, RefundBill> bills, int n) {
+		RefundBill bill = bills.get(n);
+		if (bill == null) {
+			bill = new RefundBill(n);
+			bills.put(n, bill);
+		}
+		return bill;
 	}
 
 	/**
@@ -807,7 +968,6 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	@Override
 	public String generateRefundQueryXml(RefundQuery params, Config config) {
-
 		if (params == null || params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty()) {
 			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
 		}

@@ -3,11 +3,10 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * {@code OrderQueryResponse} 是订单查询的响应报文的解析后数据类
  * 
  * <pre>
  	<xml>
