@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 /**
  * 下载对账单请求信息

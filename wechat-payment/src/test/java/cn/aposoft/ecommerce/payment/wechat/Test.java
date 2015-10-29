@@ -61,8 +61,6 @@ public class Test {
 		// order.setDevice_info("Device_info");
 		// order.setFee_type(fee_type);
 		order.setGoods_tag("no");
-		order.setMch_id(config.mchId());
-		order.setNonce_str("1234567890321");
 		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
 		// order.setOpenid(openid);
 		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
@@ -209,7 +207,6 @@ public class Test {
 		refundQuery();// 退款查询测试
 		// 下载对账单测试
 		// downloadBill(); // 对账单测试
-
 	}
 
 }

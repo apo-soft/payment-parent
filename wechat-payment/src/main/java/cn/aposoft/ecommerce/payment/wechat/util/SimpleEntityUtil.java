@@ -32,6 +32,7 @@ import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
 import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderRequest;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
