@@ -375,9 +375,9 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	private RefundRequest createRefundRequest(Refund refund, Config config) {
 		RefundRequest payRefund = new RefundRequest();
-		payRefund.setAppid(refund.getAppid());
+		payRefund.setAppid(config.appId());
 		payRefund.setDevice_info(refund.getDevice_info());
-		payRefund.setMch_id(refund.getMch_id());
+		payRefund.setMch_id(config.mchId());
 		payRefund.setNonce_str(refund.getNonce_str());
 		payRefund.setOp_user_id(refund.getOp_user_id());
 		payRefund.setOut_refund_no(refund.getOut_refund_no());
@@ -385,14 +385,12 @@ public class SimpleEntityUtil implements EntityUtil {
 		payRefund.setRefund_fee(refund.getRefund_fee());
 		payRefund.setRefund_fee_type(refund.getRefund_fee_type());
 		payRefund.setTotal_fee(refund.getTotal_fee());
+		payRefund.setTransaction_id(refund.getTransaction_id());
 
 		Map<String, String> parameters = createRefundSignMap(payRefund);
 		String sign = Signature.getMapSign(parameters, config.key());
 
 		payRefund.setSign(sign);
-
-		payRefund.setTotal_fee(refund.getTotal_fee());
-		payRefund.setTransaction_id(refund.getTransaction_id());
 
 		return payRefund;
 	}
@@ -581,7 +579,6 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将订单查询信息转换成为可发送的xml格式字符串
 	 * <p>
-	 * TODO: 需要针对文件创建错误异常进行处理
 	 * 
 	 * @param params
 	 *            查询条件 两个id不能全部为空
@@ -968,8 +965,15 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	@Override
 	public String generateRefundQueryXml(RefundQuery params, Config config) {
-		if (params == null || params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty()) {
-			throw new IllegalArgumentException("transaction_id与Out_trade_no不能同时为空.");
+		checkConfig(config);
+		if (params == null //
+				|| (params.getOut_trade_no() == null || params.getOut_trade_no().isEmpty())
+						&& (params.getTransaction_id() == null || params.getTransaction_id().isEmpty())
+						&& (params.getOut_refund_no() == null || params.getOut_refund_no().isEmpty())
+						&& (params.getRefund_id() == null || params.getRefund_id().isEmpty())
+
+		) {
+			throw new IllegalArgumentException("transaction_id,out_trade_no,out_refund_no,refund_id不能同时为空.");
 		}
 		RefundQueryRequest values = createRefundQueryRequest(params, config);
 		SortedMap<String, Object> parameters = createRefundQueryTransferMap(values);
@@ -1039,24 +1043,22 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	@Override
 	public DownloadBillResponse parseDownloadBillResponseXml(String xml) {
+		if (xml == null || xml.isEmpty())
+			return null;
 		Map<String, String> result = null;
-		try {
-			result = XMLUtil.getMapFromXML(xml);
-		} catch (ParserConfigurationException | IOException | SAXException e) {
-			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
-			if (xml == null || xml.isEmpty())
-				return null;
-		}
 
 		DownloadBillResponse response = new DownloadBillResponse();
-		if (result != null) {
-			response.setReturn_code(result.get("return_code"));
-			response.setReturn_msg(result.get("return_msg"));
-		} else if (xml != null && !xml.isEmpty()) {
-			// 当return_code ==null 时,有以下内容
+		if (xml.startsWith("<xml>")) {
+			try {
+				result = XMLUtil.getMapFromXML(xml);
+				response.setReturn_code(result.get("return_code"));
+				response.setReturn_msg(result.get("return_msg"));
+			} catch (ParserConfigurationException | IOException | SAXException e) {
+				logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			}
+		} else {
 			response.setData(xml);
 		}
-
 		return response;
 	}
 
@@ -1107,8 +1109,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("device_info", request.getDevice_info());
 		parameters.put("sign", request.getSign());
 
-		parameters.put("transaction_id", request.getBill_date());
-		parameters.put("out_trade_no", request.getBill_type());
+		parameters.put("bill_date", request.getBill_date());
+		parameters.put("bill_type", request.getBill_type());
 		return parameters;
 	}
 
@@ -1120,8 +1122,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("device_info", request.getDevice_info());
 		parameters.put("sign", request.getSign());
 
-		parameters.put("transaction_id", request.getBill_date());
-		parameters.put("out_trade_no", request.getBill_type());
+		parameters.put("bill_date", request.getBill_date());
+		parameters.put("bill_type", request.getBill_type());
 		return parameters;
 	}
 

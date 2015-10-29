@@ -74,7 +74,7 @@ public interface EntityUtil {
 	RefundResponse parseRefundResponseXml(String xml);
 
 	/**
-	 * TODO 创建订单查询xml字符串
+	 * 创建订单查询xml字符串
 	 * 
 	 * @param params
 	 * @param config
@@ -85,7 +85,7 @@ public interface EntityUtil {
 	String generateOrderQueryXml(OrderQuery params, Config config);
 
 	/**
-	 * TODO 解析订单查询字符结果，并返回OrderQueryResponse对象
+	 * 解析订单查询字符结果，并返回OrderQueryResponse对象
 	 * 
 	 * @param responseText
 	 * @return

@@ -257,10 +257,10 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 订单查询-请求URL
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.Config#orderUrl()
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#orderQueryUrl()
 	 */
 	@Override
-	public String orderUrl() {
+	public String orderQueryUrl() {
 		return ORDER_URL;
 	}
 

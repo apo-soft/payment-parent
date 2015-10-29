@@ -112,11 +112,7 @@ public class RefundQueryResponse extends ResponseBase {
 	 * 现金支付金额 cash_fee 是 Int 100 现金支付金额，单位为分，只能为整数， 详见支付金额
 	 */
 	private Integer cash_fee;
-	/**
-	 * 货币种类 cash_fee_type 否 String(8) CNY 货币类型，符合ISO
-	 * 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
-	 */
-	private String cash_fee_type;
+
 	/** 退款金额 refund_fee 是 Int 100 退款总金额,单位为分, 可以做部分退款 */
 	private Integer refund_fee;
 	/**
@@ -217,21 +213,6 @@ public class RefundQueryResponse extends ResponseBase {
 	 */
 	public void setCash_fee(Integer cash_fee) {
 		this.cash_fee = cash_fee;
-	}
-
-	/**
-	 * @return the cash_fee_type
-	 */
-	public String getCash_fee_type() {
-		return cash_fee_type;
-	}
-
-	/**
-	 * @param cash_fee_type
-	 *            the cash_fee_type to set
-	 */
-	public void setCash_fee_type(String cash_fee_type) {
-		this.cash_fee_type = cash_fee_type;
 	}
 
 	/**

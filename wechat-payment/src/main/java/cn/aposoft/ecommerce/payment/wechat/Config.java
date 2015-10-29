@@ -25,7 +25,7 @@ public interface Config {
 	 * @author Yujinshui
 	 * @time 2015年10月24日 下午9:01:34
 	 */
-	String orderUrl();
+	String orderQueryUrl();
 
 	/**
 	 * 认证证书位置

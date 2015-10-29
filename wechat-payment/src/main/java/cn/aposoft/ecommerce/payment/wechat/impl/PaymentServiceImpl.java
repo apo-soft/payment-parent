@@ -113,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService {
 		String request = entityUtil.generateRefundXml(refund, config);
 		String responseText = "";
 		try {
-			responseText = httpUtil.refundPost(request, config, config.refundUrl());
+			responseText = httpUtil.keyCertPost(request, config, config.refundUrl());
 		} catch (Exception e) {
 			logger.error("发送退款请求时,发生错误:" + e.getMessage(), e);
 		}
@@ -151,7 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
 		String request = entityUtil.generateOrderQueryXml(params, config);
 		String responseText = "";
 		try {
-			responseText = httpUtil.post(request, config, config.orderUrl());
+			responseText = httpUtil.post(request, config, config.orderQueryUrl());
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
@@ -182,7 +182,7 @@ public class PaymentServiceImpl implements PaymentService {
 		String request = entityUtil.generateCloseOrderXml(params, config);
 		String responseText = "";
 		try {
-			responseText = httpUtil.post(request, config, config.orderUrl());
+			responseText = httpUtil.post(request, config, config.orderQueryUrl());
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
@@ -209,10 +209,11 @@ public class PaymentServiceImpl implements PaymentService {
 		String request = entityUtil.generateRefundQueryXml(params, config);
 		String responseText = "";
 		try {
-			responseText = httpUtil.post(request, config, config.orderUrl());
+			responseText = httpUtil.post(request, config, config.refundQueryUrl());
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
+		System.out.println(responseText);
 		RefundQueryResponse refundQueryResponse = entityUtil.parseRefundQueryResponseXml(responseText);
 		return refundQueryResponse;
 	}
@@ -242,14 +243,17 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public DownloadBillResponse downloadBill(DownloadBill params) {
 		String request = entityUtil.generateDownloadBillXml(params, config);
+		logger.debug(request);
+		System.out.println();
+		System.out.println(request);
 		String responseText = "";
 		try {
-			responseText = httpUtil.post(request, config, config.orderUrl());
+			responseText = httpUtil.post(request, config, config.downloadBillUrl());
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
+		
 		DownloadBillResponse refundQueryResponse = entityUtil.parseDownloadBillResponseXml(responseText);
 		return refundQueryResponse;
 	}
-
 }

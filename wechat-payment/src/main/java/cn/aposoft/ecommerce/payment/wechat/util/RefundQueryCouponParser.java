@@ -5,19 +5,19 @@ import java.util.regex.Pattern;
 
 public class RefundQueryCouponParser extends AbstractCouponParser implements RefundResultParser {
 
-	private static final String OUT_REFUND_NO_PREFIX = "out_refund_no_$";
-	private static final String REFUND_ID_PREFIX = "refund_id_$";
-	private static final String REFUND_CHANNEL_PREFIX = "refund_channel_$";
-	private static final String REFUND_FEE_PREFIX = "refund_fee_$";
-	private static final String COUPON_REFUND_FEE_PREFIX = "coupon_refund_fee_$";
+	private static final String OUT_REFUND_NO_PREFIX = "out_refund_no_";
+	private static final String REFUND_ID_PREFIX = "refund_id_";
+	private static final String REFUND_CHANNEL_PREFIX = "refund_channel_";
+	private static final String REFUND_FEE_PREFIX = "refund_fee_";
+	private static final String COUPON_REFUND_FEE_PREFIX = "coupon_refund_fee_";
 
-	private static final String COUPON_REFUND_COUNT_PREFIX = "coupon_refund_count_$";
+	private static final String COUPON_REFUND_COUNT_PREFIX = "coupon_refund_count_";
 
-	private static final String REFUND_STATUS_PREFIX = "refund_status_$";
+	private static final String REFUND_STATUS_PREFIX = "refund_status_";
 
-	private static final String COUPON_REFUND_BATCH_ID_PATTERN_TEXT = "^coupon_refund_batch_id_\\$(\\d+)_\\$(\\d+)$";
-	private static final String COUPON_REFUND_ID_PATTERN_TEXT = "^coupon_refund_id_\\$(\\d+)_\\$(\\d+)$";
-	private static final String COUPON_REFUND_FEE_PATTERN_TEXT = "^coupon_refund_fee_\\$(\\d+)_\\$(\\d+)$";
+	private static final String COUPON_REFUND_BATCH_ID_PATTERN_TEXT = "^coupon_refund_batch_id_(\\d+)_(\\d+)$";
+	private static final String COUPON_REFUND_ID_PATTERN_TEXT = "^coupon_refund_id_(\\d+)_(\\d+)$";
+	private static final String COUPON_REFUND_FEE_PATTERN_TEXT = "^coupon_refund_fee_(\\d+)_(\\d+)$";
 
 	private static final Pattern COUPON_REFUND_BATCH_ID_PATTERN = Pattern.compile(COUPON_REFUND_BATCH_ID_PATTERN_TEXT);
 	private static final Pattern COUPON_REFUND_ID_PATTERN = Pattern.compile(COUPON_REFUND_ID_PATTERN_TEXT);

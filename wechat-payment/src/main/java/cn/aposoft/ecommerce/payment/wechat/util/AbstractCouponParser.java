@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractCouponParser implements CouponParser {
 
-	private static final String COMMON_SINGLE_DOLLAR_PATTERN_TEXT = "^[^\\$]+\\$(\\d+)$";
-	private static final String COMMON_DOUBLE_DOLLAR_PATTERN_TEXT = "^[^\\$]+\\$(\\d+)_\\$(\\d+)$";
+	private static final String COMMON_SINGLE_DOLLAR_PATTERN_TEXT = "^[_a-z]+_(\\d+)$";
+	private static final String COMMON_DOUBLE_DOLLAR_PATTERN_TEXT = "^[_a-z]+_(\\d+)_(\\d+)$";
 	protected static final Pattern COMMON_SINGLE_DOLLAR_PATTERN = Pattern.compile(COMMON_SINGLE_DOLLAR_PATTERN_TEXT);
 	protected static final Pattern COMMON_DOUBLE_DOLLAR_PATTERN = Pattern.compile(COMMON_DOUBLE_DOLLAR_PATTERN_TEXT);
 
@@ -35,6 +35,7 @@ public abstract class AbstractCouponParser implements CouponParser {
 
 	private int getDoubleN(String key) {
 		Matcher matcher = COMMON_DOUBLE_DOLLAR_PATTERN.matcher(key);
+		matcher.matches();
 		return CommonUtil.parseNum(matcher.group(1));
 	}
 
@@ -49,6 +50,7 @@ public abstract class AbstractCouponParser implements CouponParser {
 	 */
 	private int getSingleN(String key) {
 		Matcher matcher = COMMON_SINGLE_DOLLAR_PATTERN.matcher(key);
+		matcher.matches();
 		return CommonUtil.parseNum(matcher.group(1));
 	}
 }

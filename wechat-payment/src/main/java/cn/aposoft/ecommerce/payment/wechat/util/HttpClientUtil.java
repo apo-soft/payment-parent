@@ -38,6 +38,6 @@ public interface HttpClientUtil {
 	 * @throws Exception
 	 * @author Yujinshui
 	 */
-	String refundPost(String request, Config config, String url) throws Exception;
+	String keyCertPost(String request, Config config, String url) throws Exception;
 
 }

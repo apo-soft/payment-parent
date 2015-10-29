@@ -7,9 +7,6 @@ package cn.aposoft.ecommerce.payment.wechat;
  *
  */
 public interface Refund {
-	String getAppid();
-
-	String getMch_id();
 
 	String getDevice_info();
 

@@ -13,6 +13,13 @@ package cn.aposoft.ecommerce.payment.wechat;
  *
  */
 public class RefundQueryVo implements RefundQuery {
+	public static RefundQuery demo() {
+		RefundQueryVo vo = new RefundQueryVo();
+		vo.out_refund_no = "1002240240201510251334363255";
+		vo.device_info = "20151025_1";
+		return vo;
+	}
+
 	/**
 	 * 微信订单号 transaction_id 否 String(28) 1217752501201407033233368018 微信订单号
 	 * 
@@ -106,5 +113,8 @@ public class RefundQueryVo implements RefundQuery {
 
 	public void setDevice_info(String device_info) {
 		this.device_info = device_info;
+	}
+
+	private RefundQueryVo() {
 	}
 }
