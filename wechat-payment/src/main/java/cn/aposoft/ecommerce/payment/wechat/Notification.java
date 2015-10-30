@@ -3,15 +3,13 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.PayBase;
-
 /**
- * 支付成功后的回调结果生成javabean
+ * 支付成功后的回调结果解析后的值对象类
  * 
  * @author LiuJian
  *
  */
-public class Notification extends PayBase {
+public class Notification extends ResponseBase {
 
 	private String return_code;// 返回状态码【是】
 	private String return_msg;// 返回信息【否】
@@ -33,6 +31,33 @@ public class Notification extends PayBase {
 	private String transaction_id;// 微信支付订单号【是】String(32)
 	private String attach;// 商家数据包【否】String(128
 	private String time_end;// 支付完成时间【是】String(14)
+	/**
+	 * 总金额 total_fee 是 Int 888 订单总金额，单位为分，详见支付金额
+	 */
+	private Integer total_fee; // 总金额-
+	/**
+	 * 商户订单号 out_trade_no 否 String(32)1217752501201407033233368018 商户系统内部的订单号
+	 */
+	private String out_trade_no; // 商户订单号-商户支付的订单号由商户自定义生成
+
+	/**
+	 * 商户订单号 String(32)
+	 * 
+	 * @return 返回商户订单号值
+	 */
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	/**
+	 * 商户支付的订单号 由商户自定义生成
+	 * 
+	 * @param out_trade_no
+	 *            传入的商户订单号值
+	 */
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
 
 	public String getReturn_code() {
 		return return_code;
@@ -184,6 +209,22 @@ public class Notification extends PayBase {
 
 	public void setTime_end(String time_end) {
 		this.time_end = time_end;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Integer getTotal_fee() {
+		return total_fee;
+	}
+
+	/**
+	 * 
+	 * @param total_fee
+	 */
+	public void setTotal_fee(Integer total_fee) {
+		this.total_fee = total_fee;
 	}
 
 }

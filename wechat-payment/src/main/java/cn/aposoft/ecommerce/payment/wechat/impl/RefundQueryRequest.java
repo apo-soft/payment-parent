@@ -23,44 +23,15 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  * @author Jann Liu
  *
  */
-public class RefundQueryRequest {
+public class RefundQueryRequest extends RequestBase {
 
-	/**
-	 * 公众账号ID appid 是 String(32) wx8888888888888888 微信分配的公众账号ID
-	 */
-	private String appid;
-
-	/**
-	 * 商户号 mch_id 是 String(32)1900000109 微信支付分配的商户号
-	 */
-	private String mch_id;
-
-	/**
-	 * 设备号 device_info 否 String(32) 013467007045764 商户自定义的终端设备号，如门店编号、设备的ID等
-	 */
-	private String device_info;
-	/**
-	 * 随机字符串 nonce_str 是 String(32) 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-	 * 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-	 * 
-	 */
-	private String nonce_str;
-
-	/**
-	 * 签名 sign 是 String(32) C380BEC2BFD727A4B6845133519F3AD6 签名，详见签名生成算法
-	 */
-	private String sign;
-
+	
+	
 	/**
 	 * 微信订单号 transaction_id 否 String(28) 1217752501201407033233368018 微信订单号
 	 * 
 	 */
 	private String transaction_id;
-
-	/**
-	 * 商户订单号 out_trade_no 是 String(32) 1217752501201407033233368018 商户系统内部的订单号
-	 */
-	private String out_trade_no;
 
 	/**
 	 * 商户退款单号 out_refund_no 否 String(32) 1217752501201407033233368018 商户退款单号
@@ -78,60 +49,12 @@ public class RefundQueryRequest {
 	 */
 	private String refund_id;
 
-	public String getAppid() {
-		return appid;
-	}
-
-	public void setAppid(String appid) {
-		this.appid = appid;
-	}
-
-	public String getMch_id() {
-		return mch_id;
-	}
-
-	public void setMch_id(String mch_id) {
-		this.mch_id = mch_id;
-	}
-
-	public String getDevice_info() {
-		return device_info;
-	}
-
-	public void setDevice_info(String device_info) {
-		this.device_info = device_info;
-	}
-
-	public String getNonce_str() {
-		return nonce_str;
-	}
-
-	public void setNonce_str(String nonce_str) {
-		this.nonce_str = nonce_str;
-	}
-
-	public String getSign() {
-		return sign;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-
 	public String getTransaction_id() {
 		return transaction_id;
 	}
 
 	public void setTransaction_id(String transaction_id) {
 		this.transaction_id = transaction_id;
-	}
-
-	public String getOut_trade_no() {
-		return out_trade_no;
-	}
-
-	public void setOut_trade_no(String out_trade_no) {
-		this.out_trade_no = out_trade_no;
 	}
 
 	public String getOut_refund_no() {

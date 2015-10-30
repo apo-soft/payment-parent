@@ -15,6 +15,42 @@ import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
+	public static void payInfo_1() {
+		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
+		OrderVo order = setValue(config, httpUtil);
+		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
+		PayResponse result = payService.preparePay(order);
+		System.out.println(result.getAppid());
+		System.out.println(result.getCode_url());
+		System.out.println(result.getDevice_info());
+		System.out.println(result.getReturn_code());
+		System.out.println(result.getReturn_msg());
+	}
+
+	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+		OrderVo order = new OrderVo();
+		// order.setAppid(config.appId());
+		// order.setAttach(attach);
+		order.setBody("Ipad mini  16G  白色1023_2");
+		// order.setDetail(detail);
+		// order.setDevice_info("Device_info");
+		// order.setFee_type(fee_type);
+		order.setGoods_tag("no");
+		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
+		// order.setOpenid(openid);
+		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
+		// order.setProduct_id(product_id);
+		order.setSpbill_create_ip("127.0.0.1");
+		// order.setTime_start(getTime());//设定交易有效的时间范围
+		// order.setTime_expire(getTime2());//设定交易有效的时间范围
+		order.setTotal_fee(10);
+		order.setTrade_type("NATIVE");
+
+		return order;
+	}
+
 	/**
 	 * 退款测试
 	 * 
@@ -52,28 +88,6 @@ public class Test {
 
 	}
 
-	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
-		OrderVo order = new OrderVo();
-		// order.setAppid(config.appId());
-		// order.setAttach(attach);
-		order.setBody("Ipad mini  16G  白色1023_2");
-		// order.setDetail(detail);
-		// order.setDevice_info("Device_info");
-		// order.setFee_type(fee_type);
-		order.setGoods_tag("no");
-		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
-		// order.setOpenid(openid);
-		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
-		// order.setProduct_id(product_id);
-		order.setSpbill_create_ip("127.0.0.1");
-		// order.setTime_start(getTime());//设定交易有效的时间范围
-		// order.setTime_expire(getTime2());//设定交易有效的时间范围
-		order.setTotal_fee(10);
-		order.setTrade_type("NATIVE");
-
-		return order;
-	}
-
 	public static String getTime() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -86,20 +100,6 @@ public class Test {
 		Date date = time.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(date);
-	}
-
-	public static void payInfo_1() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
-		OrderVo order = setValue(config, httpUtil);
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
-		PayResponse result = payService.preparePay(order);
-		System.out.println(result.getAppid());
-		System.out.println(result.getCode_url());
-		System.out.println(result.getDevice_info());
-		System.out.println(result.getReturn_code());
-		System.out.println(result.getReturn_msg());
 	}
 
 	/**
