@@ -113,13 +113,6 @@ public class RefundQueryResponse extends ResponseBase {
 	 */
 	private Integer cash_fee;
 
-	/** 退款金额 refund_fee 是 Int 100 退款总金额,单位为分, 可以做部分退款 */
-	private Integer refund_fee;
-	/**
-	 * 代金券或立减优惠退款金额 coupon_refund_fee 否 Int 100 代金券或立减优惠退款金额=订单金额-现金退款金额，注意：
-	 * 满立减金额不会退回
-	 */
-	private Integer coupon_refund_fee;
 	/**
 	 * 退款笔数 refund_count 是 Int 1 退款记录数
 	 */
@@ -213,36 +206,6 @@ public class RefundQueryResponse extends ResponseBase {
 	 */
 	public void setCash_fee(Integer cash_fee) {
 		this.cash_fee = cash_fee;
-	}
-
-	/**
-	 * @return the refund_fee
-	 */
-	public Integer getRefund_fee() {
-		return refund_fee;
-	}
-
-	/**
-	 * @param refund_fee
-	 *            the refund_fee to set
-	 */
-	public void setRefund_fee(Integer refund_fee) {
-		this.refund_fee = refund_fee;
-	}
-
-	/**
-	 * @return the coupon_refund_fee
-	 */
-	public Integer getCoupon_refund_fee() {
-		return coupon_refund_fee;
-	}
-
-	/**
-	 * @param coupon_refund_fee
-	 *            the coupon_refund_fee to set
-	 */
-	public void setCoupon_refund_fee(Integer coupon_refund_fee) {
-		this.coupon_refund_fee = coupon_refund_fee;
 	}
 
 	/**

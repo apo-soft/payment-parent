@@ -336,27 +336,28 @@ public class SimpleEntityUtil implements EntityUtil {
 		refundResponse.setReturn_code(result.get("return_code"));//
 		refundResponse.setReturn_msg(result.get("return_msg"));//
 
+		refundResponse.setResult_code(result.get("result_code"));
+		refundResponse.setErr_code(result.get("err_code"));
+		refundResponse.setErr_code_des(result.get("err_code_des"));
+
 		refundResponse.setAppid(result.get("appid"));
+		refundResponse.setMch_id(result.get("mch_id"));
+		refundResponse.setDevice_info(result.get("device_info"));
+		refundResponse.setNonce_str(result.get("nonce_str"));
+		refundResponse.setSign(result.get("sign"));
+		refundResponse.setTransaction_id(result.get("transaction_id"));
+		refundResponse.setOut_trade_no(result.get("out_trade_no"));
+		refundResponse.setOut_refund_no(result.get("out_refund_no"));
+		refundResponse.setRefund_id(result.get("refund_id"));
+		refundResponse.setRefund_channel(result.get("refund_channel"));
+		refundResponse.setRefund_fee(CommonUtil.parseNum(result.get("refund_fee")));
+		refundResponse.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
+		refundResponse.setFee_type(result.get("fee_type"));
 		refundResponse.setCash_fee(CommonUtil.parseNum(result.get("cash_fee")));
 		refundResponse.setCash_refund_fee(result.get("cash_refund_fee"));
 		refundResponse.setCoupon_refund_count(CommonUtil.parseNum(result.get("coupon_refund_count")));
 		refundResponse.setCoupon_refund_fee(CommonUtil.parseNum(result.get("coupon_refund_fee")));
 		refundResponse.setCoupon_refund_id(result.get("coupon_refund_id"));
-		refundResponse.setDevice_info(result.get("device_info"));
-		refundResponse.setErr_code(result.get("err_code"));
-		refundResponse.setErr_code_des(result.get("err_code_des"));
-		refundResponse.setFee_type(result.get("fee_type"));
-		refundResponse.setMch_id(result.get("mch_id"));
-		refundResponse.setNonce_str(result.get("nonce_str"));
-		refundResponse.setOut_refund_no(result.get("out_refund_no"));
-		refundResponse.setOut_trade_no(result.get("out_trade_no"));
-		refundResponse.setRefund_channel(result.get("refund_channel"));
-		refundResponse.setRefund_fee(CommonUtil.parseNum(result.get("refund_fee")));
-		refundResponse.setRefund_id(result.get("refund_id"));
-		refundResponse.setResult_code(result.get("result_code"));
-		refundResponse.setSign(result.get("sign"));
-		refundResponse.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
-		refundResponse.setTransaction_id(result.get("transaction_id"));
 
 		return refundResponse;
 	}

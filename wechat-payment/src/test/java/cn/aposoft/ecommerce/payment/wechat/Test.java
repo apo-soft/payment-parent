@@ -1,11 +1,16 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
+import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
@@ -189,14 +194,38 @@ public class Test {
 		long begin = System.currentTimeMillis();
 		DownloadBillResponse downloadBills = payService.downloadBill(params);
 		long end = System.currentTimeMillis();
+
 		System.out.println("elapse:" + (end - begin));
 		System.out.println("对账单信息：");
+
 		System.out.println(downloadBills.getReturn_code());
 		System.out.println(downloadBills.getReturn_msg());
+		// 判断是否有数据
+		if (downloadBills.getData() == null || downloadBills.getData().isEmpty()) {
+			return;
+		}
 		char c = downloadBills.getData().charAt(0);
 
 		System.out.printf("%x\r\n%s\r\n", (int) c, downloadBills.getData().substring(1, 5));
 		System.out.println(downloadBills.getData());
+		// outputToFile(downloadBills.getData());
+	}
+
+	/**
+	 * 输出到文件
+	 * 
+	 * @param data
+	 *            待传输的文件内容
+	 */
+	public static void outputToFile(String data) {
+		File file = new File("downloadbill-response.txt");
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");) {
+
+			writer.write(data);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -204,9 +233,9 @@ public class Test {
 		// payInfo_1();//支付测试
 		// refundTest_1();//退款测试
 		// orderQuery();// 订单测试
-		refundQuery();// 退款查询测试
+		// refundQuery();// 退款查询测试
 		// 下载对账单测试
-		// downloadBill(); // 对账单测试
+		downloadBill(); // 对账单测试
 	}
 
 }

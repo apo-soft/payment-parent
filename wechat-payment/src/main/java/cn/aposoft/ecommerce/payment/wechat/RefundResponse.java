@@ -1,7 +1,7 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 /**
- * 退款字段信息
+ * 退款响应报文解析结果对象
  * 
  * @author Yujinshui
  *

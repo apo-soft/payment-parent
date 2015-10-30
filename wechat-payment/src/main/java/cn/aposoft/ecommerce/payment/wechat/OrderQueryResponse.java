@@ -116,21 +116,6 @@ public class OrderQueryResponse extends ResponseBase {
 	 * 代金券或立减优惠使用数量 coupon_count 否 Int 1 代金券或立减优惠使用数量
 	 */
 	private Integer coupon_count;
-	/**
-	 * 代金券或立减优惠批次ID coupon_batch_id_$n 否 String(20) 100 代金券或立减优惠批次ID
-	 * ,$n为下标，从0开始编号
-	 */
-	private String coupon_batch_id_$n;
-
-	/**
-	 * 代金券或立减优惠ID coupon_id_$n 否 String(20) 10000 代金券或立减优惠ID, $n为下标，从0开始编号
-	 */
-	private String coupon_id_$n;
-
-	/**
-	 * 单个代金券或立减优惠支付金额 coupon_fee_$n 否 Int 100 单个代金券或立减优惠支付金额, $n为下标，从0开始编号
-	 */
-	private Integer coupon_fee_$n;
 
 	/**
 	 * 微信订单号 [是] String(28)
@@ -242,30 +227,6 @@ public class OrderQueryResponse extends ResponseBase {
 
 	public void setCoupon_count(Integer coupon_count) {
 		this.coupon_count = coupon_count;
-	}
-
-	public String getCoupon_batch_id_$n() {
-		return coupon_batch_id_$n;
-	}
-
-	public void setCoupon_batch_id_$n(String coupon_batch_id_$n) {
-		this.coupon_batch_id_$n = coupon_batch_id_$n;
-	}
-
-	public String getCoupon_id_$n() {
-		return coupon_id_$n;
-	}
-
-	public void setCoupon_id_$n(String coupon_id_$n) {
-		this.coupon_id_$n = coupon_id_$n;
-	}
-
-	public Integer getCoupon_fee_$n() {
-		return coupon_fee_$n;
-	}
-
-	public void setCoupon_fee_$n(Integer coupon_fee_$n) {
-		this.coupon_fee_$n = coupon_fee_$n;
 	}
 
 	public String getTransaction_id() {

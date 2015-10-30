@@ -16,7 +16,7 @@ public class OrderVo implements Order {
 	private String notify_url; // 通知地址
 	private String trade_type; // 交易类型
 	private String product_id; // 商品ID
-	private String openid; // 用户标识
+	private String limit_pay;
 
 	public String getDevice_info() {
 		return device_info;
@@ -218,20 +218,12 @@ public class OrderVo implements Order {
 		this.product_id = product_id;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getOpenid() {
-		return openid;
+	@Override
+	public String getLimit_pay() {
+		return this.limit_pay;
 	}
 
-	/**
-	 * 
-	 * @param openid
-	 */
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setLimit_pay(String limit_pay) {
+		this.limit_pay = limit_pay;
 	}
-
 }
