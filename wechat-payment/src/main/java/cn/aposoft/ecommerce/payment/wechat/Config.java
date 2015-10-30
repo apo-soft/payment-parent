@@ -5,27 +5,13 @@ package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 固定参数相关
+ * <p>
+ * {@link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1}
  * 
  * @author Jann Liu
  *
  */
 public interface Config {
-
-	/**
-	 * 支付成功通知的URL
-	 * 
-	 * @return URL字符串
-	 */
-	String notifyUrl();
-
-	/**
-	 * 订单查询URL
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年10月24日 下午9:01:34
-	 */
-	String orderQueryUrl();
 
 	/**
 	 * 认证证书位置
@@ -57,6 +43,13 @@ public interface Config {
 	String mchId();
 
 	/**
+	 * 用户标识 openid 否 String(128) oUpF8uMuAJO_M2pxb1Q9zNjWeS6o
+	 * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
+	 * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
+	 */
+	String openid();
+
+	/**
 	 * 支付url
 	 * 
 	 * @return 支付url字符串
@@ -72,6 +65,7 @@ public interface Config {
 
 	/**
 	 * 关闭订单地址
+	 * 
 	 * @return 关闭订单地址
 	 */
 	String closeOrderUrl();
@@ -89,5 +83,21 @@ public interface Config {
 	 * @return 下载对账单地址
 	 */
 	String refundQueryUrl();
+
+	/**
+	 * 支付成功通知的URL
+	 * 
+	 * @return URL字符串
+	 */
+	String notifyUrl();
+
+	/**
+	 * 订单查询URL
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年10月24日 下午9:01:34
+	 */
+	String orderQueryUrl();
 
 }

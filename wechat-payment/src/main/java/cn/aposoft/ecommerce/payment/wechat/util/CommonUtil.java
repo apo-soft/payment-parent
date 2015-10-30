@@ -3,7 +3,9 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 import org.apache.log4j.Logger;
 
 /**
- * 工具类
+ * 工具类:
+ * <p>
+ * 1. parseNum
  * 
  * @author Yujinshui
  *

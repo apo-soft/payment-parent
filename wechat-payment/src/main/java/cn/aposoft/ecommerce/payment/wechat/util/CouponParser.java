@@ -12,7 +12,7 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 public interface CouponParser {
 
 	/**
-	 * @return the n 第一个$字段后面的数字
+	 * @return the n 第一个$n字段的数字
 	 */
 	public int getN(String key);
 

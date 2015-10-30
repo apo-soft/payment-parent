@@ -25,14 +25,13 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  */
 public class RefundQueryRequest extends RequestBase {
 
-	
-	
 	/**
 	 * 微信订单号 transaction_id 否 String(28) 1217752501201407033233368018 微信订单号
 	 * 
 	 */
 	private String transaction_id;
 
+	private String out_trade_no;// 商户订单号 --// base
 	/**
 	 * 商户退款单号 out_refund_no 否 String(32) 1217752501201407033233368018 商户退款单号
 	 * 

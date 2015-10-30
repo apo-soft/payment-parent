@@ -4,7 +4,7 @@
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
 /**
- * 下载对账单请求信息
+ * 下载对账单请求信息请求传输对象
  * 
  * <pre>
   <xml>

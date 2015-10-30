@@ -30,60 +30,60 @@ public class PayRequest extends RequestBase {
 	/**
 	 * 商品描述 body 是 String(32) Ipad mini 16G 白色 商品或支付单简要描述
 	 */
-	private String body; // 商品描述
+	private String body;
 	/**
 	 * 商品详情 detail 否 String(8192) Ipad mini 16G 白色 商品名称明细列表
 	 */
-	private String detail; // 商品详情
+	private String detail;
 	/**
 	 * 附加数据 attach 否 String(127) 深圳分店 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
 	 */
-	private String attach; // 附加数据
+	private String attach;
 	// private String out_trade_no; // 商户订单号- // base
 	/**
 	 * 货币类型 fee_type 否 String(16) CNY 符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
 	 */
-	private String fee_type; // 货币类型
+	private String fee_type;
 	/**
 	 * 总金额 total_fee 是 Int 888 订单总金额，单位为分，详见支付金额
 	 */
-	private Integer total_fee; // 总金额-
+	private Integer total_fee;
 	/**
 	 * 终端IP spbill_create_ip 是 String(16) 123.12.12.123
 	 * APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
 	 */
-	private String spbill_create_ip; // 终端IP
+	private String spbill_create_ip;
 	/**
 	 * 交易起始时间 time_start 否 String(14) 20091225091010
 	 * 订单生成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见时间规则
 	 */
-	private String time_start; // 交易起始时间
+	private String time_start;
 	/**
 	 * 交易结束时间 time_expire 否 String(14) 20091227091010
 	 * 
 	 * 订单失效时间，格式为yyyyMMddHHmmss，如2009年12月27日9点10分10秒表示为20091227091010。其他详见时间规则
 	 * <span style="color:red;">注意：最短失效时间间隔必须大于5分钟</span>
 	 */
-	private String time_expire; // 交易结束时间
+	private String time_expire;
 	/**
 	 * 商品标记 goods_tag 否 String(32) WXG 商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
 	 */
-	private String goods_tag; // 商品标记
+	private String goods_tag;
 	/**
 	 * 通知地址 notify_url 是 String(256) http://www.weixin.qq.com/wxpay/pay.php
 	 * 接收微信支付异步通知回调地址
 	 */
-	private String notify_url; // 通知地址
+	private String notify_url;
 	/**
 	 * 交易类型 trade_type 是 String(16) JSAPI 取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
 	 * {@link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=4_2}
 	 */
-	private String trade_type; // 交易类型
+	private String trade_type;
 	/**
 	 * 商品ID product_id 否 String(32) 12235413214070356458058
 	 * trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
 	 */
-	private String product_id; // 商品ID
+	private String product_id;
 
 	/**
 	 * 指定支付方式 limit_pay 否 String(32) no_credit no_credit--指定不能使用信用卡支付
@@ -95,7 +95,7 @@ public class PayRequest extends RequestBase {
 	 * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
 	 * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
 	 */
-	private String openid; // 用户标识
+	private String openid;
 
 	/**
 	 * 

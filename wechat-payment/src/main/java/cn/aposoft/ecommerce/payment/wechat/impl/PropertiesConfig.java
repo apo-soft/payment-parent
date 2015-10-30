@@ -46,6 +46,12 @@ public class PropertiesConfig implements Config {
 	 * 商户ID
 	 */
 	private String MCH_ID = null;
+
+	/**
+	 * 用户标识
+	 */
+	private String OPENID = null;
+
 	/**
 	 * 微信支付-请求URL
 	 */
@@ -75,6 +81,15 @@ public class PropertiesConfig implements Config {
 
 	/**
 	 * 配置参数赋值
+	 * <p>
+	 * [商户APPID]APPID<br>
+	 * [商户ID]MCH_ID<br>
+	 * [用户标识]OPENID<br>
+	 * [商户KEY]KEY<br>
+	 * [微信支付-请求URL]URL<br>
+	 * [退款-请求URL]REFUND_URL<br>
+	 * [订单查询-请求URL]ORDER_URL<br>
+	 * [认证证书路径]PKCS12
 	 * 
 	 * @param p
 	 *            属性信息
@@ -93,6 +108,7 @@ public class PropertiesConfig implements Config {
 		REFUND_QUERY_URL = p.getProperty("REFUND_QUERY_URL");
 		DOWNLOAD_BILL_URL = p.getProperty("DOWNLOAD_BILL_URL");
 		PKCS12 = p.getProperty("PKCS12");
+		OPENID = p.getProperty("OPENID");
 	}
 
 	/**
@@ -100,6 +116,7 @@ public class PropertiesConfig implements Config {
 	 * <p>
 	 * [商户APPID]APPID<br>
 	 * [商户ID]MCH_ID<br>
+	 * [用户标识]OPENID<br>
 	 * [商户KEY]KEY<br>
 	 * [微信支付-请求URL]URL<br>
 	 * [退款-请求URL]REFUND_URL<br>
@@ -109,6 +126,7 @@ public class PropertiesConfig implements Config {
 	public PropertiesConfig(Map<String, String> map) {
 		APPID = map.get("APPID");
 		MCH_ID = map.get("MCH_ID");
+		OPENID = map.get("OPENID");
 		KEY = map.get("KEY");
 		URL = map.get("URL");
 		NOTIFY_URL = map.get("NOTIFY_URL");
@@ -118,6 +136,7 @@ public class PropertiesConfig implements Config {
 		REFUND_QUERY_URL = map.get("REFUND_QUERY_URL");
 		DOWNLOAD_BILL_URL = map.get("DOWNLOAD_BILL_URL");
 		PKCS12 = map.get("PKCS12");
+
 	}
 
 	public PropertiesConfig(String fileName) {
@@ -222,6 +241,17 @@ public class PropertiesConfig implements Config {
 	@Override
 	public String mchId() {
 		return MCH_ID;
+	}
+
+	/**
+	 * 用户标识
+	 * <p>
+	 * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
+	 * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
+	 */
+	@Override
+	public String openid() {
+		return OPENID;
 	}
 
 	/**

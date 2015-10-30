@@ -6,10 +6,13 @@ package cn.aposoft.ecommerce.payment.wechat;
 /**
  * 支付成功后的回调结果解析后的值对象类
  * 
+ * 
  * @author LiuJian
- *
+ * 
  */
 public class Notification extends ResponseBase {
+
+	private NotificationResult result;// 用于返回给微信服务器的数据
 
 	private String return_code;// 返回状态码【是】
 	private String return_msg;// 返回信息【否】
@@ -34,11 +37,11 @@ public class Notification extends ResponseBase {
 	/**
 	 * 总金额 total_fee 是 Int 888 订单总金额，单位为分，详见支付金额
 	 */
-	private Integer total_fee; // 总金额-
+	private Integer total_fee;
 	/**
 	 * 商户订单号 out_trade_no 否 String(32)1217752501201407033233368018 商户系统内部的订单号
 	 */
-	private String out_trade_no; // 商户订单号-商户支付的订单号由商户自定义生成
+	private String out_trade_no;
 
 	/**
 	 * 商户订单号 String(32)
@@ -225,6 +228,25 @@ public class Notification extends ResponseBase {
 	 */
 	public void setTotal_fee(Integer total_fee) {
 		this.total_fee = total_fee;
+	}
+
+	/**
+	 * 读取返回给微信服务器的数据
+	 * 
+	 * @return 通知结果对象,可输出xml报文
+	 */
+	public NotificationResult getResult() {
+		return result;
+	}
+
+	/**
+	 * 设置返回给微信服务器的数据
+	 * 
+	 * @param result
+	 *            通知结果对象,可输出xml报文
+	 */
+	public void setResult(NotificationResult result) {
+		this.result = result;
 	}
 
 }
