@@ -4,6 +4,8 @@
 package cn.aposoft.ecommerce.payment.wechat.util;
 
 /**
+ * 订单查询的优惠券解析类
+ * 
  * @author Jann Liu
  *
  */

@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.util.List;
+
 /**
  * 下载对账单响应内容
  * <p>
@@ -16,9 +18,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * </pre>
  * <p>
  * 请求成功时: "返回状态码" return_code ==null data对象保留了原始的返回内容报文
- * <p>
- * TODO 完成对Data的报文的进一步解析
- * 正确请求结果报文样例
+ * 
  * <pre>
 \ufeff交易时间,公众账号ID,商户号,子商户号,设备号,微信订单号,商户订单号,用户标识,交易类型,交易状态,付款银行,货币种类,总金额,企业红包金额,微信退款单号,商户退款单号,退款金额,企业红包退款金额,退款类型,退款状态,商品名称,商户数据包,手续费,费率
 `2015-10-28 13:52:05,`123,`123,`0,`,`123,`123,`123,`NATIVE,`SUCCESS,`CFT,`CNY,`0.88,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.01000,`0.60%
@@ -33,7 +33,8 @@ package cn.aposoft.ecommerce.payment.wechat;
  * 
  * @author Jann Liu
  */
-public class DownloadBillResponse extends ResponseBase {
+public class DownloadBillResponse extends ResponseBase implements DownloadBillResult {
+
 	/***************************************************************/
 
 	/*
@@ -94,6 +95,23 @@ public class DownloadBillResponse extends ResponseBase {
 	 */
 	private String data;
 
+	private List<String> headers;
+
+	private List<String> totalHeaders;
+
+	private List<String> totalItems;
+
+	private List<String[]> billItems;
+
+	/**
+	 * 解析原始报文,分解为拆分后的对账单内容
+	 * 
+	 * @param data2
+	 */
+	private void parseData(String data) {
+
+	}
+
 	/**
 	 * 读取对账单数据
 	 * 
@@ -108,8 +126,39 @@ public class DownloadBillResponse extends ResponseBase {
 	 * 
 	 * @param data
 	 */
-	public void setData(String data) {
+	public void setData(final String data) {
 		this.data = data;
+		// if (data != null && !data.isEmpty()) {
+		// parseData(data);
+		// }
+	}
+
+	/**
+	 * @return the headers
+	 */
+	public List<String> getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * @return the totalHeaders
+	 */
+	public List<String> getTotalHeaders() {
+		return totalHeaders;
+	}
+
+	/**
+	 * @return the totalItems
+	 */
+	public List<String> getTotalItems() {
+		return totalItems;
+	}
+
+	/**
+	 * @return the billItems
+	 */
+	public List<String[]> getBillItems() {
+		return billItems;
 	}
 
 }

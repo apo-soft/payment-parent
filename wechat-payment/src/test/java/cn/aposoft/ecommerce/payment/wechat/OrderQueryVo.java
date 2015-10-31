@@ -23,7 +23,7 @@ public class OrderQueryVo implements OrderQuery {
 
 	private String transaction_id;
 	private String out_trade_no;
-
+	
 	/**
 	 * 微信订单号
 	 */
@@ -47,6 +47,4 @@ public class OrderQueryVo implements OrderQuery {
 	public void setOut_trade_no(String out_trade_no) {
 		this.out_trade_no = out_trade_no;
 	}
-
-	
 }

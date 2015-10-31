@@ -85,15 +85,15 @@ public abstract class EntityUtilTest {
 
 	@Test
 	public void parseRefundQueryResponseXml() {
-		assertRefundQueryResponseResult(getParseRefundQueryResponseXmlTestResult());
+		assertRefundQueryResponse(getParseRefundQueryResponseXml());
 	}
 
 	/**
 	 * 验证退款查询结果
 	 * 
-	 * @param parseRefundQueryResponseXmlTestResult
+	 * @param response
 	 */
-	private void assertRefundQueryResponseResult(RefundQueryResponse parseRefundQueryResponseXmlTestResult) {
+	private void assertRefundQueryResponse(RefundQueryResponse response) {
 
 	}
 
@@ -101,10 +101,10 @@ public abstract class EntityUtilTest {
 	 * 打印测试结果
 	 */
 	public void printParseRefundQueryResponseXml() {
-		printRefundQueryResponseResult(getParseRefundQueryResponseXmlTestResult());
+		printRefundQueryResponseResult(getParseRefundQueryResponseXml());
 	}
 
-	private RefundQueryResponse getParseRefundQueryResponseXmlTestResult() {
+	private RefundQueryResponse getParseRefundQueryResponseXml() {
 		RefundQueryResponse response = getUtil().parseRefundQueryResponseXml(REFUND_QUERY_RESULT);
 		return response;
 	}

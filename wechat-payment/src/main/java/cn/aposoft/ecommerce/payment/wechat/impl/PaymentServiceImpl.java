@@ -244,15 +244,13 @@ public class PaymentServiceImpl implements PaymentService {
 	public DownloadBillResponse downloadBill(DownloadBill params) {
 		String request = entityUtil.generateDownloadBillXml(params, config);
 		logger.debug(request);
-		System.out.println();
-		System.out.println(request);
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.downloadBillUrl());
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
 		}
-		
+
 		DownloadBillResponse refundQueryResponse = entityUtil.parseDownloadBillResponseXml(responseText);
 		return refundQueryResponse;
 	}

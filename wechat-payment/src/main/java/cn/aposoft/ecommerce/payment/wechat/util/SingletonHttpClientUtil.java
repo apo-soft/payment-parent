@@ -130,7 +130,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 			response = httpClient.execute(httpPost);
 			// 处理响应
 			HttpEntity entity = response.getEntity();
-			result = EntityUtils.toString(entity, "UTF-8");
+			result = getEntity(entity);
 			return result;
 		} finally {
 			// 关闭响应
@@ -139,11 +139,41 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 					response.close();
 			} catch (IOException e) {
 				StringBuilder builder = new StringBuilder();
-				builder.append("Exception:{id:").append(seq).append(" , message: WeChatPay 关闭远程服务请求时发生 IOException!--")
+				builder.append("Exception:{id:").append(seq).append(", message: WeChatPay 关闭远程服务请求时发生 IOException!--")
 						.append(e.getMessage()).append("}");
 				log.error(builder.toString(), e);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	private String getEntity(HttpEntity entity) throws ParseException, IOException {
+		return EntityUtils.toString(entity, "UTF-8");
+		// try (BufferedInputStream input = new
+		// BufferedInputStream(entity.getContent());
+		// BufferedOutputStream output = new BufferedOutputStream(new
+		// FileOutputStream("response.txt"));
+		// ByteArrayOutputStream byteOutput = new ByteArrayOutputStream()) {
+		//
+		// byte[] buf = new byte[1024];
+		// int length;
+		// while ((length = input.read(buf)) != -1) {
+		// output.write(buf, 0, length);
+		// byteOutput.write(buf, 0, length);
+		// }
+		// output.flush();
+		// byteOutput.flush();
+		// return byteOutput.toString("UTF-8");
+		// } catch (UnsupportedOperationException | IOException e) {
+		// e.printStackTrace();
+		// return null;
+		// }
 	}
 
 	/**

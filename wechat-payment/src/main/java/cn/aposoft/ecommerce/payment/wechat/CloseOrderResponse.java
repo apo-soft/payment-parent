@@ -7,6 +7,15 @@ package cn.aposoft.ecommerce.payment.wechat;
  * 关闭订单响应对象
  * 
  * <pre>
+  <xml>
+   <return_code><![CDATA[SUCCESS]]></return_code>
+   <return_msg><![CDATA[OK]]></return_msg>
+   <appid><![CDATA[wx2421b1c4370ec43b]]></appid>
+   <mch_id><![CDATA[10000100]]></mch_id>
+   <nonce_str><![CDATA[BFK89FC6rxKCOjLX]]></nonce_str>
+   <sign><![CDATA[72B321D92A7BFA0B2509F3D13C7B1631]]></sign>
+   <result_code><![CDATA[SUCCESS]]></result_code>
+</xml>
  * 错误码
  * <ul>
 		<li>名称 	描述 	原因 	解决方案</li>
@@ -28,6 +37,5 @@ public class CloseOrderResponse extends ResponseBase {
 	// Attention
 	// 在Base中不存在以下返回字段:
 	// 1. device_info
-	// 2. result_code
 
 }

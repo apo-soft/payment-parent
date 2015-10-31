@@ -1,11 +1,16 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
+import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
@@ -14,6 +19,42 @@ import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
 
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
+
+	public static void payInfo_1() {
+		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
+		OrderVo order = setValue(config, httpUtil);
+		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
+		PayResponse result = payService.preparePay(order);
+		System.out.println(result.getAppid());
+		System.out.println(result.getCode_url());
+		System.out.println(result.getDevice_info());
+		System.out.println(result.getReturn_code());
+		System.out.println(result.getReturn_msg());
+	}
+
+	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+		OrderVo order = new OrderVo();
+		order.setBody("Ipad mini  16G  白色1023_2");
+		order.setGoods_tag("no");
+		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
+		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
+		order.setSpbill_create_ip("127.0.0.1");
+		order.setTrade_type("NATIVE");
+		order.setTotal_fee(10);
+		// order.setAppid(config.appId());
+		// order.setAttach(attach);
+		// order.setDetail(detail);
+		// order.setDevice_info("Device_info");
+		// order.setFee_type(fee_type);
+		// order.setOpenid(openid);
+		// order.setProduct_id(product_id);
+		// order.setTime_start(getTime());//设定交易有效的时间范围
+		// order.setTime_expire(getTime2());//设定交易有效的时间范围
+
+		return order;
+	}
 
 	/**
 	 * 退款测试
@@ -52,30 +93,6 @@ public class Test {
 
 	}
 
-	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
-		OrderVo order = new OrderVo();
-		order.setAppid(config.appId());
-		// order.setAttach(attach);
-		order.setBody(",`\rinfo`");
-		// order.setDetail(detail);
-		// order.setDevice_info("Device_info");
-		// order.setFee_type(fee_type);
-		order.setGoods_tag("no");
-		order.setMch_id(config.mchId());
-		order.setNonce_str("1234567890321");
-		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
-		// order.setOpenid(openid);
-		order.setOut_trade_no("20151030_1");// 只要未支付，即可继续重复使用该单号
-		// order.setProduct_id(product_id);
-		order.setSpbill_create_ip("127.0.0.1");
-		// order.setTime_start(getTime());//设定交易有效的时间范围
-		// order.setTime_expire(getTime2());//设定交易有效的时间范围
-		order.setTotal_fee(10);
-		order.setTrade_type("NATIVE");
-
-		return order;
-	}
-
 	public static String getTime() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -88,20 +105,6 @@ public class Test {
 		Date date = time.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(date);
-	}
-
-	public static void payInfo_1() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
-		OrderVo order = setValue(config, httpUtil);
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
-		PayResponse result = payService.preparePay(order);
-		System.out.println(result.getAppid());
-		System.out.println(result.getCode_url());
-		System.out.println(result.getDevice_info());
-		System.out.println(result.getReturn_code());
-		System.out.println(result.getReturn_msg());
 	}
 
 	/**
@@ -191,24 +194,48 @@ public class Test {
 		long begin = System.currentTimeMillis();
 		DownloadBillResponse downloadBills = payService.downloadBill(params);
 		long end = System.currentTimeMillis();
+
 		System.out.println("elapse:" + (end - begin));
 		System.out.println("对账单信息：");
+
 		System.out.println(downloadBills.getReturn_code());
 		System.out.println(downloadBills.getReturn_msg());
+		// 判断是否有数据
+		if (downloadBills.getData() == null || downloadBills.getData().isEmpty()) {
+			return;
+		}
 		char c = downloadBills.getData().charAt(0);
 
 		System.out.printf("%x\r\n%s\r\n", (int) c, downloadBills.getData().substring(1, 5));
 		System.out.println(downloadBills.getData());
+		// outputToFile(downloadBills.getData());
+	}
+
+	/**
+	 * 输出到文件
+	 * 
+	 * @param data
+	 *            待传输的文件内容
+	 */
+	public static void outputToFile(String data) {
+		File file = new File("downloadbill-response.txt");
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");) {
+
+			writer.write(data);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
-		 payInfo_1();//支付测试
-//		 refundTest_1();//退款测试
+		payInfo_1();// 支付测试
+		// refundTest_1();//退款测试
 		// orderQuery();// 订单测试
-//		refundQuery();// 退款查询测试
+		// refundQuery();// 退款查询测试
 		// 下载对账单测试
-//		 downloadBill(); // 对账单测试
+		// downloadBill(); // 对账单测试
 
 	}
 

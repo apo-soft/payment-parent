@@ -32,6 +32,7 @@ import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
 import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderRequest;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
@@ -151,30 +152,40 @@ public class SimpleEntityUtil implements EntityUtil {
 		PayRequest payRequest = new PayRequest();
 
 		payRequest.setAppid(config.appId());
-		payRequest.setAttach(order.getAttach());
+		payRequest.setMch_id(config.mchId());
+
+		payRequest.setDevice_info(order.getDevice_info());
+
 		// 商品描述
 		payRequest.setBody(order.getBody());
 		payRequest.setDetail(order.getDetail());
-		payRequest.setDevice_info(order.getDevice_info());
-		payRequest.setFee_type(order.getFee_type());
-		payRequest.setGoods_tag(order.getGoods_tag());
-		payRequest.setMch_id(config.mchId());
-		// 随机数创建
-		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
-		// 支付成功,微信反馈的url地址
-		payRequest.setNotify_url(config.notifyUrl());
-		// payRequest.setOpenid(openid);// 暂时用不到
+		payRequest.setAttach(order.getAttach());
 		// 商户订单号
 		payRequest.setOut_trade_no(order.getOut_trade_no());
+
+		payRequest.setFee_type(order.getFee_type());
+
+		// 总金额
+		payRequest.setTotal_fee(order.getTotal_fee());
+
+		payRequest.setSpbill_create_ip(order.getSpbill_create_ip());
+		payRequest.setTime_start(order.getTime_start());
+		payRequest.setTime_expire(order.getTime_expire());
+
+		payRequest.setGoods_tag(order.getGoods_tag());
+
+		// 支付成功,微信反馈的url地址
+		payRequest.setNotify_url(config.notifyUrl());
+
+		payRequest.setTrade_type(order.getTrade_type());
 		// 此id为二维码中包含的商品ID
 		payRequest.setProduct_id(order.getProduct_id());
 
-		payRequest.setSpbill_create_ip(order.getSpbill_create_ip());
-		payRequest.setTime_expire(order.getTime_expire());
-		payRequest.setTime_start(order.getTime_start());
-		// 总金额
-		payRequest.setTotal_fee(order.getTotal_fee());
-		payRequest.setTrade_type(order.getTrade_type());
+		payRequest.setLimit_pay(order.getLimit_pay());
+		payRequest.setOpenid(config.openid());
+
+		// 随机数创建
+		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
 
 		// 签名
 		Map<String, String> mapRequest = createPaySignMap(payRequest);
@@ -182,7 +193,6 @@ public class SimpleEntityUtil implements EntityUtil {
 		payRequest.setSign(sign);
 
 		return payRequest;
-
 	}
 
 	/**
@@ -213,6 +223,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("notify_url", value.getNotify_url());
 		parameters.put("trade_type", value.getTrade_type());
 		parameters.put("product_id", value.getProduct_id());
+		parameters.put("limit_pay", value.getLimit_pay());
 		parameters.put("openid", value.getOpenid());
 		return parameters;
 	}
@@ -223,7 +234,6 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @param payRequest
 	 *            支付请求内容
 	 * @return 支付请求内容的Map格式数据
-	 * @bugfix: 2015/10/27 重命名方法,可见性改为私有
 	 */
 	private Map<String, String> createPaySignMap(PayRequest payRequest) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -245,6 +255,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		map.put("notify_url", payRequest.getNotify_url());
 		map.put("trade_type", payRequest.getTrade_type());
 		map.put("product_id", payRequest.getProduct_id());
+		map.put("limit_pay", payRequest.getLimit_pay());
 		map.put("openid", payRequest.getOpenid());
 		return map;
 	}
@@ -261,7 +272,6 @@ public class SimpleEntityUtil implements EntityUtil {
 			logger.error(e.getMessage(), e);
 			return null;
 		}
-
 	}
 
 	/**
@@ -326,27 +336,28 @@ public class SimpleEntityUtil implements EntityUtil {
 		refundResponse.setReturn_code(result.get("return_code"));//
 		refundResponse.setReturn_msg(result.get("return_msg"));//
 
+		refundResponse.setResult_code(result.get("result_code"));
+		refundResponse.setErr_code(result.get("err_code"));
+		refundResponse.setErr_code_des(result.get("err_code_des"));
+
 		refundResponse.setAppid(result.get("appid"));
+		refundResponse.setMch_id(result.get("mch_id"));
+		refundResponse.setDevice_info(result.get("device_info"));
+		refundResponse.setNonce_str(result.get("nonce_str"));
+		refundResponse.setSign(result.get("sign"));
+		refundResponse.setTransaction_id(result.get("transaction_id"));
+		refundResponse.setOut_trade_no(result.get("out_trade_no"));
+		refundResponse.setOut_refund_no(result.get("out_refund_no"));
+		refundResponse.setRefund_id(result.get("refund_id"));
+		refundResponse.setRefund_channel(result.get("refund_channel"));
+		refundResponse.setRefund_fee(CommonUtil.parseNum(result.get("refund_fee")));
+		refundResponse.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
+		refundResponse.setFee_type(result.get("fee_type"));
 		refundResponse.setCash_fee(CommonUtil.parseNum(result.get("cash_fee")));
 		refundResponse.setCash_refund_fee(result.get("cash_refund_fee"));
 		refundResponse.setCoupon_refund_count(CommonUtil.parseNum(result.get("coupon_refund_count")));
 		refundResponse.setCoupon_refund_fee(CommonUtil.parseNum(result.get("coupon_refund_fee")));
 		refundResponse.setCoupon_refund_id(result.get("coupon_refund_id"));
-		refundResponse.setDevice_info(result.get("device_info"));
-		refundResponse.setErr_code(result.get("err_code"));
-		refundResponse.setErr_code_des(result.get("err_code_des"));
-		refundResponse.setFee_type(result.get("fee_type"));
-		refundResponse.setMch_id(result.get("mch_id"));
-		refundResponse.setNonce_str(result.get("nonce_str"));
-		refundResponse.setOut_refund_no(result.get("out_refund_no"));
-		refundResponse.setOut_trade_no(result.get("out_trade_no"));
-		refundResponse.setRefund_channel(result.get("refund_channel"));
-		refundResponse.setRefund_fee(CommonUtil.parseNum(result.get("refund_fee")));
-		refundResponse.setRefund_id(result.get("refund_id"));
-		refundResponse.setResult_code(result.get("result_code"));
-		refundResponse.setSign(result.get("sign"));
-		refundResponse.setTotal_fee(CommonUtil.parseNum(result.get("total_fee")));
-		refundResponse.setTransaction_id(result.get("transaction_id"));
 
 		return refundResponse;
 	}
@@ -376,17 +387,18 @@ public class SimpleEntityUtil implements EntityUtil {
 	private RefundRequest createRefundRequest(Refund refund, Config config) {
 		RefundRequest payRefund = new RefundRequest();
 		payRefund.setAppid(config.appId());
-		payRefund.setDevice_info(refund.getDevice_info());
 		payRefund.setMch_id(config.mchId());
-		payRefund.setNonce_str(refund.getNonce_str());
-		payRefund.setOp_user_id(refund.getOp_user_id());
-		payRefund.setOut_refund_no(refund.getOut_refund_no());
+		payRefund.setDevice_info(refund.getDevice_info());
+
+		payRefund.setTransaction_id(refund.getTransaction_id());
 		payRefund.setOut_trade_no(refund.getOut_trade_no());
+		payRefund.setOut_refund_no(refund.getOut_refund_no());
+		payRefund.setTotal_fee(refund.getTotal_fee());
 		payRefund.setRefund_fee(refund.getRefund_fee());
 		payRefund.setRefund_fee_type(refund.getRefund_fee_type());
-		payRefund.setTotal_fee(refund.getTotal_fee());
-		payRefund.setTransaction_id(refund.getTransaction_id());
+		payRefund.setOp_user_id(refund.getOp_user_id());
 
+		payRefund.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
 		Map<String, String> parameters = createRefundSignMap(payRefund);
 		String sign = Signature.getMapSign(parameters, config.key());
 
@@ -409,14 +421,14 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("device_info", value.getDevice_info());
 		parameters.put("nonce_str", value.getNonce_str());
 		parameters.put("sign", value.getSign());
+		parameters.put("transaction_id", value.getTransaction_id());
 		parameters.put("out_trade_no", value.getOut_trade_no());
-		parameters.put("total_fee", value.getTotal_fee() + "");
-		parameters.put("op_user_id", value.getOp_user_id());
 		parameters.put("out_refund_no", value.getOut_refund_no());
+		parameters.put("total_fee", value.getTotal_fee() + "");
+
 		parameters.put("refund_fee", value.getRefund_fee() + "");
 		parameters.put("refund_fee_type", value.getRefund_fee_type());
-		parameters.put("transaction_id", value.getTransaction_id());
-
+		parameters.put("op_user_id", value.getOp_user_id());
 		return parameters;
 	}
 
@@ -435,13 +447,14 @@ public class SimpleEntityUtil implements EntityUtil {
 		parameters.put("device_info", value.getDevice_info());
 		parameters.put("nonce_str", value.getNonce_str());
 		parameters.put("sign", value.getSign());
-		parameters.put("out_trade_no", value.getOut_trade_no());
-		parameters.put("total_fee", value.getTotal_fee());
-		parameters.put("op_user_id", value.getOp_user_id());
-		parameters.put("out_refund_no", value.getOut_refund_no());
-		parameters.put("refund_fee", value.getRefund_fee());
-		parameters.put("refund_fee_type", value.getRefund_fee_type());
 		parameters.put("transaction_id", value.getTransaction_id());
+		parameters.put("out_trade_no", value.getOut_trade_no());
+		parameters.put("out_refund_no", value.getOut_refund_no());
+		parameters.put("total_fee", value.getTotal_fee() + "");
+
+		parameters.put("refund_fee", value.getRefund_fee() + "");
+		parameters.put("refund_fee_type", value.getRefund_fee_type());
+		parameters.put("op_user_id", value.getOp_user_id());
 
 		return parameters;
 	}
@@ -613,6 +626,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		OrderQueryRequest values = new OrderQueryRequest();
 		values.setAppid(config.appId());
 		values.setMch_id(config.mchId());
+
 		values.setTransaction_id(params.getTransaction_id());
 		values.setOut_trade_no(params.getOut_trade_no());
 		// 随机字符串生成
@@ -656,10 +670,11 @@ public class SimpleEntityUtil implements EntityUtil {
 		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
 		parameters.put("appid", request.getAppid());
 		parameters.put("mch_id", request.getMch_id());
-		parameters.put("nonce_str", request.getNonce_str());
-		parameters.put("sign", request.getSign());
+
 		parameters.put("out_trade_no", request.getOut_trade_no());
 		parameters.put("transaction_id", request.getTransaction_id());
+		parameters.put("nonce_str", request.getNonce_str());
+		parameters.put("sign", request.getSign());
 		return parameters;
 	}
 
@@ -742,8 +757,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("appid", request.getAppid());
 		parameters.put("mch_id", request.getMch_id());
-		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("out_trade_no", request.getOut_trade_no());
+		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("sign", request.getSign());
 		return parameters;
 	}
@@ -752,9 +767,9 @@ public class SimpleEntityUtil implements EntityUtil {
 		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
 		parameters.put("appid", request.getAppid());
 		parameters.put("mch_id", request.getMch_id());
+		parameters.put("out_trade_no", request.getOut_trade_no());
 		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("sign", request.getSign());
-		parameters.put("out_trade_no", request.getOut_trade_no());
 		return parameters;
 	}
 
@@ -985,13 +1000,13 @@ public class SimpleEntityUtil implements EntityUtil {
 		request.setAppid(config.appId());
 		request.setMch_id(config.mchId());
 		request.setDevice_info(params.getDevice_info());
-		request.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
 
 		request.setTransaction_id(params.getTransaction_id());
 		request.setOut_trade_no(params.getOut_trade_no());
 		request.setOut_refund_no(params.getOut_refund_no());
 		request.setRefund_id(params.getRefund_id());
 
+		request.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
 		// 签名
 		Map<String, String> mapRequest = createRefundQuerySignMap(request);
 		String sign = Signature.getMapSign(mapRequest, config.key());
@@ -1004,8 +1019,8 @@ public class SimpleEntityUtil implements EntityUtil {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("appid", request.getAppid());
 		parameters.put("mch_id", request.getMch_id());
-		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("device_info", request.getDevice_info());
+		parameters.put("nonce_str", request.getNonce_str());
 		parameters.put("sign", request.getSign());
 
 		parameters.put("transaction_id", request.getTransaction_id());
