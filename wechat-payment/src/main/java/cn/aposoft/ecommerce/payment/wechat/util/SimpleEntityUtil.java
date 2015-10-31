@@ -22,6 +22,7 @@ import cn.aposoft.ecommerce.payment.wechat.Coupon;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
+import cn.aposoft.ecommerce.payment.wechat.NotificationResult;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
@@ -1139,6 +1140,22 @@ public class SimpleEntityUtil implements EntityUtil {
 
 		parameters.put("bill_date", request.getBill_date());
 		parameters.put("bill_type", request.getBill_type());
+		return parameters;
+	}
+
+	@Override
+	public String createNotificationResultXml(NotificationResult notificationResult) {
+		if(notificationResult == null){
+			notificationResult = new NotificationResult();
+		}
+		SortedMap<String, Object> parameters = createNotificationResultMap(notificationResult);
+		return XMLUtil.createXML(parameters);
+	}
+	
+	private SortedMap<String, Object> createNotificationResultMap(NotificationResult notificationResult){
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		parameters.put("return_code", notificationResult.getReturn_code());
+		parameters.put("return_msg", notificationResult.getReturn_msg());
 		return parameters;
 	}
 

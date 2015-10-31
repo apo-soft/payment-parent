@@ -3,6 +3,9 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.util.SimpleEntityUtil;
+
 /**
  * 通知结果: 该对象表示的是回调报文解析方法对报文解析的处理结果.
  * <p>
@@ -20,6 +23,8 @@ package cn.aposoft.ecommerce.payment.wechat;
  *
  */
 public class NotificationResult {
+	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
 	/**
 	 * 返回状态码 return_code 是 String(16) SUCCESS
 	 * 
@@ -88,7 +93,8 @@ public class NotificationResult {
 	 * 创建xml缓存
 	 */
 	private void createXml() {
-		xml = ""; // TODO 实现方法
+		//xml = ""; // TODO 实现方法
+		xml = entityUtil.createNotificationResultXml(this);
 		changed = false;
 	}
 

@@ -9,6 +9,7 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
+import cn.aposoft.ecommerce.payment.wechat.NotificationResult;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
@@ -176,4 +177,8 @@ public interface EntityUtil {
 	 * @return 响应信息的实例对象
 	 */
 	DownloadBillResponse parseDownloadBillResponseXml(String responseText);
+	/**
+	 * 微信
+	 * */
+	String createNotificationResultXml(NotificationResult notificationResult );
 }
