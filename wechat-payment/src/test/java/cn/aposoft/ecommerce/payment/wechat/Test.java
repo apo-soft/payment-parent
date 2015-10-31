@@ -56,7 +56,7 @@ public class Test {
 		OrderVo order = new OrderVo();
 		order.setAppid(config.appId());
 		// order.setAttach(attach);
-		order.setBody("Ipad mini  16G  白色1023_2");
+		order.setBody(",`\rinfo`");
 		// order.setDetail(detail);
 		// order.setDevice_info("Device_info");
 		// order.setFee_type(fee_type);
@@ -65,7 +65,7 @@ public class Test {
 		order.setNonce_str("1234567890321");
 		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
 		// order.setOpenid(openid);
-		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151030_1");// 只要未支付，即可继续重复使用该单号
 		// order.setProduct_id(product_id);
 		order.setSpbill_create_ip("127.0.0.1");
 		// order.setTime_start(getTime());//设定交易有效的时间范围
@@ -203,12 +203,12 @@ public class Test {
 
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
-		// payInfo_1();//支付测试
-		// refundTest_1();//退款测试
+		 payInfo_1();//支付测试
+//		 refundTest_1();//退款测试
 		// orderQuery();// 订单测试
-		refundQuery();// 退款查询测试
+//		refundQuery();// 退款查询测试
 		// 下载对账单测试
-		// downloadBill(); // 对账单测试
+//		 downloadBill(); // 对账单测试
 
 	}
 
