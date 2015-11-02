@@ -3,6 +3,7 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 import cn.aposoft.ecommerce.payment.wechat.Config;
@@ -13,7 +14,7 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
  * @author LiuJian
  *
  */
-public interface HttpClientUtil {
+public interface HttpClientUtil extends Closeable {
 	/**
 	 * 支付post
 	 * 
@@ -23,7 +24,7 @@ public interface HttpClientUtil {
 	 *            请求的url地址
 	 * @return
 	 * @author Yujinshui
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	String post(String request, Config config, String url) throws IOException;
 

@@ -254,4 +254,9 @@ public class PaymentServiceImpl implements PaymentService {
 		DownloadBillResponse refundQueryResponse = entityUtil.parseDownloadBillResponseXml(responseText);
 		return refundQueryResponse;
 	}
+
+	@Override
+	public void close() throws IOException {
+		httpUtil.close();
+	}
 }

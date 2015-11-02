@@ -29,18 +29,23 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
 
 /**
  * 只进行post提交
+ * <p>
+ * 当应用关闭时应调用 {@code SingletonHttpClientUtil.getInstance().close();}
+ * 以释放全部client资源.
  * 
  * @author LiuJian
  *
  */
 
 public class SingletonHttpClientUtil implements HttpClientUtil {
+	// 单一主机最大并发连接数:默认为2,这里增大到200,避免高并发时,因此导致支付阻塞.
+	private static final int CONNECTIONS_PER_ROUTE = 200;
 	private AtomicLong sequence = new AtomicLong(0L);
 	public static Logger log = Logger.getLogger(SingletonHttpClientUtil.class);
 	private static SingletonHttpClientUtil instance = new SingletonHttpClientUtil();
 
 	// 用于发送普通http连接的client
-	private CloseableHttpClient client = HttpClients.createDefault();
+	private CloseableHttpClient client = createHttpClient();
 	// 用于发送https带有证书的连接client
 	private final ConcurrentMap<String, CloseableHttpClient> httpsClients = new ConcurrentHashMap<String, CloseableHttpClient>();
 
@@ -51,129 +56,11 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		return instance;
 	}
 
-	/**
-	 * 保持httpClient仅拥有一个实例,完成微信支付,向服务器发送支付订单信息的服务
-	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
-	 *      .String)
-	 * @param request
-	 *            待发送的xml字符串信息
-	 * @param config
-	 * @param url
-	 *            请求的url地址
-	 * @return
-	 * @author Yujinshui
-	 * @throws IOException
-	 */
-	@Override
-	public String post(String request, Config config, String url) throws IOException {
-		return generalPost(request, url, client);
-	}
-
-	/**
-	 * 发送使用私有key双向认证的https请求
-	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
-	 *      .String)
-	 * @param request
-	 *            待发送的xml字符串信息
-	 * @param config
-	 * @param url
-	 *            请求的url地址
-	 * @return 执行退款请求,并返回响应字符串
-	 * @throws Exception
-	 * @author Yujinshui
-	 * @bugfix 2015/10/25
-	 *         修改了httpClient在获取过程中对类的成员变量产生的影响,取消每次生成新的client的低效操作,改为缓存client操作.
-	 * 
-	 */
-	@Override
-	public String keyCertPost(String request, Config config, String url) {
-		return generalPost(request, url, getHttpsClient(config));
-	}
-
-	private String generalPost(String request, String url, CloseableHttpClient httpsClient) {
-		long seq = sequence.incrementAndGet();
-		HttpPost httpPost = createHttpPost(request, url);
-		String result = "";
-		try {
-			log.info("Request:{id:" + seq + " ,url:" + url + ", body: " + request + "}");
-			result = execute(seq, httpsClient, httpPost);
-			log.info("Response:{id:" + seq + " ,url:" + url + ", body: " + result + "}");
-		} catch (ParseException e) {
-			log.error(
-					"Exception:{id:" + seq + " , message: WeChatPay 请求远程服务时发生 ParseException! " + e.getMessage() + "}",
-					e);
-		} catch (IOException e) {
-			log.error("Exception:{id:" + seq + " , message: WeChatPay 请求远程服务时发生 IOException! " + e.getMessage() + "}",
-					e);
-		}
-		return result;
-	}
-
-	private HttpPost createHttpPost(String request, String url) {
-		// 定义POST请求
-		HttpPost httpPost = new HttpPost(url);
-
-		StringEntity postEntity = new StringEntity(request, "UTF-8");
-		httpPost.addHeader("Content-Type", "text/xml");
-		httpPost.setEntity(postEntity);
-		return httpPost;
-	}
-
-	private String execute(long seq, CloseableHttpClient httpClient, HttpPost httpPost)
-			throws ParseException, IOException {
-		String result;
-		// 模拟POST请求并接受服务响应
-		CloseableHttpResponse response = null;
-		try {
-			response = httpClient.execute(httpPost);
-			// 处理响应
-			HttpEntity entity = response.getEntity();
-			result = getEntity(entity);
-			return result;
-		} finally {
-			// 关闭响应
-			try {
-				if (response != null)
-					response.close();
-			} catch (IOException e) {
-				StringBuilder builder = new StringBuilder();
-				builder.append("Exception:{id:").append(seq).append(", message: WeChatPay 关闭远程服务请求时发生 IOException!--")
-						.append(e.getMessage()).append("}");
-				log.error(builder.toString(), e);
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws IOException
-	 * @throws ParseException
-	 */
-	private String getEntity(HttpEntity entity) throws ParseException, IOException {
-		return EntityUtils.toString(entity, "UTF-8");
-		// try (BufferedInputStream input = new
-		// BufferedInputStream(entity.getContent());
-		// BufferedOutputStream output = new BufferedOutputStream(new
-		// FileOutputStream("response.txt"));
-		// ByteArrayOutputStream byteOutput = new ByteArrayOutputStream()) {
-		//
-		// byte[] buf = new byte[1024];
-		// int length;
-		// while ((length = input.read(buf)) != -1) {
-		// output.write(buf, 0, length);
-		// byteOutput.write(buf, 0, length);
-		// }
-		// output.flush();
-		// byteOutput.flush();
-		// return byteOutput.toString("UTF-8");
-		// } catch (UnsupportedOperationException | IOException e) {
-		// e.printStackTrace();
-		// return null;
-		// }
+	private static CloseableHttpClient createHttpClient() {
+		// 因微信的服务器响应延时大约为500ms~~1.5s,因此有必要增加单一点对点最大连接数,在下一步优化中应放入配置文件里
+		CloseableHttpClient client = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
+				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).build();
+		return client;
 	}
 
 	/**
@@ -219,13 +106,160 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 			instream.close();
 		}
 		// Trust own CA and all self-signed certs
+		// 私有key在微信中默认以mchId作为密钥
 		SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.mchId().toCharArray()).build();
 		// Allow TLSv1 protocol only
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
 				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+		CloseableHttpClient httpclient = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
+				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).setSSLSocketFactory(sslsf).build();
 
 		return httpclient;
+	}
+
+	/**
+	 * 保持httpClient仅拥有一个实例,完成微信支付,向服务器发送支付订单信息的服务
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
+	 *      .String)
+	 * @param request
+	 *            待发送的xml字符串信息
+	 * @param config
+	 * @param url
+	 *            请求的url地址
+	 * @return
+	 * @author Yujinshui
+	 * @throws IOException
+	 */
+	@Override
+	public String post(String request, Config config, String url) throws IOException {
+		return generalPost(request, url, client);
+	}
+
+	/**
+	 * 发送使用私有key双向认证的https请求
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
+	 *      .String)
+	 * @param request
+	 *            待发送的xml字符串信息
+	 * @param config
+	 *            商户配置信息
+	 * @param url
+	 *            请求的url地址
+	 * @return 执行退款请求,并返回响应字符串
+	 * @throws Exception
+	 * @author Yujinshui
+	 * @bugfix 2015/10/25
+	 *         修改了httpClient在获取过程中对类的成员变量产生的影响,取消每次生成新的client的低效操作,改为缓存client操作.
+	 * 
+	 */
+	@Override
+	public String keyCertPost(String request, Config config, String url) {
+		return generalPost(request, url, getHttpsClient(config));
+	}
+
+	private String generalPost(String request, String url, CloseableHttpClient httpsClient) {
+		long seq = sequence.incrementAndGet();
+		HttpPost httpPost = createHttpPost(request, url);
+		String result = "";
+		try {
+			log.info("Request:{id:" + seq + " ,url:" + url + ", body: " + request + "}");
+			result = execute(seq, httpsClient, httpPost);
+			log.info("Response:{id:" + seq + " ,url:" + url + ", body: " + result + "}");
+		} catch (ParseException e) {
+			log.error(
+					"Exception:{id:" + seq + " , message: WeChatPay 请求远程服务时发生 ParseException! " + e.getMessage() + "}",
+					e);
+		} catch (IOException e) {
+			log.error("Exception:{id:" + seq + " , message: WeChatPay 请求远程服务时发生 IOException! " + e.getMessage() + "}",
+					e);
+		}
+		return result;
+	}
+
+	private HttpPost createHttpPost(String request, String url) {
+		// 定义POST请求
+		HttpPost httpPost = new HttpPost(url);
+
+		StringEntity postEntity = new StringEntity(request, "UTF-8");
+		httpPost.addHeader("Content-Type", "text/xml");
+		httpPost.setEntity(postEntity);
+		return httpPost;
+	}
+
+	/*
+	 * @param seq 用于记录执行序列号的自增标记
+	 * 
+	 * @param httpClient 用于发送请求的传入{@link CloseableHttpClient}
+	 * 
+	 * @param httpPost
+	 */
+	private String execute(long seq, CloseableHttpClient httpClient, HttpPost httpPost)
+			throws ParseException, IOException {
+		String result;
+		// 模拟POST请求并接受服务响应
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(httpPost);
+			// 处理响应
+			HttpEntity entity = response.getEntity();
+			result = getEntity(entity);
+			return result;
+		} finally {
+			// 关闭响应
+			try {
+				if (response != null)
+					response.close();
+			} catch (IOException e) {
+				StringBuilder builder = new StringBuilder();
+				builder.append("Exception:{id:").append(seq).append(", message: WeChatPay 关闭远程服务请求时发生 IOException!--")
+						.append(e.getMessage()).append("}");
+				log.error(builder.toString(), e);
+			}
+		}
+	}
+
+	/*
+	 * @param entity
+	 * 
+	 * @return
+	 * 
+	 * @throws IOException
+	 * 
+	 * @throws ParseException
+	 */
+	private String getEntity(HttpEntity entity) throws ParseException, IOException {
+		return EntityUtils.toString(entity, "UTF-8");
+	}
+
+	/**
+	 * 当应用停止时,应调用此方法,避免由未释放资源需要释放
+	 */
+	@Override
+	public void close() throws IOException {
+		IOException ex = null;
+		try {
+			if (client != null) {
+				client.close();
+			}
+		} catch (IOException e) {
+			ex = e;
+		}
+		for (CloseableHttpClient client1 : httpsClients.values()) {
+			if (client1 != null) {
+				try {
+					client1.close();
+				} catch (IOException e) {
+					if (ex == null) {
+						ex = e;
+					}
+				}
+			}
+		}
+		if (ex != null) {
+			throw ex;
+		}
 	}
 
 }

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>cn.aposoft.ecommerce</groupId>
 		<artifactId>wechat-demo</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>wechat-jsp-web</artifactId>
 	<packaging>war</packaging>

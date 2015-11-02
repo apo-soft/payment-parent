@@ -16,7 +16,7 @@ public class DownloadBillVo implements DownloadBill {
 
 	public static DownloadBill demo() {
 		DownloadBillVo vo = new DownloadBillVo();
-		vo.bill_date = "20151028";
+		vo.bill_date = "20151030";
 		vo.bill_type = "ALL";
 		return vo;
 	}

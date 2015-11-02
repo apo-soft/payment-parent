@@ -5,6 +5,9 @@ package cn.aposoft.ecommerce.payment.wechat;
 
 import java.util.List;
 
+import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParser;
+import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserFactory;
+
 /**
  * 下载对账单响应内容
  * <p>
@@ -34,7 +37,6 @@ import java.util.List;
  * @author Jann Liu
  */
 public class DownloadBillResponse extends ResponseBase implements DownloadBillResult {
-
 	/***************************************************************/
 
 	/*
@@ -102,14 +104,20 @@ public class DownloadBillResponse extends ResponseBase implements DownloadBillRe
 	private List<String> totalItems;
 
 	private List<String[]> billItems;
+	private static final DownloadBillResultParser parser = DownloadBillResultParserFactory.getParser();
 
 	/**
 	 * 解析原始报文,分解为拆分后的对账单内容
 	 * 
-	 * @param data2
+	 * @param data
+	 *            待解析的原始数据
 	 */
 	private void parseData(String data) {
-
+		DownloadBillResult result = parser.parse(data);
+		this.headers = result.getHeaders();
+		this.billItems = result.getBillItems();
+		this.totalHeaders = result.getTotalHeaders();
+		this.totalItems = result.getTotalItems();
 	}
 
 	/**
@@ -128,9 +136,9 @@ public class DownloadBillResponse extends ResponseBase implements DownloadBillRe
 	 */
 	public void setData(final String data) {
 		this.data = data;
-		// if (data != null && !data.isEmpty()) {
-		// parseData(data);
-		// }
+		if (data != null && !data.isEmpty()) {
+			parseData(data);
+		}
 	}
 
 	/**

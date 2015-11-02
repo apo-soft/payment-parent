@@ -11,6 +11,7 @@ import java.util.Date;
 
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
@@ -20,12 +21,14 @@ import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
+	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
+	private static PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
+
 	public static void payInfo_1() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
 		OrderVo order = setValue(config, httpUtil);
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		PayResponse result = payService.preparePay(order);
 		System.out.println(result.getAppid());
 		System.out.println(result.getCode_url());
@@ -62,14 +65,8 @@ public class Test {
 	 * @author Yujinshui
 	 */
 	public static void refundTest_1() {
-
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
 		// 支付内容
 		OrderVo order = setValue(config, httpUtil);
-
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 
 		RefundVo refund = new RefundVo();
 
@@ -137,11 +134,8 @@ public class Test {
 	 * @time 2015年10月27日 下午10:40:06
 	 */
 	public static void orderQuery() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
 		OrderQueryVo query = setQuery();
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		OrderQueryResponse outquery = payService.query(query);
 		System.out.println("订单信息展示：");
 		System.out.println(outquery.getAppid());
@@ -169,10 +163,6 @@ public class Test {
 
 	public static void refundQuery() {
 
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		RefundQuery params = RefundQueryVo.demo();
 
 		long begin = System.currentTimeMillis();
@@ -186,10 +176,7 @@ public class Test {
 	 * 下载对账单测试用例
 	 */
 	public static void downloadBill() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		DownloadBill params = DownloadBillVo.demo();
 		long begin = System.currentTimeMillis();
 		DownloadBillResponse downloadBills = payService.downloadBill(params);
@@ -204,10 +191,8 @@ public class Test {
 		if (downloadBills.getData() == null || downloadBills.getData().isEmpty()) {
 			return;
 		}
-		char c = downloadBills.getData().charAt(0);
 
-		System.out.printf("%x\r\n%s\r\n", (int) c, downloadBills.getData().substring(1, 5));
-		System.out.println(downloadBills.getData());
+		DownloadBillResultParserTest.print(downloadBills);
 		// outputToFile(downloadBills.getData());
 	}
 
@@ -220,7 +205,6 @@ public class Test {
 	public static void outputToFile(String data) {
 		File file = new File("downloadbill-response.txt");
 		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");) {
-
 			writer.write(data);
 			writer.flush();
 		} catch (IOException e) {
@@ -237,13 +221,26 @@ public class Test {
 	}
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
+
 		payInfo_1();// 支付测试
+
+		// payInfo_1();// 支付测试
+
 		// refundTest_1();//退款测试
 		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
+
 		createNotificationResultXmlTest();
 		//downloadBill(); // 对账单测试
+
+		downloadBill(); // 对账单测试
+
+		try {
+			payService.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Closeable;
+
 /**
  * 主动向微信支付服务器发送各种订单业务相关请求
  * {@link https://pay.weixin.qq.com/wiki/doc/api/index.html}
@@ -20,7 +22,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * @author Jann Liu
  * 
  */
-public interface PaymentService {
+public interface PaymentService extends Closeable {
 
 	/**
 	 * 统一下单 {@code preparePay(Order order)}完成向微信支付服务器发送预处理订单并处理响应结果

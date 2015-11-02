@@ -266,13 +266,39 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	@Override
 	public Notification parseNotificationXml(String xml) {
+
 		try {
 			Map<String, String> resultMap = XMLUtil.getMapFromXML(xml);
-			return convertToNotification(resultMap);
+			Notification origin = convertToNotification(resultMap);
+			Notification result = setNotificationResult(origin);
+			return result;
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error(e.getMessage(), e);
 			return null;
 		}
+	}
+
+	/**
+	 * 校验通知消息检验结果
+	 * 
+	 * @param origin
+	 *            原始的通知消息对象
+	 * @return 附加了通知返回结果的Notification
+	 */
+	private Notification setNotificationResult(Notification origin) {
+		if (origin == null || origin.getResult_code() == null) {
+			return defaultNullResponse();
+		} else {
+			origin.setResult(NotificationResult.successResult());
+			return origin;
+		}
+	}
+
+	private Notification defaultNullResponse() {
+		Notification notification = new Notification();
+		NotificationResult result = NotificationResult.nullResult();
+		notification.setResult(result);
+		return notification;
 	}
 
 	/**
