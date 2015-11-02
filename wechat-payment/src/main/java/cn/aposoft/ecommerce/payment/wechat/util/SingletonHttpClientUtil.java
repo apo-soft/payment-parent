@@ -35,12 +35,14 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
  */
 
 public class SingletonHttpClientUtil implements HttpClientUtil {
+	// 单一主机最大并发连接数:默认为2,这里增大到200,避免高并发时,因此导致支付阻塞.
+	private static final int CONNECTIONS_PER_ROUTE = 200;
 	private AtomicLong sequence = new AtomicLong(0L);
 	public static Logger log = Logger.getLogger(SingletonHttpClientUtil.class);
 	private static SingletonHttpClientUtil instance = new SingletonHttpClientUtil();
 
 	// 用于发送普通http连接的client
-	private CloseableHttpClient client = HttpClients.createDefault();
+	private CloseableHttpClient client = createHttpClient();
 	// 用于发送https带有证书的连接client
 	private final ConcurrentMap<String, CloseableHttpClient> httpsClients = new ConcurrentHashMap<String, CloseableHttpClient>();
 
@@ -49,6 +51,67 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 
 	public static final HttpClientUtil getInstance() {
 		return instance;
+	}
+
+	private static CloseableHttpClient createHttpClient() {
+		// 因微信的服务器响应延时大约为500ms~~1.5s,因此有必要增加单一点对点最大连接数,在下一步优化中应放入配置文件里
+		CloseableHttpClient client = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
+				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).build();
+		return client;
+	}
+
+	/**
+	 * 返回配置微信商户的p12文件的加密连接客户端
+	 * 
+	 * @param config
+	 *            微信商户的mchId和加密秘钥文件位置
+	 * @return 加密客户端,当加载配置失败时,返回null.
+	 */
+	private CloseableHttpClient getHttpsClient(Config config) {
+		CloseableHttpClient httpsClient = httpsClients.get(config.mchId());
+		if (httpsClient == null) {
+			try {
+				httpsClient = httpsClients.putIfAbsent(config.mchId(), getPkcs12Client(config));
+				if (httpsClient == null) {
+					httpsClient = httpsClients.get(config.mchId());
+				}
+			} catch (Exception e) {
+				log.error("当执行微信交易过程中,尝试创建客户端失败,请检查.", e);
+			}
+		}
+		return httpsClient;
+	}
+
+	/**
+	 * 
+	 * 创建配置了双向证书认证的https请求客户端
+	 * 
+	 * @param config
+	 *            带有商户id和证书位置的配置信息
+	 * @return 添加微信支付商户安全认证信息的http请求客户端
+	 * @throws Exception
+	 *             配置种可能产生多种异常.
+	 * @author Yujinshui
+	 * @bugfix Jann Liu 2015/10/25 修改在client中被deprecated的方法,使用官方推荐的标准方法
+	 */
+	private static CloseableHttpClient getPkcs12Client(Config config) throws Exception {
+		KeyStore keyStore = KeyStore.getInstance("PKCS12");
+		FileInputStream instream = new FileInputStream(new File(config.pkcs12()));
+		try {
+			keyStore.load(instream, config.mchId().toCharArray());
+		} finally {
+			instream.close();
+		}
+		// Trust own CA and all self-signed certs
+		// 私有key在微信中默认以mchId作为密钥
+		SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.mchId().toCharArray()).build();
+		// Allow TLSv1 protocol only
+		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
+				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+		CloseableHttpClient httpclient = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
+				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).setSSLSocketFactory(sslsf).build();
+
+		return httpclient;
 	}
 
 	/**
@@ -78,6 +141,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	 * @param request
 	 *            待发送的xml字符串信息
 	 * @param config
+	 *            商户配置信息
 	 * @param url
 	 *            请求的url地址
 	 * @return 执行退款请求,并返回响应字符串
@@ -174,58 +238,6 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		// e.printStackTrace();
 		// return null;
 		// }
-	}
-
-	/**
-	 * 返回配置微信商户的p12文件的加密连接客户端
-	 * 
-	 * @param config
-	 *            微信商户的mchId和加密秘钥文件位置
-	 * @return 加密客户端,当加载配置失败时,返回null.
-	 */
-	private CloseableHttpClient getHttpsClient(Config config) {
-		CloseableHttpClient httpsClient = httpsClients.get(config.mchId());
-		if (httpsClient == null) {
-			try {
-				httpsClient = httpsClients.putIfAbsent(config.mchId(), getPkcs12Client(config));
-				if (httpsClient == null) {
-					httpsClient = httpsClients.get(config.mchId());
-				}
-			} catch (Exception e) {
-				log.error("当执行微信交易过程中,尝试创建客户端失败,请检查.", e);
-			}
-		}
-		return httpsClient;
-	}
-
-	/**
-	 * 
-	 * 创建配置了双向证书认证的https请求客户端
-	 * 
-	 * @param config
-	 *            带有商户id和证书位置的配置信息
-	 * @return 添加微信支付商户安全认证信息的http请求客户端
-	 * @throws Exception
-	 *             配置种可能产生多种异常.
-	 * @author Yujinshui
-	 * @bugfix Jann Liu 2015/10/25 修改在client中被deprecated的方法,使用官方推荐的标准方法
-	 */
-	private static CloseableHttpClient getPkcs12Client(Config config) throws Exception {
-		KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		FileInputStream instream = new FileInputStream(new File(config.pkcs12()));
-		try {
-			keyStore.load(instream, config.mchId().toCharArray());
-		} finally {
-			instream.close();
-		}
-		// Trust own CA and all self-signed certs
-		SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, config.mchId().toCharArray()).build();
-		// Allow TLSv1 protocol only
-		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
-				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
-
-		return httpclient;
 	}
 
 }
