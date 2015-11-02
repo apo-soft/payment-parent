@@ -125,4 +125,11 @@ public class NotificationResult {
 		return result;
 	}
 
+	public static NotificationResult errorResult(Throwable e) {
+		NotificationResult result = new NotificationResult();
+		result.return_code = "FAIL";
+		result.return_msg = "解析时发生错误:" + e.getMessage();
+		result.changed = true;
+		return result;
+	}
 }

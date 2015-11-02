@@ -266,7 +266,6 @@ public class SimpleEntityUtil implements EntityUtil {
 	 */
 	@Override
 	public Notification parseNotificationXml(String xml) {
-
 		try {
 			Map<String, String> resultMap = XMLUtil.getMapFromXML(xml);
 			Notification origin = convertToNotification(resultMap);
@@ -274,8 +273,15 @@ public class SimpleEntityUtil implements EntityUtil {
 			return result;
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error(e.getMessage(), e);
-			return null;
+			return createErrorResponse(e);
 		}
+	}
+
+	private Notification createErrorResponse(Exception e) {
+		Notification notification = new Notification();
+		NotificationResult result = NotificationResult.errorResult(e);
+		notification.setResult(result);
+		return notification;
 	}
 
 	/**
@@ -1171,14 +1177,14 @@ public class SimpleEntityUtil implements EntityUtil {
 
 	@Override
 	public String createNotificationResultXml(NotificationResult notificationResult) {
-		if(notificationResult == null){
+		if (notificationResult == null) {
 			notificationResult = new NotificationResult();
 		}
 		SortedMap<String, Object> parameters = createNotificationResultMap(notificationResult);
 		return XMLUtil.createXML(parameters);
 	}
-	
-	private SortedMap<String, Object> createNotificationResultMap(NotificationResult notificationResult){
+
+	private SortedMap<String, Object> createNotificationResultMap(NotificationResult notificationResult) {
 		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
 		parameters.put("return_code", notificationResult.getReturn_code());
 		parameters.put("return_msg", notificationResult.getReturn_msg());
