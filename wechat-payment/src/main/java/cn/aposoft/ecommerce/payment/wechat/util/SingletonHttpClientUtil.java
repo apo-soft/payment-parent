@@ -29,6 +29,9 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
 
 /**
  * 只进行post提交
+ * <p>
+ * 当应用关闭时应调用 {@code SingletonHttpClientUtil.getInstance().close();}
+ * 以释放全部client资源.
  * 
  * @author LiuJian
  *
@@ -185,6 +188,13 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		return httpPost;
 	}
 
+	/*
+	 * @param seq 用于记录执行序列号的自增标记
+	 * 
+	 * @param httpClient 用于发送请求的传入{@link CloseableHttpClient}
+	 * 
+	 * @param httpPost
+	 */
 	private String execute(long seq, CloseableHttpClient httpClient, HttpPost httpPost)
 			throws ParseException, IOException {
 		String result;
@@ -210,34 +220,46 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		}
 	}
 
-	/**
-	 * 
+	/*
 	 * @param entity
+	 * 
 	 * @return
+	 * 
 	 * @throws IOException
+	 * 
 	 * @throws ParseException
 	 */
 	private String getEntity(HttpEntity entity) throws ParseException, IOException {
 		return EntityUtils.toString(entity, "UTF-8");
-		// try (BufferedInputStream input = new
-		// BufferedInputStream(entity.getContent());
-		// BufferedOutputStream output = new BufferedOutputStream(new
-		// FileOutputStream("response.txt"));
-		// ByteArrayOutputStream byteOutput = new ByteArrayOutputStream()) {
-		//
-		// byte[] buf = new byte[1024];
-		// int length;
-		// while ((length = input.read(buf)) != -1) {
-		// output.write(buf, 0, length);
-		// byteOutput.write(buf, 0, length);
-		// }
-		// output.flush();
-		// byteOutput.flush();
-		// return byteOutput.toString("UTF-8");
-		// } catch (UnsupportedOperationException | IOException e) {
-		// e.printStackTrace();
-		// return null;
-		// }
+	}
+
+	/**
+	 * 当应用停止时,应调用此方法,避免由未释放资源需要释放
+	 */
+	@Override
+	public void close() throws IOException {
+		IOException ex = null;
+		try {
+			if (client != null) {
+				client.close();
+			}
+		} catch (IOException e) {
+			ex = e;
+		}
+		for (CloseableHttpClient client1 : httpsClients.values()) {
+			if (client1 != null) {
+				try {
+					client1.close();
+				} catch (IOException e) {
+					if (ex == null) {
+						ex = e;
+					}
+				}
+			}
+		}
+		if (ex != null) {
+			throw ex;
+		}
 	}
 
 }

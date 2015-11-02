@@ -9,6 +9,10 @@ import cn.aposoft.ecommerce.payment.wechat.RefundBill;
 import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 
 /**
+ * 实体对象测试类
+ * <p>
+ * 1. parseRefundQueryResponseXml
+ * 
  * @author Jann Liu
  *
  */
@@ -83,6 +87,9 @@ public abstract class EntityUtilTest {
 
 	protected abstract EntityUtil getUtil();
 
+	/**
+	 * 执行退款结果解析测试 {@code parseRefundQueryResponseXml}
+	 */
 	@Test
 	public void parseRefundQueryResponseXml() {
 		assertRefundQueryResponse(getParseRefundQueryResponseXml());

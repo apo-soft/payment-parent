@@ -21,12 +21,14 @@ import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
+	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+
+	private static PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
+
 	public static void payInfo_1() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
 		OrderVo order = setValue(config, httpUtil);
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		PayResponse result = payService.preparePay(order);
 		System.out.println(result.getAppid());
 		System.out.println(result.getCode_url());
@@ -63,14 +65,8 @@ public class Test {
 	 * @author Yujinshui
 	 */
 	public static void refundTest_1() {
-
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
 		// 支付内容
 		OrderVo order = setValue(config, httpUtil);
-
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 
 		RefundVo refund = new RefundVo();
 
@@ -138,11 +134,8 @@ public class Test {
 	 * @time 2015年10月27日 下午10:40:06
 	 */
 	public static void orderQuery() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
 		OrderQueryVo query = setQuery();
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		OrderQueryResponse outquery = payService.query(query);
 		System.out.println("订单信息展示：");
 		System.out.println(outquery.getAppid());
@@ -170,10 +163,6 @@ public class Test {
 
 	public static void refundQuery() {
 
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
-
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		RefundQuery params = RefundQueryVo.demo();
 
 		long begin = System.currentTimeMillis();
@@ -187,10 +176,7 @@ public class Test {
 	 * 下载对账单测试用例
 	 */
 	public static void downloadBill() {
-		HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
-		EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
-		PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 		DownloadBill params = DownloadBillVo.demo();
 		long begin = System.currentTimeMillis();
 		DownloadBillResponse downloadBills = payService.downloadBill(params);
@@ -235,6 +221,11 @@ public class Test {
 		// 下载对账单测试
 		downloadBill(); // 对账单测试
 
+		try {
+			payService.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
