@@ -189,6 +189,8 @@ public class PropertiesConfig implements Config {
 
 	/**
 	 * 读取项目配置文件参数
+	 * <p>
+	 * 采用ISO-8859-1默认字符集
 	 * 
 	 * @param fileName
 	 * @author Yujinshui

@@ -11,6 +11,7 @@ import java.util.Date;
 
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
@@ -204,10 +205,8 @@ public class Test {
 		if (downloadBills.getData() == null || downloadBills.getData().isEmpty()) {
 			return;
 		}
-		char c = downloadBills.getData().charAt(0);
 
-		System.out.printf("%x\r\n%s\r\n", (int) c, downloadBills.getData().substring(1, 5));
-		System.out.println(downloadBills.getData());
+		DownloadBillResultParserTest.print(downloadBills);
 		// outputToFile(downloadBills.getData());
 	}
 
@@ -220,7 +219,6 @@ public class Test {
 	public static void outputToFile(String data) {
 		File file = new File("downloadbill-response.txt");
 		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");) {
-
 			writer.write(data);
 			writer.flush();
 		} catch (IOException e) {
@@ -230,12 +228,12 @@ public class Test {
 
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
-		payInfo_1();// 支付测试
+		// payInfo_1();// 支付测试
 		// refundTest_1();//退款测试
 		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
-		// downloadBill(); // 对账单测试
+		downloadBill(); // 对账单测试
 
 	}
 

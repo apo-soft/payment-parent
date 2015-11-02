@@ -3,6 +3,7 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 	private static final Logger logger = Logger.getLogger(DownloadBillResultParserImpl.class);
 
 	/**
-	 * 
+	 * 解析对账单报文
 	 */
 	@Override
 	public DownloadBillResult parse(String data) {
@@ -26,7 +27,7 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 		String[] lines = splitRawText(data);
 		int n = StateParserFactory.getParser().parse(0, lines, result);
 		if (n < lines.length) {
-			logger.warn("报文解析未完成.");
+			logger.warn("报文解析未正确完成.");
 		}
 		return result;
 	}
@@ -43,9 +44,27 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 		ItemHeader, Item, TotalHeader, Total
 	}
 
+	/**
+	 * 构建文本解析器
+	 * 
+	 * @author Jann Liu
+	 *
+	 */
 	public static class StateParserFactory {
 		public static final StateParser getParser() {
-			return null;
+			// TotalItemParser
+
+			TotalItemParser totalItemParser = new TotalItemParser();
+			// TotalHeaderParser
+			TotalHeaderParser totalHeaderParser = new TotalHeaderParser();
+			totalHeaderParser.setNext(totalItemParser);
+			// ItemParser
+			ItemParser itemParser = new ItemParser();
+			itemParser.setNext(totalHeaderParser);
+			// ItemHeaderParser
+			ItemHeaderParser itemHeaderParser = new ItemHeaderParser();
+			itemHeaderParser.setNext(itemParser);
+			return itemHeaderParser;
 		}
 	}
 
@@ -72,7 +91,7 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 	 * @author Jann Liu
 	 *
 	 */
-	public static abstract class AbstractStateParser implements StateParser {
+	static abstract class AbstractStateParser implements StateParser {
 		private StateParser next;
 
 		@Override
@@ -153,11 +172,110 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 			for (; i < lines.length; i++) {
 				if (isItem(lineNum, lines[i])) {
 					result.billItems.add(splitItem(lines[i]));
+				} else {
+					break;
 				}
 			}
 			nextLineNum = i;
+			if (nextLineNum < lines.length && getNext() != null) {
+				return getNext().parse(nextLineNum, lines, result);
+			} else {
+				return nextLineNum;
+			}
+		}
 
-			return 0;
+		private boolean isItem(int lineNum, String text) {
+			return text != null && text.startsWith("`");
+		}
+
+		private String[] splitItem(String text) {
+			String[] arr = text.split("(^`|,`)");
+			if (arr.length > 0) {
+				return Arrays.copyOfRange(arr, 1, arr.length);
+			} else {
+				return arr;
+			}
+		}
+
+	}
+
+	/**
+	 * 数据头解析
+	 * 
+	 * @author Jann Liu
+	 *
+	 */
+	public static class TotalHeaderParser extends AbstractStateParser implements StateParser {
+		@Override
+		public State getState() {
+			return State.ItemHeader;
+		}
+
+		/**
+		 * 必须 lineNum==0 ,处理明细标题行
+		 */
+		@Override
+		public int parse(int lineNum, String[] lines, DownloadBillResultImpl result) {
+			int nextLineNum = lineNum;
+			String src = lines[lineNum];
+			if (isTotalHeader(lineNum, src)) {
+				final List<String> totalHeader = parseItemHeader(src);
+				result.totalHeaders = totalHeader;
+				nextLineNum++;
+			}
+			if (getNext() != null) {
+				return getNext().parse(nextLineNum, lines, result);
+			} else {
+				return nextLineNum;
+			}
+		}
+
+		// 解析报文头
+		private List<String> parseItemHeader(String src) {
+			String temp = src.replace("\ufeff", "");
+			String[] headers = temp.split(",");
+			return Arrays.asList(headers);
+		}
+
+		// 判定是否为TotalHeader
+		boolean isTotalHeader(int lineNum, String line) {
+			return line != null && !line.startsWith("`");
+		}
+
+	}
+
+	/**
+	 * Item集合的解析类
+	 * 
+	 * @author Jann Liu
+	 *
+	 */
+	public static class TotalItemParser extends AbstractStateParser implements StateParser {
+
+		@Override
+		public State getState() {
+			return State.Total;
+		}
+
+		@Override
+		public int parse(int lineNum, String[] lines, DownloadBillResultImpl result) {
+			int nextLineNum = lineNum;
+			int i = lineNum;
+			for (; i < lines.length; i++) {
+				if (isItem(lineNum, lines[i])) {
+					String[] totalItem = splitItem(lines[i]);
+					List<String> totalItemList = Arrays.asList(totalItem);
+					result.totalItems = totalItemList;
+				} else {
+					break;
+				}
+			}
+			nextLineNum = i;
+			if (nextLineNum < lines.length && getNext() != null) {
+				return getNext().parse(nextLineNum, lines, result);
+			} else {
+				return nextLineNum;
+			}
 		}
 
 		private boolean isItem(int lineNum, String text) {
@@ -186,7 +304,7 @@ public class DownloadBillResultParserImpl implements DownloadBillResultParser {
 		private List<String> headers;
 		private List<String> totalHeaders;
 		private List<String> totalItems;
-		private List<String[]> billItems;
+		private List<String[]> billItems = new ArrayList<String[]>();
 
 		@Override
 		public List<String> getHeaders() {

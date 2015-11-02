@@ -104,4 +104,20 @@ public class NotificationResult {
 		return xml;
 	}
 
+	public static NotificationResult nullResult() {
+		NotificationResult result = new NotificationResult();
+		result.return_code = "FAIL";
+		result.return_msg = "解析响应报文时发生错误,无法读取报文内容.";
+		result.changed = true;
+		return result;
+	}
+
+	public static NotificationResult successResult() {
+		NotificationResult result = new NotificationResult();
+		result.return_code = "SUCCESS";
+		result.return_msg = "OK";
+		result.changed = true;
+		return result;
+	}
+
 }
