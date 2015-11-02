@@ -93,7 +93,6 @@ public class NotificationResult {
 	 * 创建xml缓存
 	 */
 	private void createXml() {
-		//xml = ""; // TODO 实现方法
 		xml = entityUtil.createNotificationResultXml(this);
 		changed = false;
 	}
