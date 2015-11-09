@@ -1,0 +1,29 @@
+﻿﻿本样例包含对账单正确和错误的响应报文
+--正确的报文
+交易时间,公众账号ID,商户号,子商户号,设备号,微信订单号,商户订单号,用户标识,交易类型,交易状态,付款银行,货币种类,总金额,企业红包金额,微信退款单号,商户退款单号,退款金额,企业红包退款金额,退款类型,退款状态,商品名称,商户数据包,手续费,费率
+`2015-10-28 13:52:05,`123,`123,`0,`,`123,`123,`123,`NATIVE,`SUCCESS,`CFT,`CNY,`0.88,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.01000,`0.60%
+`2015-10-28 14:26:35,`123,`123,`0,`,`123,`124,`124,`NATIVE,`SUCCESS,`CFT,`CNY,`0.17,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.00000,`0.80%
+`2015-10-28 14:31:57,`123,`123,`0,`,`123,`125,`125,`NATIVE,`SUCCESS,`CFT,`CNY,`0.17,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.00000,`0.80%
+`2015-10-28 14:32:37,`123,`123,`0,`,`123,`126,`126,`NATIVE,`SUCCESS,`CFT,`CNY,`0.17,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.00000,`0.80%
+`2015-10-28 14:33:10,`123,`123,`0,`,`123,`127,`127,`NATIVE,`SUCCESS,`CFT,`CNY,`0.17,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.00000,`0.80%
+`2015-10-28 14:34:34,`123,`123,`0,`,`123,`128,`128,`NATIVE,`SUCCESS,`CFT,`CNY,`0.17,`0.00,`0,`0,`0,`0,`,`,`Hermes Perfume,`,`0.00000,`0.80%
+总交易单数,总交易额,总退款金额,总企业红包退款金额,手续费总金额
+`6,`1.73,`0.00,`0.00,`0.01000
+--正确报文结束
+
+--错误报文-1 invalid bill_date
+<xml><return_code><![CDATA[FAIL]]></return_code>
+<return_msg><![CDATA[invalid bill_date]]></return_msg>
+</xml>
+--错误报文结束
+--错误报文-2 invalid bill_type
+<xml><return_code><![CDATA[FAIL]]></return_code>
+<return_msg><![CDATA[invalid bill_type]]></return_msg>
+</xml>
+--错误报文结束
+
+--错误报文-3 No Bill Exist
+<xml><return_code><![CDATA[FAIL]]></return_code>
+<return_msg><![CDATA[No Bill Exist]]></return_msg>
+</xml>
+--错误报文结束

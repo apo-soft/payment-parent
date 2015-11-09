@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +24,7 @@ public class XMLUtil {
 	 * 将返回的字符串xml进行map解析
 	 * 
 	 * @param xmlString
-	 * @return
+	 * @return 返回xml字符串解析生成的Map对象
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
@@ -59,16 +57,13 @@ public class XMLUtil {
 	 * 创建xml发送串
 	 * 
 	 * @param parameters
-	 * @return
+	 *            传入的报文内容参数Map
+	 * @return 发送报文的xml字符串形式
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String createXML(SortedMap<String, Object> parameters) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append("<xml>");
-		Set<Entry<String, Object>> list = parameters.entrySet();
-		Iterator<Entry<String, Object>> it = list.iterator();
-		while (it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
+		for (Entry<String, Object> entry : parameters.entrySet()) {
 			String k = (String) entry.getKey();
 			String v = String.valueOf(entry.getValue());
 			if (!"null".equals(v) && !"".equals(v)) {

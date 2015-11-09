@@ -20,10 +20,15 @@ public class Signature {
 	 * @return 签名
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String getSign(Object o, String key) throws IllegalAccessException {
+		if (o == null) {
+			throw new IllegalArgumentException("签名数据对象不可以为空.");
+		}
+		if (key == null || key.isEmpty()) {
+			throw new IllegalArgumentException("签名key不能为空.");
+		}
 		ArrayList<String> list = new ArrayList<String>();
-		Class cls = o.getClass();
+		Class<?> cls = o.getClass();
 		Field[] fields = cls.getDeclaredFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
@@ -44,7 +49,20 @@ public class Signature {
 		return result;
 	}
 
+	/**
+	 * 签名算法[有问题，getDeclaredFields()会缺失内容]
+	 * 
+	 * @param o
+	 *            要参与签名的数据对象
+	 * @return 签名
+	 */
 	public static String getMapSign(Map<String, String> map, String key) {
+		if (map == null) {
+			throw new IllegalArgumentException("签名数据对象不可以为空.");
+		}
+		if (key == null || key.isEmpty()) {
+			throw new IllegalArgumentException("签名key不能为空.");
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			if (entry.getValue() != null && entry.getValue() != "") {

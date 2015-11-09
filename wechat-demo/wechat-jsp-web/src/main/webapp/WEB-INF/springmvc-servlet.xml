@@ -15,7 +15,7 @@
 	<mvc:resources mapping="/index.html" location="/" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
 	<!-- component scan regions -->
-	<context:component-scan base-package="com.habuma.spitter.mvc" />
+	<context:component-scan base-package="cn.aposoft.ecommerce.payment.wechat.demo" />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

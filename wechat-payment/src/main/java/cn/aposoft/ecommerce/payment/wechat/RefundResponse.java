@@ -1,12 +1,12 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 /**
- * 退款字段信息
+ * 退款响应报文解析结果对象
  * 
  * @author Yujinshui
  *
  */
-public class RefundResponse extends PayResponseBase {
+public class RefundResponse extends ResponseBase {
 	private String transaction_id;// 微信订单号 [是] String(28)
 	private String out_trade_no;// 商户订单号 [是] String(32)
 	private String out_refund_no;// 商户退款单号 [是] String(32)

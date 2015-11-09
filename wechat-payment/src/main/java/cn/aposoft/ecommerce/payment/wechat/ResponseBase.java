@@ -1,12 +1,12 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 /**
- * 支付，退款返回部分通用字段
+ * 支付，退款返回部分通用字段 查询xml样式 查询参数xml格式：
  * 
  * @author Yujinshui
  *
  */
-public class PayResponseBase {
+public class ResponseBase {
 
 	/**
 	 * <font color=red>必需</font>-返回状态码
@@ -42,7 +42,7 @@ public class PayResponseBase {
 	 */
 	private String result_code;
 	/**
-	 * 错误代码
+	
 	 */
 	private String err_code;
 	/**

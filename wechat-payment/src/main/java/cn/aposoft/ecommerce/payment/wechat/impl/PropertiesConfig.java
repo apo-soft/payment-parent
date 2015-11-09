@@ -22,7 +22,7 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
  * 配置文件默认名称：wechatpay.properties<br>
  * 可以指定配置文件名称
  * 
- * @author LiuJian
+ * @author Yujinshui
  */
 public class PropertiesConfig implements Config {
 	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
@@ -46,6 +46,12 @@ public class PropertiesConfig implements Config {
 	 * 商户ID
 	 */
 	private String MCH_ID = null;
+
+	/**
+	 * 用户标识
+	 */
+	private String OPENID = null;
+
 	/**
 	 * 微信支付-请求URL
 	 */
@@ -54,11 +60,39 @@ public class PropertiesConfig implements Config {
 	 * 退款-请求URL
 	 */
 	private String REFUND_URL = null;
+	/**
+	 * 关闭订单URL
+	 */
+	private String CLOSE_ORDER_URL = null;
+	/**
+	 * 支付成功提醒反馈URL地址
+	 */
+	private String NOTIFY_URL;
+
+	/**
+	 * 退款查询URL
+	 */
+	private String REFUND_QUERY_URL;
+
+	/**
+	 * 下载订单对账单地址
+	 */
+	private String DOWNLOAD_BILL_URL;
 
 	/**
 	 * 配置参数赋值
+	 * <p>
+	 * [商户APPID]APPID<br>
+	 * [商户ID]MCH_ID<br>
+	 * [用户标识]OPENID<br>
+	 * [商户KEY]KEY<br>
+	 * [微信支付-请求URL]URL<br>
+	 * [退款-请求URL]REFUND_URL<br>
+	 * [订单查询-请求URL]ORDER_URL<br>
+	 * [认证证书路径]PKCS12
 	 * 
 	 * @param p
+	 *            属性信息
 	 * @author Yujinshui
 	 * @time 2015年10月25日 上午11:57:18
 	 */
@@ -67,9 +101,14 @@ public class PropertiesConfig implements Config {
 		MCH_ID = p.getProperty("MCH_ID");
 		KEY = p.getProperty("KEY");
 		URL = p.getProperty("URL");
+		NOTIFY_URL = p.getProperty("NOTIFY_URL");
 		REFUND_URL = p.getProperty("REFUND_URL");
-		PKCS12 = p.getProperty("PKCS12");
 		ORDER_URL = p.getProperty("ORDER_URL");
+		CLOSE_ORDER_URL = p.getProperty("CLOSE_ORDER_URL");
+		REFUND_QUERY_URL = p.getProperty("REFUND_QUERY_URL");
+		DOWNLOAD_BILL_URL = p.getProperty("DOWNLOAD_BILL_URL");
+		PKCS12 = p.getProperty("PKCS12");
+		OPENID = p.getProperty("OPENID");
 	}
 
 	/**
@@ -77,6 +116,7 @@ public class PropertiesConfig implements Config {
 	 * <p>
 	 * [商户APPID]APPID<br>
 	 * [商户ID]MCH_ID<br>
+	 * [用户标识]OPENID<br>
 	 * [商户KEY]KEY<br>
 	 * [微信支付-请求URL]URL<br>
 	 * [退款-请求URL]REFUND_URL<br>
@@ -86,11 +126,17 @@ public class PropertiesConfig implements Config {
 	public PropertiesConfig(Map<String, String> map) {
 		APPID = map.get("APPID");
 		MCH_ID = map.get("MCH_ID");
+		OPENID = map.get("OPENID");
 		KEY = map.get("KEY");
 		URL = map.get("URL");
+		NOTIFY_URL = map.get("NOTIFY_URL");
 		REFUND_URL = map.get("REFUND_URL");
-		PKCS12 = map.get("PKCS12");
 		ORDER_URL = map.get("ORDER_URL");
+		CLOSE_ORDER_URL = map.get("CLOSE_ORDER_URL");
+		REFUND_QUERY_URL = map.get("REFUND_QUERY_URL");
+		DOWNLOAD_BILL_URL = map.get("DOWNLOAD_BILL_URL");
+		PKCS12 = map.get("PKCS12");
+
 	}
 
 	public PropertiesConfig(String fileName) {
@@ -98,29 +144,31 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
-	 * 默认配置文件
+	 * 通过读取默认配置文件加载微信支付的商户及系统配置信息
+	 * <p>
+	 * 读取默认配置文件 : classpath:wechatpay.properties
 	 */
 	public PropertiesConfig() {
 		getProperties("wechatpay.properties");
 	}
 
-	public PropertiesConfig(String fileName, String encoding) {
-		getFileProperties(fileName, encoding);
-	}
-
 	/**
-	 * 读取指定位置配置文件
+	 * 通过读取指定位置配置文件加载微信支付的商户及系统配置信息
 	 * <p>
 	 * 用于开发人员进行测试使用，以防误操作上传真实配置文件内容
 	 * 
 	 * @param fileName
-	 *            文件路径+名称
+	 *            文件路径+名称[E:/wechat/wechatpay.properties]
 	 * @param encoding
 	 *            读取编码
 	 * @author Yujinshui
 	 * @time 2015年10月25日 上午11:52:08
 	 */
-	public void getFileProperties(String fileName, String encoding) {
+	public PropertiesConfig(String fileName, String encoding) {
+		getFileProperties(fileName, encoding);
+	}
+
+	private void getFileProperties(String fileName, String encoding) {
 		InputStreamReader reader = null;
 		try {
 			reader = new InputStreamReader(new FileInputStream(fileName), encoding);
@@ -141,11 +189,13 @@ public class PropertiesConfig implements Config {
 
 	/**
 	 * 读取项目配置文件参数
+	 * <p>
+	 * 采用ISO-8859-1默认字符集
 	 * 
 	 * @param fileName
 	 * @author Yujinshui
 	 */
-	public void getProperties(String fileName) {
+	private void getProperties(String fileName) {
 		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
 		Properties p = new Properties();
 		try {
@@ -196,7 +246,20 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
+	 * 用户标识
+	 * <p>
+	 * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
+	 * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
+	 */
+	@Override
+	public String openid() {
+		return OPENID;
+	}
+
+	/**
 	 * 微信支付URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#url()
 	 */
 	@Override
 	public String url() {
@@ -204,7 +267,19 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
+	 * 订单交易返回URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#notifyUrl()
+	 */
+	@Override
+	public String notifyUrl() {
+		return NOTIFY_URL;
+	}
+
+	/**
 	 * 退款-请求URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#refundUrl()
 	 */
 	@Override
 	public String refundUrl() {
@@ -214,11 +289,41 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 订单查询-请求URL
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.Config#orderUrl()
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#orderQueryUrl()
 	 */
 	@Override
-	public String orderUrl() {
+	public String orderQueryUrl() {
 		return ORDER_URL;
+	}
+
+	/**
+	 * 关闭订单URL
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String closeOrderUrl() {
+		return CLOSE_ORDER_URL;
+	}
+
+	/**
+	 * 下载订单对账单地址
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String downloadBillUrl() {
+		return DOWNLOAD_BILL_URL;
+	}
+
+	/**
+	 * 退款查询地址
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.wechat.Config#closeOrderUrl()
+	 */
+	@Override
+	public String refundQueryUrl() {
+		return REFUND_QUERY_URL;
 	}
 
 }

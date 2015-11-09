@@ -3,14 +3,6 @@ package cn.aposoft.ecommerce.payment.wechat;
 public class RefundVo implements Refund {
 
 	/**
-	 * <font color=red>必需</font>-公众账号ID
-	 */
-	private String appid;
-	/**
-	 * <font color=red>必需</font>-商户号
-	 */
-	private String mch_id;
-	/**
 	 * 设备号
 	 */
 	private String device_info;
@@ -29,14 +21,6 @@ public class RefundVo implements Refund {
 	private Integer refund_fee; // 退款金额
 	private String refund_fee_type; // 货币种类
 	private String op_user_id; // 操作员
-
-	public void setAppid(String appid) {
-		this.appid = appid;
-	}
-
-	public void setMch_id(String mch_id) {
-		this.mch_id = mch_id;
-	}
 
 	public void setDevice_info(String device_info) {
 		this.device_info = device_info;
@@ -76,16 +60,6 @@ public class RefundVo implements Refund {
 
 	public void setOp_user_id(String op_user_id) {
 		this.op_user_id = op_user_id;
-	}
-
-	@Override
-	public String getAppid() {
-		return appid;
-	}
-
-	@Override
-	public String getMch_id() {
-		return mch_id;
 	}
 
 	@Override

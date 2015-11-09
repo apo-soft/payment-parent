@@ -3,7 +3,9 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 import org.apache.log4j.Logger;
 
 /**
- * 工具类
+ * 工具类:
+ * <p>
+ * 1. parseNum
  * 
  * @author Yujinshui
  *
@@ -24,11 +26,12 @@ public class CommonUtil {
 			try {
 				res = Integer.parseInt(object.toString());
 			} catch (NumberFormatException e) {
-				logger.error("input object:" + object + "    数字格式转换失败，请检查输入内容是否合法");
-				e.printStackTrace();
+				logger.error("input object:" + object + "    数字格式转换失败，请检查输入内容是否合法.");
 			}
 		}
 		return res;
 	}
 
+	
+	
 }

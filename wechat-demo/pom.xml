@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cn.aposoft.ecommerce</groupId>
 		<artifactId>payment-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>wechat-demo</artifactId>
 	<name>wechat-demo</name>
@@ -16,4 +16,15 @@
 		<module>wechat-spring-controller</module>
 		<module>wechat-jsp-web</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>wechat-spring-controller</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+
+	</dependencyManagement>
 </project>

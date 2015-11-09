@@ -4,10 +4,12 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
 /**
+ * 支付响应对象
+ * 
  * @author Jann Liu
  *
  */
-public class PayResponse extends PayResponseBase {
+public class PayResponse extends ResponseBase {
 	/************ 以下字段在return_code 和result_code都为SUCCESS的时候有返回 ****************/
 	/**
 	 * <font color=red>必需</font>-交易类型
@@ -18,7 +20,11 @@ public class PayResponse extends PayResponseBase {
 	 */
 	private String prepay_id;
 	/**
-	 * 二维码链接
+	 * 二维码链接 code_url 否 String(64)
+	 * <p>
+	 * URl：weixin://wxpay/s/An4baqw
+	 * <p>
+	 * trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
 	 */
 	private String code_url;
 
