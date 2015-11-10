@@ -219,6 +219,7 @@ public class Test {
 		String xml = notificationResult.toXml();
 		System.out.println(xml);
 	}
+	
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
