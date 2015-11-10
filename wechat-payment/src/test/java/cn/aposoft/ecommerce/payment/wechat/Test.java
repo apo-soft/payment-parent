@@ -39,10 +39,9 @@ public class Test {
 
 	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
 		OrderVo order = new OrderVo();
-		order.setBody("Ipad mini  16G  白色1023_2");
+		order.setBody("支付,`测试2`");
 		order.setGoods_tag("no");
-		order.setNotify_url("http://shuijiayou.tunnel.mobi/count/pay/paySuccess");
-		order.setOut_trade_no("20151027_1");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151105_3");// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
 		order.setTotal_fee(10);
@@ -74,8 +73,8 @@ public class Test {
 
 		refund.setNonce_str("1098415178");
 		refund.setOp_user_id("op_user_id 操作员 于津水");
-		refund.setOut_refund_no("1002240240201510251334363255");// 退款单号（支付单号）
-		refund.setOut_trade_no("20151025_1");
+		refund.setOut_refund_no("1010090240201511051464976612");// 退款单号（支付单号）
+		refund.setOut_trade_no("20151105_3");
 		refund.setRefund_fee(order.getTotal_fee());
 		refund.setRefund_fee_type("CNY");
 		refund.setTotal_fee(order.getTotal_fee());
@@ -85,6 +84,7 @@ public class Test {
 		RefundResponse result = payService.refund(refund);
 		System.out.println(result.getReturn_code());
 		System.out.println(result.getReturn_msg());
+		System.out.println(result.getOut_trade_no());
 		System.out.println(result.getErr_code());
 		System.out.println(result.getErr_code_des());
 
@@ -212,30 +212,25 @@ public class Test {
 		}
 	}
 
-	public static void createNotificationResultXmlTest(){
+	public static void createNotificationResultXmlTest() {
 		NotificationResult notificationResult = new NotificationResult();
 		notificationResult.setReturn_code("SUCCESS");
 		notificationResult.setReturn_msg("OK");
 		String xml = notificationResult.toXml();
 		System.out.println(xml);
 	}
-	
+
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-		payInfo_1();// 支付测试
-
 		// payInfo_1();// 支付测试
-
-		// refundTest_1();//退款测试
+		refundTest_1();// 退款测试
 		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 
-		createNotificationResultXmlTest();
-		//downloadBill(); // 对账单测试
-
-		downloadBill(); // 对账单测试
+		// createNotificationResultXmlTest();
+		// downloadBill(); // 对账单测试
 
 		try {
 			payService.close();

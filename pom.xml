@@ -18,14 +18,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.group>org.springframework</spring.group>
-		<spring.version>3.2.14.RELEASE</spring.version>
+		<spring.version>3.2.15.RELEASE</spring.version>
 		<javax.inject.version>1</javax.inject.version>
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<org.aspectj.version>1.8.6</org.aspectj.version>
+		<!-- json 工具版本 -->
+		<com.alibaba.fastjson.version>1.2.7</com.alibaba.fastjson.version>
 	</properties>
 	<modules>
 		<module>wechat-payment</module>
 		<module>wechat-demo</module>
+		<module>alipay-payment</module>
 	</modules>
 
 	<dependencyManagement>
@@ -139,6 +142,11 @@
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.17</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${com.alibaba.fastjson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
