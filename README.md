@@ -1,5 +1,8 @@
 # payment-parent
 支付项目
+子项:支付宝支付项目 V1.0
+完成支付宝项目的多个业务接口,目前在开发中
+
 子项:微信支付项目 V1.0
 系统主要由 cn.aposoft.ecommerce.payment.wechat.PaymentService接口的具体实现来完成微信支付相关的主要功能.
 当前提供6个基本方法:
