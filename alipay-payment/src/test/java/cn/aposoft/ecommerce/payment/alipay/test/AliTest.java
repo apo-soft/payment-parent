@@ -6,7 +6,7 @@ import java.util.List;
 import cn.aposoft.ecommerce.payment.alipay.config.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.alipay.inter.Config;
 import cn.aposoft.ecommerce.payment.alipay.util.JsonUtil;
-import cn.aposoft.ecommerce.payment.alipay.util.UtilDate;
+import cn.aposoft.ecommerce.payment.alipay.util.DateUtil;
 import cn.aposoft.ecommerce.payment.alipay.vo.GoodsDetail;
 import cn.aposoft.ecommerce.payment.alipay.vo.PayRequest;
 import cn.aposoft.ecommerce.payment.alipay.vo.RequestBase;
@@ -25,7 +25,7 @@ public class AliTest {
 		base.setApp_id(config.appid());
 		base.setCharset(config.charset());
 		base.setSign_type(config.sign_type());
-		base.setTimestamp(UtilDate.getDateFormatter());
+		base.setTimestamp(DateUtil.getDateFormatter());
 		base.setVersion(config.version());
 		base.setNotify_url(config.notify_url());
 		base.setSign(
