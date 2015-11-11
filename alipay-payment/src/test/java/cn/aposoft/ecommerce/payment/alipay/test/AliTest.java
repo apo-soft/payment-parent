@@ -14,10 +14,11 @@ import cn.aposoft.ecommerce.payment.alipay.vo.RequestBase;
 public class AliTest {
 
 	Config config = new PropertiesConfig("E:/environments/pay/ali/alipay.properties", "utf-8");
+	Config configProject = new PropertiesConfig();
 
 	public void config() {
 
-		System.out.println(config);
+		System.out.println(configProject);
 
 	}
 
@@ -62,8 +63,8 @@ public class AliTest {
 
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
-		// ali.config();
-		ali.voTest();
+		 ali.config();
+//		ali.voTest();
 	}
 
 }
