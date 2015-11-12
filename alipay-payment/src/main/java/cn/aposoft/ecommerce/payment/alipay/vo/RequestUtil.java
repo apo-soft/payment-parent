@@ -6,7 +6,7 @@ package cn.aposoft.ecommerce.payment.alipay.vo;
  * @author Yujinshui
  *
  */
-public class RequestBase {
+public class RequestUtil {
 	/**
 	 * 开发者的AppId*
 	 * <p>

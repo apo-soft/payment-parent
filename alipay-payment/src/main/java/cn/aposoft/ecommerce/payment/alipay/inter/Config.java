@@ -111,4 +111,12 @@ public interface Config {
 	 * @time 2015年11月11日 上午10:49:32
 	 */
 	String log_path();
+	
+	/**
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月11日 下午7:55:42
+	 */
+	String qr_pay_mode();
 }

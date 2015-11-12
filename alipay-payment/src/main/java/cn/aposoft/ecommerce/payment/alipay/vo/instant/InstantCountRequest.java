@@ -23,7 +23,7 @@ package cn.aposoft.ecommerce.payment.alipay.vo.instant;
  * @author Yujinshui
  *
  */
-public class InstantCount {
+public class InstantCountRequest {
 	/***** 基本参数 ***/
 	/**
 	 * 接口名称 *
@@ -100,7 +100,7 @@ public class InstantCount {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	private float total_fee;
+	private double total_fee;
 	/**
 	 * 卖家支付宝用户号 *
 	 * <p>
@@ -147,14 +147,14 @@ public class InstantCount {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	private float price;
+	private double price;
 	/**
 	 * 购买数量
 	 * <p>
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	private float quantity;
+	private double quantity;
 	/**
 	 * 商品描述
 	 * <p>
@@ -494,7 +494,8 @@ public class InstantCount {
 	/**
 	 * 支付类型 *
 	 * <p>
-	 * 默认值为：1（商品购买）。注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
+	 * 默认值为：1（商品购买）。<br>
+	 * 注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
 	 * evoucheprod_evouche_id）参数名和参数值。
 	 */
 	public String getPayment_type() {
@@ -504,7 +505,8 @@ public class InstantCount {
 	/**
 	 * 支付类型 *
 	 * <p>
-	 * 默认值为：1（商品购买）。注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
+	 * 默认值为：1（商品购买）。<br>
+	 * 注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
 	 * evoucheprod_evouche_id）参数名和参数值。
 	 */
 	public void setPayment_type(String payment_type) {
@@ -516,7 +518,7 @@ public class InstantCount {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	public float getTotal_fee() {
+	public double getTotal_fee() {
 		return total_fee;
 	}
 
@@ -525,7 +527,7 @@ public class InstantCount {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	public void setTotal_fee(float total_fee) {
+	public void setTotal_fee(double total_fee) {
 		this.total_fee = total_fee;
 	}
 
@@ -535,7 +537,8 @@ public class InstantCount {
 	 * seller_id是以2088开头的纯16位数字。<br>
 	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
 	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
-	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。
+	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
+	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
 	public String getSeller_id() {
 		return seller_id;
@@ -547,7 +550,8 @@ public class InstantCount {
 	 * seller_id是以2088开头的纯16位数字。<br>
 	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
 	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
-	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。
+	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
+	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
 	public void setSeller_id(String seller_id) {
 		this.seller_id = seller_id;
@@ -556,6 +560,11 @@ public class InstantCount {
 	/**
 	 * 卖家支付宝账号 *
 	 * <p>
+	 * seller_id是以2088开头的纯16位数字。<br>
+	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
+	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
+	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
+	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
 	public String getSeller_email() {
 		return seller_email;
@@ -564,6 +573,11 @@ public class InstantCount {
 	/**
 	 * 卖家支付宝账号 *
 	 * <p>
+	 * seller_id是以2088开头的纯16位数字。<br>
+	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
+	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
+	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
+	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
 	public void setSeller_email(String seller_email) {
 		this.seller_email = seller_email;
@@ -572,6 +586,10 @@ public class InstantCount {
 	/**
 	 * 卖家别名支付宝账号 *
 	 * <p>
+	 * seller_id是以2088开头的纯16位数字。<br>
+	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
+	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
+	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
 	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
 	public String getSeller_account_name() {
@@ -650,7 +668,7 @@ public class InstantCount {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
@@ -661,7 +679,7 @@ public class InstantCount {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -671,7 +689,7 @@ public class InstantCount {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
@@ -681,7 +699,7 @@ public class InstantCount {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 

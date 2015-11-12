@@ -8,7 +8,7 @@ import java.util.List;
  * @author Yujinshui
  *
  */
-public class PayRequest extends RequestBase {
+public class PayRequest extends RequestUtil {
 
 	/**
 	 * 商户订单号*

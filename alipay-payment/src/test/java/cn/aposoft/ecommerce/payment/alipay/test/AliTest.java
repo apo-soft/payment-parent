@@ -1,70 +1,93 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.aposoft.ecommerce.payment.alipay.config.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.alipay.inter.Config;
 import cn.aposoft.ecommerce.payment.alipay.util.JsonUtil;
-import cn.aposoft.ecommerce.payment.alipay.util.DateUtil;
-import cn.aposoft.ecommerce.payment.alipay.vo.GoodsDetail;
-import cn.aposoft.ecommerce.payment.alipay.vo.PayRequest;
-import cn.aposoft.ecommerce.payment.alipay.vo.RequestBase;
+import cn.aposoft.ecommerce.payment.alipay.vo.instant.InstantCountRequest;
 
 public class AliTest {
 
 	Config config = new PropertiesConfig("E:/environments/pay/ali/alipay.properties", "utf-8");
-	Config configProject = new PropertiesConfig();
+	// Config configProject = new PropertiesConfig();
 
 	public void config() {
 
-		System.out.println(configProject);
+		System.out.println(config);
 
 	}
 
-	public void setRequest(RequestBase base) {
-		base.setApp_id(config.appid());
-		base.setCharset(config.charset());
-		base.setSign_type(config.sign_type());
-		base.setTimestamp(DateUtil.getDateFormatter());
-		base.setVersion(config.version());
-		base.setNotify_url(config.notify_url());
-		base.setSign(
-				"voYcF572mliFXgM/MFLEN1+2xVEuAFhzschcBoUEnfOWHqxcFY8DhecCKwMhHja/LzB2cUE+x09bfH4JYnMNs0A/fGAe401Llc+EBhD+Fh8kFKN1LSql/ZCGCVs0gmm/gjkBSxiSwtSC+wjmpqolU+O9UvOuFfTlaYim7EqNYmo=");
+	/**
+	 * 订单参数设置
+	 * 
+	 * @param order
+	 * @author Yujinshui
+	 * @time 2015年11月12日 上午10:44:28
+	 */
+	public void setOrder(InstantCountRequest order) {
+		order.setService("");// TODO 内容无法确定
+		order.setPartner(config.pid());
+		order.set_input_charset(config.charset());
+		order.setSign_type("MD5");
+		order.setOut_trade_no("2015-11-12_1055");
+		order.setSubject("黄金AK_47");
+		order.setPayment_type("1");
+		order.setTotal_fee(0.10);
+		// 以下参数三选一
+		order.setSeller_id(config.pid());
+		// order.setSeller_email(seller_email);
+		// order.setSeller_account_name(seller_account_name);
 	}
 
-	public void setOrder(PayRequest order) {
-		order.setOut_trade_no("1234567");
-		order.setSubject("subject");
+	/**
+	 * 订单数据转换
+	 * 
+	 * @param params
+	 * @author Yujinshui
+	 * @time 2015年11月12日 上午10:24:37
+	 */
+	public void convertOrder2Map(Map<String, String> params, InstantCountRequest order) {
+		// params.put("", order);
+		// 基本参数
+		params.put("service", order.getService());
+		params.put("partner", order.getPartner());
+		params.put("_input_charset", order.get_input_charset());
+		params.put("sign_type", order.getSign_type());
+		params.put("sign", order.getSign());// TODO 不确定目前是否需要
+		// 业务参数
+		params.put("out_trade_no", order.getOut_trade_no());
+		params.put("subject", order.getSubject());
+		params.put("payment_type", order.getPayment_type());
+		params.put("total_fee", order.getTotal_fee() + "");
+		params.put("seller_id", order.getSeller_id());
+		// params.put("seller_email", order.getSeller_email());
+		// params.put("seller_account_name", order.getSeller_account_name());
+
 	}
 
-	public void setGoodsDetail(GoodsDetail gd) {
-		gd.setGoods_id("这是商品编号");
-		gd.setGoods_name("ipad 16G");
-		gd.setPrice("12.22");
-		gd.setQuantity("1");
-	}
-
+	/**
+	 * 支付测试
+	 * 
+	 * @author Yujinshui
+	 * @time 2015年11月12日 上午10:26:23
+	 */
 	public void voTest() {
-		RequestBase base = new RequestBase();
-		PayRequest order = new PayRequest();
-		GoodsDetail gd = new GoodsDetail();
-		setRequest(base);
-		setOrder(order);
-		setGoodsDetail(gd);
-		List<GoodsDetail> list = new ArrayList<GoodsDetail>();
-		list.add(gd);
-		order.setGoods_detail(list);
+		InstantCountRequest order = new InstantCountRequest();
+		this.setOrder(order);
 
-		base.setBiz_content(order);
-		String output = JsonUtil.ObjectToJson(base);
+		Map<String, String> params = new HashMap<String, String>();
+		this.convertOrder2Map(params, order);
+
+		String output = JsonUtil.ObjectToJson(params);
 		System.out.println(output);
 	}
 
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
-		 ali.config();
-//		ali.voTest();
+		// ali.config();
+		ali.voTest();
 	}
 
 }

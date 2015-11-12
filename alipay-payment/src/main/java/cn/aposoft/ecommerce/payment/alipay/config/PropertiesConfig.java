@@ -73,6 +73,22 @@ public class PropertiesConfig implements Config {
 	 * 日志存放路径
 	 */
 	private String LOG_PATH;
+	/**
+	 * 扫码支付的方式，支持前置模式和跳转模式。
+	 * 
+	 * <pre>
+	前置模式是将二维码前置到商户的订单确认页的模式。需要商户在自己的页面中以iframe方式请求支付宝页面。具体分为以下3种：
+	
+	    0：订单码-简约前置模式，对应iframe宽度不能小于600px，高度不能小于300px；
+	    1：订单码-前置模式，对应iframe宽度不能小于300px，高度不能小于600px；
+	    3：订单码-迷你前置模式，对应iframe宽度不能小于75px，高度不能小于75px。
+	
+	跳转模式下，用户的扫码界面是由支付宝生成的，不在商户的域名下。
+	
+	    2：订单码-跳转模式
+	 * </pre>
+	 */
+	private String QR_PAY_MODE;
 
 	/**
 	 * 其他方式输入配置内容
@@ -90,6 +106,7 @@ public class PropertiesConfig implements Config {
 		ALI_PUBLIC_KEY = map.get("ALI_PUBLIC_KEY");
 		ALI_GATEWAY = map.get("ALI_GATEWAY");
 		LOG_PATH = map.get("LOG_PATH");
+		QR_PAY_MODE = map.get("QR_PAY_MODE");
 
 	}
 
@@ -181,6 +198,22 @@ public class PropertiesConfig implements Config {
 		ALI_PUBLIC_KEY = p.getProperty("ALI_PUBLIC_KEY");
 		ALI_GATEWAY = p.getProperty("ALI_GATEWAY");
 		LOG_PATH = p.getProperty("LOG_PATH");
+		QR_PAY_MODE = p.getProperty("QR_PAY_MODE");
+	}
+
+	public String toString() {
+
+		return "PRIVATE_KEY=" + PRIVATE_KEY + "\r\n"//
+				+ "KEY=" + KEY + "\r\n"//
+				+ "PID=" + PID + "\r\n"//
+				+ "APPID=" + APPID + "\r\n"//
+				+ "CHARSET=" + CHARSET + "\r\n"//
+				+ "SIGN_TYPE=" + SIGN_TYPE + "\r\n"//
+				+ "VERSION=" + VERSION + "\r\n"//
+				+ "NOTIFY_URL=" + NOTIFY_URL + "\r\n"//
+				+ "ALI_PUBLIC_KEY=" + ALI_PUBLIC_KEY + "\r\n"//
+				+ "ALI_GATEWAY=" + ALI_GATEWAY + "\r\n"//
+				+ "QR_PAY_MODE=" + QR_PAY_MODE + "\r\n";
 	}
 
 	/**
@@ -293,18 +326,27 @@ public class PropertiesConfig implements Config {
 		return LOG_PATH;
 	}
 
-	public String toString() {
+	/**
+	 * 扫码支付的方式，支持前置模式和跳转模式。
+	 * 
+	 * <pre>
+	前置模式是将二维码前置到商户的订单确认页的模式。需要商户在自己的页面中以iframe方式请求支付宝页面。具体分为以下3种：
+	
+	    0：订单码-简约前置模式，对应iframe宽度不能小于600px，高度不能小于300px；
+	    1：订单码-前置模式，对应iframe宽度不能小于300px，高度不能小于600px；
+	    3：订单码-迷你前置模式，对应iframe宽度不能小于75px，高度不能小于75px。
+	
+	跳转模式下，用户的扫码界面是由支付宝生成的，不在商户的域名下。
+	
+	    2：订单码-跳转模式
+	 * </pre>
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.alipay.inter.Config#qr_pay_mode()
+	 */
 
-		return "PRIVATE_KEY=" + PRIVATE_KEY + "\r\n"//
-				+ "KEY=" + KEY + "\r\n"//
-				+ "PID=" + PID + "\r\n"//
-				+ "APPID=" + APPID + "\r\n"//
-				+ "CHARSET=" + CHARSET + "\r\n"//
-				+ "SIGN_TYPE=" + SIGN_TYPE + "\r\n"//
-				+ "VERSION=" + VERSION + "\r\n"//
-				+ "NOTIFY_URL=" + NOTIFY_URL + "\r\n"//
-				+ "ALI_PUBLIC_KEY=" + ALI_PUBLIC_KEY + "\r\n"//
-				+ "ALI_GATEWAY=" + ALI_GATEWAY + "\r\n";
+	@Override
+	public String qr_pay_mode() {
+		return QR_PAY_MODE;
 	}
 
 }
