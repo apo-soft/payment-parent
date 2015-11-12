@@ -1,21 +1,16 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.httpclient.NameValuePair;
-
+import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
+import cn.aposoft.ecommerce.payment.alipay.SingletonHttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.config.PropertiesConfig;
-import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpProtocolHandler;
-import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpRequest;
-import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResponse;
-import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResultType;
+import cn.aposoft.ecommerce.payment.alipay.impl.PaymentServiceImpl;
+import cn.aposoft.ecommerce.payment.alipay.impl.SimpleEntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.inter.Config;
-import cn.aposoft.ecommerce.payment.alipay.sign.Signature;
-import cn.aposoft.ecommerce.payment.alipay.util.AlipayCore;
-import cn.aposoft.ecommerce.payment.alipay.util.JsonUtil;
+import cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil;
+import cn.aposoft.ecommerce.payment.alipay.inter.PaymentService;
 import cn.aposoft.ecommerce.payment.alipay.vo.instant.InstantCountRequest;
 
 public class AliTest {
@@ -36,7 +31,7 @@ public class AliTest {
 	 * @time 2015年11月12日 上午10:44:28
 	 */
 	public void setOrder(InstantCountRequest order) {
-		order.setService("alipay.acquire.precreate");//目前属于固定参数，api无相关说明
+		order.setService("alipay.acquire.precreate");// 目前属于固定参数，api无相关说明
 		order.setPartner(config.pid());//
 		order.set_input_charset(config.charset());//
 		// order.setSign_type("MD5");
@@ -75,7 +70,7 @@ public class AliTest {
 		// params.put("seller_email", order.getSeller_email());
 		// params.put("seller_account_name", order.getSeller_account_name());
 		// params.put("qr_pay_mode", order.getQr_pay_mode());
-		params.put("product_code", "QR_CODE_OFFLINE");//目前属于固定参数，api无相关说明
+		params.put("product_code", "QR_CODE_OFFLINE");// 目前属于固定参数，api无相关说明
 	}
 
 	/**
@@ -91,85 +86,13 @@ public class AliTest {
 		Map<String, String> params = new HashMap<String, String>();
 		this.convertOrder2Map(params, order);
 		System.out.println(params);
-		String output = JsonUtil.ObjectToJson(params);
-		System.out.println(output);
+		HttpClientUtil httpclient = SingletonHttpClientUtil.getInstance();
+		EntityUtil entityUtil = new SimpleEntityUtil();
 
-		String resultXml = sendRequest(params);
+		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
+		Map<String, String> result = ps.prepareMap(params);
 
-		System.out.println(resultXml);
-	}
-
-	/**
-	 * 发送请求
-	 * 
-	 * @param params
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月12日 上午11:29:42
-	 */
-	public String sendRequest(Map<String, String> params) {
-		params = createMapRequest(params);
-		System.out.println("\n======AliPay 请求统一下单 开始: 上行======\n");
-		long start = System.currentTimeMillis();
-		HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
-		HttpRequest request = new HttpRequest(HttpResultType.BYTES);
-		// 设置编码集
-		request.setCharset(config.charset());
-		request.setParameters(generatNameValuePair(params));
-		request.setUrl(config.ali_gateway() + "?_input_charset=" + config.charset());
-		HttpResponse response = null;
-		try {
-			response = httpProtocolHandler.execute(request, "", "");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (response == null) {
-			return null;
-		}
-		String result = null;
-		System.out.println("\n======AliPay 请求统一下单 开始: 下行======\n");
-		try {
-			result = response.getStringResult(config.charset());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		long end = System.currentTimeMillis();
-		System.out.println("消耗时间：" + (end - start));
-		return result;
-	};
-
-	/**
-	 * MAP类型数组转换成NameValuePair类型
-	 * 
-	 * @param properties
-	 *            MAP类型数组
-	 * @return NameValuePair类型数组
-	 */
-	private static NameValuePair[] generatNameValuePair(Map<String, String> properties) {
-		NameValuePair[] nameValuePair = new NameValuePair[properties.size()];
-		int i = 0;
-		for (Map.Entry<String, String> entry : properties.entrySet()) {
-			nameValuePair[i++] = new NameValuePair(entry.getKey(), entry.getValue());
-		}
-
-		return nameValuePair;
-	}
-
-	/**
-	 * 对params进行排序，同时添加签名信息
-	 * 
-	 * @param params
-	 * @author Yujinshui
-	 * @return
-	 * @time 2015年11月12日 上午11:32:32
-	 */
-	public Map<String, String> createMapRequest(Map<String, String> params) {
-		// 除去数组中的空值和签名参数
-		Map<String, String> paras = AlipayCore.paraFilter(params);
-		String sign = Signature.requestSign_MD5(paras, config);
-		paras.put("sign", sign);
-		paras.put("sign_type", config.sign_type());
-		return paras;
+		System.out.println(result);
 	}
 
 	public static void main(String[] args) {
