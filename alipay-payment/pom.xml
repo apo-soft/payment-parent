@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>cn.aposoft.ecommerce</groupId>
 		<artifactId>payment-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>alipay-payment</artifactId>
 	<name>alipay-payment</name>
@@ -45,9 +45,9 @@
 			<artifactId>jaxen</artifactId>
 		</dependency>
 		<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-			</dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -56,7 +56,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
