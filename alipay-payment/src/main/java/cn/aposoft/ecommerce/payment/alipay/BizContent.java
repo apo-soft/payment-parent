@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay.vo;
+package cn.aposoft.ecommerce.payment.alipay;
 
 /**
  * 业务参数VO

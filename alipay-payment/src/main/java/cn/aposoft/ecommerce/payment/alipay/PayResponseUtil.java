@@ -1,8 +1,8 @@
-package cn.aposoft.ecommerce.payment.alipay.vo;
+package cn.aposoft.ecommerce.payment.alipay;
 
 import java.util.List;
 
-import cn.aposoft.ecommerce.payment.alipay.vo.FundBillList;
+import cn.aposoft.ecommerce.payment.alipay.FundBillList;
 
 /**
  * TODO 内容有待修正<br>

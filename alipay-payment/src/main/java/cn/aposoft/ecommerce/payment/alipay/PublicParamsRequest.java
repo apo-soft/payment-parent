@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay.vo;
+package cn.aposoft.ecommerce.payment.alipay;
 
 /**
  * 公共请求参数
@@ -6,7 +6,7 @@ package cn.aposoft.ecommerce.payment.alipay.vo;
  * @author Yujinshui
  *
  */
-public class RequestUtil {
+public class PublicParamsRequest {
 	/**
 	 * 开发者的AppId*
 	 * <p>

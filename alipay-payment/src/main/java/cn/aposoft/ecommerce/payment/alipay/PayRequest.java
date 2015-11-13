@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay.vo;
+package cn.aposoft.ecommerce.payment.alipay;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * @author Yujinshui
  *
  */
-public class PayRequest extends RequestUtil {
+public class PayRequest extends PublicParamsRequest {
 
 	/**
 	 * 商户订单号*

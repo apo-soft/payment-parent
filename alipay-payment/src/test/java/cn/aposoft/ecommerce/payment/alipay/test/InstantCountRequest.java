@@ -1,4 +1,6 @@
-package cn.aposoft.ecommerce.payment.alipay.vo.instant;
+package cn.aposoft.ecommerce.payment.alipay.test;
+
+import cn.aposoft.ecommerce.payment.alipay.Order;
 
 /**
  * 即时到账部分bean封装
@@ -23,7 +25,7 @@ package cn.aposoft.ecommerce.payment.alipay.vo.instant;
  * @author Yujinshui
  *
  */
-public class InstantCountRequest {
+public class InstantCountRequest implements Order {
 	/***** 基本参数 ***/
 	/**
 	 * 接口名称 *
@@ -313,6 +315,8 @@ public class InstantCountRequest {
 	 * <p>
 	 * 接口名称。
 	 */
+	@Override
+
 	public String getService() {
 		return service;
 	}
@@ -331,6 +335,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 签约的支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。
 	 */
+	@Override
 	public String getPartner() {
 		return partner;
 	}
@@ -349,6 +354,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 商户网站使用的编码格式，如utf-8、gbk、gb2312等。
 	 */
+	@Override
 	public String get_input_charset() {
 		return _input_charset;
 	}
@@ -367,6 +373,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * DSA、RSA、MD5三个值可选，必须大写。
 	 */
+	@Override
 	public String getSign_type() {
 		return sign_type;
 	}
@@ -384,6 +391,7 @@ public class InstantCountRequest {
 	 * 签名 *
 	 * <p>
 	 */
+	@Override
 	public String getSign() {
 		return sign;
 	}
@@ -401,6 +409,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 支付宝服务器主动通知商户网站里指定的页面http路径。
 	 */
+	@Override
 	public String getNotify_url() {
 		return notify_url;
 	}
@@ -419,6 +428,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 支付宝处理完请求后，当前页面自动跳转到商户网站里指定页面的http路径。
 	 */
+	@Override
 	public String getReturn_url() {
 		return return_url;
 	}
@@ -438,6 +448,7 @@ public class InstantCountRequest {
 	 * 当商户通过该接口发起请求时，如果出现提示报错，支付宝会根据请求出错时的通知错误码通过异步的方式发送通知给商户。<br>
 	 * 该功能需要联系支付宝开通。
 	 */
+	@Override
 	public String getError_notify_url() {
 		return error_notify_url;
 	}
@@ -458,6 +469,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 支付宝合作商户网站唯一订单号。
 	 */
+	@Override
 	public String getOut_trade_no() {
 		return out_trade_no;
 	}
@@ -477,6 +489,7 @@ public class InstantCountRequest {
 	 * 商品的标题/交易标题/订单标题/订单关键字等。<br>
 	 * 该参数最长为128个汉字。
 	 */
+	@Override
 	public String getSubject() {
 		return subject;
 	}
@@ -498,6 +511,7 @@ public class InstantCountRequest {
 	 * 注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
 	 * evoucheprod_evouche_id）参数名和参数值。
 	 */
+	@Override
 	public String getPayment_type() {
 		return payment_type;
 	}
@@ -540,6 +554,7 @@ public class InstantCountRequest {
 	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
 	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
+	@Override
 	public String getSeller_id() {
 		return seller_id;
 	}
@@ -566,6 +581,7 @@ public class InstantCountRequest {
 	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
 	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
+	@Override
 	public String getSeller_email() {
 		return seller_email;
 	}
@@ -592,6 +608,7 @@ public class InstantCountRequest {
 	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
 	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
 	 */
+	@Override
 	public String getSeller_account_name() {
 		return seller_account_name;
 	}
@@ -610,6 +627,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 买家支付宝账号对应的支付宝唯一用户号。以2088开头的纯16位数字。
 	 */
+	@Override
 	public String getBuyer_id() {
 		return buyer_id;
 	}
@@ -628,6 +646,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 买家支付宝账号，格式为邮箱或手机号。
 	 */
+	@Override
 	public String getBuyer_email() {
 		return buyer_email;
 	}
@@ -647,6 +666,7 @@ public class InstantCountRequest {
 	 * 买家别名支付宝账号。<br>
 	 * 买家信息优先级：buyer_id>buyer_account_name>buyer_email。
 	 */
+	@Override
 	public String getBuyer_account_name() {
 		return buyer_account_name;
 	}
@@ -708,6 +728,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
 	 */
+	@Override
 	public String getBody() {
 		return body;
 	}
@@ -726,6 +747,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 收银台页面上，商品展示的超链接。
 	 */
+	@Override
 	public String getShow_url() {
 		return show_url;
 	}
@@ -752,6 +774,7 @@ public class InstantCountRequest {
 	 * 
 	 * 必须注意区分大小写。<br>
 	 */
+	@Override
 	public String getPaymethod() {
 		return paymethod;
 	}
@@ -780,6 +803,7 @@ public class InstantCountRequest {
 	 * 
 	 * 可支持多种支付渠道显示，以“^”分隔
 	 */
+	@Override
 	public String getEnable_paymethod() {
 		return enable_paymethod;
 	}
@@ -804,6 +828,7 @@ public class InstantCountRequest {
 	 * Y：做CTU校验；<br>
 	 * N：不做CTU校验。<br>
 	 */
+	@Override
 	public String getNeed_ctu_check() {
 		return need_ctu_check;
 	}
@@ -827,6 +852,7 @@ public class InstantCountRequest {
 	 * 通过时间戳查询接口获取的加密支付宝系统时间戳。 <br>
 	 * 如果已申请开通防钓鱼时间戳验证，则此字段必填。
 	 */
+	@Override
 	public String getAnti_phishing_key() {
 		return anti_phishing_key;
 	}
@@ -849,6 +875,7 @@ public class InstantCountRequest {
 	 * <br>
 	 * 如果商户申请后台开通防钓鱼IP地址检查选项，此字段必填，校验用。
 	 */
+	@Override
 	public String getExter_invoke_ip() {
 		return exter_invoke_ip;
 	}
@@ -870,6 +897,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 如果用户请求时传递了该参数，则返回给商户时会回传该参数。
 	 */
+	@Override
 	public String getExtra_common_param() {
 		return extra_common_param;
 	}
@@ -893,6 +921,7 @@ public class InstantCountRequest {
 	 * 
 	 * 支付类型（payment_type）为47（电子卡券）时，需要包含凭证号（evoucheprod_evouche_id）参数名和参数值。
 	 */
+	@Override
 	public String getExtend_param() {
 		return extend_param;
 	}
@@ -922,6 +951,7 @@ public class InstantCountRequest {
 	 * 
 	 * 该参数数值不接受小数点，如1.5h，可转换为90m。
 	 */
+	@Override
 	public String getIt_b_pay() {
 		return it_b_pay;
 	}
@@ -953,6 +983,7 @@ public class InstantCountRequest {
 	 * 
 	 * 该功能需要联系支付宝配置。
 	 */
+	@Override
 	public String getDefault_login() {
 		return default_login;
 	}
@@ -980,6 +1011,7 @@ public class InstantCountRequest {
 	 * 
 	 * 如果开通了航旅垂直搜索平台产品，请填写CHANNEL_FAST_PAY；如果没有，则为空。
 	 */
+	@Override
 	public String getProduct_type() {
 		return product_type;
 	}
@@ -1000,6 +1032,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 如果开通了快捷登录产品，则需要填写；如果没有开通，则为空。
 	 */
+	@Override
 	public String getToken() {
 		return token;
 	}
@@ -1020,6 +1053,7 @@ public class InstantCountRequest {
 	 * 
 	 * 如果本参数不为空，则sign_name_ext不能为空。
 	 */
+	@Override
 	public String getSign_id_ext() {
 		return sign_id_ext;
 	}
@@ -1040,6 +1074,7 @@ public class InstantCountRequest {
 	 * <p>
 	 * 商户买家唯一标识对应的名字。
 	 */
+	@Override
 	public String getSign_name_ext() {
 		return sign_name_ext;
 	}
@@ -1068,6 +1103,7 @@ public class InstantCountRequest {
 	 * 
 	 * 2：订单码-跳转模式
 	 */
+	@Override
 	public String getQr_pay_mode() {
 		return qr_pay_mode;
 	}
