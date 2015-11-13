@@ -1,17 +1,23 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.SingletonHttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.config.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.alipay.impl.SimpleEntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.inter.Config;
 import cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.inter.PaymentService;
-import cn.aposoft.ecommerce.payment.alipay.vo.instant.InstantCountRequest;
+import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
 public class AliTest {
 
@@ -35,10 +41,10 @@ public class AliTest {
 		order.setPartner(config.pid());//
 		order.set_input_charset(config.charset());//
 		// order.setSign_type("MD5");
-		order.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F601");
+		order.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_1");
 		order.setSubject("测试商品");//
 		// order.setPayment_type("1");
-		order.setTotal_fee(0.10);
+		order.setTotal_fee(0.01);
 		// 以下参数三选一
 		order.setSeller_id(config.pid());
 		// order.setSeller_email(seller_email);
@@ -83,22 +89,29 @@ public class AliTest {
 		InstantCountRequest order = new InstantCountRequest();
 		this.setOrder(order);
 
-		Map<String, String> params = new HashMap<String, String>();
-		this.convertOrder2Map(params, order);
-		System.out.println(params);
+		// Map<String, String> params = new HashMap<String, String>();
+		// this.convertOrder2Map(params, order);
+		// System.out.println(params);
 		HttpClientUtil httpclient = SingletonHttpClientUtil.getInstance();
 		EntityUtil entityUtil = new SimpleEntityUtil();
 
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
-		Map<String, String> result = ps.prepareMap(params);
+		// Map<String, String> result = ps.prepareMap(params);
+		PayResponse response = ps.preparePay(order);
 
-		System.out.println(result);
+		System.out.println(response.getIs_success());
+		System.out.println(response.getResult_code());
+		System.out.println(response.getPic_url());
+		System.out.println(response.getSign());
+		System.out.println(response.getDetail_error_code());
+		System.out.println(response.getDetail_error_des());
 	}
 
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
 		// ali.config();
 		ali.payTest();
+		// ali.subResult();
 	}
 
 }

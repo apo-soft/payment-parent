@@ -23,8 +23,11 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public PayResponse preparePay(Order order) {
-
-		return null;
+		
+		
+		Map<String, String> params = entityUtil.generatePayMap(order);
+		String resultXml = httpclient.post(params, config);
+		return entityUtil.parsePayResponseXml(resultXml);
 	}
 
 	@Override
