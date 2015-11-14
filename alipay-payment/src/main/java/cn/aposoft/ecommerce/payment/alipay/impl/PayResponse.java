@@ -11,7 +11,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
 public class PayResponse {
 	/************* 通用参数 ***************/
 	/**
-	 * 签名
+	 * 返回支付宝sign签名
 	 */
 	private String sign;
 	/**
@@ -64,14 +64,14 @@ public class PayResponse {
 	private String big_pic_url;
 
 	/**
-	 * 签名
+	 * 返回支付宝sign签名
 	 */
 	public String getSign() {
 		return sign;
 	}
 
 	/**
-	 * 签名
+	 * 返回支付宝sign签名
 	 */
 	public void setSign(String sign) {
 		this.sign = sign;

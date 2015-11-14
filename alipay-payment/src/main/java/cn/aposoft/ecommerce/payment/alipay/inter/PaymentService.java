@@ -27,7 +27,7 @@ public interface PaymentService {
 	public PayResponse preparePay(Order order);
 
 	/**
-	 * 即时到账 > 请求参数说明
+	 * 即时到账 > 请求参数说明.返回Map类型。测试环境推荐
 	 * <p>
 	 * 完成向微信支付服务器发送预处理订单并处理响应结果
 	 * {@link http://doc.open.alipay.com/doc2/detail?spm=0.0.0.0.SYtTU9&treeId=62&articleId=103740&docType=1}
@@ -36,6 +36,7 @@ public interface PaymentService {
 	 * @return
 	 * @author Yujinshui
 	 * @time 2015年11月12日 下午6:45:16
+	 * @deprecated
 	 */
 	public Map<String, String> prepareMap(Map<String, String> params);
 

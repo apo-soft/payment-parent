@@ -1,13 +1,5 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.SingletonHttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.config.PropertiesConfig;
@@ -17,7 +9,6 @@ import cn.aposoft.ecommerce.payment.alipay.impl.SimpleEntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.inter.Config;
 import cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.inter.PaymentService;
-import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
 public class AliTest {
 
@@ -53,33 +44,6 @@ public class AliTest {
 	}
 
 	/**
-	 * 订单数据转换
-	 * 
-	 * @param params
-	 * @author Yujinshui
-	 * @time 2015年11月12日 上午10:24:37
-	 */
-	public void convertOrder2Map(Map<String, String> params, InstantCountRequest order) {
-		// params.put("", order);
-		// 基本参数
-		params.put("service", order.getService());//
-		params.put("partner", order.getPartner());//
-		params.put("_input_charset", order.get_input_charset());//
-		// 业务参数
-		params.put("out_trade_no", order.getOut_trade_no());//
-		params.put("subject", order.getSubject());//
-		params.put("payment_type", order.getPayment_type());
-		params.put("total_fee", order.getTotal_fee() + "");//
-		params.put("seller_id", order.getSeller_id());
-		// params.put("notify_url",
-		// "http://123.57.147.240:8087/svmservice/alipay/paySuccess");
-		// params.put("seller_email", order.getSeller_email());
-		// params.put("seller_account_name", order.getSeller_account_name());
-		// params.put("qr_pay_mode", order.getQr_pay_mode());
-		params.put("product_code", "QR_CODE_OFFLINE");// 目前属于固定参数，api无相关说明
-	}
-
-	/**
 	 * 支付测试
 	 * 
 	 * @author Yujinshui
@@ -100,11 +64,13 @@ public class AliTest {
 		PayResponse response = ps.preparePay(order);
 
 		System.out.println(response.getIs_success());
-		System.out.println(response.getResult_code());
-		System.out.println(response.getPic_url());
-		System.out.println(response.getSign());
-		System.out.println(response.getDetail_error_code());
-		System.out.println(response.getDetail_error_des());
+		System.out.println("Result_code:" + response.getResult_code());
+		System.out.println("url地址：" + response.getPic_url());
+		System.out.println("二维码地址：" + response.getQr_code());
+		System.out.println("支付宝返回签名：" + response.getSign());
+		System.out.println("error_code:" + response.getDetail_error_code());
+		System.out.println("error_des:" + response.getDetail_error_des());
+
 	}
 
 	public static void main(String[] args) {

@@ -37,8 +37,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	}
 
 	private String generalPost(Map<String, String> params, Config config) {
-		params = MapUtil.createMapRequest(params, config);
-		System.out.println("\n======AliPay 请求统一下单 开始: 上行======\n");
+		// System.out.println("\n======AliPay 请求统一下单 开始: 上行======\n");
 		long start = System.currentTimeMillis();
 		HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
 		HttpRequest request = new HttpRequest(HttpResultType.BYTES);
@@ -56,14 +55,14 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 			return null;
 		}
 		String result = null;
-		System.out.println("\n======AliPay 请求统一下单 开始: 下行======\n");
+		// System.out.println("\n======AliPay 请求统一下单 开始: 下行======\n");
 		try {
 			result = response.getStringResult(config.charset());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		long end = System.currentTimeMillis();
-		System.out.println("消耗时间：" + (end - start));
+		System.out.println("支付请求消耗时间：" + (end - start));
 		return result;
 	}
 

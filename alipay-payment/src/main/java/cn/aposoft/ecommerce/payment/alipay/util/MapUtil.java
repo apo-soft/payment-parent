@@ -10,6 +10,8 @@ import cn.aposoft.ecommerce.payment.alipay.sign.Signature;
 public class MapUtil {
 
 	/**
+	 * 创建待发送map
+	 * <p>
 	 * 对params进行排序，同时添加签名信息
 	 * 
 	 * @param params
