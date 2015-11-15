@@ -1,5 +1,6 @@
 package cn.aposoft.ecommerce.payment.alipay;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import cn.aposoft.ecommerce.payment.alipay.FundBillList;
@@ -56,31 +57,31 @@ public class PayResponseUtil {
 	 * <p>
 	 * 订单总金额，单位为元
 	 */
-	private double total_amount;
+	private BigDecimal total_amount;
 	/**
 	 * [b]实收金额*
 	 * <p>
 	 * 商家在交易中实际收到的款项
 	 */
-	private double receipt_amount;
+	private BigDecimal receipt_amount;
 	/**
 	 * [b]开票金额*
 	 * <p>
 	 * 用户在交易中支付的可开具发票的金额
 	 */
-	private double invoice_amount;
+	private BigDecimal invoice_amount;
 	/**
 	 * [b]付款金额*
 	 * <p>
 	 * 用户在交易中支付的金额
 	 */
-	private double buyer_pay_amount;
+	private BigDecimal buyer_pay_amount;
 	/**
 	 * [b]积分宝金额*
 	 * <p>
 	 * 使用积分宝支付的金额
 	 */
-	private double point_amount;
+	private BigDecimal point_amount;
 	/**
 	 * [b]付款时间*
 	 * <p>
@@ -163,43 +164,43 @@ public class PayResponseUtil {
 		this.buyer_logon_id = buyer_logon_id;
 	}
 
-	public double getTotal_amount() {
+	public BigDecimal getTotal_amount() {
 		return total_amount;
 	}
 
-	public void setTotal_amount(double total_amount) {
+	public void setTotal_amount(BigDecimal total_amount) {
 		this.total_amount = total_amount;
 	}
 
-	public double getReceipt_amount() {
+	public BigDecimal getReceipt_amount() {
 		return receipt_amount;
 	}
 
-	public void setReceipt_amount(double receipt_amount) {
+	public void setReceipt_amount(BigDecimal receipt_amount) {
 		this.receipt_amount = receipt_amount;
 	}
 
-	public double getInvoice_amount() {
+	public BigDecimal getInvoice_amount() {
 		return invoice_amount;
 	}
 
-	public void setInvoice_amount(double invoice_amount) {
+	public void setInvoice_amount(BigDecimal invoice_amount) {
 		this.invoice_amount = invoice_amount;
 	}
 
-	public double getBuyer_pay_amount() {
+	public BigDecimal getBuyer_pay_amount() {
 		return buyer_pay_amount;
 	}
 
-	public void setBuyer_pay_amount(double buyer_pay_amount) {
+	public void setBuyer_pay_amount(BigDecimal buyer_pay_amount) {
 		this.buyer_pay_amount = buyer_pay_amount;
 	}
 
-	public double getPoint_amount() {
+	public BigDecimal getPoint_amount() {
 		return point_amount;
 	}
 
-	public void setPoint_amount(double point_amount) {
+	public void setPoint_amount(BigDecimal point_amount) {
 		this.point_amount = point_amount;
 	}
 

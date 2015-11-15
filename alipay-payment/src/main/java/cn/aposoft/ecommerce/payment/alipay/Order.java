@@ -1,5 +1,7 @@
 package cn.aposoft.ecommerce.payment.alipay;
 
+import java.math.BigDecimal;
+
 /**
  * 待支付订单接口
  * <p>
@@ -102,7 +104,7 @@ public interface Order {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	public double getTotal_fee();
+	public BigDecimal getTotal_fee();
 
 	/**
 	 * 卖家支付宝用户号 *
@@ -172,7 +174,7 @@ public interface Order {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public double getPrice();
+	public BigDecimal getPrice();
 
 	/**
 	 * 购买数量
@@ -180,7 +182,7 @@ public interface Order {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public double getQuantity();
+	public BigDecimal getQuantity();
 
 	/**
 	 * 商品描述

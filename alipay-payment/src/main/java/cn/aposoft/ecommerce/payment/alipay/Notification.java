@@ -32,35 +32,35 @@ import java.util.Date;
 public class Notification {
 
 	/**
-	 * 通知时间
+	 * 通知时间*
 	 * <p>
 	 * 通知的发送时间。格式为yyyy-MM-dd HH:mm:ss。 <br>
 	 * param_demo: 2009-08-12 11:08:32
 	 */
 	private Date notify_time;
 	/**
-	 * 通知类型
+	 * 通知类型*
 	 * <p>
 	 * 通知的类型。 <br>
 	 * param_demo: trade_status_sync
 	 */
 	private String notify_type;
 	/**
-	 * 通知校验ID
+	 * 通知校验ID*
 	 * <p>
 	 * 通知校验ID。 <br>
 	 * param_demo: 70fec0c2730b27528665af4517c27b95
 	 */
 	private String notify_id;
 	/**
-	 * 签名方式
+	 * 签名方式*
 	 * <p>
 	 * DSA、RSA、MD5三个值可选，必须大写。 <br>
 	 * param_demo: DSA
 	 */
 	private String sign_type;
 	/**
-	 * 签名
+	 * 签名*
 	 * <p>
 	 * 请参见签名验证。 <br>
 	 * param_demo: _p_w_l_h_j0b_gd_aejia7n_ko4_m%
@@ -254,7 +254,7 @@ public class Notification {
 	private String business_scene;
 
 	/**
-	 * 通知时间
+	 * 通知时间*
 	 * <p>
 	 * 通知的发送时间。格式为yyyy-MM-dd HH:mm:ss。 <br>
 	 * param_demo: 2009-08-12 11:08:32
@@ -264,7 +264,7 @@ public class Notification {
 	}
 
 	/**
-	 * 通知时间
+	 * 通知时间*
 	 * <p>
 	 * 通知的发送时间。格式为yyyy-MM-dd HH:mm:ss。 <br>
 	 * param_demo: 2009-08-12 11:08:32
@@ -274,7 +274,7 @@ public class Notification {
 	}
 
 	/**
-	 * 通知类型
+	 * 通知类型*
 	 * <p>
 	 * 通知的类型。 <br>
 	 * param_demo: trade_status_sync
@@ -284,7 +284,7 @@ public class Notification {
 	}
 
 	/**
-	 * 通知类型
+	 * 通知类型*
 	 * <p>
 	 * 通知的类型。 <br>
 	 * param_demo: trade_status_sync
@@ -294,7 +294,7 @@ public class Notification {
 	}
 
 	/**
-	 * 通知校验ID
+	 * 通知校验ID*
 	 * <p>
 	 * 通知校验ID。 <br>
 	 * param_demo: 70fec0c2730b27528665af4517c27b95
@@ -304,7 +304,7 @@ public class Notification {
 	}
 
 	/**
-	 * 通知校验ID
+	 * 通知校验ID*
 	 * <p>
 	 * 通知校验ID。 <br>
 	 * param_demo: 70fec0c2730b27528665af4517c27b95
@@ -314,7 +314,7 @@ public class Notification {
 	}
 
 	/**
-	 * 签名方式
+	 * 签名方式*
 	 * <p>
 	 * DSA、RSA、MD5三个值可选，必须大写。 <br>
 	 * param_demo: DSA
@@ -324,7 +324,7 @@ public class Notification {
 	}
 
 	/**
-	 * 签名方式
+	 * 签名方式*
 	 * <p>
 	 * DSA、RSA、MD5三个值可选，必须大写。 <br>
 	 * param_demo: DSA
@@ -334,7 +334,7 @@ public class Notification {
 	}
 
 	/**
-	 * 签名
+	 * 签名*
 	 * <p>
 	 * 请参见签名验证。 <br>
 	 * param_demo: _p_w_l_h_j0b_gd_aejia7n_ko4_m%
@@ -345,7 +345,7 @@ public class Notification {
 	}
 
 	/**
-	 * 签名
+	 * 签名*
 	 * <p>
 	 * 请参见签名验证。 <br>
 	 * param_demo: _p_w_l_h_j0b_gd_aejia7n_ko4_m%

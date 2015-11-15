@@ -1,5 +1,7 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
+import java.math.BigDecimal;
+
 import cn.aposoft.ecommerce.payment.alipay.Order;
 
 /**
@@ -102,7 +104,7 @@ public class InstantCountRequest implements Order {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	private double total_fee;
+	private BigDecimal total_fee;
 	/**
 	 * 卖家支付宝用户号 *
 	 * <p>
@@ -149,14 +151,14 @@ public class InstantCountRequest implements Order {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	private double price;
+	private BigDecimal price;
 	/**
 	 * 购买数量
 	 * <p>
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	private double quantity;
+	private BigDecimal quantity;
 	/**
 	 * 商品描述
 	 * <p>
@@ -532,7 +534,7 @@ public class InstantCountRequest implements Order {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	public double getTotal_fee() {
+	public BigDecimal getTotal_fee() {
 		return total_fee;
 	}
 
@@ -541,7 +543,7 @@ public class InstantCountRequest implements Order {
 	 * <p>
 	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。
 	 */
-	public void setTotal_fee(double total_fee) {
+	public void setTotal_fee(BigDecimal total_fee) {
 		this.total_fee = total_fee;
 	}
 
@@ -688,7 +690,7 @@ public class InstantCountRequest implements Order {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
@@ -699,7 +701,7 @@ public class InstantCountRequest implements Order {
 	 * 规则：price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -709,7 +711,7 @@ public class InstantCountRequest implements Order {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public double getQuantity() {
+	public BigDecimal getQuantity() {
 		return quantity;
 	}
 
@@ -719,7 +721,7 @@ public class InstantCountRequest implements Order {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public void setQuantity(double quantity) {
+	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
 
