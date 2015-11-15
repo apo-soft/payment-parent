@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.io.FileInputStream;
