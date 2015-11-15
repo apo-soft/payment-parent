@@ -25,13 +25,17 @@ public class SimpleEntityUtil implements EntityUtil {
 	@Override
 	public PayResponse parsePayResponseXml(String xml) {
 		Map<String, String> result = null;
+		PayResponse response = null;
 		try {
 			result = XMLUtil.getMapFromXML(xml);
+			response = getPayResponse(result);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
-			return null;
+			response = new PayResponse();
+			response.setReturnXml(xml);
+			// return null;
 		}
-		PayResponse response = getPayResponse(result);
+
 		return response;
 	}
 

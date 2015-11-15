@@ -28,7 +28,7 @@ public class AliTest {
 	 * @time 2015年11月12日 上午10:44:28
 	 */
 	public void setOrder(InstantCountRequest order) {
-		order.setService("alipay.acquire.precreate");// 目前属于固定参数，api无相关说明
+		order.setService("trade_create_by_buyer");// 目前属于固定参数，api无相关说明
 		order.setPartner(config.pid());//
 		order.set_input_charset(config.charset());//
 		// order.setSign_type("MD5");
@@ -62,7 +62,7 @@ public class AliTest {
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
 		// Map<String, String> result = ps.prepareMap(params);
 		PayResponse response = ps.preparePay(order);
-
+		System.out.println(response.getReturnXml());
 		System.out.println(response.getIs_success());
 		System.out.println("Result_code:" + response.getResult_code());
 		System.out.println("url地址：" + response.getPic_url());
