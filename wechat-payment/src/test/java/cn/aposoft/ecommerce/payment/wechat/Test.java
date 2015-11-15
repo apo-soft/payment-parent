@@ -72,7 +72,7 @@ public class Test {
 		// refund.setDevice_info("设备信息");
 
 		refund.setNonce_str("1098415178");
-		refund.setOp_user_id("op_user_id 操作员 于津水");
+		refund.setOp_user_id("op_user_id 操作员 ");
 		refund.setOut_refund_no("1010090240201511051464976612");// 退款单号（支付单号）
 		refund.setOut_trade_no("20151105_3");
 		refund.setRefund_fee(order.getTotal_fee());

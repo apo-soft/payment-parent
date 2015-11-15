@@ -1,7 +1,7 @@
 class  
 {
 	public void paySuccess() {
-		System.out.println("Í³Ò»Ö§¸¶»Øµ÷º¯Êı¿ªÊ¼...");
+		System.out.println("ç»Ÿä¸€æ”¯ä»˜å›è°ƒå‡½æ•°å¼€å§‹...");
 
 		CallbackService callback = new CallbackServiceImpl(SimpleEntityUtil.getInstance());
 
@@ -10,7 +10,7 @@ class
 		try {
 			InputStream in = getRequest().getInputStream();
 			String resultXml = inputStreamToString(in);
-			log.info("\n======WeChatPay É¨ÂëÖ§¸¶³É¹¦»Øµ÷·şÎñ ¿ªÊ¼======\n" + resultXml);
+			log.info("\n======WeChatPay æ‰«ç æ”¯ä»˜æˆåŠŸå›è°ƒæœåŠ¡ å¼€å§‹======\n" + resultXml);
 			Notification result = callback.recveiveNotification(resultXml);
 			String notiresult = result.getResult().toXml();
 			
@@ -20,16 +20,16 @@ class
 			noti = NotificationResult.nullResult();
 			e.printStackTrace();
 		}
-		System.out.println("Í³Ò»Ö§¸¶»Øµ÷º¯Êı½áÊø...");
+		System.out.println("ç»Ÿä¸€æ”¯ä»˜å›è°ƒå‡½æ•°ç»“æŸ...");
 
 		String result = noti.toXml();
-		renderText(result);//·¢ËÍÎ¢ĞÅÖ§¸¶»Øµ÷½á¹û
-		renderJson("»Øµ÷Íê³É£¬ÄÚÈİÒÑ¾­´òÓ¡");
+		renderText(result);//å‘é€å¾®ä¿¡æ”¯ä»˜å›è°ƒç»“æœ
+		renderJson("å›è°ƒå®Œæˆï¼Œå†…å®¹å·²ç»æ‰“å°");
 	}
 
 
 	/**
-	 * ÊäÈëÁ÷×ª×Ö·û´®
+	 * è¾“å…¥æµè½¬å­—ç¬¦ä¸²
 	 * 
 	 * @param is
 	 * @return
@@ -45,10 +45,10 @@ class
 	}
 
 	/**
-	 * ÆäËû»Øµ÷½á¹û·µ»ØÄÚÈİ²Î¿¼·½·¨
+	 * å…¶ä»–å›è°ƒç»“æœè¿”å›å†…å®¹å‚è€ƒæ–¹æ³•
 	 * 
 	 * @param text
-	 *            ·µ»ØÄÚÈİ
+	 *            è¿”å›å†…å®¹
 	 */
 
 	public void render() {
