@@ -2,7 +2,7 @@ package cn.aposoft.ecommerce.payment.alipay.sign;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.inter.Config;
+import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.util.AlipayCore;
 
 /**

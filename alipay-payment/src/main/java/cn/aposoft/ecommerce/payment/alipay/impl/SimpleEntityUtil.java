@@ -10,8 +10,8 @@ import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import cn.aposoft.ecommerce.payment.alipay.Order;
-import cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.test.InstantCountRequest;
+import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
 public class SimpleEntityUtil implements EntityUtil {
@@ -20,7 +20,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将返回的xml字符串转换为javabean形式输出
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil#parsePayResponseXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#parsePayResponseXml(java.lang.String)
 	 */
 	@Override
 	public PayResponse parsePayResponseXml(String xml) {
@@ -63,7 +63,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将返回结果字符串解析为map类型【供测试使用】
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.inter.EntityUtil#parseMapXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#parseMapXml(java.lang.String)
 	 * @deprecated
 	 */
 	@Override

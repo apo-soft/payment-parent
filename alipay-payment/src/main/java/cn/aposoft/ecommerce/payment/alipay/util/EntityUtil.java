@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay.inter;
+package cn.aposoft.ecommerce.payment.alipay.util;
 
 import java.util.Map;
 

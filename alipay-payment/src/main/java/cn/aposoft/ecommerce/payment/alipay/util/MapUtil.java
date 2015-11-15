@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.NameValuePair;
 
-import cn.aposoft.ecommerce.payment.alipay.inter.Config;
+import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.sign.Signature;
 
 public class MapUtil {

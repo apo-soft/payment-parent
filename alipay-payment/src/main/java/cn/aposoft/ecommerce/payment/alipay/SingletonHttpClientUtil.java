@@ -10,7 +10,6 @@ import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpProtocolHandler;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpRequest;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResponse;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResultType;
-import cn.aposoft.ecommerce.payment.alipay.inter.Config;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
 public class SingletonHttpClientUtil implements HttpClientUtil {
@@ -29,7 +28,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	 * 创建发送请求
 	 * 
 	 * @see cn.aposoft.ecommerce.payment.alipay.HttpClientUtil#post(java.util.Map,
-	 *      cn.aposoft.ecommerce.payment.alipay.inter.Config)
+	 *      cn.aposoft.ecommerce.payment.alipay.Config)
 	 */
 	@Override
 	public String post(Map<String, String> params, Config config) {
