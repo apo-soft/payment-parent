@@ -1,6 +1,7 @@
 package cn.aposoft.ecommerce.payment.alipay.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +10,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
+import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.Order;
-import cn.aposoft.ecommerce.payment.alipay.test.InstantCountRequest;
+import cn.aposoft.ecommerce.payment.alipay.Refund;
+import cn.aposoft.ecommerce.payment.alipay.RefundRequest;
+import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
@@ -90,13 +94,13 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @time 2015年11月12日 上午10:24:37
 	 */
 	@Override
-	public Map<String, String> generatePayMap(Order order) {
+	public Map<String, String> generatePayMap(Order order, Config config) {
 		Map<String, String> params = new HashMap<String, String>();
 		// params.put("", order);
 		// 基本参数
 		params.put("service", order.getService());//
-		params.put("partner", order.getPartner());//
-		params.put("_input_charset", order.get_input_charset());//
+		params.put("partner", config.pid());//
+		params.put("_input_charset", config.charset());//
 		// 业务参数
 		params.put("out_trade_no", order.getOut_trade_no());//
 		params.put("subject", order.getSubject());//
@@ -111,6 +115,53 @@ public class SimpleEntityUtil implements EntityUtil {
 		params.put("product_code", "QR_CODE_OFFLINE");// 目前属于固定参数，api无相关说明
 		// TODO 其他参数尚未一一进行赋值处理
 		return params;
+	}
+
+	/**
+	 * 退款请求：将bean数据转换为map数据
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#generateRefundMap(cn.aposoft.ecommerce.payment.alipay.Refund)
+	 */
+	@Override
+	public Map<String, String> generateRefundMap(Refund refund, Config config) {
+		RefundRequest refundRequest = createRefundRequest(refund, config);
+		Map<String, String> params = new HashMap<String, String>();
+
+		params.put("service", refundRequest.getService());
+		params.put("partner", refundRequest.getPartner());
+		params.put("_input_charset", refundRequest.get_input_charset());
+		params.put("sign_type", refundRequest.getSign_type());
+		params.put("out_trade_no", refundRequest.getOut_trade_no());
+		params.put("refund_amount",
+				refundRequest.getRefund_amount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
+		return params;
+	}
+
+	/**
+	 * 创建退款请求bean
+	 * 
+	 * @param refund
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月16日 下午2:09:30
+	 */
+	private RefundRequest createRefundRequest(Refund refund, Config config) {
+		RefundRequest fund = new RefundRequest();
+		fund.setService(refund.getService());
+		fund.setPartner(config.pid());
+		fund.set_input_charset(config.charset());
+		fund.setSign_type(config.sign_type());
+		fund.setOut_trade_no(refund.getOut_trade_no());
+		fund.setRefund_amount(refund.getRefund_amount());
+
+		return fund;
+	}
+
+	@Override
+	public RefundResponse parseRefundResponseXml(String resultXml) {
+		RefundResponse res = new RefundResponse();
+		res.setResult(resultXml);
+		return res;
 	}
 
 }

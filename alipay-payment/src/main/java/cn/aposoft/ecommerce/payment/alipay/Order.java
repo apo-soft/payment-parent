@@ -92,7 +92,8 @@ public interface Order {
 	/**
 	 * 支付类型 *
 	 * <p>
-	 * 默认值为：1（商品购买）。<br>
+	 * 默认值为：1-商品购买 <br>
+	 * 1-商品购买;4-捐赠;47-电子卡券<br>
 	 * 注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
 	 * evoucheprod_evouche_id）参数名和参数值。
 	 */

@@ -2,7 +2,10 @@ package cn.aposoft.ecommerce.payment.alipay.util;
 
 import java.util.Map;
 
+import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.Order;
+import cn.aposoft.ecommerce.payment.alipay.Refund;
+import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.alipay.test.InstantCountRequest;
 
@@ -31,5 +34,25 @@ public interface EntityUtil {
 	 */
 	Map<String, String> parseMapXml(String xml);
 
-	Map<String, String> generatePayMap(Order order);
+	Map<String, String> generatePayMap(Order order, Config config);
+
+	/**
+	 * 退款请求：将bean数据转换为map数据
+	 * 
+	 * @param refund
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月16日 下午12:15:12
+	 */
+	Map<String, String> generateRefundMap(Refund refund, Config config);
+
+	/**
+	 * 将退款返回字符串封装为bean类型
+	 * 
+	 * @param resultXml
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月16日 下午2:41:16
+	 */
+	RefundResponse parseRefundResponseXml(String resultXml);
 }

@@ -2,10 +2,11 @@ package cn.aposoft.ecommerce.payment.alipay;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpProtocolHandler;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpRequest;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResponse;
@@ -61,8 +62,18 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 			e.printStackTrace();
 		}
 		long end = System.currentTimeMillis();
-		System.out.println("支付请求消耗时间：" + (end - start));
+		System.out.println("请求消耗时间：" + (end - start));
 		return result;
+	}
+
+	/**
+	 * 
+	 * @see cn.aposoft.ecommerce.payment.alipay.HttpClientUtil#refund(java.util.Map,
+	 *      cn.aposoft.ecommerce.payment.alipay.Config)
+	 */
+	@Override
+	public String refund(Map<String, String> params, Config config) {
+		return generalPost(params, config);
 	}
 
 }

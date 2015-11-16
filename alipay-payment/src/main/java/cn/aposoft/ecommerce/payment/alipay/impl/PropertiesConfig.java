@@ -237,7 +237,8 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
-	 * <font color=red>*</font>合作身份者ID，以2088开头由16位纯数字组成的字符串 [源自官网demo说明]
+	 * <font color=red>*</font>合作身份者ID[partner]，以2088开头由16位纯数字组成的字符串
+	 * [源自官网demo说明]
 	 * 
 	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#pid()
 	 */

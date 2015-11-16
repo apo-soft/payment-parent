@@ -13,6 +13,16 @@ import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
  */
 public interface PaymentService {
 	/**
+	 * 即时到账接口付款完成的交易进行部分或全部的退还。商户需输入支付密码。
+	 * 
+	 * @param refund
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月16日 下午12:12:49
+	 */
+	RefundResponse refund(Refund refund);
+
+	/**
 	 * 即时到账 > 请求参数说明
 	 * <p>
 	 * 完成向微信支付服务器发送预处理订单并处理响应结果
