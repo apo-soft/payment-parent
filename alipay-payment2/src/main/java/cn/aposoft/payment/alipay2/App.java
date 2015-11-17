@@ -1,4 +1,4 @@
-package org.alipay.payment2;
+package cn.aposoft.payment.alipay2;
 
 /**
  * Hello world!
