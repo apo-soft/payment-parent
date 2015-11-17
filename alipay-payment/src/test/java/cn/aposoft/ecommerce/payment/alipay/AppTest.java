@@ -1,5 +1,4 @@
 package cn.aposoft.ecommerce.payment.alipay;
-
 import java.io.IOException;
 
 import junit.framework.Test;
