@@ -1,9 +1,8 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.payment.alipay2;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import cn.aposoft.ecommerce.payment.alipay.FundBillList;
 
 /**
  * TODO 内容有待修正<br>

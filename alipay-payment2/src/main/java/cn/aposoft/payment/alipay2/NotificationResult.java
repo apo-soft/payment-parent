@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.payment.alipay2;
 
 /**
  * 新版-通知结果: 该对象表示的是回调报文解析方法对报文解析的处理结果.
