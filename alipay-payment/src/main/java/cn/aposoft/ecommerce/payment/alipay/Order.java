@@ -15,7 +15,7 @@ public interface Order {
 	/**
 	 * 接口名称 *
 	 * <p>
-	 * 接口名称。
+	 * alipay.acquire.precreate
 	 */
 	public String getService();
 
@@ -36,7 +36,7 @@ public interface Order {
 	/**
 	 * 签名方式 *
 	 * <p>
-	 * DSA、RSA、MD5三个值可选，必须大写。
+	 * DSA、RSA、MD5三个值可选，必须大写。推荐MD5
 	 */
 	public String getSign_type();
 
@@ -55,21 +55,35 @@ public interface Order {
 	public String getNotify_url();
 
 	/**
-	 * 页面跳转同步通知页面路径
+	 * 签名类型
 	 * <p>
-	 * 支付宝处理完请求后，当前页面自动跳转到商户网站里指定页面的http路径。
+	 * 签名类型。<br>
+	 * 1：证书签名<br>
+	 * 2：其他密钥签名<br>
+	 * 如果为空，默认为 2。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:39:30
 	 */
+	public String getAlipay_ca_request();
 
-	public String getReturn_url();
-
-	/**
-	 * 请求出错时的通知页面路径
-	 * <p>
-	 * 当商户通过该接口发起请求时，如果出现提示报错，支付宝会根据请求出错时的通知错误码通过异步的方式发送通知给商户。<br>
-	 * 该功能需要联系支付宝开通。
-	 */
-
-	public String getError_notify_url();
+	// /**
+	// * 页面跳转同步通知页面路径
+	// * <p>
+	// * 支付宝处理完请求后，当前页面自动跳转到商户网站里指定页面的http路径。
+	// */
+	//
+	// public String getReturn_url();
+	//
+	// /**
+	// * 请求出错时的通知页面路径
+	// * <p>
+	// * 当商户通过该接口发起请求时，如果出现提示报错，支付宝会根据请求出错时的通知错误码通过异步的方式发送通知给商户。<br>
+	// * 该功能需要联系支付宝开通。
+	// */
+	//
+	// public String getError_notify_url();
 
 	/***** 以下为业务参数 *****/
 	/**
@@ -90,15 +104,19 @@ public interface Order {
 	public String getSubject();
 
 	/**
-	 * 支付类型 *
+	 * 订单业务类型*
 	 * <p>
-	 * 默认值为：1-商品购买 <br>
-	 * 1-商品购买;4-捐赠;47-电子卡券<br>
-	 * 注意：支付类型为“47”时，公共业务扩展参数（extend_param）中必须包含凭证号（
-	 * evoucheprod_evouche_id）参数名和参数值。
+	 * 用来区分是哪种业务类型的 下单。目前支持：<br>
+	 * z QR_CODE_OFFLINE ：<br>
+	 * 二维码支付<br>
+	 * z TCOMPANY_QR_OFFL<br>
+	 * INE：出租车企业码
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:41:09
 	 */
-
-	public String getPayment_type();
+	public String getProduct_code();
 
 	/**
 	 * 交易金额 *
@@ -108,13 +126,10 @@ public interface Order {
 	public BigDecimal getTotal_fee();
 
 	/**
-	 * 卖家支付宝用户号 *
+	 * 卖家支付宝用户号
 	 * <p>
-	 * seller_id是以2088开头的纯16位数字。<br>
-	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
-	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
-	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
-	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
+	 * 卖家支付宝账号对应的支付 宝唯一用户号。<br>
+	 * 以 2088 开头的纯 16 位数字。 如果和 seller_email 同时为 空，则本参数默认填充 partner 的值。
 	 */
 
 	public String getSeller_id();
@@ -122,51 +137,65 @@ public interface Order {
 	/**
 	 * 卖家支付宝账号 *
 	 * <p>
-	 * seller_id是以2088开头的纯16位数字。<br>
-	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
-	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
-	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
-	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
+	 * 卖家支付宝账号，可以为 email 或者手机号。<br>
+	 * 如果 seller_id 不为空，则以 seller_id 的值作为卖家账号， 忽略本参数。
 	 */
 
 	public String getSeller_email();
 
 	/**
-	 * 卖家别名支付宝账号 *
+	 * 操作员类型
 	 * <p>
-	 * seller_id是以2088开头的纯16位数字。<br>
-	 * seller_email是支付宝登录账号，格式一般是邮箱或手机号。<br>
-	 * seller_account_name是卖家别名支付宝账号。三个参数至少必须传递一个。<br>
-	 * 当签约账号就是收款账号时，请务必使用参数seller_id，即seller_id的值与partner的值相同。<br>
-	 * 三个参数的优先级别是：seller_id>seller_account_name>seller_email。
+	 * 操作员的类型：<br>
+	 * 0：支付宝操作员<br>
+	 * 1：商户的操作员<br>
+	 * 如果传入其它值或者为空， 则默认设置为 1。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:45:34
 	 */
-
-	public String getSeller_account_name();
+	public String getOperator_code();
 
 	/**
-	 * 买家支付宝用户号
+	 * 操作员号
 	 * <p>
-	 * 买家支付宝账号对应的支付宝唯一用户号。以2088开头的纯16位数字。
+	 * 卖家的操作员 ID。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:46:24
 	 */
-
-	public String getBuyer_id();
+	public String getOperator_id();
 
 	/**
-	 * 买家支付宝账号
+	 * 订单描述
 	 * <p>
-	 * 买家支付宝账号，格式为邮箱或手机号。
+	 * 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
 	 */
 
-	public String getBuyer_email();
+	public String getBody();
 
 	/**
-	 * 买家别名支付宝账号
+	 * 商品展示网址
 	 * <p>
-	 * 买家别名支付宝账号。<br>
-	 * 买家信息优先级：buyer_id>buyer_account_name>buyer_email。
+	 * 收银台页面上，商品展示的超链接。
 	 */
 
-	public String getBuyer_account_name();
+	public String getShow_url();
+
+	/**
+	 * 订单金额币种
+	 * <p>
+	 * 订单金额币种。<br>
+	 * 目前只支持传入 156（人民 币）。<br>
+	 * 如果为空，则默认设置为 156。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:48:29
+	 */
+	public String getCurrency();
 
 	/**
 	 * 商品单价
@@ -183,89 +212,20 @@ public interface Order {
 	 * price、quantity能代替total_fee。即存在total_fee，就不能存在price和quantity；存在price、
 	 * quantity，就不能存在total_fee。
 	 */
-	public BigDecimal getQuantity();
+	public String getQuantity();
 
 	/**
-	 * 商品描述
+	 * 商品明细
 	 * <p>
-	 * 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。
-	 */
-
-	public String getBody();
-
-	/**
-	 * 商品展示网址
-	 * <p>
-	 * 收银台页面上，商品展示的超链接。
-	 */
-
-	public String getShow_url();
-
-	/**
-	 * 默认支付方式
-	 * <p>
-	 * 取值范围： <br>
-	 * creditPay（信用支付）<br>
-	 * directPay（余额支付）<br>
+	 * 描述商品明细信息， 式，具体请参见“ 4.3 json 商品 格 明细说明”<br>
+	 * param_demo:[{"goodsName":"ipad","p rice":"2000.00","quantity
+	 * ":"1","goodsCategory":"7 788230"}]
 	 * 
-	 * 如果不设置，默认识别为余额支付。<br>
-	 * 
-	 * 说明：<br>
-	 * 
-	 * 必须注意区分大小写。<br>
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:50:43
 	 */
-
-	public String getPaymethod();
-
-	/**
-	 * 支付渠道
-	 * <p>
-	 * 用于控制收银台支付渠道显示，该值的取值范围请参见支付渠道。
-	 * 
-	 * 可支持多种支付渠道显示，以“^”分隔
-	 */
-
-	public String getEnable_paymethod();
-
-	/**
-	 * 网银支付时是否做CTU校验
-	 * <p>
-	 * 商户在配置了支持CTU（支付宝风险稽查系统）校验权限的前提下，可以选择本次交易是否需要经过CTU校验。
-	 * 
-	 * <br>
-	 * Y：做CTU校验；<br>
-	 * N：不做CTU校验。<br>
-	 */
-
-	public String getNeed_ctu_check();
-
-	/**
-	 * 防钓鱼时间戳
-	 * <p>
-	 * 通过时间戳查询接口获取的加密支付宝系统时间戳。 <br>
-	 * 如果已申请开通防钓鱼时间戳验证，则此字段必填。
-	 */
-
-	public String getAnti_phishing_key();
-
-	/**
-	 * 客户端IP
-	 * <p>
-	 * 用户在创建交易时，该用户当前所使用机器的IP。
-	 * 
-	 * <br>
-	 * 如果商户申请后台开通防钓鱼IP地址检查选项，此字段必填，校验用。
-	 */
-
-	public String getExter_invoke_ip();
-
-	/**
-	 * 公用回传参数
-	 * <p>
-	 * 如果用户请求时传递了该参数，则返回给商户时会回传该参数。
-	 */
-
-	public String getExtra_common_param();
+	public String getGoods_detail();
 
 	/**
 	 * 公用业务扩展参数
@@ -278,7 +238,7 @@ public interface Order {
 	 * 支付类型（payment_type）为47（电子卡券）时，需要包含凭证号（evoucheprod_evouche_id）参数名和参数值。
 	 */
 
-	public String getExtend_param();
+	public String getExtend_params();
 
 	/**
 	 * 超时时间
@@ -295,71 +255,37 @@ public interface Order {
 	public String getIt_b_pay();
 
 	/**
-	 * 自动登录标识
+	 * 分账类型
 	 * <p>
-	 * 用于标识商户是否使用自动登录的流程。如果和参数buyer_email一起使用时，就不会再让用户登录支付宝，即在收银台中不会出现登录页面。
+	 * 卖家的分账类型，目前只支 持传入 ROYALTY （普通分账 类型）。<br>
+	 * 如果商户使用分账模式，该 参数不可空。
 	 * 
-	 * 取值有以下情况：<br>
-	 * 
-	 * Y代表使用<br>
-	 * N代表不使用<br>
-	 * 
-	 * 该功能需要联系支付宝配置。
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:52:37
 	 */
-
-	public String getDefault_login();
+	public String getRoyalty_type();
 
 	/**
-	 * 商户申请的产品类型
+	 * 分账信息
 	 * <p>
-	 * 用于针对不同的产品，采取不同的计费策略。
+	 * 描述分账明细信息， json格 式，具体请参见“ 4.4 分账 明细说明”。
 	 * 
-	 * 如果开通了航旅垂直搜索平台产品，请填写CHANNEL_FAST_PAY；如果没有，则为空。
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:53:25
 	 */
-
-	public String getProduct_type();
+	public String getRoyalty_parameters();
 
 	/**
-	 * 快捷登录授权令牌
+	 * 渠道参数
 	 * <p>
-	 * 如果开通了快捷登录产品，则需要填写；如果没有开通，则为空。
+	 * 描述多渠道收单的渠道明细 信息， json格式，具体请参见 “ 4.5 渠道明细说明”。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 上午11:54:22
 	 */
+	public String getChannel_parameters();
 
-	public String getToken();
-
-	/**
-	 * 商户买家签约号
-	 * <p>
-	 * 用于唯一标识商户买家。
-	 * 
-	 * 如果本参数不为空，则sign_name_ext不能为空。
-	 */
-
-	public String getSign_id_ext();
-
-	/**
-	 * 商户买家签约名
-	 * <p>
-	 * 商户买家唯一标识对应的名字。
-	 */
-
-	public String getSign_name_ext();
-
-	/**
-	 * 扫码支付方式
-	 * <p>
-	 * 扫码支付的方式，支持前置模式和跳转模式。
-	 * 
-	 * 前置模式是将二维码前置到商户的订单确认页的模式。需要商户在自己的页面中以iframe方式请求支付宝页面。具体分为以下3种：<br>
-	 * 
-	 * 0：订单码-简约前置模式，对应iframe宽度不能小于600px，高度不能小于300px；<br>
-	 * 1：订单码-前置模式，对应iframe宽度不能小于300px，高度不能小于600px；<br>
-	 * 3：订单码-迷你前置模式，对应iframe宽度不能小于75px，高度不能小于75px。<br>
-	 * 
-	 * 跳转模式下，用户的扫码界面是由支付宝生成的，不在商户的域名下。<br>
-	 * 
-	 * 2：订单码-跳转模式
-	 */
-
-	public String getQr_pay_mode();
 }

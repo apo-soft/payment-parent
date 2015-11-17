@@ -74,7 +74,7 @@ public class XMLUtil {
 		// 获得当前文档的根元素
 		Element root = document.getDocumentElement();
 		Map<String, String> map = new HashMap<String, String>();
-		recurrence(map, root);
+		recurrenceXml(map, root);
 		return map;
 	}
 
@@ -86,7 +86,7 @@ public class XMLUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月13日 下午2:42:50
 	 */
-	private static void recurrence(Map<String, String> map, Element element) {
+	private static void recurrenceXml(Map<String, String> map, Element element) {
 		// System.out.print("<" + element.getNodeName());
 		NodeList childNodes = element.getChildNodes();
 		// 得到当前节点上的所有属性
@@ -111,7 +111,7 @@ public class XMLUtil {
 			// 当前类型是元素类型
 			if (nodeType == Node.ELEMENT_NODE) {
 				// 继续递归
-				recurrence(map, (Element) childNode);
+				recurrenceXml(map, (Element) childNode);
 			}
 			// 当前元素是文本
 			else if (nodeType == Node.TEXT_NODE) {

@@ -1,13 +1,13 @@
 package cn.aposoft.ecommerce.payment.alipay;
 
 /**
- * 通知结果: 该对象表示的是回调报文解析方法对报文解析的处理结果.
+ * 新版-通知结果: 该对象表示的是回调报文解析方法对报文解析的处理结果.
  * <p>
  * 当商户收到服务器异步通知并打印出success时，服务器异步通知参数notify_id才会失效。也就是说在支付宝发送同一条异步通知时（
  * 包含商户并未成功打印出success导致支付宝重发数次通知），服务器异步通知参数notify_id是不变的。
  * 
  * @author Yujinshui
- * @deprecated
+ *
  */
 public class NotificationResult {
 
@@ -45,8 +45,10 @@ public class NotificationResult {
 	 * @author Yujinshui
 	 * @time 2015年11月15日 上午11:26:37
 	 */
-	public String successResult() {
-		return "success";
+	public NotificationResult successResult() {
+		NotificationResult result = new NotificationResult();
+		result.return_msg = "success";
+		return result;
 
 	}
 
@@ -57,8 +59,10 @@ public class NotificationResult {
 	 * @author Yujinshui
 	 * @time 2015年11月15日 上午11:27:07
 	 */
-	public String failResult() {
-		return "fail";
+	public NotificationResult failResult() {
+		NotificationResult result = new NotificationResult();
+		result.return_msg = "fail";
+		return result;
 	}
 
 }

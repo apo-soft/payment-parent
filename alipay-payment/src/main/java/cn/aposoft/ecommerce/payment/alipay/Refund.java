@@ -61,8 +61,26 @@ public interface Refund {
 
 	public String getAlipay_ca_request();
 
+	/**
+	 * 商户网站唯一订单号*
+	 * <p>
+	 * 支付宝合作商户网站唯一订单号。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 下午4:47:08
+	 */
 	public String getOut_trade_no();
 
+	/**
+	 * 退款金额*
+	 * <p>
+	 * 退款金额不能大于订单金 额，全额退款必须与订单金额一致。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月17日 下午4:47:30
+	 */
 	public BigDecimal getRefund_amount();
 
 	public String getTrade_no();

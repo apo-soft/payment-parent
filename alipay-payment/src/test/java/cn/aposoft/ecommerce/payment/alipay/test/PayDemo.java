@@ -36,7 +36,8 @@ public class PayDemo {
 	 * @time 2015年11月12日 上午10:44:28
 	 */
 	private void setOrder(InstantCountRequest order) {
-		order.setService("alipay.acquire.precreate");// 目前属于固定参数，api无相关说明
+		// 二维码请求：alipay.acquire.precreate
+		order.setService("alipay.acquire.precreate");
 		order.setPartner(config.pid());//
 		order.set_input_charset(config.charset());//
 		// order.setSign_type("MD5");
@@ -49,6 +50,8 @@ public class PayDemo {
 		// order.setSeller_email(seller_email);
 		// order.setSeller_account_name(seller_account_name);
 		// order.setQr_pay_mode(config.qr_pay_mode());
+		order.setProduct_code("QR_CODE_OFFLINE");
+		order.setNotify_url("http://yangxinxin-163.6655.la:16834/count/ali/paySuccess");
 	}
 
 	/**
@@ -60,13 +63,7 @@ public class PayDemo {
 	public PayResponse payTest() {
 		InstantCountRequest order = new InstantCountRequest();
 		this.setOrder(order);
-
-		// Map<String, String> params = new HashMap<String, String>();
-		// this.convertOrder2Map(params, order);
-		// System.out.println(params);
-
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
-		// Map<String, String> result = ps.prepareMap(params);
 		PayResponse response = ps.preparePay(order);
 
 		return response;

@@ -38,30 +38,65 @@ public class PayResponse {
 		this.returnXml = returnXml;
 	}
 
+	/**
+	 * 请求是否成功[T:成功。F:失败]
+	 */
+	private String is_success;
+	/**
+	 * 签名类型
+	 */
+	private String sign_type;
 	/************* 通用参数 ***************/
 	/**
 	 * 返回支付宝sign签名
 	 */
 	private String sign;
+
 	/**
-	 * 签名类型
+	 * 错误代码
+	 * <p>
+	 * 请求成功时，不存在本参 数；<br>
+	 * 请求失败时，本参数为错误 代码，参见“ 10.2 接入错 误码”和“ 10.3 系统错误 码”。
 	 */
-	private String sign_type;
+	private String error;
 	/**
-	 * 返回标志码[SUCCESS/FAIL]
+	 * 响应码[SUCCESS/FAIL]
 	 */
 	private String result_code;
 	/**
-	 * 商户交易订单号
+	 * 支付宝交易号
+	 * <p>
+	 * 该交易在支付宝系统中的交易 流水号。 最短 16 位，最长 64 位。
+	 */
+	private String trade_no;
+	/**
+	 * 商户网站 唯一订单 号
 	 */
 	private String out_trade_no;
 	/**
-	 * 请求是否成功[T:成功。F:失败]
+	 * 凭证类型
+	 * <p>
+	 * 凭证类型，目前仅支持 （二维码）。 qrcode
 	 */
-	private String is_success;
+	private String voucher_type;
+	/**
+	 * 二维码码串的内容。[用于生成二维码]
+	 */
+	private String qr_code;
+	/**
+	 * 二维码地址【图片尺寸：中】
+	 */
+	private String pic_url;
+	/************* 成功返回参数 ***************/
+	/**
+	 * 二维码浏览器地址【图片尺寸：小】
+	 */
+	private String small_pic_url;
 	/************* 失败返回参数 ***************/
 	/**
-	 * 错误码
+	 * 详细错误码
+	 * <p>
+	 * 对返回响应码进行原因说明， 请参见“ 10.1 业务错误码”。 当 result_code 响应码为 SUCCESS 时，不返回该参数。
 	 */
 	private String detail_error_code;
 	/**
@@ -69,24 +104,6 @@ public class PayResponse {
 	 */
 	private String detail_error_des;
 
-	/************* 成功返回参数 ***************/
-	/**
-	 * 二维码浏览器地址【图片尺寸：小】
-	 */
-	private String small_pic_url;
-
-	/**
-	 * 收据类型
-	 */
-	private String voucher_type;
-	/**
-	 * 二维码链接[用于生成二维码]
-	 */
-	private String qr_code;
-	/**
-	 * 二维码浏览器地址【图片尺寸：中】
-	 */
-	private String pic_url;
 	/**
 	 * 二维码浏览器地址【图片尺寸：大】
 	 */
@@ -346,6 +363,22 @@ public class PayResponse {
 	 */
 	public void setBig_pic_url(String big_pic_url) {
 		this.big_pic_url = big_pic_url;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String getTrade_no() {
+		return trade_no;
+	}
+
+	public void setTrade_no(String trade_no) {
+		this.trade_no = trade_no;
 	}
 
 }

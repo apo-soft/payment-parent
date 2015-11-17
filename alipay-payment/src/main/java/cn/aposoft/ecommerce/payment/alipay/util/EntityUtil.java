@@ -7,7 +7,6 @@ import cn.aposoft.ecommerce.payment.alipay.Order;
 import cn.aposoft.ecommerce.payment.alipay.Refund;
 import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
-import cn.aposoft.ecommerce.payment.alipay.test.InstantCountRequest;
 
 /**
  * 支付与退款的过程封装

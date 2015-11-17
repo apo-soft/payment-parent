@@ -5,8 +5,7 @@ import java.math.BigDecimal;
 import cn.aposoft.ecommerce.payment.alipay.Refund;
 
 /**
- * 退款VO
- * 
+ * 退款VO 无sign签名，项目中封装
  * <p>
  * 
  * @author Yujinshui
@@ -304,8 +303,4 @@ public class RefundVo implements Refund {
 		this.extend_params = extend_params;
 	}
 
-	
-	
-	
-	
 }
