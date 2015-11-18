@@ -3,7 +3,7 @@ package cn.aposoft.ecommerce.payment.alipay;
 import java.math.BigDecimal;
 
 /**
- * 退款请求bean封装
+ * 退款请求bean封装[仅作为文档进行参考]
  * 
  * @author Yujinshui
  *

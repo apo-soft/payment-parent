@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.Order;
 import cn.aposoft.ecommerce.payment.alipay.Refund;
-import cn.aposoft.ecommerce.payment.alipay.RefundRequest;
 import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
@@ -120,26 +119,23 @@ public class SimpleEntityUtil implements EntityUtil {
 
 		checkConfig(config);
 
-		RefundRequest refundRequest = createRefundRequest(refund, config);
 		Map<String, String> params = new HashMap<String, String>();
 		// 必填
-		params.put("service", refundRequest.getService());
-		params.put("partner", refundRequest.getPartner());
-		params.put("_input_charset", refundRequest.get_input_charset());
-		params.put("sign_type", refundRequest.getSign_type());
-		params.put("out_trade_no", refundRequest.getOut_trade_no());
-		params.put("refund_amount", refundRequest.getRefund_amount().doubleValue() + "");
+		params.put("service", refund.getService());
+		params.put("partner", config.pid());
+		params.put("_input_charset", config.charset());
+		params.put("sign_type", config.sign_type());
+		params.put("out_trade_no", refund.getOut_trade_no());
+		params.put("refund_amount", refund.getRefund_amount().doubleValue() + "");
 		// 选填
-		params.put("alipay_ca_request",
-				refundRequest.getAlipay_ca_request() == null ? "" : refundRequest.getAlipay_ca_request());
-		params.put("trade_no", refundRequest.getTrade_no() == null ? "" : refundRequest.getTrade_no());
-		params.put("out_request_no",
-				refundRequest.getOut_request_no() == null ? "" : refundRequest.getOut_request_no());
-		params.put("operator_type", refundRequest.getOperator_type() == null ? "" : refundRequest.getOperator_type());
-		params.put("operator_id", refundRequest.getOperator_id() == null ? "" : refundRequest.getOperator_id());
-		params.put("refund_reason", refundRequest.getRefund_reason() == null ? "" : refundRequest.getRefund_reason());
-		params.put("ref_ids", refundRequest.getRef_ids() == null ? "" : refundRequest.getRef_ids());
-		params.put("extend_params", refundRequest.getExtend_params() == null ? "" : refundRequest.getExtend_params());
+		params.put("alipay_ca_request", refund.getAlipay_ca_request() == null ? "" : refund.getAlipay_ca_request());
+		params.put("trade_no", refund.getTrade_no() == null ? "" : refund.getTrade_no());
+		params.put("out_request_no", refund.getOut_request_no() == null ? "" : refund.getOut_request_no());
+		params.put("operator_type", refund.getOperator_type() == null ? "" : refund.getOperator_type());
+		params.put("operator_id", refund.getOperator_id() == null ? "" : refund.getOperator_id());
+		params.put("refund_reason", refund.getRefund_reason() == null ? "" : refund.getRefund_reason());
+		params.put("ref_ids", refund.getRef_ids() == null ? "" : refund.getRef_ids());
+		params.put("extend_params", refund.getExtend_params() == null ? "" : refund.getExtend_params());
 		return params;
 	}
 
@@ -216,35 +212,6 @@ public class SimpleEntityUtil implements EntityUtil {
 			return null;
 		}
 		return result;
-	}
-
-	/**
-	 * TODO【多余,去掉！】创建退款请求bean
-	 * 
-	 * @param refund
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月16日 下午2:09:30
-	 */
-	private RefundRequest createRefundRequest(Refund refund, Config config) {
-		RefundRequest fund = new RefundRequest();
-		// 必填
-		fund.setService(refund.getService());
-		fund.setPartner(config.pid());
-		fund.set_input_charset(config.charset());
-		fund.setSign_type(config.sign_type());
-		fund.setOut_trade_no(refund.getOut_trade_no());
-		fund.setRefund_amount(refund.getRefund_amount());
-		// 选填
-		fund.setAlipay_ca_request(refund.getAlipay_ca_request());
-		fund.setTrade_no(refund.getTrade_no());
-		fund.setOut_request_no(refund.getOut_request_no());
-		fund.setOperator_type(refund.getOperator_type());
-		fund.setOperator_id(refund.getOperator_id());
-		fund.setRefund_reason(refund.getRefund_reason());
-		fund.setRef_ids(refund.getRef_ids());
-		fund.setExtend_params(refund.getExtend_params());
-		return fund;
 	}
 
 	/**
