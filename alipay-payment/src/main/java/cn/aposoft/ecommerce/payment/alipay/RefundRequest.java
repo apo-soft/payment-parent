@@ -28,7 +28,7 @@ public class RefundRequest {
 	 * 参数编码字符集*
 	 * <p>
 	 * 商户网站使用的编码格式， 如 utf-8、 gbk、 gb2312 等。<br>
-	 * param_demo:GBK
+	 * param_demo:utf-8
 	 */
 	private String _input_charset;
 	/**
@@ -46,6 +46,8 @@ public class RefundRequest {
 	 * 如果为空，默认为 2。
 	 */
 	private String alipay_ca_request;
+
+	/********** 业务参数 ***********/
 	/**
 	 * 商户网站唯一订单号*
 	 * <P>

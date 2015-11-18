@@ -7,7 +7,6 @@ import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.PaymentService;
 import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PaymentServiceImpl;
-import cn.aposoft.ecommerce.payment.alipay.util.DateUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 
 /**
@@ -40,6 +39,17 @@ public class RefundDemo {
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
 		RefundResponse response = ps.refund(fund);
 		System.out.println(response.getResult());
+		System.out.println("Is_success:" + response.getIs_success());
+		System.out.println("商户网站唯一订单号 :" + response.getOut_trade_no());
+		System.out.println("退款金额（元）：" + response.getRefund_fee());
+		System.out.println("支付宝返回签名 :" + response.getSign());
+		System.out.println("签名类型：" + response.getSign_type());
+		System.out.println("支付宝交易号：" + response.getTrade_no());
+		System.out.println("退款处理结果响应码。:" + response.getResult_code());
+		System.out.println("退款时间：" + response.getGmt_refund_pay());
+		System.out.println("错误码 ：" + response.getDetail_error_code());
+		System.out.println("错误描述:" + response.getDetail_error_des());
+		System.out.println("sign校验结果：" + response.getIsAliPay());
 		return null;
 	}
 
@@ -53,11 +63,8 @@ public class RefundDemo {
 	private RefundVo setValue() {
 		RefundVo fund = new RefundVo();
 		fund.setService("alipay.acquire.refund");
-		fund.setPartner(config.pid());
-		fund.set_input_charset(config.charset());
-		fund.setSign_type(config.sign_type());
-		fund.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F601");
-		BigDecimal b = new BigDecimal(0.1);
+		fund.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_1");
+		BigDecimal b = new BigDecimal(0.01);
 		fund.setRefund_amount(b);
 
 		return fund;

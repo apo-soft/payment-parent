@@ -4,7 +4,18 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
  * 
  * 响应结果封装bean
  * <p>
- * 参数说明无官方解释，个人提供，仅供参考 以下属性以abc标记用途
+ * <b>注意</b>： 以下参数得到后需要进行签名验证，比对支付宝返回的sign值是否一致<br>
+ * error <br>
+ * result_code <br>
+ * trade_no <br>
+ * out_trade_no <br>
+ * voucher_type <br>
+ * qr_code <br>
+ * pic_url <br>
+ * small_pic_url <br>
+ * detail_error_code <br>
+ * detail_error_des
+ * 
  * 
  * @author Yujinshui
  */
@@ -36,6 +47,42 @@ public class PayResponse {
 	 */
 	public void setReturnXml(String returnXml) {
 		this.returnXml = returnXml;
+	}
+
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 */
+	private boolean isAliPay;
+
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午3:10:36
+	 */
+	public boolean getIsAliPay() {
+		return isAliPay;
+	}
+
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 * 
+	 * @param isAliPay
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午3:10:41
+	 */
+	public void setIsAliPay(boolean isAliPay) {
+		this.isAliPay = isAliPay;
 	}
 
 	/**

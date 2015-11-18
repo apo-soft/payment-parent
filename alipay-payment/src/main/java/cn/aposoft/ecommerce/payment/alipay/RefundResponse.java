@@ -1,16 +1,54 @@
 package cn.aposoft.ecommerce.payment.alipay;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * 退款请求-返回结果bean
+ * <p>
+ * TODO refund_detail_item_list参数未进行处理
  * 
  * @author Yujinshui
  *
  */
 public class RefundResponse {
 
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 */
+	private boolean isAliPay;
+
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午3:10:36
+	 */
+	public boolean getIsAliPay() {
+		return isAliPay;
+	}
+
+	/**
+	 * 通过比对支付宝返回的sign签名，判断是否为true
+	 * <p>
+	 * true:是支付宝返回结果<br>
+	 * false:警告！非支付宝返回结果
+	 * 
+	 * @param isAliPay
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午3:10:41
+	 */
+	public void setIsAliPay(boolean isAliPay) {
+		this.isAliPay = isAliPay;
+	}
+
+	/**
+	 * 解析失败时将原始返回结果放进这里[个人提供]
+	 */
 	private String result;
 
 	/**
@@ -118,19 +156,14 @@ public class RefundResponse {
 	 * <p>
 	 * 实际退款金额，单位为元。
 	 */
-	private double refund_fee;
+	private String refund_fee;
 	/**
 	 * 退款时间
 	 * <p>
 	 * 退款时间，格式为yyyy-MM-ddHH:mm:ss。
 	 */
-	private Date gmt_refund_pay;
-	/**
-	 * 退款渠道列表
-	 * <p>
-	 * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
-	 */
-	private List<RefundDetailList> refund_detail_item_list;
+	private String gmt_refund_pay;
+
 	/**
 	 * 详细错误码
 	 * <p>
@@ -455,7 +488,7 @@ public class RefundResponse {
 	 * @time 2015年11月17日 下午5:25:01
 	 */
 
-	public double getRefund_fee() {
+	public String getRefund_fee() {
 		return refund_fee;
 	}
 
@@ -469,7 +502,7 @@ public class RefundResponse {
 	 * @time 2015年11月17日 下午5:25:01
 	 */
 
-	public void setRefund_fee(double refund_fee) {
+	public void setRefund_fee(String refund_fee) {
 		this.refund_fee = refund_fee;
 	}
 
@@ -483,7 +516,7 @@ public class RefundResponse {
 	 * @time 2015年11月17日 下午5:25:01
 	 */
 
-	public Date getGmt_refund_pay() {
+	public String getGmt_refund_pay() {
 		return gmt_refund_pay;
 	}
 
@@ -497,37 +530,43 @@ public class RefundResponse {
 	 * @time 2015年11月17日 下午5:25:01
 	 */
 
-	public void setGmt_refund_pay(Date gmt_refund_pay) {
+	public void setGmt_refund_pay(String gmt_refund_pay) {
 		this.gmt_refund_pay = gmt_refund_pay;
 	}
-
-	/**
-	 * 退款渠道列表
-	 * <p>
-	 * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
-	 *
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:25:01
-	 */
-
-	public List<RefundDetailList> getRefund_detail_item_list() {
-		return refund_detail_item_list;
-	}
-
-	/**
-	 * 退款渠道列表
-	 * <p>
-	 * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
-	 *
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:25:01
-	 */
-
-	public void setRefund_detail_item_list(List<RefundDetailList> refund_detail_item_list) {
-		this.refund_detail_item_list = refund_detail_item_list;
-	}
+	// /**
+	// * 退款渠道列表
+	// * <p>
+	// * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
+	// */
+	// private List<RefundDetail> refund_detail_item_list;
+	// /**
+	// * 退款渠道列表
+	// * <p>
+	// * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
+	// *
+	// * @return
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:25:01
+	// */
+	//
+	// public List<RefundDetail> getRefund_detail_item_list() {
+	// return refund_detail_item_list;
+	// }
+	//
+	// /**
+	// * 退款渠道列表
+	// * <p>
+	// * 退款金额的退回渠道，xml格式，可返回多个退款渠道子节点<TradeFundBill>，该节点包含的参数请参见“5.3退款渠道列表信息”。
+	// *
+	// * @return
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:25:01
+	// */
+	//
+	// public void setRefund_detail_item_list(List<RefundDetail>
+	// refund_detail_item_list) {
+	// this.refund_detail_item_list = refund_detail_item_list;
+	// }
 
 	/**
 	 * 详细错误码
@@ -589,78 +628,79 @@ public class RefundResponse {
 		this.detail_error_des = detail_error_des;
 	}
 
-}
-
-/**
- * 5.3 退款渠道列表信息
- * 
- * @author Yujinshui
- *
- */
-class RefundDetailList {
-	/**
-	 * 退款渠道
-	 * <p>
-	 * 退款渠道，参见“8.4退款渠道”
-	 */
-	private String fund_channel;
-	/**
-	 * 退款金额
-	 * <p>
-	 * 使用指定退款渠道退还的金额，单位为元。
-	 */
-	private String amount;
-
-	/**
-	 * 退款渠道
-	 * <p>
-	 * 退款渠道，参见“8.4退款渠道”
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:17:24
-	 */
-	public String getFund_channel() {
-		return fund_channel;
-	}
-
-	/**
-	 * 退款渠道
-	 * <p>
-	 * 退款渠道，参见“8.4退款渠道”
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:17:24
-	 */
-	public void setFund_channel(String fund_channel) {
-		this.fund_channel = fund_channel;
-	}
-
-	/**
-	 * 退款金额
-	 * <p>
-	 * 使用指定退款渠道退还的金额，单位为元。
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:17:35
-	 */
-	public String getAmount() {
-		return amount;
-	}
-
-	/**
-	 * 退款金额
-	 * <p>
-	 * 使用指定退款渠道退还的金额，单位为元。
-	 * 
-	 * @param amount
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午5:17:39
-	 */
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
+	// /**
+	// * 5.3 退款渠道列表信息
+	// *
+	// * @author Yujinshui
+	// *
+	// */
+	// public static class RefundDetail {
+	// /**
+	// * 退款渠道
+	// * <p>
+	// * 退款渠道，参见“8.4退款渠道”
+	// */
+	// private String fund_channel;
+	// /**
+	// * 退款金额
+	// * <p>
+	// * 使用指定退款渠道退还的金额，单位为元。
+	// */
+	// private String amount;
+	//
+	// /**
+	// * 退款渠道
+	// * <p>
+	// * 退款渠道，参见“8.4退款渠道”
+	// *
+	// * @return
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:17:24
+	// */
+	// public String getFund_channel() {
+	// return fund_channel;
+	// }
+	//
+	// /**
+	// * 退款渠道
+	// * <p>
+	// * 退款渠道，参见“8.4退款渠道”
+	// *
+	// * @return
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:17:24
+	// */
+	// public RefundDetail setFund_channel(String fund_channel) {
+	// this.fund_channel = fund_channel;
+	// return this;
+	// }
+	//
+	// /**
+	// * 退款金额
+	// * <p>
+	// * 使用指定退款渠道退还的金额，单位为元。
+	// *
+	// * @return
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:17:35
+	// */
+	// public String getAmount() {
+	// return amount;
+	// }
+	//
+	// /**
+	// * 退款金额
+	// * <p>
+	// * 使用指定退款渠道退还的金额，单位为元。
+	// *
+	// * @param amount
+	// * @author Yujinshui
+	// * @time 2015年11月17日 下午5:17:39
+	// */
+	// public RefundDetail setAmount(String amount) {
+	// this.amount = amount;
+	// return this;
+	// }
+	// }
 
 }

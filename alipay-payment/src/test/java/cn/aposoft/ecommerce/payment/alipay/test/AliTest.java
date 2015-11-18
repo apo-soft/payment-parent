@@ -26,6 +26,7 @@ public class AliTest {
 		System.out.println("支付宝返回签名：" + response.getSign());
 		System.out.println("error_code:" + response.getDetail_error_code());
 		System.out.println("error_des:" + response.getDetail_error_des());
+		System.out.println(response.getIsAliPay());
 	}
 
 	public void refund() {
@@ -37,7 +38,7 @@ public class AliTest {
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
 		ali.refund();
-		// ali.pay();
+//		 ali.pay();
 	}
 
 }

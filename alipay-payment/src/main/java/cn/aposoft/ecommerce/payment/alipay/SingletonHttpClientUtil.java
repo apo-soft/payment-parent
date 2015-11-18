@@ -2,10 +2,7 @@ package cn.aposoft.ecommerce.payment.alipay;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpProtocolHandler;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpRequest;

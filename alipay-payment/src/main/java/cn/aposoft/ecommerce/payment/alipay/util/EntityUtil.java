@@ -15,21 +15,26 @@ import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
  *
  */
 public interface EntityUtil {
+
 	/**
 	 * [支付]将返回的xml字符串结果解析成PayResponse-javabean
 	 * 
 	 * @param xml
+	 * @param config
 	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午3:59:38
 	 */
-	PayResponse parsePayResponseXml(String xml);
+	PayResponse parsePayResponseXml(String xml, Config config);
 
 	/**
-	 * 将返回的xml字符串解析成map类型返回
+	 * 将返回的xml字符串解析成map类型返回【测试环境使用】
 	 * 
 	 * @param xml
 	 * @return
 	 * @author Yujinshui
 	 * @time 2015年11月12日 下午8:24:28
+	 * @deprecated
 	 */
 	Map<String, String> parseMapXml(String xml);
 
@@ -53,5 +58,5 @@ public interface EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月16日 下午2:41:16
 	 */
-	RefundResponse parseRefundResponseXml(String resultXml);
+	RefundResponse parseRefundResponseXml(String resultXml, Config config);
 }

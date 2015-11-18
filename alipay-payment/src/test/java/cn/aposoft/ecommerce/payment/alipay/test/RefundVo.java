@@ -19,27 +19,27 @@ public class RefundVo implements Refund {
 	 * param_demo:refund_fastpay_by_platform_pwd
 	 */
 	private String service;
-	/**
-	 * 合作者身份ID*
-	 * <p>
-	 * 签约的支付宝账号对应的 支付宝唯一用户号。 以 2088 开头的 16 位纯数 字组成。 <br>
-	 * param_demo:2088101008267254
-	 */
-	private String partner;
-	/**
-	 * 参数编码字符集*
-	 * <p>
-	 * 商户网站使用的编码格式， 如 utf-8、 gbk、 gb2312 等。<br>
-	 * param_demo:GBK
-	 */
-	private String _input_charset;
-	/**
-	 * 签名方式*
-	 * <p>
-	 * DSA、 RSA、 MD5 三个值 可选，必须大写。<br>
-	 * param_demo:MD5
-	 */
-	private String sign_type;
+	// /**
+	// * 合作者身份ID*
+	// * <p>
+	// * 签约的支付宝账号对应的 支付宝唯一用户号。 以 2088 开头的 16 位纯数 字组成。 <br>
+	// * param_demo:2088101008267254
+	// */
+	// private String partner;
+	// /**
+	// * 参数编码字符集*
+	// * <p>
+	// * 商户网站使用的编码格式， 如 utf-8、 gbk、 gb2312 等。<br>
+	// * param_demo:GBK
+	// */
+	// private String _input_charset;
+	// /**
+	// * 签名方式*
+	// * <p>
+	// * DSA、 RSA、 MD5 三个值 可选，必须大写。<br>
+	// * param_demo:MD5
+	// */
+	// private String sign_type;
 
 	/**
 	 * 签名类型
@@ -128,45 +128,6 @@ public class RefundVo implements Refund {
 	}
 
 	/**
-	 * 合作者身份ID*
-	 * <p>
-	 * 签约的支付宝账号对应的 支付宝唯一用户号。 以 2088 开头的 16 位纯数 字组成。 <br>
-	 * param_demo:2088101008267254
-	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Refund#getPartner()
-	 */
-	@Override
-	public String getPartner() {
-		return partner;
-	}
-
-	/**
-	 * 参数编码字符集*
-	 * <p>
-	 * 商户网站使用的编码格式， 如 utf-8、 gbk、 gb2312 等。<br>
-	 * param_demo:GBK
-	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Refund#get_input_charset()
-	 */
-	@Override
-	public String get_input_charset() {
-		return _input_charset;
-	}
-
-	/**
-	 * 签名方式*
-	 * <p>
-	 * DSA、 RSA、 MD5 三个值 可选，必须大写。<br>
-	 * param_demo:MD5
-	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Refund#getSign_type()
-	 */
-	@Override
-	public String getSign_type() {
-		return sign_type;
-	}
-
-	/**
 	 * 
 	 * 接口名称*
 	 * <p>
@@ -179,48 +140,6 @@ public class RefundVo implements Refund {
 	 */
 	public void setService(String service) {
 		this.service = service;
-	}
-
-	/**
-	 * 合作者身份ID*
-	 * <p>
-	 * 签约的支付宝账号对应的 支付宝唯一用户号。 以 2088 开头的 16 位纯数 字组成。 <br>
-	 * param_demo:2088101008267254
-	 * 
-	 * @param partner
-	 * @author Yujinshui
-	 * @time 2015年11月16日 上午11:26:33
-	 */
-	public void setPartner(String partner) {
-		this.partner = partner;
-	}
-
-	/**
-	 * 参数编码字符集*
-	 * <p>
-	 * 商户网站使用的编码格式， 如 utf-8、 gbk、 gb2312 等。<br>
-	 * param_demo:GBK
-	 * 
-	 * @param _input_charset
-	 * @author Yujinshui
-	 * @time 2015年11月16日 上午11:26:54
-	 */
-	public void set_input_charset(String _input_charset) {
-		this._input_charset = _input_charset;
-	}
-
-	/**
-	 * 签名方式*
-	 * <p>
-	 * DSA、 RSA、 MD5 三个值 可选，必须大写。<br>
-	 * param_demo:MD5
-	 * 
-	 * @param sign_type
-	 * @author Yujinshui
-	 * @time 2015年11月16日 上午11:27:27
-	 */
-	public void setSign_type(String sign_type) {
-		this.sign_type = sign_type;
 	}
 
 	public String getAlipay_ca_request() {
