@@ -16,36 +16,36 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XMLUtil {
-	/**
-	 * 将返回字符串解析为map类型[通用xml解析方式，微信xml尚未测试]
-	 * <p>
-	 * TODO 由于返回内容中包含内部List，不知如何解析，故copy了getMapFromXML方法，留作以后完善时需要，暂不启用
-	 * 
-	 * @param xml
-	 * @param detailList
-	 * @return
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @author Yujinshui
-	 * @time 2015年11月18日 上午11:18:04
-	 * @deprecated
-	 */
-	public static Map<String, String> getMapFromRefundXML(String xml)
-			throws SAXException, IOException, ParserConfigurationException {
-		// 构建xml解析工厂
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		// 构建具体的xml解析器
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		InputStream is = getStringStream(xml);
-		// 获得当前xml的文档
-		Document document = documentBuilder.parse(is);
-		// 获得当前文档的根元素
-		Element root = document.getDocumentElement();
-		Map<String, String> map = new HashMap<String, String>();
-		recurrenceXml(map, root);
-		return map;
-	}
+//	/**
+//	 * 将返回字符串解析为map类型[通用xml解析方式，微信xml尚未测试]
+//	 * <p>
+//	 * TODO 由于返回内容中包含内部List，不知如何解析，故copy了getMapFromXML方法，留作以后完善时需要，暂不启用
+//	 * 
+//	 * @param xml
+//	 * @param detailList
+//	 * @return
+//	 * @throws SAXException
+//	 * @throws IOException
+//	 * @throws ParserConfigurationException
+//	 * @author Yujinshui
+//	 * @time 2015年11月18日 上午11:18:04
+//	 * @deprecated
+//	 */
+//	public static Map<String, String> getMapFromRefundXML(String xml)
+//			throws SAXException, IOException, ParserConfigurationException {
+//		// 构建xml解析工厂
+//		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+//		// 构建具体的xml解析器
+//		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//		InputStream is = getStringStream(xml);
+//		// 获得当前xml的文档
+//		Document document = documentBuilder.parse(is);
+//		// 获得当前文档的根元素
+//		Element root = document.getDocumentElement();
+//		Map<String, String> map = new HashMap<String, String>();
+//		recurrenceXml(map, root);
+//		return map;
+//	}
 
 	/**
 	 * 将返回字符串解析为map类型[通用xml解析方式，微信xml尚未测试]

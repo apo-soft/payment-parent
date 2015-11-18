@@ -55,6 +55,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		try {
 			result = XMLUtil.getMapFromXML(resultXml);
 			res = getRefundResponse(result);
+			res.setRefund_detail_item_list(getRefund_detail_item_listContent(resultXml));
 			// 对返回结果进行MD5签名校验
 			checkRefundResponseSign(res, config);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
@@ -63,6 +64,27 @@ public class SimpleEntityUtil implements EntityUtil {
 			res.setResult(resultXml);
 		}
 		return res;
+	}
+
+	/**
+	 * 单独解析refund_detail_item_list内容
+	 * 
+	 * @param xml
+	 * @author Yujinshui
+	 * @time 2015年11月18日 下午7:28:36
+	 */
+	private String getRefund_detail_item_listContent(String xml) {
+		int start = xml.indexOf("<Refund_detail_item_list>");
+		int end = xml.indexOf("</Refund_detail_item_list>") + "</Refund_detail_item_list>".length();
+		String out = xml.substring(start, end);
+		return out;
+
+	}
+
+	public static void main(String[] args) {
+		String str = "<alipay><Refund_detail_item_list><a>hello,</a><b>world</b></Refund_detail_item_list></alipay>";
+		System.out.println(str.substring(str.indexOf("<Refund_detail_item_list>"),
+				str.indexOf("</Refund_detail_item_list>") + "</Refund_detail_item_list>".length()));
 	}
 
 	/**
@@ -280,7 +302,6 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 对支付宝同步返回的结果进行签名比对验证
 	 * <p>
-	 * TODO 暂不包含refund_detail_item_list内容的校验
 	 * 
 	 * @author Yujinshui
 	 * @time 2015年11月18日 下午5:05:19
@@ -300,6 +321,10 @@ public class SimpleEntityUtil implements EntityUtil {
 			map.put("gmt_refund_pay", refund.getGmt_refund_pay() == null ? "" : refund.getGmt_refund_pay());
 			map.put("detail_error_code", refund.getDetail_error_code() == null ? "" : refund.getDetail_error_code());
 			map.put("detail_error_des", refund.getDetail_error_des() == null ? "" : refund.getDetail_error_des());
+
+			// refund_detail_item_list内容！
+			map.put("refund_detail_item_list",
+					refund.getRefund_detail_item_list() == null ? "" : refund.getRefund_detail_item_list());
 		}
 		// 此处进行支付宝返回值的签名创建，用于进行签名验证
 		map = MapUtil.createMapRequest(map, config);
