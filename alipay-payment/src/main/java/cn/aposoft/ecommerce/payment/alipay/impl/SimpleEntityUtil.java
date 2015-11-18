@@ -81,12 +81,6 @@ public class SimpleEntityUtil implements EntityUtil {
 
 	}
 
-	public static void main(String[] args) {
-		String str = "<alipay><Refund_detail_item_list><a>hello,</a><b>world</b></Refund_detail_item_list></alipay>";
-		System.out.println(str.substring(str.indexOf("<Refund_detail_item_list>"),
-				str.indexOf("</Refund_detail_item_list>") + "</Refund_detail_item_list>".length()));
-	}
-
 	/**
 	 * 订单数据转换
 	 * 
