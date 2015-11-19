@@ -13,7 +13,7 @@ import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
  */
 public interface PaymentService {
 	/**
-	 * 即时到账接口付款完成的交易进行部分或全部的退还。商户需输入支付密码。
+	 * 即时到账接口付款完成的交易进行部分或全部的退还。
 	 * 
 	 * @param refund
 	 * @return
