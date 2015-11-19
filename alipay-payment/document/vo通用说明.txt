@@ -1,0 +1,11 @@
+支付返回+退款返回通用部分封装到cn.aposoft.ecommerce.payment.alipay.ResponseBase.java中
+
+is_success
+sign_type
+sign
+error
+result_code
+trade_no
+out_trade_no
+detail_error_code
+detail_error_des
