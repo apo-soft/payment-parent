@@ -44,8 +44,41 @@ public class Notification {
 	public void setIsAliPay(boolean isAliPay) {
 		this.isAliPay = isAliPay;
 	}
-	/***************************/
 
+	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 */
+	private String localSign;
+
+	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月19日 下午4:26:49
+	 */
+	public String getLocalSign() {
+		return localSign;
+	}
+
+	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月19日 下午4:26:49
+	 */
+	public void setLocalSign(String localSign) {
+		this.localSign = localSign;
+	}
+
+	/***************************/
 	/**
 	 * 通知时间*
 	 * <p>
@@ -850,30 +883,31 @@ public class Notification {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "notify_time:\r\n" + notify_time//
-				+ "notify_type:\r\n" + notify_type//
-				+ "notify_id:\r\n" + notify_id//
-				+ "sign_type:\r\n" + sign_type//
-				+ "sign:\r\n" + sign//
-				+ "notify_action_type:\r\n" + notify_action_type//
-				+ "out_trade_no:\r\n" + out_trade_no//
-				+ "subject:\r\n" + subject//
-				+ "trade_no:\r\n" + trade_no//
-				+ "trade_status:\r\n" + trade_status//
-				+ "gmt_create:\r\n" + gmt_create//
-				+ "gmt_payment:\r\n" + gmt_payment//
-				+ "seller_email:\r\n" + seller_email//
-				+ "buyer_email:\r\n" + buyer_email//
-				+ "seller_id:\r\n" + seller_id//
-				+ "buyer_id:\r\n" + buyer_id//
-				+ "price:\r\n" + price//
-				+ "quantity:\r\n" + quantity//
-				+ "total_fee:\r\n" + total_fee//
-				+ "body:\r\n" + body//
-				+ "refund_fee:\r\n" + refund_fee//
-				+ "out_biz_no:\r\n" + out_biz_no//
-				+ "paytools_pay_amount:\r\n" + paytools_pay_amount//
-				+ "extra_common_param:" + extra_common_param; //
+		return "isAliPay:" + isAliPay//
+				+ "\r\n notify_time:" + notify_time//
+				+ "\r\n notify_type:" + notify_type//
+				+ "\r\n notify_id:" + notify_id//
+				+ "\r\n sign_type:" + sign_type//
+				+ "\r\n sign:" + sign//
+				+ "\r\n notify_action_type:" + notify_action_type//
+				+ "\r\n out_trade_no:" + out_trade_no//
+				+ "\r\n subject:" + subject//
+				+ "\r\n trade_no:" + trade_no//
+				+ "\r\n trade_status:" + trade_status//
+				+ "\r\n gmt_create:" + gmt_create//
+				+ "\r\n gmt_payment:" + gmt_payment//
+				+ "\r\n seller_email:" + seller_email//
+				+ "\r\n buyer_email:" + buyer_email//
+				+ "\r\n seller_id:" + seller_id//
+				+ "\r\n buyer_id:" + buyer_id//
+				+ "\r\n price:" + price//
+				+ "\r\n quantity:" + quantity//
+				+ "\r\n total_fee:" + total_fee//
+				+ "\r\n body:" + body//
+				+ "\r\n refund_fee:" + refund_fee//
+				+ "\r\n out_biz_no:" + out_biz_no//
+				+ "\r\n paytools_pay_amount:" + paytools_pay_amount//
+				+ "\r\n extra_common_param:" + extra_common_param; //
 	}
 
 }

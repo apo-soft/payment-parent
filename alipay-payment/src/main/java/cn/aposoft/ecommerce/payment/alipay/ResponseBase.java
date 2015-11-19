@@ -8,6 +8,39 @@ package cn.aposoft.ecommerce.payment.alipay;
  */
 public class ResponseBase {
 	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 */
+	private String localSign;
+
+	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月19日 下午4:26:49
+	 */
+	public String getLocalSign() {
+		return localSign;
+	}
+
+	/**
+	 * 根据支付宝返回信息生成的sign签名信息
+	 * <p>
+	 * 用于跟支付宝sign进行数据对比
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月19日 下午4:26:49
+	 */
+	public void setLocalSign(String localSign) {
+		this.localSign = localSign;
+	}
+
+	/**
 	 * 通过比对支付宝返回的sign签名，判断是否为true
 	 * <p>
 	 * true:是支付宝返回结果<br>

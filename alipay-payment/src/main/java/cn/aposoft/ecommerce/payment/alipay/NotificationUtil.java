@@ -47,6 +47,7 @@ public class NotificationUtil {
 		map.put("refund_fee", noti.getRefund_fee() == null ? "" : noti.getRefund_fee());
 		map.put("out_biz_no", noti.getOut_biz_no() == null ? "" : noti.getOut_biz_no());
 		map.put("paytools_pay_amount", noti.getPaytools_pay_amount() == null ? "" : noti.getPaytools_pay_amount());
+		map.put("extra_common_param", noti.getExtra_common_param() == null ? "" : noti.getExtra_common_param());
 		// 此处进行支付宝返回值的签名创建，用于进行签名验证
 		map = MapUtil.createMapRequest(map, config);
 		noti.setIsAliPay(map.get("sign").equals(noti.getSign()));

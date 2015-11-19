@@ -76,7 +76,10 @@ public class SimpleEntityUtil implements EntityUtil {
 	private String getRefund_detail_item_listContent(String xml) {
 		int start = xml.indexOf("<Refund_detail_item_list>");
 		int end = xml.indexOf("</Refund_detail_item_list>") + "</Refund_detail_item_list>".length();
-		String out = xml.substring(start, end);
+		String out = null;
+		if (start > 0 && end > 0) {
+			out = xml.substring(start, end);
+		}
 		return out;
 
 	}
@@ -292,7 +295,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		// 此处进行支付宝返回值的签名创建，用于进行签名验证
 		map = MapUtil.createMapRequest(map, config);
 		response.setIsAliPay(map.get("sign").equals(response.getSign()));
-
+		response.setLocalSign(map.get("sign"));
 	}
 
 	/**
@@ -325,6 +328,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		// 此处进行支付宝返回值的签名创建，用于进行签名验证
 		map = MapUtil.createMapRequest(map, config);
 		refund.setIsAliPay(map.get("sign").equals(refund.getSign()));
+		refund.setLocalSign(map.get("sign"));
 	}
 
 }
