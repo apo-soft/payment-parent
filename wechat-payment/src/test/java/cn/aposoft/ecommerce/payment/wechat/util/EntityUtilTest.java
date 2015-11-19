@@ -5,8 +5,10 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 
 import org.junit.Test;
 
-import cn.aposoft.ecommerce.payment.wechat.RefundBill;
-import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundBill;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.SimpleEntityUtil;
 
 /**
  * 实体对象测试类

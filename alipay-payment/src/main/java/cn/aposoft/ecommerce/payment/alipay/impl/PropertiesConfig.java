@@ -31,11 +31,11 @@ public class PropertiesConfig implements Config {
 	 */
 	private String PRIVATE_KEY;
 	/**
-	 * 商户key
+	 * [必填]商户key
 	 */
 	private String KEY;
 	/**
-	 * 合作身份者ID，以2088开头由16位纯数字组成的字符串
+	 * [必填]合作身份者ID，以2088开头由16位纯数字组成的字符串
 	 */
 	private String PID;
 	/**
@@ -43,11 +43,11 @@ public class PropertiesConfig implements Config {
 	 */
 	private String APPID;
 	/**
-	 * 请求使用的编码格式，如utf-8(推荐),gbk,gb2312等
+	 * [必填]请求使用的编码格式，如utf-8(推荐),gbk,gb2312等
 	 */
 	private String CHARSET;
 	/**
-	 * 签名方式 不需修改
+	 * [必填]签名方式 不需修改
 	 */
 	private String SIGN_TYPE;
 
@@ -65,7 +65,7 @@ public class PropertiesConfig implements Config {
 	private String ALI_PUBLIC_KEY;
 
 	/**
-	 * 支付宝通用网关接口
+	 * [必填]支付宝通用网关接口
 	 */
 	private String ALI_GATEWAY;
 
@@ -96,20 +96,25 @@ public class PropertiesConfig implements Config {
 	 */
 	public PropertiesConfig(Map<String, String> map) {
 		PRIVATE_KEY = map.get("PRIVATE_KEY");
-		KEY = map.get("KEY");
-		PID = map.get("PID");
+		KEY = map.get("KEY");// [必填]
+		PID = map.get("PID");// [必填]
 		APPID = map.get("APPID");
-		CHARSET = map.get("CHARSET");
-		SIGN_TYPE = map.get("SIGN_TYPE");
+		CHARSET = map.get("CHARSET");// [必填]
+		SIGN_TYPE = map.get("SIGN_TYPE");// [必填]
 		VERSION = map.get("VERSION");
 		NOTIFY_URL = map.get("NOTIFY_URL");
 		ALI_PUBLIC_KEY = map.get("ALI_PUBLIC_KEY");
-		ALI_GATEWAY = map.get("ALI_GATEWAY");
+		ALI_GATEWAY = map.get("ALI_GATEWAY");// [必填]
 		LOG_PATH = map.get("LOG_PATH");
 		QR_PAY_MODE = map.get("QR_PAY_MODE");
 
 	}
 
+	/**
+	 * 指定配置文件在项目中的路径+名称
+	 * 
+	 * @param fileName
+	 */
 	public PropertiesConfig(String fileName) {
 		getProperties(fileName);
 	}
@@ -237,7 +242,8 @@ public class PropertiesConfig implements Config {
 	}
 
 	/**
-	 * <font color=red>*</font>合作身份者ID，以2088开头由16位纯数字组成的字符串 [源自官网demo说明]
+	 * <font color=red>*</font>合作身份者ID[partner]，以2088开头由16位纯数字组成的字符串
+	 * [源自官网demo说明]
 	 * 
 	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#pid()
 	 */

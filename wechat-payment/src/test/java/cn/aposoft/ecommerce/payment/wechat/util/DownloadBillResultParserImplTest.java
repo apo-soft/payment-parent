@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResultParserImpl;
 
 /**
  * @author Jann Liu
