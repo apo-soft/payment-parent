@@ -5,6 +5,13 @@ package cn.aposoft.ecommerce.payment.wechat;
 
 import java.io.Closeable;
 
+import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
+
 /**
  * 主动向微信支付服务器发送各种订单业务相关请求
  * {@link https://pay.weixin.qq.com/wiki/doc/api/index.html}

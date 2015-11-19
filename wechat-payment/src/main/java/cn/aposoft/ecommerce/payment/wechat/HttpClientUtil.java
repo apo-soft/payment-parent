@@ -1,12 +1,10 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat;
 
 import java.io.Closeable;
 import java.io.IOException;
-
-import cn.aposoft.ecommerce.payment.wechat.Config;
 
 /**
  * 实现对httpClient封装的接口用于发送http请求

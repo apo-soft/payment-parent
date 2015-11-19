@@ -1,14 +1,11 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
-import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
-import cn.aposoft.ecommerce.payment.wechat.util.SimpleEntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
+import cn.aposoft.ecommerce.payment.wechat.PaymentService;
 
 /**
  * 付款接口启用

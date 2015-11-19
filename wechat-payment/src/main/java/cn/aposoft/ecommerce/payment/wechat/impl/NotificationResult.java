@@ -1,10 +1,9 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
-import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.SimpleEntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
 
 /**
  * 通知结果: 该对象表示的是回调报文解析方法对报文解析的处理结果.

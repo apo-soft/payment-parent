@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 /**
  * 用于订单查询和退款单查询中,Coupon集合的管理

@@ -3,6 +3,9 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResultParserImpl;
+
 /**
  * 对账单解析器实现工厂
  * 

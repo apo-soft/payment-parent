@@ -1,23 +1,16 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat;
 
-import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
-import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
-import cn.aposoft.ecommerce.payment.wechat.Config;
-import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
-import cn.aposoft.ecommerce.payment.wechat.Notification;
-import cn.aposoft.ecommerce.payment.wechat.NotificationResult;
-import cn.aposoft.ecommerce.payment.wechat.Order;
-import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
-import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.PayResponse;
-import cn.aposoft.ecommerce.payment.wechat.Refund;
-import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
-import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.Notification;
+import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
 
 /**
  * 支付与退款的过程封装

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.List;
 

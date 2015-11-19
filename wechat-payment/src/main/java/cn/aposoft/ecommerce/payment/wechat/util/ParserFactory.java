@@ -3,6 +3,11 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import cn.aposoft.ecommerce.payment.wechat.CouponParser;
+import cn.aposoft.ecommerce.payment.wechat.RefundResultParser;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryCouponParser;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryCouponParser;
+
 /**
  * {@code ParserFactory}
  * Parser工厂:用于获取OrderQuery或RefundQuery中带有序号循环的数据的解析的Parser构造类

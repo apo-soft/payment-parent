@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 /**
  * 支付，退款返回部分通用字段 查询xml样式 查询参数xml格式：

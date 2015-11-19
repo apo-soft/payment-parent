@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.Random;
 

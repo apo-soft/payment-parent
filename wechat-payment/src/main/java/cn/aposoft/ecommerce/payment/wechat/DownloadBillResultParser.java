@@ -1,9 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
-
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
+package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 对账单返回结果解析方法接口

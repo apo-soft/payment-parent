@@ -7,8 +7,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
 
 /**
  * @author Jann Liu

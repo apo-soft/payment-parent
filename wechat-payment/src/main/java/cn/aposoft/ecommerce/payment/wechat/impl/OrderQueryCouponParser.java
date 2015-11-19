@@ -1,7 +1,9 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
+
+import cn.aposoft.ecommerce.payment.wechat.CouponParser;
 
 /**
  * 订单查询的优惠券解析类
@@ -20,7 +22,7 @@ public class OrderQueryCouponParser extends AbstractCouponParser implements Coup
 	/**
 	 * 是否为优惠券批次id标识符
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.CouponParser
+	 * @see cn.aposoft.ecommerce.payment.wechat.CouponParser
 	 */
 	@Override
 	public boolean isCoupon_batch_id(String key) {
@@ -30,7 +32,7 @@ public class OrderQueryCouponParser extends AbstractCouponParser implements Coup
 	/**
 	 * 是否为优惠券批次id标识符
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.CouponParser
+	 * @see cn.aposoft.ecommerce.payment.wechat.CouponParser
 	 */
 	@Override
 	public boolean isCoupon_id(String key) {

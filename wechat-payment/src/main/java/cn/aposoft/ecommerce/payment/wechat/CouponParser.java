@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 解析退款查询和订单查询中的Coupon对象字段

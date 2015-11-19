@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import cn.aposoft.ecommerce.payment.wechat.impl.Notification;
+
 /**
  * 异步接收微信服务器通知服务
  * 

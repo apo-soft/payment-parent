@@ -1,7 +1,11 @@
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.aposoft.ecommerce.payment.wechat.CouponParser;
+import cn.aposoft.ecommerce.payment.wechat.RefundResultParser;
+import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
 
 public class RefundQueryCouponParser extends AbstractCouponParser implements RefundResultParser {
 
@@ -35,7 +39,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	/**
 	 * 微信退款单号 refund_id_$n 是 String(28) 1217752501201407033233368018 微信退款单号
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isRefund_id(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isRefund_id(java.lang.String)
 	 */
 	@Override
 	public boolean isRefund_id(String key) {
@@ -49,7 +53,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	 * 
 	 * BALANCE—退回到余额
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isRefund_channel(String
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isRefund_channel(String
 	 *      )
 	 */
 	@Override
@@ -60,7 +64,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	/**
 	 * 退款金额 refund_fee_$n 是 Int 100 退款总金额,单位为分,可以做部分退款
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isRefund_fee(String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isRefund_fee(String)
 	 */
 	@Override
 	public boolean isRefund_fee(String key) {
@@ -71,7 +75,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	 * 代金券或立减优惠退款金额 coupon_refund_fee_$n 否 Int 100
 	 * 代金券或立减优惠退款金额<=退款金额，退款金额-代金券或立减优惠退款金额为现金，说明详见代金券或立减优惠
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isCoupon_refund_fee(String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isCoupon_refund_fee(String)
 	 */
 	@Override
 	public boolean isCoupon_refund_fee(String key) {
@@ -81,7 +85,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	/**
 	 * 代金券或立减优惠使用数量 coupon_refund_count_$n 否 Int 1 代金券或立减优惠使用数量 ,$n为下标,从0开始编号
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isCoupon_refund_count(String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isCoupon_refund_count(String)
 	 */
 	@Override
 	public boolean isCoupon_refund_count(String key) {
@@ -104,7 +108,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	 * CHANGE—转入代发，退款到银行发现用户的卡作废或者冻结了，导致原路退款银行卡失败，资金回流到商户的现金帐号，需要商户人工干预，
 	 * 通过线下或者财付通转账的方式进行退款。
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.RefundResultParser#isRefund_status(String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.RefundResultParser#isRefund_status(String)
 	 */
 	@Override
 	public boolean isRefund_status(String key) {
@@ -125,7 +129,7 @@ public class RefundQueryCouponParser extends AbstractCouponParser implements Ref
 	/**
 	 * 优惠券批次id {@code coupon_refund_batch_id_$n_$m}
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.CouponParser#isCoupon_batch_id(
+	 * @see cn.aposoft.ecommerce.payment.wechat.CouponParser#isCoupon_batch_id(
 	 *      java.lang.String)
 	 */
 	@Override

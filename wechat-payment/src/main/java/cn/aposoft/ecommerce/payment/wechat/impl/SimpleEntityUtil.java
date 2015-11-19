@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,28 +16,19 @@ import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
-import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
-import cn.aposoft.ecommerce.payment.wechat.Coupon;
+import cn.aposoft.ecommerce.payment.wechat.CouponParser;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
-import cn.aposoft.ecommerce.payment.wechat.Notification;
-import cn.aposoft.ecommerce.payment.wechat.NotificationResult;
+import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
-import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
-import cn.aposoft.ecommerce.payment.wechat.RefundBill;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
-import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderRequest;
-import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillRequest;
-import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryRequest;
-import cn.aposoft.ecommerce.payment.wechat.impl.PayRequest;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryRequest;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundRequest;
+import cn.aposoft.ecommerce.payment.wechat.RefundResultParser;
+import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
+import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory;
+import cn.aposoft.ecommerce.payment.wechat.util.Signature;
+import cn.aposoft.ecommerce.payment.wechat.util.XMLUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory.ParserType;
 
 /**
@@ -1087,7 +1078,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 *            失败时:内容应为xml格式的错误信息
 	 *            <p>
 	 *            成功时:报文为对账单,不包含xml格式信息
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.EntityUtil#parseDownloadBillResponseXml(String)
+	 * @see cn.aposoft.ecommerce.payment.wechat.EntityUtil#parseDownloadBillResponseXml(String)
 	 */
 	@Override
 	public DownloadBillResponse parseDownloadBillResponseXml(String xml) {
@@ -1118,7 +1109,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 *            下载对账单查询参数
 	 * @param config
 	 *            商户配置信息
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.EntityUtil#generateDownloadBillXml(DownloadBill,Config)
+	 * @see cn.aposoft.ecommerce.payment.wechat.EntityUtil#generateDownloadBillXml(DownloadBill,Config)
 	 */
 	@Override
 	public String generateDownloadBillXml(DownloadBill params, Config config) {

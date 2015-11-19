@@ -1,11 +1,12 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.List;
 
-import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParser;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserFactory;
 
 /**

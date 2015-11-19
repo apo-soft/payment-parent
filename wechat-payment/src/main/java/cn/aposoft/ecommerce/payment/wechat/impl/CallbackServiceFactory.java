@@ -1,10 +1,9 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl;
-import cn.aposoft.ecommerce.payment.wechat.util.SimpleEntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.CallbackService;
 
 /**
  * 支付成功后的回调接口启用

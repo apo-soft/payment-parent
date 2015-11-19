@@ -9,14 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.SimpleEntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.impl.SingletonHttpClientUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
-import cn.aposoft.ecommerce.payment.wechat.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
-import cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.SimpleEntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.SingletonHttpClientUtil;
 
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
@@ -39,9 +43,9 @@ public class Test {
 
 	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
 		OrderVo order = new OrderVo();
-		order.setBody("支付,`测试2`");
+		order.setBody("iPhone 6s Plus 16GB 金色");
 		order.setGoods_tag("no");
-		order.setOut_trade_no("20151105_3");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151119_2");// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
 		order.setTotal_fee(10);
@@ -73,8 +77,8 @@ public class Test {
 
 		refund.setNonce_str("1098415178");
 		refund.setOp_user_id("op_user_id 操作员 ");
-		refund.setOut_refund_no("1010090240201511051464976612");// 退款单号（支付单号）
-		refund.setOut_trade_no("20151105_3");
+		refund.setOut_refund_no("1000620240201511191671466372");// 退款单号（支付单号）
+		refund.setOut_trade_no("20151119_2");
 		refund.setRefund_fee(order.getTotal_fee());
 		refund.setRefund_fee_type("CNY");
 		refund.setTotal_fee(order.getTotal_fee());
@@ -223,8 +227,8 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-		// payInfo_1();// 支付测试
-		refundTest_1();// 退款测试
+//		payInfo_1();// 支付测试
+		 refundTest_1();// 退款测试
 		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试

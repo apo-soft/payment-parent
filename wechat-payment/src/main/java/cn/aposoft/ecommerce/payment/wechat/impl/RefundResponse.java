@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 /**
  * 退款响应报文解析结果对象

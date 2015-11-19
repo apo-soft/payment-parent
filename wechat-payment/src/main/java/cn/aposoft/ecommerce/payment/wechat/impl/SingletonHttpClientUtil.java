@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +26,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import cn.aposoft.ecommerce.payment.wechat.Config;
+import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
 
 /**
  * 只进行post提交
@@ -120,7 +121,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	/**
 	 * 保持httpClient仅拥有一个实例,完成微信支付,向服务器发送支付订单信息的服务
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
+	 * @see cn.aposoft.ecommerce.payment.wechat.HttpClientUtil#setPost(java.lang
 	 *      .String)
 	 * @param request
 	 *            待发送的xml字符串信息
@@ -139,7 +140,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	/**
 	 * 发送使用私有key双向认证的https请求
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.wechat.util.HttpClientUtil#setPost(java.lang
+	 * @see cn.aposoft.ecommerce.payment.wechat.HttpClientUtil#setPost(java.lang
 	 *      .String)
 	 * @param request
 	 *            待发送的xml字符串信息

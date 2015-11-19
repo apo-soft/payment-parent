@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.util;
+package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
 
 /**
  * @author Jann Liu
