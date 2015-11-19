@@ -35,21 +35,14 @@ public class PayDemo {
 	 * @author Yujinshui
 	 * @time 2015年11月12日 上午10:44:28
 	 */
-	private void setOrder(InstantCountRequest order) {
+	private void setOrder(AlipayRequest order) {
 		// 二维码请求：alipay.acquire.precreate
 		order.setService("alipay.acquire.precreate");
-		order.setPartner(config.pid());//
-		order.set_input_charset(config.charset());//
-		// order.setSign_type("MD5");
-		order.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_1");
+		order.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_2");
 		order.setSubject("测试商品");//
-		// order.setPayment_type("1");
 		order.setTotal_fee(BigDecimal.valueOf(0.01));
 		// 以下参数三选一
 		order.setSeller_id(config.pid());
-		// order.setSeller_email(seller_email);
-		// order.setSeller_account_name(seller_account_name);
-		// order.setQr_pay_mode(config.qr_pay_mode());
 		order.setProduct_code("QR_CODE_OFFLINE");
 		order.setNotify_url("http://yangxinxin-163.6655.la:16834/count/ali/paySuccess");
 	}
@@ -61,7 +54,7 @@ public class PayDemo {
 	 * @time 2015年11月12日 上午10:26:23
 	 */
 	public PayResponse payTest() {
-		InstantCountRequest order = new InstantCountRequest();
+		AlipayRequest order = new AlipayRequest();
 		this.setOrder(order);
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
 		PayResponse response = ps.preparePay(order);

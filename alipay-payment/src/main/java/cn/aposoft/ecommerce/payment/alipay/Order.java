@@ -20,33 +20,6 @@ public interface Order {
 	public String getService();
 
 	/**
-	 * 合作者身份ID *
-	 * <p>
-	 * 签约的支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。
-	 */
-	public String getPartner();
-
-	/**
-	 * 参数编码字符集 *
-	 * <p>
-	 * 商户网站使用的编码格式，如utf-8、gbk、gb2312等。
-	 */
-	public String get_input_charset();
-
-	/**
-	 * 签名方式 *
-	 * <p>
-	 * DSA、RSA、MD5三个值可选，必须大写。推荐MD5
-	 */
-	public String getSign_type();
-
-	/**
-	 * 签名 *
-	 * <p>
-	 */
-	public String getSign();
-
-	/**
 	 * 服务器异步通知页面路径
 	 * <p>
 	 * 支付宝服务器主动通知商户网站里指定的页面http路径。
@@ -288,4 +261,15 @@ public interface Order {
 	 */
 	public String getChannel_parameters();
 
+	/**
+	 * 业务透传参数
+	 * <p>
+	 * 商户与支付宝约定的业务透传参数，异步通知中会回传 给商户（参数名为 extra_common_param）。<br>
+	 * 具体请参见“4.7 业务透传参数说明”。
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月19日 上午10:53:02
+	 */
+	public String getPassback_parameters();
 }

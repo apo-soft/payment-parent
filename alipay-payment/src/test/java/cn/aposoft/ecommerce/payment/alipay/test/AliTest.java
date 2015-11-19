@@ -37,8 +37,8 @@ public class AliTest {
 	// 异步回调地址：yangxinxin-163.6655.la:16834
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
-		ali.refund();
-//		 ali.pay();
+		// ali.refund();
+		ali.pay();
 	}
 
 }

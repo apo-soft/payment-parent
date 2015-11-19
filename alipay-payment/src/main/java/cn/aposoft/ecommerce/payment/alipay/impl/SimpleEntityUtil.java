@@ -283,6 +283,8 @@ public class SimpleEntityUtil implements EntityUtil {
 			map.put("qr_code", response.getQr_code() == null ? "" : response.getQr_code());
 			map.put("pic_url", response.getPic_url() == null ? "" : response.getPic_url());
 			map.put("small_pic_url", response.getSmall_pic_url() == null ? "" : response.getSmall_pic_url());
+			// TODO 支付宝pdf文档中缺失该参数说明【TODO在此表示需要注意】
+			map.put("big_pic_url", response.getBig_pic_url() == null ? "" : response.getBig_pic_url());
 			map.put("detail_error_code",
 					response.getDetail_error_code() == null ? "" : response.getDetail_error_code());
 			map.put("detail_error_des", response.getDetail_error_des() == null ? "" : response.getDetail_error_des());
