@@ -1,4 +1,4 @@
-package cn.aposoft.payment.alipay2;
+package cn.aposoft.payment.alipay2.impl;
 
 import java.math.BigDecimal;
 import java.util.List;

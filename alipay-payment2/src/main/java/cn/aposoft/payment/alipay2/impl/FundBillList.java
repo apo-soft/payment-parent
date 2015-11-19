@@ -1,4 +1,4 @@
-package cn.aposoft.payment.alipay2;
+package cn.aposoft.payment.alipay2.impl;
 
 /**
  * 交易资金明细信息集合
