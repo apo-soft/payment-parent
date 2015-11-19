@@ -3,6 +3,7 @@ package cn.aposoft.ecommerce.payment.alipay;
 import java.util.Map;
 
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
 
 /**
  * 主动向支付宝支付服务器发送各种订单业务相关请求
@@ -13,7 +14,7 @@ import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
  */
 public interface PaymentService {
 	/**
-	 * 即时到账接口付款完成的交易进行部分或全部的退还。
+	 * 退款接口付款完成的交易进行部分或全部的退还。
 	 * 
 	 * @param refund
 	 * @return
@@ -23,7 +24,7 @@ public interface PaymentService {
 	RefundResponse refund(Refund refund);
 
 	/**
-	 * 即时到账 > 请求参数说明
+	 * 二维码支付 > 请求参数说明
 	 * <p>
 	 * 完成向微信支付服务器发送预处理订单并处理响应结果
 	 * {@link http://doc.open.alipay.com/doc2/detail?spm=0.0.0.0.SYtTU9&treeId=62&articleId=103740&docType=1}

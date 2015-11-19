@@ -110,6 +110,11 @@ public class PropertiesConfig implements Config {
 
 	}
 
+	/**
+	 * 指定配置文件在项目中的路径+名称
+	 * 
+	 * @param fileName
+	 */
 	public PropertiesConfig(String fileName) {
 		getProperties(fileName);
 	}

@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.alipay.impl;
 
 /**
  * 支付成功后的回调结果解析后的值对象类，如果不使用该类，则签名验证部分需要自行编码判断

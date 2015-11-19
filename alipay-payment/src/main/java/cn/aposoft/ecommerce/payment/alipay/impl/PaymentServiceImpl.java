@@ -3,12 +3,11 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
 import java.util.Map;
 
 import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.Order;
 import cn.aposoft.ecommerce.payment.alipay.PaymentService;
 import cn.aposoft.ecommerce.payment.alipay.Refund;
-import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
-import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
 public class PaymentServiceImpl implements PaymentService {
@@ -38,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	/**
-	 * 即时到账接口付款完成的交易进行部分或全部的退还
+	 * 退款接口付款完成的交易进行部分或全部的退还
 	 * 
 	 * @see cn.aposoft.ecommerce.payment.alipay.PaymentService#refund(cn.aposoft.ecommerce.payment.alipay.Refund)
 	 */

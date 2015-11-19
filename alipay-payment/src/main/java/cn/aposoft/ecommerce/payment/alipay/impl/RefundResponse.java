@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.alipay.impl;
 
 /**
  * 退款请求-返回结果bean

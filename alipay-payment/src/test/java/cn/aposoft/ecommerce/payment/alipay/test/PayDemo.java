@@ -3,11 +3,11 @@ package cn.aposoft.ecommerce.payment.alipay.test;
 import java.math.BigDecimal;
 
 import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.PaymentService;
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PaymentServiceImpl;
-import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 
 public class PayDemo {
 	Config config;

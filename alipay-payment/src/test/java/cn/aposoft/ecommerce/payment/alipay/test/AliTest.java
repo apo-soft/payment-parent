@@ -1,12 +1,12 @@
 package cn.aposoft.ecommerce.payment.alipay.test;
 
 import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
-import cn.aposoft.ecommerce.payment.alipay.SingletonHttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.alipay.impl.SimpleEntityUtil;
-import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
+import cn.aposoft.ecommerce.payment.alipay.impl.SingletonHttpClientUtil;
 
 public class AliTest {
 

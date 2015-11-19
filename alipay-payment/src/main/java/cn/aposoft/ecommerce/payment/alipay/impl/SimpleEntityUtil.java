@@ -6,11 +6,11 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
+
 import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.Order;
 import cn.aposoft.ecommerce.payment.alipay.Refund;
-import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
-import cn.aposoft.ecommerce.payment.alipay.util.EntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
@@ -20,7 +20,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将返回的xml字符串转换为javabean形式输出
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#parsePayResponseXml(java.lang.String,
+	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parsePayResponseXml(java.lang.String,
 	 *      cn.aposoft.ecommerce.payment.alipay.Config)
 	 */
 	@Override
@@ -46,7 +46,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将退款返回字符串封装为bean类型
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#parseRefundResponseXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parseRefundResponseXml(java.lang.String)
 	 */
 	@Override
 	public RefundResponse parseRefundResponseXml(String resultXml, Config config) {
@@ -131,7 +131,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 退款请求数据：将bean数据转换为map数据
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#generateRefundMap(cn.aposoft.ecommerce.payment.alipay.Refund)
+	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#generateRefundMap(cn.aposoft.ecommerce.payment.alipay.Refund)
 	 */
 	@Override
 	public Map<String, String> generateRefundMap(Refund refund, Config config) {
@@ -218,7 +218,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将返回结果字符串解析为map类型【供测试使用】
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.util.EntityUtil#parseMapXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parseMapXml(java.lang.String)
 	 * @deprecated
 	 */
 	@Override

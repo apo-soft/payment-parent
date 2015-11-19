@@ -1,7 +1,5 @@
 package cn.aposoft.ecommerce.payment.alipay.impl;
 
-import cn.aposoft.ecommerce.payment.alipay.ResponseBase;
-
 /**
  * 
  * 响应结果封装bean

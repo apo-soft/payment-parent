@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.alipay.impl;
 
 /**
  * 公共VO部分，包括request&response两部分

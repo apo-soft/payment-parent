@@ -1,12 +1,9 @@
-package cn.aposoft.ecommerce.payment.alipay.util;
+package cn.aposoft.ecommerce.payment.alipay;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
-import cn.aposoft.ecommerce.payment.alipay.Order;
-import cn.aposoft.ecommerce.payment.alipay.Refund;
-import cn.aposoft.ecommerce.payment.alipay.RefundResponse;
 import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
 
 /**
  * 支付与退款的过程封装

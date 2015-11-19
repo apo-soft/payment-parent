@@ -1,8 +1,9 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.alipay.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
 /**
