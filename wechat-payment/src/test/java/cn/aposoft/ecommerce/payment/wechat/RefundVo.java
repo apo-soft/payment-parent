@@ -10,10 +10,6 @@ public class RefundVo implements Refund {
 	 * <font color=red>必需</font>-随机字符串
 	 */
 	private String nonce_str;
-	/**
-	 * <font color=red>必需</font>-签名
-	 */
-	private String sign;
 	private String out_trade_no; // 商户订单号-
 	private Integer total_fee; // 总金额-
 	private String transaction_id; // 微信订单号
@@ -28,10 +24,6 @@ public class RefundVo implements Refund {
 
 	public void setNonce_str(String nonce_str) {
 		this.nonce_str = nonce_str;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
 	}
 
 	public void setOut_trade_no(String out_trade_no) {
@@ -72,10 +64,6 @@ public class RefundVo implements Refund {
 		return nonce_str;
 	}
 
-	@Override
-	public String getSign() {
-		return sign;
-	}
 
 	@Override
 	public Integer getTotal_fee() {

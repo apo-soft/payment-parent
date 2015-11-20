@@ -12,8 +12,6 @@ public interface Refund {
 
 	String getNonce_str();
 
-	String getSign();
-
 	Integer getTotal_fee();
 
 	String getOut_trade_no();
