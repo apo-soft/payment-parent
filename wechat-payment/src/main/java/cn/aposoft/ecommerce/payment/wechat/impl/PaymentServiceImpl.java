@@ -62,7 +62,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 
 	 * @return 订单预支付处理结果
 	 * @author Jann Liu
-	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#prepareOrderPayRequest
+	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#preparePay
 	 *      (cn.aposoft.ecommerce.payment.wechat.Order)
 	 */
 	@Override
