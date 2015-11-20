@@ -70,4 +70,20 @@ public class PayResponse extends ResponseBase {
 		this.code_url = code_url;
 	}
 
+	public String toString() {
+		return "return_code : " + return_code//
+				+ "\r\n return_msg : " + return_msg//
+				+ "\r\n appid : " + appid//
+				+ "\r\n mch_id : " + mch_id//
+				+ "\r\n device_info : " + device_info//
+				+ "\r\n nonce_str : " + nonce_str//
+				+ "\r\n sign : " + sign//
+				+ "\r\n result_code : " + result_code//
+				+ "\r\n err_code : " + err_code//
+				+ "\r\n err_code_des : " + err_code_des //
+				+ "\r\n trade_type : " + trade_type//
+				+ "\r\n prepay_id : " + prepay_id//
+				+ "\r\n code_url : " + code_url;//
+	}
+
 }

@@ -125,4 +125,33 @@ public class RefundResponse extends ResponseBase {
 	public void setCoupon_refund_id(String coupon_refund_id) {
 		this.coupon_refund_id = coupon_refund_id;
 	}
+
+	public String toString() {
+		return "return_code : " + return_code//
+				+ "\r\n return_msg : " + return_msg//
+				+ "\r\n appid : " + appid//
+				+ "\r\n mch_id : " + mch_id//
+				+ "\r\n device_info : " + device_info//
+				+ "\r\n nonce_str : " + nonce_str//
+				+ "\r\n sign : " + sign//
+				+ "\r\n result_code : " + result_code//
+				+ "\r\n err_code : " + err_code//
+				+ "\r\n err_code_des : " + err_code_des //
+
+		+ "\r\n transaction_id : " + transaction_id//
+				+ "\r\n out_trade_no : " + out_trade_no//
+				+ "\r\n out_refund_no : " + out_refund_no//
+				+ "\r\n refund_id : " + refund_id//
+				+ "\r\n refund_channel : " + refund_channel//
+				+ "\r\n refund_fee : " + refund_fee//
+				+ "\r\n total_fee : " + total_fee//
+				+ "\r\n fee_type : " + fee_type//
+				+ "\r\n cash_fee : " + cash_fee//
+				+ "\r\n cash_refund_fee : " + cash_refund_fee//
+				+ "\r\n coupon_refund_fee : " + coupon_refund_fee//
+				+ "\r\n coupon_refund_count : " + coupon_refund_count//
+				+ "\r\n coupon_refund_id : " + coupon_refund_id
+
+		;
+	}
 }
