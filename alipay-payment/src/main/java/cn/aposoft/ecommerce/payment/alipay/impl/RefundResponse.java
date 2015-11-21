@@ -10,33 +10,6 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
 public class RefundResponse extends ResponseBase {
 
 	/**
-	 * 解析失败时将原始返回结果放进这里[个人提供]
-	 */
-	private String result;
-
-	/**
-	 * 解析失败时将原始返回结果放进这里[个人提供]
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午4:50:37
-	 */
-	public String getResult() {
-		return result;
-	}
-
-	/**
-	 * 解析失败时将原始返回结果放进这里[个人提供]
-	 * 
-	 * @param result
-	 * @author Yujinshui
-	 * @time 2015年11月17日 下午4:50:01
-	 */
-	public void setResult(String result) {
-		this.result = result;
-	}
-
-	/**
 	 * 买家支付宝用户号
 	 * <p>
 	 * 买家支付宝账号对应的支付宝唯一用户号。 以2088开头的纯16位数字。
@@ -263,7 +236,7 @@ public class RefundResponse extends ResponseBase {
 				+ "\r\n <br> out_trade_no：" + out_trade_no //
 				+ "\r\n <br> detail_error_code：" + detail_error_code //
 				+ "\r\n <br> detail_error_des：" + detail_error_des //
-				+ "\r\n <br> result：" + result //
+				+ "\r\n <br> returnXml：" + returnXml //
 				+ "\r\n <br> buyer_user_id：" + buyer_user_id //
 				+ "\r\n <br> buyer_logon_id：" + buyer_logon_id //
 				+ "\r\n <br> fund_change：" + fund_change //

@@ -21,33 +21,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
  */
 public class PayResponse extends ResponseBase {
 
-	/*************** 当返回内容无法正常解析时，直接进行原内容返回 ******************/
-	/**
-	 * 返回原始字符串[个人添加]
-	 */
-	private String returnXml;
-
-	/**
-	 * 返回原始字符串[个人添加]
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月15日 上午10:07:59
-	 */
-	public String getReturnXml() {
-		return returnXml;
-	}
-
-	/**
-	 * 返回原始字符串[个人添加]
-	 * 
-	 * @param returnXml
-	 * @author Yujinshui
-	 * @time 2015年11月15日 上午10:08:04
-	 */
-	public void setReturnXml(String returnXml) {
-		this.returnXml = returnXml;
-	}
+	
 
 	/**
 	 * 凭证类型
