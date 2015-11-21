@@ -38,7 +38,7 @@ public class RefundDemo {
 		RefundVo fund = setValue();
 		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
 		RefundResponse response = ps.refund(fund);
-		System.out.println(response.getResult());
+		System.out.println(response.getReturnXml());
 		System.out.println("Is_success:" + response.getIs_success());
 		System.out.println("商户网站唯一订单号 :" + response.getOut_trade_no());
 		System.out.println("退款金额（元）：" + response.getRefund_fee());

@@ -61,7 +61,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error("解析退款结果时发生错误: " + e.getMessage(), e);
 			res = new RefundResponse();
-			res.setResult(resultXml);
+			res.setReturnXml(resultXml);
 		}
 		return res;
 	}
