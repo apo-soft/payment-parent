@@ -884,30 +884,30 @@ public class Notification {
 	 */
 	public String toString() {
 		return "isAliPay:" + isAliPay//
-				+ "\r\n notify_time:" + notify_time//
-				+ "\r\n notify_type:" + notify_type//
-				+ "\r\n notify_id:" + notify_id//
-				+ "\r\n sign_type:" + sign_type//
-				+ "\r\n sign:" + sign//
-				+ "\r\n notify_action_type:" + notify_action_type//
-				+ "\r\n out_trade_no:" + out_trade_no//
-				+ "\r\n subject:" + subject//
-				+ "\r\n trade_no:" + trade_no//
-				+ "\r\n trade_status:" + trade_status//
-				+ "\r\n gmt_create:" + gmt_create//
-				+ "\r\n gmt_payment:" + gmt_payment//
-				+ "\r\n seller_email:" + seller_email//
-				+ "\r\n buyer_email:" + buyer_email//
-				+ "\r\n seller_id:" + seller_id//
-				+ "\r\n buyer_id:" + buyer_id//
-				+ "\r\n price:" + price//
-				+ "\r\n quantity:" + quantity//
-				+ "\r\n total_fee:" + total_fee//
-				+ "\r\n body:" + body//
-				+ "\r\n refund_fee:" + refund_fee//
-				+ "\r\n out_biz_no:" + out_biz_no//
-				+ "\r\n paytools_pay_amount:" + paytools_pay_amount//
-				+ "\r\n extra_common_param:" + extra_common_param; //
+				+ "\r\n <br> notify_time:" + notify_time//
+				+ "\r\n <br> notify_type:" + notify_type//
+				+ "\r\n <br> notify_id:" + notify_id//
+				+ "\r\n <br> sign_type:" + sign_type//
+				+ "\r\n <br> sign:" + sign//
+				+ "\r\n <br> notify_action_type:" + notify_action_type//
+				+ "\r\n <br> out_trade_no:" + out_trade_no//
+				+ "\r\n <br> subject:" + subject//
+				+ "\r\n <br> trade_no:" + trade_no//
+				+ "\r\n <br> trade_status:" + trade_status//
+				+ "\r\n <br> gmt_create:" + gmt_create//
+				+ "\r\n <br> gmt_payment:" + gmt_payment//
+				+ "\r\n <br> seller_email:" + seller_email//
+				+ "\r\n <br> buyer_email:" + buyer_email//
+				+ "\r\n <br> seller_id:" + seller_id//
+				+ "\r\n <br> buyer_id:" + buyer_id//
+				+ "\r\n <br> price:" + price//
+				+ "\r\n <br> quantity:" + quantity//
+				+ "\r\n <br> total_fee:" + total_fee//
+				+ "\r\n <br> body:" + body//
+				+ "\r\n <br> refund_fee:" + refund_fee//
+				+ "\r\n <br> out_biz_no:" + out_biz_no//
+				+ "\r\n <br> paytools_pay_amount:" + paytools_pay_amount//
+				+ "\r\n <br> extra_common_param:" + extra_common_param; //
 	}
 
 }

@@ -72,18 +72,18 @@ public class PayResponse extends ResponseBase {
 
 	public String toString() {
 		return "return_code : " + return_code//
-				+ "\r\n return_msg : " + return_msg//
-				+ "\r\n appid : " + appid//
-				+ "\r\n mch_id : " + mch_id//
-				+ "\r\n device_info : " + device_info//
-				+ "\r\n nonce_str : " + nonce_str//
-				+ "\r\n sign : " + sign//
-				+ "\r\n result_code : " + result_code//
-				+ "\r\n err_code : " + err_code//
-				+ "\r\n err_code_des : " + err_code_des //
-				+ "\r\n trade_type : " + trade_type//
-				+ "\r\n prepay_id : " + prepay_id//
-				+ "\r\n code_url : " + code_url;//
+				+ "\r\n <br> return_msg : " + return_msg//
+				+ "\r\n <br> appid : " + appid//
+				+ "\r\n <br> mch_id : " + mch_id//
+				+ "\r\n <br> device_info : " + device_info//
+				+ "\r\n <br> nonce_str : " + nonce_str//
+				+ "\r\n <br> sign : " + sign//
+				+ "\r\n <br> result_code : " + result_code//
+				+ "\r\n <br> err_code : " + err_code//
+				+ "\r\n <br> err_code_des : " + err_code_des //
+				+ "\r\n <br> trade_type : " + trade_type//
+				+ "\r\n <br> prepay_id : " + prepay_id//
+				+ "\r\n <br> code_url : " + code_url;//
 	}
 
 }

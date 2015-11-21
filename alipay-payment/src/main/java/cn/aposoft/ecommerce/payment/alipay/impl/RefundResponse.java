@@ -251,4 +251,24 @@ public class RefundResponse extends ResponseBase {
 		this.refund_detail_item_list = refund_detail_item_list;
 	}
 
+	public String toString() {
+		return "本地计算的签名值localSign：" + localSign //
+				+ "\r\n <br> isAliPay：" + isAliPay //
+				+ "\r\n <br> sign_type：" + sign_type //
+				+ "\r\n <br> sign：" + sign //
+				+ "\r\n <br> is_success：" + is_success //
+				+ "\r\n <br> error：" + error //
+				+ "\r\n <br> result_code：" + result_code //
+				+ "\r\n <br> trade_no：" + trade_no //
+				+ "\r\n <br> out_trade_no：" + out_trade_no //
+				+ "\r\n <br> detail_error_code：" + detail_error_code //
+				+ "\r\n <br> detail_error_des：" + detail_error_des //
+				+ "\r\n <br> result：" + result //
+				+ "\r\n <br> buyer_user_id：" + buyer_user_id //
+				+ "\r\n <br> buyer_logon_id：" + buyer_logon_id //
+				+ "\r\n <br> fund_change：" + fund_change //
+				+ "\r\n <br> refund_fee：" + refund_fee //
+				+ "\r\n <br> gmt_refund_pay：" + gmt_refund_pay //
+				+ "\r\n <br> refund_detail_item_list：" + refund_detail_item_list;
+	}
 }

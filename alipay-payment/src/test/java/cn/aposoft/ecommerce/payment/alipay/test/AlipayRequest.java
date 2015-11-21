@@ -28,22 +28,22 @@ public class AlipayRequest implements Order {
 	 */
 	private String alipay_ca_request;
 	/**
-	 * 商户网站唯一订单号
+	 * 商户网站唯一订单号*
 	 * <p>
 	 */
 	private String out_trade_no;
 	/**
-	 * 订单标题
+	 * 订单标题*
 	 * <p>
 	 */
 	private String subject;
 	/**
-	 * 订单业务类型
+	 * 订单业务类型*
 	 * <p>
 	 */
 	private String product_code;
 	/**
-	 * 订单金额
+	 * 订单金额*
 	 * <p>
 	 */
 	private BigDecimal total_fee;

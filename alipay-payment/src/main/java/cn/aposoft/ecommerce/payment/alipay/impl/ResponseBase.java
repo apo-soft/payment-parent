@@ -12,7 +12,7 @@ public class ResponseBase {
 	 * <p>
 	 * 用于跟支付宝sign进行数据对比
 	 */
-	private String localSign;
+	protected String localSign;
 
 	/**
 	 * 根据支付宝返回信息生成的sign签名信息
@@ -46,19 +46,19 @@ public class ResponseBase {
 	 * true:是支付宝返回结果<br>
 	 * false:警告！非支付宝返回结果
 	 */
-	private boolean isAliPay;
+	protected boolean isAliPay;
 	/**
 	 * 签名方式
 	 * <p>
 	 * DSA、RSA、MD5三个值可选，必须大写。
 	 */
-	private String sign_type;
+	protected String sign_type;
 	/**
 	 * 签名
 	 * <p>
 	 * 请参见“7签名机制”。
 	 */
-	private String sign;
+	protected String sign;
 	/******** 基本参数 *********/
 	/**
 	 * 请求是否成功*
@@ -68,7 +68,7 @@ public class ResponseBase {
 	 * F代表失败
 	 * 
 	 */
-	private String is_success;
+	protected String is_success;
 	/**
 	 * 错误代码
 	 * <p>
@@ -76,7 +76,7 @@ public class ResponseBase {
 	 * 请求失败时，本参数为错误代码，参见“8.2接入错误码”和“8.3系统错误码”。
 	 * 
 	 */
-	private String error;
+	protected String error;
 	/******** 业务参数 *******/
 	/**
 	 * 响应码*
@@ -86,7 +86,7 @@ public class ResponseBase {
 	 * FAIL：退款失败<br>
 	 * UNKNOWN：结果未知
 	 */
-	private String result_code;
+	protected String result_code;
 	/**
 	 * 支付宝交易号
 	 * <p>
@@ -94,14 +94,14 @@ public class ResponseBase {
 	 * 最短16位，最长64位。
 	 * 
 	 */
-	private String trade_no;
+	protected String trade_no;
 	/**
 	 * 商户网站唯一订单号
 	 * <p>
 	 * 对应商户网站的订单系统中的唯一订单号，非支付宝交易号。需保证在商户网站中的唯一 性。是请求时对应的参数，原样返回。
 	 * 
 	 */
-	private String out_trade_no;
+	protected String out_trade_no;
 	/**
 	 * 详细错误码
 	 * <p>
@@ -109,7 +109,7 @@ public class ResponseBase {
 	 * 当result_code响应码为 SUCCESS时，不返回该参数。
 	 * 
 	 */
-	private String detail_error_code;
+	protected String detail_error_code;
 	/**
 	 * 详细错误描述
 	 * <p>
@@ -117,7 +117,7 @@ public class ResponseBase {
 	 * 当result_code响应码为 SUCCESS时，不返回该参数。
 	 * 
 	 */
-	private String detail_error_des;
+	protected String detail_error_des;
 
 	/**
 	 * 通过比对支付宝返回的sign签名，判断是否为true
