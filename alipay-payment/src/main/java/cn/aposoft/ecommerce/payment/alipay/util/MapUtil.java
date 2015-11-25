@@ -8,6 +8,9 @@ import cn.aposoft.ecommerce.payment.alipay.Config;
 import cn.aposoft.ecommerce.payment.alipay.sign.Signature;
 
 public class MapUtil {
+	private MapUtil(){
+		
+	}
 
 	/**
 	 * 创建待发送map

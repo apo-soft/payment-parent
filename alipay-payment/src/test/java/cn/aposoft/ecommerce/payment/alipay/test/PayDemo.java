@@ -38,11 +38,11 @@ public class PayDemo {
 	private void setOrder(AlipayRequest order) {
 		// 二维码请求：alipay.acquire.precreate
 		order.setService("alipay.acquire.precreate");
-		order.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_3");
-		order.setSubject("测试商品");//
-		order.setTotal_fee(BigDecimal.valueOf(0.01));
+		order.setOut_trade_no("20151123_1");
+		order.setSubject("标题");//
+		order.setTotal_fee(BigDecimal.valueOf(20));
 		// 以下参数三选一
-		order.setSeller_id(config.pid());
+//		order.setSeller_id(config.pid());
 		order.setProduct_code("QR_CODE_OFFLINE");
 		order.setNotify_url("http://yangxinxin-163.6655.la:16834/count/ali/paySuccess");
 	}
