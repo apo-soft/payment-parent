@@ -249,4 +249,28 @@ public class Notification extends ResponseBase {
 		this.result = result;
 	}
 
+	public String toString() {
+		return "return_code：" + return_code //
+				+ "\r\n <br> return_msg：" + return_msg //
+				+ "\r\n <br> result_code：" + result_code //
+				+ "\r\n <br> err_code：" + err_code //
+				+ "\r\n <br> err_code_des：" + err_code_des //
+				+ "\r\n <br> openid：" + openid //
+				+ "\r\n <br> is_subscribe：" + is_subscribe //
+				+ "\r\n <br> trade_type：" + trade_type //
+				+ "\r\n <br> bank_type：" + bank_type //
+				+ "\r\n <br> fee_type：" + fee_type //
+				+ "\r\n <br> cash_fee：" + cash_fee //
+				+ "\r\n <br> cash_fee_type：" + cash_fee_type //
+				+ "\r\n <br> coupon_fee：" + coupon_fee //
+				+ "\r\n <br> coupon_count：" + coupon_count //
+				+ "\r\n <br> coupon_id_$n：" + coupon_id_$n //
+				+ "\r\n <br> coupon_fee_$n：" + coupon_fee_$n //
+				+ "\r\n <br> transaction_id：" + transaction_id//
+				+ "\r\n <br> attach：" + attach //
+				+ "\r\n <br> time_end：" + time_end //
+				+ "\r\n <br> total_fee：" + total_fee //
+				+ "\r\n <br> out_trade_no：" + out_trade_no;
+	}
+
 }

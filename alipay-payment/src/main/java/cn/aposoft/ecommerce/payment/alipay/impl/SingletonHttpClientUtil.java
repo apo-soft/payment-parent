@@ -49,6 +49,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		try {
 			response = httpProtocolHandler.execute(request, "", "");
 		} catch (IOException e) {
+			log.error("发送支付宝支付/退款请求失败:" + e.getMessage(), e);
 			e.printStackTrace();
 		}
 		if (response == null) {
@@ -59,6 +60,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		try {
 			result = response.getStringResult(config.charset());
 		} catch (UnsupportedEncodingException e) {
+			log.error("支付宝请求下行协议获取异常：" + e.getMessage(), e);
 			e.printStackTrace();
 		}
 		long end = System.currentTimeMillis();

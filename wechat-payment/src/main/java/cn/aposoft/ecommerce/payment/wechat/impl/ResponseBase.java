@@ -11,44 +11,44 @@ public class ResponseBase {
 	/**
 	 * <font color=red>必需</font>-返回状态码
 	 */
-	private String return_code;
+	protected String return_code;
 	/**
 	 * 返回信息
 	 */
-	private String return_msg;
+	protected String return_msg;
 	/********** 以下字段在return_code为SUCCESS的时候有返回 **************/
 	/**
 	 * <font color=red>必需</font>-公众账号ID
 	 */
-	private String appid;
+	protected String appid;
 	/**
 	 * <font color=red>必需</font>-商户号
 	 */
-	private String mch_id;
+	protected String mch_id;
 	/**
 	 * 设备号
 	 */
-	private String device_info;
+	protected String device_info;
 	/**
 	 * <font color=red>必需</font>-随机字符串
 	 */
-	private String nonce_str;
+	protected String nonce_str;
 	/**
 	 * <font color=red>必需</font>-签名
 	 */
-	private String sign;
+	protected String sign;
 	/**
 	 * <font color=red>必需</font>-业务结果
 	 */
-	private String result_code;
+	protected String result_code;
 	/**
 	
 	 */
-	private String err_code;
+	protected String err_code;
 	/**
 	 * 错误代码描述
 	 */
-	private String err_code_des;
+	protected String err_code_des;
 
 	/**
 	 * <font color=red>必需</font>-返回状态码

@@ -34,7 +34,7 @@ public class SimpleEntityUtil implements EntityUtil {
 			// 对返回结果进行MD5签名校验
 			checkPayResponseSign(response, config);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
-			logger.error("解析支付结果时发生错误: " + e.getMessage(), e);
+			logger.error("解析支付请求返回结果时发生错误: " + e.getMessage(), e);
 			response = new PayResponse();
 			response.setReturnXml(xml);
 			// return null;
@@ -59,9 +59,9 @@ public class SimpleEntityUtil implements EntityUtil {
 			// 对返回结果进行MD5签名校验
 			checkRefundResponseSign(res, config);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
-			logger.error("解析退款结果时发生错误: " + e.getMessage(), e);
+			logger.error("解析支付宝退款结果时发生错误: " + e.getMessage(), e);
 			res = new RefundResponse();
-			res.setResult(resultXml);
+			res.setReturnXml(resultXml);
 		}
 		return res;
 	}
@@ -286,7 +286,7 @@ public class SimpleEntityUtil implements EntityUtil {
 			map.put("qr_code", response.getQr_code() == null ? "" : response.getQr_code());
 			map.put("pic_url", response.getPic_url() == null ? "" : response.getPic_url());
 			map.put("small_pic_url", response.getSmall_pic_url() == null ? "" : response.getSmall_pic_url());
-			// TODO 支付宝pdf文档中缺失该参数说明【TODO在此表示需要注意】
+			// 支付宝pdf文档中缺失该参数说明【在此需要注意】
 			map.put("big_pic_url", response.getBig_pic_url() == null ? "" : response.getBig_pic_url());
 			map.put("detail_error_code",
 					response.getDetail_error_code() == null ? "" : response.getDetail_error_code());
