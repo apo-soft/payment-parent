@@ -12,6 +12,23 @@ package cn.aposoft.ecommerce.payment.alipay;
  *
  */
 public interface Config {
+	/**
+	 * 二维码接口名称
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月26日 下午6:47:12
+	 */
+	String qr_code_service();
+
+	/**
+	 * 二维码订单业务类型 product_code
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月26日 下午6:47:34
+	 */
+	String qr_code_product();
 
 	/**
 	 * 商户的私钥<br>
@@ -111,7 +128,7 @@ public interface Config {
 	 * @time 2015年11月11日 上午10:49:32
 	 */
 	String log_path();
-	
+
 	/**
 	 * 
 	 * @return
