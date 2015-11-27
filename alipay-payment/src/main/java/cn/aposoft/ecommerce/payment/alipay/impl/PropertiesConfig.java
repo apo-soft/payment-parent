@@ -27,10 +27,6 @@ import cn.aposoft.ecommerce.payment.alipay.Config;
 public class PropertiesConfig implements Config {
 	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
 	/**
-	 * 二维码接口名称
-	 */
-	private String QR_CODE_SERVICE;
-	/**
 	 * 二维码订单业务类型 product_code
 	 */
 	private String QR_CODE_PRODUCT;
@@ -104,7 +100,6 @@ public class PropertiesConfig implements Config {
 	 * <p>
 	 */
 	public PropertiesConfig(Map<String, String> map) {
-		QR_CODE_SERVICE = map.get("QR_CODE_SERVICE");
 		QR_CODE_PRODUCT = map.get("QR_CODE_PRODUCT");
 		PRIVATE_KEY = map.get("PRIVATE_KEY");
 		KEY = map.get("KEY");// [必填]
@@ -203,7 +198,6 @@ public class PropertiesConfig implements Config {
 	 * @time 2015年10月25日 上午11:57:18
 	 */
 	private void setPropertiesValues(Properties p) {
-		QR_CODE_SERVICE = p.getProperty("QR_CODE_SERVICE");
 		QR_CODE_PRODUCT = p.getProperty("QR_CODE_PRODUCT");
 		PRIVATE_KEY = p.getProperty("PRIVATE_KEY");
 		KEY = p.getProperty("KEY");
@@ -221,8 +215,7 @@ public class PropertiesConfig implements Config {
 
 	public String toString() {
 
-		return "QR_CODE_SERVICE=" + QR_CODE_SERVICE + "\r\n"//
-				+ "QR_CODE_PRODUCT=" + QR_CODE_PRODUCT + "\r\n"//
+		return "QR_CODE_PRODUCT=" + QR_CODE_PRODUCT + "\r\n"//
 				+ "PRIVATE_KEY=" + PRIVATE_KEY + "\r\n"//
 				+ "KEY=" + KEY + "\r\n"//
 				+ "PID=" + PID + "\r\n"//
@@ -234,18 +227,6 @@ public class PropertiesConfig implements Config {
 				+ "ALI_PUBLIC_KEY=" + ALI_PUBLIC_KEY + "\r\n"//
 				+ "ALI_GATEWAY=" + ALI_GATEWAY + "\r\n"//
 				+ "QR_PAY_MODE=" + QR_PAY_MODE + "\r\n";
-	}
-
-	/**
-	 * 二维码接口名称
-	 * 
-	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月26日 下午6:47:12
-	 */
-	@Override
-	public String qr_code_service() {
-		return QR_CODE_SERVICE;
 	}
 
 	/**

@@ -37,7 +37,7 @@ public class PayDemo {
 	 */
 	private void setOrder(AlipayRequest order) {
 		// 二维码请求：alipay.acquire.precreate
-		order.setService(config.qr_code_service());
+		order.setService("alipay.acquire.precreate");
 		order.setOut_trade_no("20151126_1");
 		order.setSubject("标题20151126_1");//
 		order.setTotal_fee(BigDecimal.valueOf(20));
