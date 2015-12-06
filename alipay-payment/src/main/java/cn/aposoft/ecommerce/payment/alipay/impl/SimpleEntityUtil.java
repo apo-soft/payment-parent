@@ -106,7 +106,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		params.put("out_trade_no", order.getOut_trade_no());
 		params.put("subject", order.getSubject());
 		params.put("product_code", order.getProduct_code());
-		params.put("total_fee", order.getTotal_fee() + "");
+		params.put("total_fee", order.getTotal_fee().doubleValue() + "");
 		// 以下为可选参数，可选参数部分，如果有null值的，会导致MD5签名错误，故进行处理，具体哪个参数影响签名，未进行详细检测
 		params.put("notify_url", order.getNotify_url() == null ? "" : order.getNotify_url());
 		params.put("alipay_ca_request", order.getAlipay_ca_request() == null ? "" : order.getAlipay_ca_request());
@@ -117,7 +117,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		params.put("body", order.getBody() == null ? "" : order.getBody());
 		params.put("show_url", order.getShow_url() == null ? "" : order.getShow_url());
 		params.put("currency", order.getCurrency() == null ? "" : order.getCurrency());
-		params.put("price", order.getPrice() == null ? "" : order.getPrice() + "");
+		params.put("price", order.getPrice() == null ? "" : order.getPrice().doubleValue() + "");
 		params.put("quantity", order.getQuantity() == null ? "" : order.getQuantity());
 		params.put("goods_detail", order.getGoods_detail() == null ? "" : order.getGoods_detail());
 		params.put("extend_params", order.getExtend_params() == null ? "" : order.getExtend_params());
