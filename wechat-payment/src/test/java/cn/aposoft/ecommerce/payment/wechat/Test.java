@@ -41,14 +41,17 @@ public class Test {
 		System.out.println(result.getReturn_msg());
 	}
 
+	static int i = 1;
+
 	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+		i++;
 		OrderVo order = new OrderVo();
 		order.setBody("iPhone 6s Plus 16GB 金色");
 		order.setGoods_tag("no");
-		order.setOut_trade_no("20151119_2");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20151206_" + i);// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
-		order.setTotal_fee(10);
+		order.setTotal_fee(1);
 		// order.setAppid(config.appId());
 		// order.setAttach(attach);
 		// order.setDetail(detail);
@@ -76,12 +79,13 @@ public class Test {
 		// refund.setDevice_info("设备信息");
 
 		refund.setNonce_str("1098415178");
-		refund.setOp_user_id("op_user_id 操作员 ");
-		refund.setOut_refund_no("1000620240201511191671466372");// 退款单号（支付单号）
-		refund.setOut_trade_no("20151119_2");
-		refund.setRefund_fee(order.getTotal_fee());
+		refund.setOp_user_id("wechat-1");
+		refund.setOut_refund_no("1010090240201512061928472057");// 退款单号（支付单号）
+
+		refund.setOut_trade_no("DBAB72909BCF11E5B6BFF1CE664B1542");
+		refund.setRefund_fee(1);
 		refund.setRefund_fee_type("CNY");
-		refund.setTotal_fee(order.getTotal_fee());
+		refund.setTotal_fee(1);
 		// refund.setTransaction_id("http://120.25.221.200:8087/svmservice/wechatpay/paySuccess");//
 		// prepay_id
 		// 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
@@ -227,8 +231,10 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-//		payInfo_1();// 支付测试
-		 refundTest_1();// 退款测试
+		for(int i=0;i<3;i++){
+			 payInfo_1();// 支付测试
+		}
+//		refundTest_1();// 退款测试
 		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
@@ -236,11 +242,6 @@ public class Test {
 		// createNotificationResultXmlTest();
 		// downloadBill(); // 对账单测试
 
-		try {
-			payService.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

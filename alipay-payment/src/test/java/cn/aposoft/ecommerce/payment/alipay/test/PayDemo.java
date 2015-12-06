@@ -40,7 +40,7 @@ public class PayDemo {
 		order.setService("alipay.acquire.precreate");
 		order.setOut_trade_no("20151126_1");
 		order.setSubject("标题20151126_1");//
-		order.setTotal_fee(BigDecimal.valueOf(20));
+		order.setTotal_fee(BigDecimal.valueOf(1.0/100));
 		// 以下参数三选一
 //		order.setSeller_id(config.pid());
 		order.setProduct_code(config.qr_code_product());
