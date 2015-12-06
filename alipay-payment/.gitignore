@@ -1,3 +1,3 @@
 *.prefs
-.project
+*.project
 /target/
