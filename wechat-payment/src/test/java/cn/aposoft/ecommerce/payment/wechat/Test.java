@@ -153,6 +153,7 @@ public class Test {
 		System.out.println(outquery.getDevice_info());
 		System.out.println(outquery.getTotal_fee());
 		System.out.println(outquery.getAttach());
+		System.out.println(outquery);
 	}
 
 	/**
@@ -231,16 +232,20 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-		for(int i=0;i<3;i++){
-			 payInfo_1();// 支付测试
-		}
-//		refundTest_1();// 退款测试
-		// orderQuery();// 订单测试
+		// payInfo_1();// 支付测试
+
+		// refundTest_1();// 退款测试
+		orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 
 		// createNotificationResultXmlTest();
 		// downloadBill(); // 对账单测试
+		try {
+			payService.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

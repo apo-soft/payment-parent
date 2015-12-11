@@ -26,6 +26,19 @@ public class Coupon implements Comparable<Coupon> {
 	}
 
 	/**
+	 * 用于订单查询和退款单查询中,Coupon(优惠券)集合的管理
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "n = " + n //
+				+ "\r\n<br>,coupon_batch_id = " + coupon_batch_id //
+				+ "\r\n<br>,coupon_id = " + coupon_id //
+				+ "\r\n<br>,coupon_fee = " + coupon_fee;
+
+	}
+
+	/**
 	 * 订单查询:
 	 * <p>
 	 * 从微信的支付返回报文中读取的sequence : n
