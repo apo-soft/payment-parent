@@ -38,8 +38,8 @@ public class PayDemo {
 	private void setOrder(AlipayRequest order) {
 		// 二维码请求：alipay.acquire.precreate
 		order.setService("alipay.acquire.precreate");
-		order.setOut_trade_no("20151126_1");
-		order.setSubject("标题20151126_1");//
+		order.setOut_trade_no("20160104_1");
+		order.setSubject("标题20160104_1");//
 		order.setTotal_fee(BigDecimal.valueOf(1.0/100));
 		// 以下参数三选一
 //		order.setSeller_id(config.pid());

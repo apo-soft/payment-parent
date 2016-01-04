@@ -24,6 +24,7 @@ public class AliTest {
 		System.out.println("url地址：" + response.getPic_url());
 		System.out.println("二维码地址：" + response.getQr_code());
 		System.out.println("支付宝返回签名：" + response.getSign());
+		System.out.println("error:"+response.getError());
 		System.out.println("error_code:" + response.getDetail_error_code());
 		System.out.println("error_des:" + response.getDetail_error_des());
 		System.out.println(response.getIsAliPay());
