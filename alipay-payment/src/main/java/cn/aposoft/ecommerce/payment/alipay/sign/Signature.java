@@ -2,7 +2,7 @@ package cn.aposoft.ecommerce.payment.alipay.sign;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
 import cn.aposoft.ecommerce.payment.alipay.util.AlipayCore;
 
 /**
@@ -19,7 +19,7 @@ public class Signature {
 	 *            要签名的数组
 	 * @return 签名结果字符串
 	 */
-	public static String requestSign_MD5(Map<String, String> sPara, Config config) {
+	public static String requestSign_MD5(Map<String, String> sPara, AliConfig config) {
 		String prestr = AlipayCore.createLinkString(sPara); // 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		String mysign = "";
 		if ("MD5".equals(config.sign_type())) {

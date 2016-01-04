@@ -2,12 +2,12 @@ package cn.aposoft.ecommerce.payment.alipay.test;
 
 import java.math.BigDecimal;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
-import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
-import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
-import cn.aposoft.ecommerce.payment.alipay.PaymentService;
-import cn.aposoft.ecommerce.payment.alipay.impl.PaymentServiceImpl;
-import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
+import cn.aposoft.ecommerce.payment.alipay.AliEntityUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliHttpClientUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliPaymentService;
+import cn.aposoft.ecommerce.payment.alipay.impl.AliPaymentServiceImpl;
+import cn.aposoft.ecommerce.payment.alipay.impl.AliRefundResponse;
 
 /**
  * 退款数据信息
@@ -16,9 +16,9 @@ import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
  *
  */
 public class RefundDemo {
-	Config config;
-	HttpClientUtil httpclient;
-	EntityUtil entityUtil;
+	AliConfig config;
+	AliHttpClientUtil httpclient;
+	AliEntityUtil entityUtil;
 
 	/**
 	 * 初始化所需参数
@@ -27,7 +27,7 @@ public class RefundDemo {
 	 * @param httpclient
 	 * @param entityUtil
 	 */
-	public RefundDemo(Config config, HttpClientUtil httpclient, EntityUtil entityUtil) {
+	public RefundDemo(AliConfig config, AliHttpClientUtil httpclient, AliEntityUtil entityUtil) {
 		this.config = config;
 		this.httpclient = httpclient;
 		this.entityUtil = entityUtil;
@@ -36,8 +36,8 @@ public class RefundDemo {
 
 	public String refundTest() {
 		RefundVo fund = setValue();
-		PaymentService ps = new PaymentServiceImpl(httpclient, entityUtil, config);
-		RefundResponse response = ps.refund(fund);
+		AliPaymentService ps = new AliPaymentServiceImpl(httpclient, entityUtil, config);
+		AliRefundResponse response = ps.refund(fund);
 		System.out.println(response.getReturnXml());
 		System.out.println("Is_success:" + response.getIs_success());
 		System.out.println("商户网站唯一订单号 :" + response.getOut_trade_no());

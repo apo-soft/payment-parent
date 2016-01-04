@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @author Yujinshui
  *
  */
-public interface Order {
+public interface AliOrder {
 
 	/**
 	 * 接口名称 *

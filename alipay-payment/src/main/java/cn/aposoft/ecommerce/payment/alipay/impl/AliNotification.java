@@ -7,7 +7,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
  * 
  * @author Yujinshui
  */
-public class Notification {
+public class AliNotification {
 
 	/**
 	 * 通过比对支付宝返回的sign签名，判断是否为true

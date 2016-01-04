@@ -2,7 +2,7 @@ package cn.aposoft.ecommerce.payment.alipay.test;
 
 import java.math.BigDecimal;
 
-import cn.aposoft.ecommerce.payment.alipay.Refund;
+import cn.aposoft.ecommerce.payment.alipay.AliRefund;
 
 /**
  * 退款VO 无sign签名，项目中封装
@@ -11,7 +11,7 @@ import cn.aposoft.ecommerce.payment.alipay.Refund;
  * @author Yujinshui
  *
  */
-public class RefundVo implements Refund {
+public class RefundVo implements AliRefund {
 	/**
 	 * 接口名称*
 	 * <p>
@@ -120,7 +120,7 @@ public class RefundVo implements Refund {
 	 * 接口名称。真实param<br>
 	 * param_demo:refund_fastpay_by_platform_pwd
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Refund#getService()
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliRefund#getService()
 	 */
 	@Override
 	public String getService() {

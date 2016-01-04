@@ -2,8 +2,8 @@ package cn.aposoft.ecommerce.payment.alipay;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
-import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
+import cn.aposoft.ecommerce.payment.alipay.impl.AliPayResponse;
+import cn.aposoft.ecommerce.payment.alipay.impl.AliRefundResponse;
 
 /**
  * 主动向支付宝支付服务器发送各种订单业务相关请求
@@ -12,7 +12,7 @@ import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
  * @author Yujinshui
  *
  */
-public interface PaymentService {
+public interface AliPaymentService {
 	/**
 	 * 退款接口付款完成的交易进行部分或全部的退还。
 	 * 
@@ -21,7 +21,7 @@ public interface PaymentService {
 	 * @author Yujinshui
 	 * @time 2015年11月16日 下午12:12:49
 	 */
-	RefundResponse refund(Refund refund);
+	AliRefundResponse refund(AliRefund refund);
 
 	/**
 	 * 二维码支付 > 请求参数说明
@@ -34,7 +34,7 @@ public interface PaymentService {
 	 * @author Yujinshui
 	 * @time 2015年11月12日 下午6:45:16
 	 */
-	public PayResponse preparePay(Order order);
+	public AliPayResponse preparePay(AliOrder order);
 
 	/**
 	 * 即时到账 > 请求参数说明.返回Map类型。测试环境推荐

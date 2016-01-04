@@ -11,7 +11,7 @@ package cn.aposoft.ecommerce.payment.alipay;
  * @author Jann Liu
  *
  */
-public interface Config {
+public interface AliConfig {
 	/**
 	 * 二维码订单业务类型 product_code
 	 * 
