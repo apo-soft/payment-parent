@@ -12,6 +12,14 @@ package cn.aposoft.ecommerce.payment.wechat;
  *
  */
 public interface Config {
+	/**
+	 * 单一主机最大并发连接数:默认为2,这里进行动态配置,避免高并发时,因此导致支付阻塞.
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2016年2月2日 下午12:03:20
+	 */
+	String connectionsPerRoute();
 
 	/**
 	 * 认证证书位置

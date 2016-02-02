@@ -40,7 +40,7 @@ import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
 
 public class SingletonHttpClientUtil implements HttpClientUtil {
 	// 单一主机最大并发连接数:默认为2,这里增大到200,避免高并发时,因此导致支付阻塞.
-	private static final int CONNECTIONS_PER_ROUTE = 200;
+	private static int CONNECTIONS_PER_ROUTE;
 	private AtomicLong sequence = new AtomicLong(0L);
 	public static Logger log = Logger.getLogger(SingletonHttpClientUtil.class);
 	private static SingletonHttpClientUtil instance = new SingletonHttpClientUtil();
@@ -53,7 +53,9 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	private SingletonHttpClientUtil() {
 	}
 
-	public static final HttpClientUtil getInstance() {
+	public static final HttpClientUtil getInstance(Config config) {
+		Integer route = Integer.valueOf(config.connectionsPerRoute());
+		CONNECTIONS_PER_ROUTE = (route == null ? 200 : route);
 		return instance;
 	}
 

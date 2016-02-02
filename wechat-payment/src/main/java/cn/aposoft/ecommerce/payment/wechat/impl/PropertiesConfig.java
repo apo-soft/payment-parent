@@ -24,6 +24,10 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
 public class PropertiesConfig implements Config {
 	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
 	/**
+	 * 单一主机最大并发连接数:默认为2,这里进行动态配置,避免高并发时,因此导致支付阻塞.
+	 */
+	private String CONNECTIONS_PER_ROUTE = null;
+	/**
 	 * 订单查询URL
 	 */
 	private String ORDER_URL = null;
@@ -106,6 +110,8 @@ public class PropertiesConfig implements Config {
 		DOWNLOAD_BILL_URL = p.getProperty("DOWNLOAD_BILL_URL");
 		PKCS12 = p.getProperty("PKCS12");
 		OPENID = p.getProperty("OPENID");
+		/** add yujinshui 2016-02-02 */
+		CONNECTIONS_PER_ROUTE = p.getProperty("CONNECTIONS_PER_ROUTE");
 	}
 
 	/**
@@ -133,7 +139,8 @@ public class PropertiesConfig implements Config {
 		REFUND_QUERY_URL = map.get("REFUND_QUERY_URL");
 		DOWNLOAD_BILL_URL = map.get("DOWNLOAD_BILL_URL");
 		PKCS12 = map.get("PKCS12");
-
+		/** add yujinshui 2016-02-02 */
+		CONNECTIONS_PER_ROUTE = map.get("CONNECTIONS_PER_ROUTE");
 	}
 
 	public PropertiesConfig(String fileName) {
@@ -321,6 +328,11 @@ public class PropertiesConfig implements Config {
 	@Override
 	public String refundQueryUrl() {
 		return REFUND_QUERY_URL;
+	}
+
+	@Override
+	public String connectionsPerRoute() {
+		return CONNECTIONS_PER_ROUTE;
 	}
 
 }
