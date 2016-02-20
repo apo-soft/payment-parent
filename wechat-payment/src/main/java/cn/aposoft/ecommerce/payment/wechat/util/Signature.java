@@ -16,8 +16,9 @@ public class Signature {
 	 * 签名算法[有问题，getDeclaredFields()会缺失内容]
 	 * 
 	 * @param o
-	 *            要参与签名的数据对象
+	 *            要参与签名的数据对象,对象应只包含可以进行签名的属性对象或者值为null的对象,不包含其他无意义且值不为null的属性
 	 * @return 签名
+	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
 	public static String getSign(Object o, String key) throws IllegalAccessException {
@@ -29,12 +30,15 @@ public class Signature {
 		}
 		ArrayList<String> list = new ArrayList<String>();
 		Class<?> cls = o.getClass();
-		Field[] fields = cls.getDeclaredFields();
+		Field[] fields = cls.getFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
-			if (f.get(o) != null && f.get(o) != "") {
-				list.add(f.getName() + "=" + f.get(o) + "&");
+
+			Object v = f.get(o);
+			if (v != null && v != "") {
+				list.add(f.getName() + "=" + v + "&");
 			}
+
 		}
 		int size = list.size();
 		String[] arrayToSort = list.toArray(new String[size]);

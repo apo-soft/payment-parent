@@ -34,11 +34,11 @@ public class Test {
 
 		OrderVo order = setValue(config, httpUtil);
 		PayResponse result = payService.preparePay(order);
-		System.out.println(result.getAppid());
-		System.out.println(result.getCode_url());
-		System.out.println(result.getDevice_info());
-		System.out.println(result.getReturn_code());
-		System.out.println(result.getReturn_msg());
+		System.out.println("app_id:" + result.getAppid());
+		System.out.println("code_url:" + result.getCode_url());
+		System.out.println("device_info:" + result.getDevice_info());
+		System.out.println("return_code:" + result.getReturn_code());
+		System.out.println("OK:" + result.getReturn_msg());
 	}
 
 	static int i = 1;

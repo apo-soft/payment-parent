@@ -27,9 +27,9 @@ import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
 import cn.aposoft.ecommerce.payment.wechat.RefundResultParser;
 import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory;
+import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory.ParserType;
 import cn.aposoft.ecommerce.payment.wechat.util.Signature;
 import cn.aposoft.ecommerce.payment.wechat.util.XMLUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory.ParserType;
 
 /**
  * 支付与退款的封装过程操作
@@ -37,7 +37,7 @@ import cn.aposoft.ecommerce.payment.wechat.util.ParserFactory.ParserType;
  * @author Yujinshui
  *
  */
-public class SimpleEntityUtil implements EntityUtil {
+public class SimpleEntityUtil extends AbstractEntityUtil implements EntityUtil {
 
 	private static EntityUtil instance = new SimpleEntityUtil();
 	private static Logger logger = Logger.getLogger(SimpleEntityUtil.class);
@@ -116,17 +116,12 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 根据order和config创建待发送的xml字符串
 	 * 
-	 * @param order
-	 *            订单信息
-	 * @param config
-	 *            配置内容
+	 * @param values
+	 *            {@code PayRequest} 支付请求内容
 	 * @return 支付传输的xml文件格式
 	 */
 	@Override
-	public String generatePayXml(Order order, Config config) {
-		checkConfig(config);
-		PayRequest values = null;
-		values = createPayRequest(order, config);
+	protected String generatePayXml(PayRequest values) {
 		SortedMap<String, Object> parameters = createPayTransferMap(values);
 		return XMLUtil.createXML(parameters);
 	}
