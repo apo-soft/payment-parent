@@ -32,7 +32,7 @@ public class Test {
 
 	public static void payInfo_1() {
 
-		OrderVo order = setValue(config, httpUtil);
+		OrderVo order = setValue(config);
 		PayResponse result = payService.preparePay(order);
 		System.out.println("app_id:" + result.getAppid());
 		System.out.println("code_url:" + result.getCode_url());
@@ -43,7 +43,7 @@ public class Test {
 
 	static int i = 1;
 
-	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+	public static OrderVo setValue(Config config) {
 		i++;
 		OrderVo order = new OrderVo();
 		order.setBody("iPhone 6s Plus 16GB 金色");
@@ -59,8 +59,8 @@ public class Test {
 		// order.setFee_type(fee_type);
 		// order.setOpenid(openid);
 		// order.setProduct_id(product_id);
-		// order.setTime_start(getTime());//设定交易有效的时间范围
-		// order.setTime_expire(getTime2());//设定交易有效的时间范围
+		// order.setTime_start(getTime());// 设定交易有效的时间范围
+		// order.setTime_expire(getTime2());// 设定交易有效的时间范围
 
 		return order;
 	}
@@ -71,8 +71,6 @@ public class Test {
 	 * @author Yujinshui
 	 */
 	public static void refundTest_1() {
-		// 支付内容
-		OrderVo order = setValue(config, httpUtil);
 
 		RefundVo refund = new RefundVo();
 

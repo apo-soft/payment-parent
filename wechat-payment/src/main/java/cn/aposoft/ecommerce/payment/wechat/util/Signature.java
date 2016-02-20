@@ -28,29 +28,23 @@ public class Signature {
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("签名key不能为空.");
 		}
+		ArrayList<String> list = buildArrayList(o);
+		return buildSignature(list, key);
+	}
+
+	public static ArrayList<String> buildArrayList(Object o) throws IllegalAccessException {
 		ArrayList<String> list = new ArrayList<String>();
 		Class<?> cls = o.getClass();
 		Field[] fields = cls.getFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
-
 			Object v = f.get(o);
 			if (v != null && v != "") {
 				list.add(f.getName() + "=" + v + "&");
 			}
 
 		}
-		int size = list.size();
-		String[] arrayToSort = list.toArray(new String[size]);
-		Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < size; i++) {
-			sb.append(arrayToSort[i]);
-		}
-		String result = sb.toString();
-		result += "key=" + key;
-		result = MD5.MD5Encode(result).toUpperCase();
-		return result;
+		return list;
 	}
 
 	/**
@@ -67,12 +61,21 @@ public class Signature {
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("签名key不能为空.");
 		}
+		ArrayList<String> list = buildArrayList(map);
+		return buildSignature(list, key);
+	}
+
+	public static ArrayList<String> buildArrayList(Map<String, String> map) {
 		ArrayList<String> list = new ArrayList<String>();
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			if (entry.getValue() != null && entry.getValue() != "") {
 				list.add(entry.getKey() + "=" + entry.getValue() + "&");
 			}
 		}
+		return list;
+	}
+
+	private static String buildSignature(ArrayList<String> list, String key) {
 		int size = list.size();
 		String[] arrayToSort = list.toArray(new String[size]);
 		Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
@@ -84,5 +87,7 @@ public class Signature {
 		result += "key=" + key;
 		result = MD5.MD5Encode(result).toUpperCase();
 		return result;
+
 	}
+
 }

@@ -20,7 +20,6 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.CouponParser;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
@@ -126,60 +125,12 @@ public class SimpleEntityUtil extends AbstractEntityUtil implements EntityUtil {
 		return XMLUtil.createXML(parameters);
 	}
 
-	/**
-	 * 根据Order和config生成PayRequest
-	 * 
-	 * @param order
-	 *            用于支付的订单信息
-	 * @param config
-	 *            商户配置信息
-	 * @return 创建的用于订单支付的完整请求对象
-	 */
-	private PayRequest createPayRequest(Order order, Config config) {
-		PayRequest payRequest = new PayRequest();
-
-		payRequest.setAppid(config.appId());
-		payRequest.setMch_id(config.mchId());
-
-		payRequest.setDevice_info(order.getDevice_info());
-
-		// 商品描述
-		payRequest.setBody(order.getBody());
-		payRequest.setDetail(order.getDetail());
-		payRequest.setAttach(order.getAttach());
-		// 商户订单号
-		payRequest.setOut_trade_no(order.getOut_trade_no());
-
-		payRequest.setFee_type(order.getFee_type());
-
-		// 总金额
-		payRequest.setTotal_fee(order.getTotal_fee());
-
-		payRequest.setSpbill_create_ip(order.getSpbill_create_ip());
-		payRequest.setTime_start(order.getTime_start());
-		payRequest.setTime_expire(order.getTime_expire());
-
-		payRequest.setGoods_tag(order.getGoods_tag());
-
-		// 支付成功,微信反馈的url地址
-		payRequest.setNotify_url(config.notifyUrl());
-
-		payRequest.setTrade_type(order.getTrade_type());
-		// 此id为二维码中包含的商品ID
-		payRequest.setProduct_id(order.getProduct_id());
-
-		payRequest.setLimit_pay(order.getLimit_pay());
-		payRequest.setOpenid(config.openid());
-
-		// 随机数创建
-		payRequest.setNonce_str(RandomStringGenerator.getRandomStringByLength(20));
-
+	@Override
+	public String createPaySign(PayRequest payRequest, String key) {
 		// 签名
 		Map<String, String> mapRequest = createPaySignMap(payRequest);
-		String sign = Signature.getMapSign(mapRequest, config.key());
-		payRequest.setSign(sign);
-
-		return payRequest;
+		String sign = Signature.getMapSign(mapRequest, key);
+		return sign;
 	}
 
 	/**

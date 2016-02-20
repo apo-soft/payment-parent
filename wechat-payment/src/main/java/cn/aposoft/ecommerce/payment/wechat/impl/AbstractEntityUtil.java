@@ -3,8 +3,6 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
-import org.apache.log4j.Logger;
-
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
@@ -13,14 +11,12 @@ import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
-import cn.aposoft.ecommerce.payment.wechat.util.Signature;
 
 /**
  * @author Jann Liu
  *
  */
 public abstract class AbstractEntityUtil implements EntityUtil {
-	private static final Logger logger = Logger.getLogger(AbstractEntityUtil.class);
 
 	/**
 	 * 用于检查config的信息载入是否正确
@@ -73,6 +69,8 @@ public abstract class AbstractEntityUtil implements EntityUtil {
 	 */
 	protected abstract String generatePayXml(PayRequest values);
 
+	protected abstract String createPaySign(PayRequest payRequest, String key);
+
 	/**
 	 * 根据Order和config生成PayRequest
 	 * 
@@ -82,7 +80,7 @@ public abstract class AbstractEntityUtil implements EntityUtil {
 	 *            商户配置信息
 	 * @return 创建的用于订单支付的完整请求对象
 	 */
-	private PayRequest createPayRequest(Order order, Config config) {
+	public PayRequest createPayRequest(Order order, Config config) {
 		PayRequest payRequest = new PayRequest();
 
 		payRequest.setAppid(config.appId());
@@ -123,12 +121,8 @@ public abstract class AbstractEntityUtil implements EntityUtil {
 
 		// 签名
 		String sign;
-		try {
-			sign = Signature.getSign(payRequest, config.key());
-			payRequest.setSign(sign);
-		} catch (IllegalAccessException e) {
-			logger.error("Get signature for beans meets error.", e);
-		}
+		sign = createPaySign(payRequest, config.key());
+		payRequest.setSign(sign);
 
 		return payRequest;
 	}
