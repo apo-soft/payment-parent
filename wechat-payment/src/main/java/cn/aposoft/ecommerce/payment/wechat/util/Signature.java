@@ -32,10 +32,18 @@ public class Signature {
 		return buildSignature(list, key);
 	}
 
+	/**
+	 * 使用反射读取类及全部父类的fied名称及属性
+	 * 
+	 * @param o
+	 *            待读取对象
+	 * @return 对象的制定格式字符串集合
+	 * @throws IllegalAccessException
+	 */
 	public static ArrayList<String> buildArrayList(Object o) throws IllegalAccessException {
 		ArrayList<String> list = new ArrayList<String>();
 		Class<?> cls = o.getClass();
-		Field[] fields = cls.getFields();
+		Field[] fields = cls.getDeclaredFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
 			Object v = f.get(o);
@@ -44,11 +52,25 @@ public class Signature {
 			}
 
 		}
+		/**
+		 * 迭代读取父类
+		 */
+		for (Class<?> superCls = cls.getSuperclass(); superCls != null; superCls = superCls.getSuperclass()) {
+			fields = superCls.getDeclaredFields();
+			for (Field f : fields) {
+				f.setAccessible(true);
+				Object v = f.get(o);
+				if (v != null && v != "") {
+					list.add(f.getName() + "=" + v + "&");
+				}
+			}
+		}
+
 		return list;
 	}
 
 	/**
-	 * 签名算法[有问题，getDeclaredFields()会缺失内容]
+	 * 签名算法
 	 * 
 	 * @param o
 	 *            要参与签名的数据对象
