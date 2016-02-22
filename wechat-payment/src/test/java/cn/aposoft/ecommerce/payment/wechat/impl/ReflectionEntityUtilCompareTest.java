@@ -97,8 +97,7 @@ public class ReflectionEntityUtilCompareTest {
 		assertEquals(xml21, xml22);
 	}
 	
-	
-	
+
 
 	public static void main(String[] args) {
 		ReflectionEntityUtilCompareTest test = new ReflectionEntityUtilCompareTest();
