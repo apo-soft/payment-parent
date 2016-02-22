@@ -15,18 +15,18 @@ import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.wechat.impl.ReflectEntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.SimpleEntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.impl.SingletonHttpClientUtil;
+import cn.aposoft.ecommerce.payment.wechat.impl.HttpClientUtilImpl;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
-	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance(config);
-	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+	private static HttpClientUtil httpUtil = HttpClientUtilImpl.getInstance(config);
+	private static EntityUtil entityUtil = ReflectEntityUtil.getInstance();
 
 	private static PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 
@@ -173,7 +173,7 @@ public class Test {
 	public static void refundQuery() {
 
 		RefundQuery params = RefundQueryVo.demo();
-
+		
 		long begin = System.currentTimeMillis();
 		RefundQueryResponse response = payService.refundQuery(params);
 		long end = System.currentTimeMillis();

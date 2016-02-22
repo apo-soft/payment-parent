@@ -4,10 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -53,6 +55,35 @@ public class XMLUtil {
 		return map;
 	}
 
+	public static String createXML(Object o) throws IllegalAccessException {
+		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		Class<?> cls = o.getClass();
+		Field[] fields = cls.getDeclaredFields();
+		for (Field f : fields) {
+			f.setAccessible(true);
+			Object v = f.get(o);
+			if (v != null && v != "") {
+				parameters.put(f.getName(), v);
+			}
+
+		}
+		/**
+		 * 迭代读取父类
+		 */
+		for (Class<?> superCls = cls.getSuperclass(); superCls != null; superCls = superCls.getSuperclass()) {
+			fields = superCls.getDeclaredFields();
+			for (Field f : fields) {
+				f.setAccessible(true);
+				Object v = f.get(o);
+				if (v != null && v != "") {
+					parameters.put(f.getName(), v);
+				}
+			}
+		}
+
+		return createXML(parameters);
+	}
+
 	/**
 	 * 创建xml发送串
 	 * 
@@ -60,13 +91,13 @@ public class XMLUtil {
 	 *            传入的报文内容参数Map
 	 * @return 发送报文的xml字符串形式
 	 */
-	public static String createXML(SortedMap<String, Object> parameters) {
+	public static String createXML(SortedMap<String, String> parameters) {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<xml>");
-		for (Entry<String, Object> entry : parameters.entrySet()) {
-			String k = (String) entry.getKey();
-			String v = String.valueOf(entry.getValue());
-			if (!"null".equals(v) && !"".equals(v)) {
+		for (Entry<String, String> entry : parameters.entrySet()) {
+			String k = entry.getKey();
+			String v = entry.getValue();
+			if (v != null && !"".equals(v)) {
 				buffer.append("<" + k + ">" + v + "</" + k + ">" + "\r\n");
 			}
 		}

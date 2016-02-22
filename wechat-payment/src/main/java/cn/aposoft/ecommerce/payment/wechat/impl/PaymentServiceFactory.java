@@ -22,7 +22,7 @@ public class PaymentServiceFactory {
 	 */
 	public PaymentService getService() {
 		Config config = new PropertiesConfig();
-		PaymentService service = new PaymentServiceImpl(config, SingletonHttpClientUtil.getInstance(config),
+		PaymentService service = new PaymentServiceImpl(config, HttpClientUtilImpl.getInstance(config),
 				SimpleEntityUtil.getInstance());
 		return service;
 	}
@@ -37,7 +37,7 @@ public class PaymentServiceFactory {
 	public PaymentService getService(Map<String, String> map) {
 		Config config = new PropertiesConfig();
 		PaymentService service = new PaymentServiceImpl(new PropertiesConfig(map),
-				SingletonHttpClientUtil.getInstance(config), SimpleEntityUtil.getInstance());
+				HttpClientUtilImpl.getInstance(config), SimpleEntityUtil.getInstance());
 		return service;
 	}
 
@@ -51,7 +51,7 @@ public class PaymentServiceFactory {
 	 * @time 2015年12月6日 下午3:05:32
 	 */
 	public PaymentService getService(Config config) {
-		PaymentService service = new PaymentServiceImpl(config, SingletonHttpClientUtil.getInstance(config),
+		PaymentService service = new PaymentServiceImpl(config, HttpClientUtilImpl.getInstance(config),
 				SimpleEntityUtil.getInstance());
 		return service;
 	}

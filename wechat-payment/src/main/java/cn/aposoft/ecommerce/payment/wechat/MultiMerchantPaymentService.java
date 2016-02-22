@@ -3,8 +3,6 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
-import java.io.Closeable;
-
 import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
@@ -13,23 +11,18 @@ import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
 
 /**
- * 主动向微信支付服务器发送各种订单业务相关请求
- * {@link https://pay.weixin.qq.com/wiki/doc/api/index.html}
- * <p>
- * ATTENTION: 有关商户的基本配置信息,应当在支付服务的具体实现中进行加载
- * <ul>
- * <li>1. {@code preparePay} 定义微信支付的统一下单接口封装</li>
- * <li>2. {@code refund} 定义微信支付的申请退款接口</li>
- * <li>3. {@code query} 定义微信支付的订单查询接口</li>
- * <li>4. {@code closeOrder} 定义微信支付的关闭订单接口</li>
- * <li>5. {@code refundQuery} 定义微信支付的退款查询接口</li>
- * <li>6. {@code downloadBill} 定义下载对账单接口</li>
- * </ul>
- * 
  * @author Jann Liu
- * 
+ *
  */
-public interface PaymentService extends Closeable {
+public interface MultiMerchantPaymentService {
+
+	/**
+	 * 用户设置多商户时,识别商户的appid,mch_id,key等信息的辅助策略类
+	 * 
+	 * @param provider
+	 *            商户信息识别方法注入类
+	 */
+	void setMerchantConfigProvider(MerchantConfigProvider provider);
 
 	/**
 	 * 统一下单 {@code preparePay(Order order)}完成向微信支付服务器发送预处理订单并处理响应结果
@@ -100,8 +93,7 @@ public interface PaymentService extends Closeable {
 	 * <p>
 	 * 接口地址: https://api.mch.weixin.qq.com/pay/closeorder
 	 * 
-	 * @param params
-	 *            关闭订单参数对象
+	 * @param 关闭订单参数对象
 	 * @return 关闭订单请求的返回结果
 	 * @author Jann Liu
 	 */

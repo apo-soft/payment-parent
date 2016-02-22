@@ -64,7 +64,6 @@ public class RefundVo implements Refund {
 		return nonce_str;
 	}
 
-
 	@Override
 	public Integer getTotal_fee() {
 		return total_fee;
@@ -98,6 +97,27 @@ public class RefundVo implements Refund {
 	@Override
 	public String getOp_user_id() {
 		return op_user_id;
+	}
+
+	/**
+	 * 用于测试的demo对象
+	 * 
+	 * @return {@see Refund} 退款请求对象
+	 */
+	public static Refund demo() {
+		RefundVo refund = new RefundVo();
+
+		// refund.setDevice_info("设备信息");
+
+		refund.setNonce_str("201601141855");
+		refund.setOp_user_id("wechat-1");
+		refund.setOut_refund_no("1009160896201601142697805964");// 退款单号（支付单号）
+
+		refund.setOut_trade_no("A7E7ABE0BAAB11E5B0E4B53447D52D06");
+		refund.setRefund_fee(400);
+		refund.setRefund_fee_type("CNY");
+		refund.setTotal_fee(400);
+		return refund;
 	}
 
 }

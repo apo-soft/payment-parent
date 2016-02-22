@@ -1,47 +1,15 @@
-/**
- * 
- */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
-import java.io.Closeable;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
 
-import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
-import cn.aposoft.ecommerce.payment.wechat.Config;
-import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
-import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
-import cn.aposoft.ecommerce.payment.wechat.Order;
-import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
-import cn.aposoft.ecommerce.payment.wechat.PaymentService;
-import cn.aposoft.ecommerce.payment.wechat.Refund;
-import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
-
-/**
- * 支付服务业务实现类
- * <ul>
- * <li>1. {@code preparePay} 实现微信支付的统一下单接口封装</li>
- * <li>2. {@code refund} 实现微信支付的申请退款接口</li>
- * <li>3. {@code query} 实现微信支付的订单查询接口</li>
- * <li>4. {@code closeOrder} 实现微信支付的关闭订单接口</li>
- * <li>5. {@code refundQuery} 实现微信支付的退款查询接口</li>
- * <li>6. {@code downloadBill} 实现下载对账单接口</li>
- * </ul>
- * 
- * @author LiuJian
- *
- */
-public class PaymentServiceImpl implements PaymentService, Closeable {
-	private static final Logger logger = Logger.getLogger(PaymentServiceImpl.class);
-	private Config config;
-	private BasePaymentServiceImpl baseService;
-
-	public PaymentServiceImpl(Config config, HttpClientUtil httpUtil, EntityUtil entityUtil) {
-		baseService = new BasePaymentServiceImpl(httpUtil, entityUtil);
-		this.config = config;
-	}
+public interface BasePaymentService {
 
 	/**
 	 * 实现支付订单的发送及返回值的返回
@@ -63,10 +31,7 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#preparePay
 	 *      (cn.aposoft.ecommerce.payment.wechat.Order)
 	 */
-	@Override
-	public PayResponse preparePay(Order order) {
-		return baseService.preparePay(order, config);
-	}
+	PayResponse preparePay(Order order, Config config);
 
 	/**
 	 * 生成退款信息并发送请求到微信退款服务器
@@ -91,10 +56,7 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @return 退款结果响应信息
 	 * @author Yujinshui
 	 */
-	@Override
-	public RefundResponse refund(Refund refund) {
-		return baseService.refund(refund, config);
-	}
+	RefundResponse refund(Refund refund, Config config);
 
 	/**
 	 * 该接口提供所有微信支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。
@@ -121,10 +83,7 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @author Yujinshui
 	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#query(cn.aposoft.ecommerce.payment.wechat.OrderQuery)
 	 */
-	@Override
-	public OrderQueryResponse query(OrderQuery params) {
-		return baseService.query(params, config);
-	}
+	OrderQueryResponse query(OrderQuery params, Config config);
 
 	/**
 	 * 关闭订单请求的实现
@@ -144,10 +103,7 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @see cn.aposoft.ecommerce.payment.wechat.PaymentService#closeOrder(CloseOrder
 	 *      params)
 	 */
-	@Override
-	public CloseOrderResponse closeOrder(CloseOrder params) {
-		return baseService.closeOrder(params, config);
-	}
+	CloseOrderResponse closeOrder(CloseOrder params, Config config);
 
 	/**
 	 * 退款查询服务接口:
@@ -163,10 +119,7 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @return 退款查询返回结果
 	 * @author Jann Liu
 	 */
-	@Override
-	public RefundQueryResponse refundQuery(RefundQuery params) {
-		return baseService.refundQuery(params, config);
-	}
+	RefundQueryResponse refundQuery(RefundQuery params, Config config);
 
 	/**
 	 * 下载对账单
@@ -190,16 +143,8 @@ public class PaymentServiceImpl implements PaymentService, Closeable {
 	 * @return 下载的对账单响应结果
 	 * @author Jann Liu
 	 */
-	@Override
-	public DownloadBillResponse downloadBill(DownloadBill params) {
-		return baseService.downloadBill(params, config);
-	}
+	DownloadBillResponse downloadBill(DownloadBill params, Config config);
 
-	/**
-	 * 释放资源
-	 */
-	@Override
-	public void close() throws IOException {
-		baseService.close();
-	}
+	void close() throws IOException;
+
 }
