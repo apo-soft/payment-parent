@@ -56,14 +56,14 @@ public class XMLUtil {
 	}
 
 	public static String createXML(Object o) throws IllegalAccessException {
-		SortedMap<String, Object> parameters = new TreeMap<String, Object>();
+		SortedMap<String, String> parameters = new TreeMap<String, String>();
 		Class<?> cls = o.getClass();
 		Field[] fields = cls.getDeclaredFields();
 		for (Field f : fields) {
 			f.setAccessible(true);
 			Object v = f.get(o);
 			if (v != null && v != "") {
-				parameters.put(f.getName(), v);
+				parameters.put(f.getName(), CommonUtil.toString(v));
 			}
 
 		}
@@ -76,7 +76,7 @@ public class XMLUtil {
 				f.setAccessible(true);
 				Object v = f.get(o);
 				if (v != null && v != "") {
-					parameters.put(f.getName(), v);
+					parameters.put(f.getName(), CommonUtil.toString(v));
 				}
 			}
 		}

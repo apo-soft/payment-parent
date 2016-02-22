@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import cn.aposoft.ecommerce.payment.wechat.Config;
+import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
+import cn.aposoft.ecommerce.payment.wechat.OrderQueryVo;
 import cn.aposoft.ecommerce.payment.wechat.OrderVo;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
@@ -38,12 +40,12 @@ public class ReflectionEntityUtilCompareTest {
 	 */
 	@Test
 	public void assertPayRequestXmlEquals() {
-		RefundQuery bean = RefundQueryVo.demo();
+		OrderVo order = createPaymentRequestOrder(config);
 		SimpleEntityUtil utl1 = (SimpleEntityUtil) SimpleEntityUtil.getInstance();
 		ReflectEntityUtil utl2 = new ReflectEntityUtil();
-		RefundQueryRequest req = utl1.createRefundQueryRequest(bean, config);
-		String xml1 = utl1.createRefundQueryRequestXml(req);
-		String xml2 = utl2.createRefundQueryRequestXml(req);
+		PayRequest request = utl1.createPayRequest(order, config);
+		String xml1 = utl1.generatePayXml(request);
+		String xml2 = utl2.generatePayXml(request);
 		assertEquals(xml1, xml2);
 	}
 
@@ -52,13 +54,14 @@ public class ReflectionEntityUtilCompareTest {
 	 */
 	@Test
 	public void assertRefundQueryRequestXmlEquals() {
-		OrderVo order = createPaymentRequestOrder(config);
+		RefundQuery bean = RefundQueryVo.demo();
 		SimpleEntityUtil utl1 = (SimpleEntityUtil) SimpleEntityUtil.getInstance();
 		ReflectEntityUtil utl2 = new ReflectEntityUtil();
-
-		String xml1 = utl1.generatePayXml(order, config);
-		String xml2 = utl2.generatePayXml(order, config);
+		RefundQueryRequest req = utl1.createRefundQueryRequest(bean, config);
+		String xml1 = utl1.createRefundQueryRequestXml(req);
+		String xml2 = utl2.createRefundQueryRequestXml(req);
 		assertEquals(xml1, xml2);
+
 	}
 
 	/**
@@ -76,21 +79,32 @@ public class ReflectionEntityUtilCompareTest {
 	}
 
 	/**
-	 * 预支付相关的生成Pay参数及解析Response参数的
-	 * 
+	 * 确认退款查询的请求xml与原来一致
 	 */
-	private static void testPreparePayMethods() {
-		OrderVo order = createPaymentRequestOrder(config);
+	@Test
+	public void assertOrderQueryRequestXmlEquals() {
+		OrderQuery demo1 = OrderQueryVo.demo1();
 		SimpleEntityUtil utl1 = (SimpleEntityUtil) SimpleEntityUtil.getInstance();
 		ReflectEntityUtil utl2 = new ReflectEntityUtil();
-
-		String xml1 = utl1.generatePayXml(order, config);
-		String xml2 = utl2.generatePayXml(order, config);
-		System.out.println(xml1);
-		System.out.println(xml2);
+		OrderQueryRequest request = utl1.createOrderQueryRequest(demo1, config);
+		String xml1 = utl1.generateOrderQueryXml(request);
+		String xml2 = utl2.generateOrderQueryXml(request);
+		assertEquals(xml1, xml2);
+		OrderQuery demo2 = OrderQueryVo.demo2();
+		OrderQueryRequest request2 = utl1.createOrderQueryRequest(demo2, config);
+		String xml21 = utl1.generateOrderQueryXml(request2);
+		String xml22 = utl2.generateOrderQueryXml(request2);
+		assertEquals(xml21, xml22);
 	}
+	
+	
+	
 
 	public static void main(String[] args) {
-		testPreparePayMethods();
+		ReflectionEntityUtilCompareTest test = new ReflectionEntityUtilCompareTest();
+		test.assertPayRequestXmlEquals();
+		test.assertRefundQueryRequestXmlEquals();
+		test.assertRefundRequestXmlEquals();
+		test.assertOrderQueryRequestXmlEquals();
 	}
 }

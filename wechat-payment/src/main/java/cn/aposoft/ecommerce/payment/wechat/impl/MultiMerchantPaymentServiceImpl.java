@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
+import java.io.IOException;
+
 import cn.aposoft.ecommerce.payment.wechat.BasePaymentService;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
@@ -75,6 +77,11 @@ public class MultiMerchantPaymentServiceImpl implements MultiMerchantPaymentServ
 	@Override
 	public DownloadBillResponse downloadBill(DownloadBill params) {
 		return paymentService.downloadBill(params, provider.getConfig(params));
+	}
+
+	@Override
+	public void close() throws IOException {
+		paymentService.close();
 	}
 
 }

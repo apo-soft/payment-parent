@@ -477,7 +477,7 @@ public abstract class AbstractEntityUtil implements EntityUtil {
 	 *            商户配置信息
 	 * @return 用于post请求的数据完整对象
 	 */
-	private OrderQueryRequest createOrderQueryRequest(OrderQuery params, Config config) {
+	public OrderQueryRequest createOrderQueryRequest(OrderQuery params, Config config) {
 		OrderQueryRequest values = new OrderQueryRequest();
 		values.setAppid(config.appId());
 		values.setMch_id(config.mchId());

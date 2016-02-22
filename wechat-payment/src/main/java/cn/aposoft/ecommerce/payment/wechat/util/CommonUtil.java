@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 public class CommonUtil {
 	private static Logger logger = Logger.getLogger(CommonUtil.class);
 
+	private CommonUtil() {
+	}
+
 	/**
 	 * 金额转换[Integer]
 	 * 

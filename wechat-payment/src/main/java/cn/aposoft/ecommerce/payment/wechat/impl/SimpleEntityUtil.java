@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
@@ -20,7 +20,7 @@ import cn.aposoft.ecommerce.payment.wechat.util.XMLUtil;
 public class SimpleEntityUtil extends AbstractEntityUtil implements EntityUtil {
 
 	private static final EntityUtil instance = new SimpleEntityUtil();
-	private static Logger logger = Logger.getLogger(SimpleEntityUtil.class);
+	// private static Logger logger = Logger.getLogger(SimpleEntityUtil.class);
 
 	public static final EntityUtil getInstance() {
 		return instance;

@@ -27,10 +27,6 @@ import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
 
 /**
  * 
- * 
- * 
- * /**
- * 
  * 只进行post提交
  * <p>
  * 当应用关闭时应调用 {@code SingletonHttpClientUtil.getInstance().close();}
@@ -40,7 +36,7 @@ import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
  * 原来的SimgletonUtil具有较大的整体资源管理问题,变更为普通的可注入Util
  * 
  * @author LiuJian
- *
+ * @deprecated 因存在多服务引用close问题, 不再推荐使用本类,请使用 {@code HttpClientUtilImpl}替代本类
  */
 
 public class SingletonHttpClientUtil implements HttpClientUtil {
