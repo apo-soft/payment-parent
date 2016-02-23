@@ -11,7 +11,15 @@ package cn.aposoft.ecommerce.payment.alipay;
  * @author Jann Liu
  *
  */
-public interface Config {
+public interface AliConfig {
+	/**
+	 * 二维码订单业务类型 product_code
+	 * 
+	 * @return
+	 * @author Yujinshui
+	 * @time 2015年11月26日 下午6:47:34
+	 */
+	String qr_code_product();
 
 	/**
 	 * 商户的私钥<br>
@@ -111,7 +119,7 @@ public interface Config {
 	 * @time 2015年11月11日 上午10:49:32
 	 */
 	String log_path();
-	
+
 	/**
 	 * 
 	 * @return

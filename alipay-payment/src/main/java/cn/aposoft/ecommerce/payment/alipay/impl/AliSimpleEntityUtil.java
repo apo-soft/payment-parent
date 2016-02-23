@@ -7,26 +7,26 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
-import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
-import cn.aposoft.ecommerce.payment.alipay.Order;
-import cn.aposoft.ecommerce.payment.alipay.Refund;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
+import cn.aposoft.ecommerce.payment.alipay.AliEntityUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliOrder;
+import cn.aposoft.ecommerce.payment.alipay.AliRefund;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 import cn.aposoft.ecommerce.payment.alipay.util.XMLUtil;
 
-public class SimpleEntityUtil implements EntityUtil {
-	private static Logger logger = Logger.getLogger(SimpleEntityUtil.class);
+public class AliSimpleEntityUtil implements AliEntityUtil {
+	private static Logger logger = Logger.getLogger(AliSimpleEntityUtil.class);
 
 	/**
 	 * 将返回的xml字符串转换为javabean形式输出
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parsePayResponseXml(java.lang.String,
-	 *      cn.aposoft.ecommerce.payment.alipay.Config)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliEntityUtil#parsePayResponseXml(java.lang.String,
+	 *      cn.aposoft.ecommerce.payment.alipay.AliConfig)
 	 */
 	@Override
-	public PayResponse parsePayResponseXml(String xml, Config config) {
+	public AliPayResponse parsePayResponseXml(String xml, AliConfig config) {
 		Map<String, String> result = null;
-		PayResponse response = null;
+		AliPayResponse response = null;
 		try {
 			result = XMLUtil.getMapFromXML(xml);
 			response = getPayResponse(result);
@@ -35,7 +35,7 @@ public class SimpleEntityUtil implements EntityUtil {
 			checkPayResponseSign(response, config);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error("解析支付请求返回结果时发生错误: " + e.getMessage(), e);
-			response = new PayResponse();
+			response = new AliPayResponse();
 			response.setReturnXml(xml);
 			// return null;
 		}
@@ -46,11 +46,11 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将退款返回字符串封装为bean类型
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parseRefundResponseXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliEntityUtil#parseRefundResponseXml(java.lang.String)
 	 */
 	@Override
-	public RefundResponse parseRefundResponseXml(String resultXml, Config config) {
-		RefundResponse res = null;
+	public AliRefundResponse parseRefundResponseXml(String resultXml, AliConfig config) {
+		AliRefundResponse res = null;
 		Map<String, String> result = null;
 		try {
 			result = XMLUtil.getMapFromXML(resultXml);
@@ -60,7 +60,7 @@ public class SimpleEntityUtil implements EntityUtil {
 			checkRefundResponseSign(res, config);
 		} catch (ParserConfigurationException | IOException | SAXException e) {
 			logger.error("解析支付宝退款结果时发生错误: " + e.getMessage(), e);
-			res = new RefundResponse();
+			res = new AliRefundResponse();
 			res.setReturnXml(resultXml);
 		}
 		return res;
@@ -92,7 +92,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @time 2015年11月12日 上午10:24:37
 	 */
 	@Override
-	public Map<String, String> generatePayMap(Order order, Config config) {
+	public Map<String, String> generatePayMap(AliOrder order, AliConfig config) {
 		checkConfig(config);
 		Map<String, String> params = new HashMap<String, String>();
 		// 基本参数
@@ -106,7 +106,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		params.put("out_trade_no", order.getOut_trade_no());
 		params.put("subject", order.getSubject());
 		params.put("product_code", order.getProduct_code());
-		params.put("total_fee", order.getTotal_fee() + "");
+		params.put("total_fee", order.getTotal_fee().doubleValue() + "");
 		// 以下为可选参数，可选参数部分，如果有null值的，会导致MD5签名错误，故进行处理，具体哪个参数影响签名，未进行详细检测
 		params.put("notify_url", order.getNotify_url() == null ? "" : order.getNotify_url());
 		params.put("alipay_ca_request", order.getAlipay_ca_request() == null ? "" : order.getAlipay_ca_request());
@@ -117,7 +117,7 @@ public class SimpleEntityUtil implements EntityUtil {
 		params.put("body", order.getBody() == null ? "" : order.getBody());
 		params.put("show_url", order.getShow_url() == null ? "" : order.getShow_url());
 		params.put("currency", order.getCurrency() == null ? "" : order.getCurrency());
-		params.put("price", order.getPrice() == null ? "" : order.getPrice() + "");
+		params.put("price", order.getPrice() == null ? "" : order.getPrice().doubleValue() + "");
 		params.put("quantity", order.getQuantity() == null ? "" : order.getQuantity());
 		params.put("goods_detail", order.getGoods_detail() == null ? "" : order.getGoods_detail());
 		params.put("extend_params", order.getExtend_params() == null ? "" : order.getExtend_params());
@@ -131,10 +131,10 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 退款请求数据：将bean数据转换为map数据
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#generateRefundMap(cn.aposoft.ecommerce.payment.alipay.Refund)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliEntityUtil#generateRefundMap(cn.aposoft.ecommerce.payment.alipay.AliRefund)
 	 */
 	@Override
-	public Map<String, String> generateRefundMap(Refund refund, Config config) {
+	public Map<String, String> generateRefundMap(AliRefund refund, AliConfig config) {
 
 		checkConfig(config);
 
@@ -166,8 +166,8 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月13日 下午5:03:04
 	 */
-	private PayResponse getPayResponse(Map<String, String> result) {
-		PayResponse response = new PayResponse();
+	private AliPayResponse getPayResponse(Map<String, String> result) {
+		AliPayResponse response = new AliPayResponse();
 		response.setBig_pic_url(result.get("big_pic_url"));
 		response.setDetail_error_code(result.get("detail_error_code"));
 		response.setDetail_error_des(result.get("detail_error_des"));
@@ -193,8 +193,8 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月17日 下午5:43:59
 	 */
-	private RefundResponse getRefundResponse(Map<String, String> result) {
-		RefundResponse res = new RefundResponse();
+	private AliRefundResponse getRefundResponse(Map<String, String> result) {
+		AliRefundResponse res = new AliRefundResponse();
 		// 必填
 		res.setIs_success(result.get("is_success"));
 		res.setResult_code(result.get("result_code"));
@@ -218,7 +218,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	/**
 	 * 将返回结果字符串解析为map类型【供测试使用】
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.EntityUtil#parseMapXml(java.lang.String)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliEntityUtil#parseMapXml(java.lang.String)
 	 * @deprecated
 	 */
 	@Override
@@ -241,7 +241,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @throws IllegalArgumentException
 	 *             当config参数不正确时,抛出此异常
 	 */
-	private void checkConfig(Config config) {
+	private void checkConfig(AliConfig config) {
 		if (config == null) {
 			throw new IllegalArgumentException("支付配置信息不能为NULL.");
 		}
@@ -273,7 +273,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月18日 下午3:17:57
 	 */
-	private void checkPayResponseSign(PayResponse response, Config config) {
+	private void checkPayResponseSign(AliPayResponse response, AliConfig config) {
 		Map<String, String> map = new HashMap<String, String>();
 		if (response.getError() != null) {
 			map.put("error", response.getError());
@@ -305,7 +305,7 @@ public class SimpleEntityUtil implements EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月18日 下午5:05:19
 	 */
-	private void checkRefundResponseSign(RefundResponse refund, Config config) {
+	private void checkRefundResponseSign(AliRefundResponse refund, AliConfig config) {
 		Map<String, String> map = new HashMap<String, String>();
 		if (refund.getError() != null) {
 			map.put("error", refund.getError());

@@ -19,7 +19,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
  * 
  * @author Yujinshui
  */
-public class PayResponse extends ResponseBase {
+public class AliPayResponse extends ResponseBase {
 
 	
 

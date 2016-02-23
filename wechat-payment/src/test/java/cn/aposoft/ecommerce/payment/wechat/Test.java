@@ -25,7 +25,7 @@ import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
-	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance();
+	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance(config);
 	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
 
 	private static PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
@@ -41,14 +41,17 @@ public class Test {
 		System.out.println(result.getReturn_msg());
 	}
 
+	static int i = 1;
+
 	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+		i++;
 		OrderVo order = new OrderVo();
 		order.setBody("iPhone 6s Plus 16GB 金色");
 		order.setGoods_tag("no");
-		order.setOut_trade_no("20151119_2");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("20160113_" + i);// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
-		order.setTotal_fee(10);
+		order.setTotal_fee(100);
 		// order.setAppid(config.appId());
 		// order.setAttach(attach);
 		// order.setDetail(detail);
@@ -69,23 +72,25 @@ public class Test {
 	 */
 	public static void refundTest_1() {
 		// 支付内容
-		OrderVo order = setValue(config, httpUtil);
+//		OrderVo order = setValue(config, httpUtil);
 
 		RefundVo refund = new RefundVo();
 
 		// refund.setDevice_info("设备信息");
 
-		refund.setNonce_str("1098415178");
-		refund.setOp_user_id("op_user_id 操作员 ");
-		refund.setOut_refund_no("1000620240201511191671466372");// 退款单号（支付单号）
-		refund.setOut_trade_no("20151119_2");
-		refund.setRefund_fee(order.getTotal_fee());
+		refund.setNonce_str("201601141855");
+		refund.setOp_user_id("wechat-1");
+		refund.setOut_refund_no("1009160896201601142697805964");// 退款单号（支付单号）
+
+		refund.setOut_trade_no("A7E7ABE0BAAB11E5B0E4B53447D52D06");
+		refund.setRefund_fee(400);
 		refund.setRefund_fee_type("CNY");
-		refund.setTotal_fee(order.getTotal_fee());
+		refund.setTotal_fee(400);
 		// refund.setTransaction_id("http://120.25.221.200:8087/svmservice/wechatpay/paySuccess");//
 		// prepay_id
 		// 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
 		RefundResponse result = payService.refund(refund);
+		System.out.println(result.getTotal_fee());
 		System.out.println(result.getReturn_code());
 		System.out.println(result.getReturn_msg());
 		System.out.println(result.getOut_trade_no());
@@ -142,6 +147,7 @@ public class Test {
 		OrderQueryVo query = setQuery();
 		OrderQueryResponse outquery = payService.query(query);
 		System.out.println("订单信息展示：");
+		System.out.println(outquery.getTransaction_id());
 		System.out.println(outquery.getAppid());
 		System.out.println(outquery.getTrade_state());
 		System.out.println(outquery.getBank_type());
@@ -149,6 +155,10 @@ public class Test {
 		System.out.println(outquery.getDevice_info());
 		System.out.println(outquery.getTotal_fee());
 		System.out.println(outquery.getAttach());
+		System.out.println(outquery.getOpenid());
+		System.out.println(outquery.getTime_end());
+		System.out.println(outquery.getOut_trade_no());
+		System.out.println(outquery.getTrade_state_desc());
 	}
 
 	/**
@@ -161,7 +171,8 @@ public class Test {
 	public static OrderQueryVo setQuery() {
 		OrderQueryVo query = new OrderQueryVo();
 		// query.setOut_trade_no("");
-		query.setTransaction_id("1005680240201510261343957061");
+		 query.setTransaction_id("1009250532201602153282119059");
+//		query.setOut_trade_no("DE5773D0BDBD11E5ABE7F23AD07C9706");
 		return query;
 	}
 
@@ -228,19 +239,20 @@ public class Test {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
 //		payInfo_1();// 支付测试
+
 		 refundTest_1();// 退款测试
-		// orderQuery();// 订单测试
+//		 orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 
 		// createNotificationResultXmlTest();
 		// downloadBill(); // 对账单测试
-
 		try {
 			payService.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

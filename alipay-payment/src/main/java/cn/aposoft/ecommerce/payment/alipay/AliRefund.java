@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @author Yujinshui
  *
  */
-public interface Refund {
+public interface AliRefund {
 
 	/********* 基本参数 *************/
 	/**

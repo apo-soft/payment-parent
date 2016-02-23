@@ -1,9 +1,6 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.payment.alipay2;
 
 import java.util.Map;
-
-import cn.aposoft.ecommerce.payment.alipay.impl.PayResponse;
-import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
 
 /**
  * 支付与退款的过程封装
@@ -11,31 +8,26 @@ import cn.aposoft.ecommerce.payment.alipay.impl.RefundResponse;
  * @author Yujinshui
  *
  */
-public interface EntityUtil {
-
+public interface Ali2EntityUtil {
 	/**
 	 * [支付]将返回的xml字符串结果解析成PayResponse-javabean
 	 * 
 	 * @param xml
-	 * @param config
 	 * @return
-	 * @author Yujinshui
-	 * @time 2015年11月18日 下午3:59:38
 	 */
-	PayResponse parsePayResponseXml(String xml, Config config);
+	// PayResponse parsePayResponseXml(String xml);
 
 	/**
-	 * 将返回的xml字符串解析成map类型返回【测试环境使用】
+	 * 将返回的xml字符串解析成map类型返回
 	 * 
 	 * @param xml
 	 * @return
 	 * @author Yujinshui
 	 * @time 2015年11月12日 下午8:24:28
-	 * @deprecated
 	 */
 	Map<String, String> parseMapXml(String xml);
 
-	Map<String, String> generatePayMap(Order order, Config config);
+	// Map<String, String> generatePayMap(Order order, Config config);
 
 	/**
 	 * 退款请求：将bean数据转换为map数据
@@ -45,7 +37,7 @@ public interface EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月16日 下午12:15:12
 	 */
-	Map<String, String> generateRefundMap(Refund refund, Config config);
+	// Map<String, String> generateRefundMap(Refund refund, Config config);
 
 	/**
 	 * 将退款返回字符串封装为bean类型
@@ -55,5 +47,5 @@ public interface EntityUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月16日 下午2:41:16
 	 */
-	RefundResponse parseRefundResponseXml(String resultXml, Config config);
+	// RefundResponse parseRefundResponseXml(String resultXml);
 }

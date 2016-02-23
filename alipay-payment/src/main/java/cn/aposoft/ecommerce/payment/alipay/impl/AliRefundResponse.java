@@ -7,7 +7,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
  * @author Yujinshui
  *
  */
-public class RefundResponse extends ResponseBase {
+public class AliRefundResponse extends ResponseBase {
 
 	/**
 	 * 买家支付宝用户号

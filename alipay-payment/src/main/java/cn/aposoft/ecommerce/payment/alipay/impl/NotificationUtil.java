@@ -3,7 +3,7 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
 /**
@@ -24,7 +24,7 @@ public class NotificationUtil {
 	 * @author Yujinshui
 	 * @time 2015年11月19日 下午12:36:17
 	 */
-	public static Notification checkAliSign(Notification noti, Config config) {
+	public static AliNotification checkAliSign(AliNotification noti, AliConfig config) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		map.put("notify_time", noti.getNotify_time() == null ? "" : noti.getNotify_time());

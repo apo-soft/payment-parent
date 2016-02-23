@@ -2,7 +2,7 @@ package cn.aposoft.ecommerce.payment.alipay.test;
 
 import java.math.BigDecimal;
 
-import cn.aposoft.ecommerce.payment.alipay.Order;
+import cn.aposoft.ecommerce.payment.alipay.AliOrder;
 
 /**
  * 支付宝支付请求参数
@@ -10,7 +10,7 @@ import cn.aposoft.ecommerce.payment.alipay.Order;
  * @author Yujinshui
  *
  */
-public class AlipayRequest implements Order {
+public class AlipayRequest implements AliOrder {
 
 	/**
 	 * 接口名称*
@@ -135,7 +135,7 @@ public class AlipayRequest implements Order {
 
 	/**
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Order#getService()
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliOrder#getService()
 	 */
 	@Override
 	public String getService() {

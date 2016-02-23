@@ -5,38 +5,38 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
-import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
+import cn.aposoft.ecommerce.payment.alipay.AliHttpClientUtil;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpProtocolHandler;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpRequest;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResponse;
 import cn.aposoft.ecommerce.payment.alipay.httpClient.HttpResultType;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
-public class SingletonHttpClientUtil implements HttpClientUtil {
-	public static Logger log = Logger.getLogger(SingletonHttpClientUtil.class);
+public class AliSingletonHttpClientUtil implements AliHttpClientUtil {
+	public static Logger log = Logger.getLogger(AliSingletonHttpClientUtil.class);
 
-	private static SingletonHttpClientUtil instance = new SingletonHttpClientUtil();
+	private static AliSingletonHttpClientUtil instance = new AliSingletonHttpClientUtil();
 
-	private SingletonHttpClientUtil() {
+	private AliSingletonHttpClientUtil() {
 	}
 
-	public static final HttpClientUtil getInstance() {
+	public static final AliHttpClientUtil getInstance() {
 		return instance;
 	}
 
 	/**
 	 * 创建发送请求
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.HttpClientUtil#post(java.util.Map,
-	 *      cn.aposoft.ecommerce.payment.alipay.Config)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliHttpClientUtil#post(java.util.Map,
+	 *      cn.aposoft.ecommerce.payment.alipay.AliConfig)
 	 */
 	@Override
-	public String post(Map<String, String> params, Config config) {
+	public String post(Map<String, String> params, AliConfig config) {
 		return generalPost(params, config);
 	}
 
-	private String generalPost(Map<String, String> params, Config config) {
+	private String generalPost(Map<String, String> params, AliConfig config) {
 		// System.out.println("\n======AliPay 请求统一下单 开始: 上行======\n");
 		long start = System.currentTimeMillis();
 		HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
@@ -70,11 +70,11 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 
 	/**
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.HttpClientUtil#refund(java.util.Map,
-	 *      cn.aposoft.ecommerce.payment.alipay.Config)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliHttpClientUtil#refund(java.util.Map,
+	 *      cn.aposoft.ecommerce.payment.alipay.AliConfig)
 	 */
 	@Override
-	public String refund(Map<String, String> params, Config config) {
+	public String refund(Map<String, String> params, AliConfig config) {
 		return generalPost(params, config);
 	}
 

@@ -2,21 +2,21 @@ package cn.aposoft.ecommerce.payment.alipay.impl;
 
 import java.util.Map;
 
-import cn.aposoft.ecommerce.payment.alipay.Config;
-import cn.aposoft.ecommerce.payment.alipay.EntityUtil;
-import cn.aposoft.ecommerce.payment.alipay.HttpClientUtil;
-import cn.aposoft.ecommerce.payment.alipay.Order;
-import cn.aposoft.ecommerce.payment.alipay.PaymentService;
-import cn.aposoft.ecommerce.payment.alipay.Refund;
+import cn.aposoft.ecommerce.payment.alipay.AliConfig;
+import cn.aposoft.ecommerce.payment.alipay.AliEntityUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliHttpClientUtil;
+import cn.aposoft.ecommerce.payment.alipay.AliOrder;
+import cn.aposoft.ecommerce.payment.alipay.AliPaymentService;
+import cn.aposoft.ecommerce.payment.alipay.AliRefund;
 import cn.aposoft.ecommerce.payment.alipay.util.MapUtil;
 
-public class PaymentServiceImpl implements PaymentService {
+public class AliPaymentServiceImpl implements AliPaymentService {
 
-	private HttpClientUtil httpclient;
-	private EntityUtil entityUtil;
-	private Config config;
+	private AliHttpClientUtil httpclient;
+	private AliEntityUtil entityUtil;
+	private AliConfig config;
 
-	public PaymentServiceImpl(HttpClientUtil httpclient, EntityUtil entityUtil, Config config) {
+	public AliPaymentServiceImpl(AliHttpClientUtil httpclient, AliEntityUtil entityUtil, AliConfig config) {
 		this.httpclient = httpclient;
 		this.entityUtil = entityUtil;
 		this.config = config;
@@ -25,10 +25,10 @@ public class PaymentServiceImpl implements PaymentService {
 
 	/**
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.PaymentService#preparePay(cn.aposoft.ecommerce.payment.alipay.Order)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliPaymentService#preparePay(cn.aposoft.ecommerce.payment.alipay.AliOrder)
 	 */
 	@Override
-	public PayResponse preparePay(Order order) {
+	public AliPayResponse preparePay(AliOrder order) {
 
 		Map<String, String> params = entityUtil.generatePayMap(order, config);
 		params = MapUtil.createMapRequest(params, config);
@@ -39,10 +39,10 @@ public class PaymentServiceImpl implements PaymentService {
 	/**
 	 * 退款接口付款完成的交易进行部分或全部的退还
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.PaymentService#refund(cn.aposoft.ecommerce.payment.alipay.Refund)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliPaymentService#refund(cn.aposoft.ecommerce.payment.alipay.AliRefund)
 	 */
 	@Override
-	public RefundResponse refund(Refund refund) {
+	public AliRefundResponse refund(AliRefund refund) {
 		Map<String, String> params = entityUtil.generateRefundMap(refund, config);
 		params = MapUtil.createMapRequest(params, config);
 		String resultXml = httpclient.refund(params, config);
@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	/**
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.PaymentService#prepareMap(java.util.Map)
+	 * @see cn.aposoft.ecommerce.payment.alipay.AliPaymentService#prepareMap(java.util.Map)
 	 * @deprecated
 	 */
 	@Override
