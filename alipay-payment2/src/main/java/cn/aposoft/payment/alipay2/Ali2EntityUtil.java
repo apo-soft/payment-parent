@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Yujinshui
  *
  */
-public interface EntityUtil {
+public interface Ali2EntityUtil {
 	/**
 	 * [支付]将返回的xml字符串结果解析成PayResponse-javabean
 	 * 

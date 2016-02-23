@@ -13,7 +13,7 @@ import org.apache.commons.httpclient.NameValuePair;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-public class HttpRequest {
+public class Ali2HttpRequest {
 
     /** HTTP GET method */
     public static final String METHOD_GET        = "GET";
@@ -58,9 +58,9 @@ public class HttpRequest {
     /**
      * 请求返回的方式
      */
-    private HttpResultType     resultType        = HttpResultType.BYTES;
+    private Ali2HttpResultType     resultType        = Ali2HttpResultType.BYTES;
 
-    public HttpRequest(HttpResultType resultType) {
+    public Ali2HttpRequest(Ali2HttpResultType resultType) {
         super();
         this.resultType = resultType;
     }
@@ -141,11 +141,11 @@ public class HttpRequest {
         this.charset = charset;
     }
 
-    public HttpResultType getResultType() {
+    public Ali2HttpResultType getResultType() {
         return resultType;
     }
 
-    public void setResultType(HttpResultType resultType) {
+    public void setResultType(Ali2HttpResultType resultType) {
         this.resultType = resultType;
     }
 

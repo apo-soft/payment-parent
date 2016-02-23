@@ -29,7 +29,7 @@ import java.util.Date;
  * @author Yujinshui
  *
  */
-public class Notification {
+public class Ali2Notification {
 
 	/**
 	 * 通知时间*

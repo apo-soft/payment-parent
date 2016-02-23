@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-public class HttpResponse {
+public class Ali2HttpResponse {
 
 	/**
 	 * 返回中的Header信息
