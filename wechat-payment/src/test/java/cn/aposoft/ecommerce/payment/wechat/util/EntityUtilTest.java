@@ -3,6 +3,11 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+
 import org.junit.Test;
 
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
@@ -39,6 +44,15 @@ public abstract class EntityUtilTest {
 			+ "<refund_id_1><![CDATA[2002240240201510260064983833-1]]></refund_id_1>" // 1-4
 			+ "<refund_status_1><![CDATA[SUCCESS]]></refund_status_1>" // 1-5
 			+ "</xml>";
+
+	protected abstract EntityUtil getUtil();
+
+	/**
+	 * 打印测试结果
+	 */
+	public void printParseRefundQueryResponseXml() {
+		printRefundQueryResponseResult(getParseRefundQueryResponseXml());
+	}
 
 	/**
 	 * 测试退款单查询结果打印
@@ -87,8 +101,6 @@ public abstract class EntityUtilTest {
 		System.out.println("refund_fee:" + bill.getRefund_fee());
 	}
 
-	protected abstract EntityUtil getUtil();
-
 	/**
 	 * 执行退款结果解析测试 {@code parseRefundQueryResponseXml}
 	 */
@@ -103,16 +115,49 @@ public abstract class EntityUtilTest {
 	 * @param response
 	 */
 	private void assertRefundQueryResponse(RefundQueryResponse response) {
+		assertNotNull(response);
+		assertEquals("SUCCESS", response.getReturn_code());
+		assertEquals("OK", response.getReturn_msg());
+		assertEquals("SUCCESS", response.getResult_code());
+		assertEquals(null, response.getErr_code());
+		assertEquals("123", response.getAppid());
+		assertEquals("234", response.getMch_id());
+		assertEquals(null, response.getDevice_info());
+		assertEquals("q99q6czw3XpLnD1B", response.getNonce_str());
+		assertEquals("42197A9FB6102207B2F76B057861D25B", response.getSign());
+		assertEquals("1002240240201510251334363255", response.getTransaction_id());
+		assertEquals("20151025_1", response.getOut_trade_no());
+		assertEquals(10, response.getTotal_fee().intValue());
+		assertEquals(1, response.getRefund_count().intValue());
 
+		assertBills(response.getRefundBillItems());
+	}
+
+	// 验证退款单
+	private void assertBills(List<RefundBill> refundBillItems) {
+		assertNotNull(refundBillItems);
+		assertEquals(2, refundBillItems.size());
+		//
+		RefundBill bill = refundBillItems.get(0);
+		assertEquals("1002240240201510251334363255", bill.getOut_refund_no());
+		assertEquals("2002240240201510260064983833", bill.getRefund_id());
+		assertEquals("SUCCESS", bill.getRefund_status());
+		assertEquals("ORIGINAL", bill.getRefund_channel());
+		assertEquals(10, bill.getRefund_fee().intValue());
+		//
+		RefundBill bill1 = refundBillItems.get(1);
+		assertEquals("100224024020151025133436325-1", bill1.getOut_refund_no());
+		assertEquals("2002240240201510260064983833-1", bill1.getRefund_id());
+		assertEquals("SUCCESS", bill1.getRefund_status());
+		assertEquals("ORIGINAL", bill1.getRefund_channel());
+		assertEquals(102, bill1.getRefund_fee().intValue());
 	}
 
 	/**
-	 * 打印测试结果
+	 * 测试退款响应xml报文解析
+	 * 
+	 * @return 退款查询响应结果
 	 */
-	public void printParseRefundQueryResponseXml() {
-		printRefundQueryResponseResult(getParseRefundQueryResponseXml());
-	}
-
 	private RefundQueryResponse getParseRefundQueryResponseXml() {
 		RefundQueryResponse response = getUtil().parseRefundQueryResponseXml(REFUND_QUERY_RESULT);
 		return response;

@@ -23,7 +23,7 @@ public class OrderQueryVo implements OrderQuery {
 
 	private String transaction_id;
 	private String out_trade_no;
-	
+
 	/**
 	 * 微信订单号
 	 */
@@ -46,5 +46,21 @@ public class OrderQueryVo implements OrderQuery {
 
 	public void setOut_trade_no(String out_trade_no) {
 		this.out_trade_no = out_trade_no;
+	}
+
+	public static OrderQuery demo1() {
+		OrderQueryVo query = new OrderQueryVo();
+		// query.setOut_trade_no("");
+		// query.setTransaction_id("1005680240201510261343957061");
+		query.setOut_trade_no("69396140B8F311E5A140936DEAF2531");
+		return query;
+	}
+
+	public static OrderQuery demo2() {
+		OrderQueryVo query = new OrderQueryVo();
+		// query.setOut_trade_no("");
+		query.setTransaction_id("1005680240201510261343957061");
+		// query.setOut_trade_no("69396140B8F311E5A140936DEAF2531");
+		return query;
 	}
 }

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.io.File;
@@ -29,52 +32,66 @@ import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
  * 
  * 只进行post提交
  * <p>
- * 当应用关闭时应调用 {@code SingletonHttpClientUtil.getInstance().close();}
- * 以释放全部client资源.
+ * 当应用关闭时应调用 {@code client.close();} 以释放全部client资源.
  * 
  * <p>
- * 原来的SimgletonUtil具有较大的整体资源管理问题,变更为普通的可注入Util
+ * 原来的SimgletonUtil具有较大的整体资源管理问题,变更为普通的可注入Util,单例可以作为共享资源使用,也可以多次注入到独立的service中,
+ * 每个服务独立控制自己资源的关闭
  * 
  * @author LiuJian
- * @deprecated 因存在多服务引用close问题, 不再推荐使用本类,请使用 {@code HttpClientUtilImpl}替代本类
+ *
  */
 
-public class SingletonHttpClientUtil implements HttpClientUtil {
+public class HttpClientUtilImpl implements HttpClientUtil {
 	// 单一主机最大并发连接数:默认为2,这里增大到200,避免高并发时,因此导致支付阻塞.
-	private static int CONNECTIONS_PER_ROUTE;
+	private int connectionPerRoute = 200;
 	private AtomicLong sequence = new AtomicLong(0L);
 	public static Logger log = Logger.getLogger(HttpClientUtilImpl.class);
-	private static SingletonHttpClientUtil instance = new SingletonHttpClientUtil();
 
 	// 用于发送普通http连接的client
-	private CloseableHttpClient client = createHttpClient();
+	private CloseableHttpClient client = null;
+
 	// 用于发送https带有证书的连接client
 	private final ConcurrentMap<String, CloseableHttpClient> httpsClients = new ConcurrentHashMap<String, CloseableHttpClient>();
 
-	private SingletonHttpClientUtil() {
+	private HttpClientUtilImpl() {
+		this(200);
+	}
+
+	/**
+	 * @param connectionPerRoute
+	 *            单一Client的最大可以连接数
+	 * 
+	 */
+	private HttpClientUtilImpl(int connectionPerRoute) {
+		this.connectionPerRoute = connectionPerRoute;
+		client = createHttpClient();
 	}
 
 	/**
 	 * 返回HttpUtil工具类实例
 	 * 
 	 * @param config
-	 *            配置项(此配置项没有起到配置作用无效)
+	 *            配置项 读取clientPerRoute的设置
 	 * @return {@code HttpClientUtil}
 	 */
 	public static final HttpClientUtil getInstance(Config config) {
+		int connectionPerRoute = 200;
 		// 此处有NullPointerException
 		if (config.connectionsPerRoute() != null) {
-			Integer route = Integer.valueOf(config.connectionsPerRoute());
-			CONNECTIONS_PER_ROUTE = (route == null ? 200 : route);
+			try {
+				connectionPerRoute = Integer.valueOf(config.connectionsPerRoute());
+			} catch (Exception e) {
+				// just ignore
+			}
 		}
-
-		return instance;
+		return new HttpClientUtilImpl(connectionPerRoute);
 	}
 
-	private static CloseableHttpClient createHttpClient() {
+	private CloseableHttpClient createHttpClient() {
 		// 因微信的服务器响应延时大约为500ms~~1.5s,因此有必要增加单一点对点最大连接数,在下一步优化中应放入配置文件里
-		CloseableHttpClient client = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
-				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).build();
+		CloseableHttpClient client = HttpClients.custom().setMaxConnPerRoute(connectionPerRoute)
+				.setMaxConnTotal(connectionPerRoute).build();
 		return client;
 	}
 
@@ -112,7 +129,7 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 	 * @author Yujinshui
 	 * @bugfix Jann Liu 2015/10/25 修改在client中被deprecated的方法,使用官方推荐的标准方法
 	 */
-	private static CloseableHttpClient getPkcs12Client(Config config) throws Exception {
+	private CloseableHttpClient getPkcs12Client(Config config) throws Exception {
 		KeyStore keyStore = KeyStore.getInstance("PKCS12");
 		FileInputStream instream = new FileInputStream(new File(config.pkcs12()));
 		try {
@@ -126,8 +143,8 @@ public class SingletonHttpClientUtil implements HttpClientUtil {
 		// Allow TLSv1 protocol only
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[] { "TLSv1" }, null,
 				SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-		CloseableHttpClient httpclient = HttpClients.custom().setMaxConnPerRoute(CONNECTIONS_PER_ROUTE)
-				.setMaxConnTotal(CONNECTIONS_PER_ROUTE).setSSLSocketFactory(sslsf).build();
+		CloseableHttpClient httpclient = HttpClients.custom().setMaxConnPerRoute(connectionPerRoute)
+				.setMaxConnTotal(connectionPerRoute).setSSLSocketFactory(sslsf).build();
 
 		return httpclient;
 	}

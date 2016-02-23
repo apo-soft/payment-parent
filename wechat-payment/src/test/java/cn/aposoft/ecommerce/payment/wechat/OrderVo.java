@@ -1,6 +1,6 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
-public class OrderVo implements Order {
+public class OrderVo implements Order, MerchantIdProvider {
 
 	private String device_info; // 设备号-
 	private String body; // 商品描述
@@ -226,4 +226,17 @@ public class OrderVo implements Order {
 	public void setLimit_pay(String limit_pay) {
 		this.limit_pay = limit_pay;
 	}
+
+	private String merchantId;
+
+	@Override
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+
 }

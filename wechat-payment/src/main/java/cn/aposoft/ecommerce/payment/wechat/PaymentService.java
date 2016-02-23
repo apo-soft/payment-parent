@@ -100,7 +100,8 @@ public interface PaymentService extends Closeable {
 	 * <p>
 	 * 接口地址: https://api.mch.weixin.qq.com/pay/closeorder
 	 * 
-	 * @param 关闭订单参数对象
+	 * @param params
+	 *            关闭订单参数对象
 	 * @return 关闭订单请求的返回结果
 	 * @author Jann Liu
 	 */

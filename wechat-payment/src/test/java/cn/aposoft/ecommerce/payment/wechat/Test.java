@@ -15,35 +15,35 @@ import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
+import cn.aposoft.ecommerce.payment.wechat.impl.ReflectEntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.SimpleEntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.impl.SingletonHttpClientUtil;
+import cn.aposoft.ecommerce.payment.wechat.impl.HttpClientUtilImpl;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 
 public class Test {
 	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
 
-	private static HttpClientUtil httpUtil = SingletonHttpClientUtil.getInstance(config);
-	private static EntityUtil entityUtil = SimpleEntityUtil.getInstance();
+	private static HttpClientUtil httpUtil = HttpClientUtilImpl.getInstance(config);
+	private static EntityUtil entityUtil = ReflectEntityUtil.getInstance();
 
 	private static PaymentService payService = new PaymentServiceImpl(config, httpUtil, entityUtil);
 
 	public static void payInfo_1() {
 
-		OrderVo order = setValue(config, httpUtil);
+		OrderVo order = setValue(config);
 		PayResponse result = payService.preparePay(order);
-		System.out.println(result.getAppid());
-		System.out.println(result.getCode_url());
-		System.out.println(result.getDevice_info());
-		System.out.println(result.getReturn_code());
-		System.out.println(result.getReturn_msg());
+		System.out.println("app_id:" + result.getAppid());
+		System.out.println("code_url:" + result.getCode_url());
+		System.out.println("device_info:" + result.getDevice_info());
+		System.out.println("return_code:" + result.getReturn_code());
+		System.out.println("OK:" + result.getReturn_msg());
 	}
 
 	static int i = 1;
 
-	public static OrderVo setValue(Config config, HttpClientUtil httpUtil) {
+	public static OrderVo setValue(Config config) {
 		i++;
 		OrderVo order = new OrderVo();
 		order.setBody("iPhone 6s Plus 16GB 金色");
@@ -59,8 +59,8 @@ public class Test {
 		// order.setFee_type(fee_type);
 		// order.setOpenid(openid);
 		// order.setProduct_id(product_id);
-		// order.setTime_start(getTime());//设定交易有效的时间范围
-		// order.setTime_expire(getTime2());//设定交易有效的时间范围
+		// order.setTime_start(getTime());// 设定交易有效的时间范围
+		// order.setTime_expire(getTime2());// 设定交易有效的时间范围
 
 		return order;
 	}
@@ -71,6 +71,7 @@ public class Test {
 	 * @author Yujinshui
 	 */
 	public static void refundTest_1() {
+
 		// 支付内容
 //		OrderVo order = setValue(config, httpUtil);
 
@@ -179,7 +180,7 @@ public class Test {
 	public static void refundQuery() {
 
 		RefundQuery params = RefundQueryVo.demo();
-
+		
 		long begin = System.currentTimeMillis();
 		RefundQueryResponse response = payService.refundQuery(params);
 		long end = System.currentTimeMillis();

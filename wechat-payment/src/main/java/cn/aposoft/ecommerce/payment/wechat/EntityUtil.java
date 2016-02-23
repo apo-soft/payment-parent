@@ -26,7 +26,7 @@ public interface EntityUtil {
 	 *            订单信息
 	 * @param config
 	 *            配置内容
-	 * @return
+	 * @return 预支付请求的xml报文
 	 */
 	String generatePayXml(Order order, Config config);
 
@@ -37,16 +37,17 @@ public interface EntityUtil {
 	 *            退款信息
 	 * @param config
 	 *            配置内容
-	 * @return
+	 * @return 退款请求的xml报文
 	 * @author Yujinshui
 	 */
 	String generateRefundXml(Refund refund, Config config);
 
 	/**
-	 * [支付]将返回的map结果解析成PayResponse-javabean
+	 * [支付]将返回的map结果解析成 PayResponse-javabean
 	 * 
 	 * @param xml
-	 * @return
+	 *            微信支付系统返回的响应xml文件
+	 * @return 响应的bean对象 {@code PayResponse}
 	 */
 	PayResponse parsePayResponseXml(String xml);
 
@@ -170,8 +171,9 @@ public interface EntityUtil {
 	 * @return 响应信息的实例对象
 	 */
 	DownloadBillResponse parseDownloadBillResponseXml(String responseText);
+
 	/**
 	 * 微信
-	 * */
-	String createNotificationResultXml(NotificationResult notificationResult );
+	 */
+	String createNotificationResultXml(NotificationResult notificationResult);
 }
