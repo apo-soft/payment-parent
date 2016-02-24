@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>payment-parent</artifactId>
@@ -17,7 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.group>org.springframework</spring.group>
-		<spring.version>3.2.15.RELEASE</spring.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
 		<javax.inject.version>1</javax.inject.version>
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<org.aspectj.version>1.8.6</org.aspectj.version>
@@ -28,8 +29,9 @@
 		<module>wechat-payment</module>
 		<module>wechat-demo</module>
 		<module>alipay-payment</module>
-    <module>alipay-payment2</module>
-  </modules>
+		<module>alipay-payment2</module>
+		<module>DimensionalCode</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
