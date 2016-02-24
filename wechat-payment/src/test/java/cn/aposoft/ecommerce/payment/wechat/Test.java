@@ -72,6 +72,9 @@ public class Test {
 	 */
 	public static void refundTest_1() {
 
+		// 支付内容
+//		OrderVo order = setValue(config, httpUtil);
+
 		RefundVo refund = new RefundVo();
 
 		// refund.setDevice_info("设备信息");
@@ -145,6 +148,7 @@ public class Test {
 		OrderQueryVo query = setQuery();
 		OrderQueryResponse outquery = payService.query(query);
 		System.out.println("订单信息展示：");
+		System.out.println(outquery.getTransaction_id());
 		System.out.println(outquery.getAppid());
 		System.out.println(outquery.getTrade_state());
 		System.out.println(outquery.getBank_type());
@@ -153,6 +157,9 @@ public class Test {
 		System.out.println(outquery.getTotal_fee());
 		System.out.println(outquery.getAttach());
 		System.out.println(outquery.getOpenid());
+		System.out.println(outquery.getTime_end());
+		System.out.println(outquery.getOut_trade_no());
+		System.out.println(outquery.getTrade_state_desc());
 	}
 
 	/**
@@ -165,8 +172,8 @@ public class Test {
 	public static OrderQueryVo setQuery() {
 		OrderQueryVo query = new OrderQueryVo();
 		// query.setOut_trade_no("");
-		// query.setTransaction_id("1005680240201510261343957061");
-		query.setOut_trade_no("69396140B8F311E5A140936DEAF2531");
+		 query.setTransaction_id("1009250532201602153282119059");
+//		query.setOut_trade_no("DE5773D0BDBD11E5ABE7F23AD07C9706");
 		return query;
 	}
 
@@ -232,10 +239,10 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-		payInfo_1();// 支付测试
+//		payInfo_1();// 支付测试
 
-		// refundTest_1();// 退款测试
-		// orderQuery();// 订单测试
+		 refundTest_1();// 退款测试
+//		 orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 

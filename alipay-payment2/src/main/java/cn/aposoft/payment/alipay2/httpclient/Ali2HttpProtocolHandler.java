@@ -33,7 +33,7 @@ import java.util.List;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 
-public class HttpProtocolHandler {
+public class Ali2HttpProtocolHandler {
 
     private static String              DEFAULT_CHARSET                     = "GBK";
 
@@ -58,21 +58,21 @@ public class HttpProtocolHandler {
      */
     private HttpConnectionManager      connectionManager;
 
-    private static HttpProtocolHandler httpProtocolHandler                 = new HttpProtocolHandler();
+    private static Ali2HttpProtocolHandler httpProtocolHandler                 = new Ali2HttpProtocolHandler();
 
     /**
      * 工厂方法
      * 
      * @return
      */
-    public static HttpProtocolHandler getInstance() {
+    public static Ali2HttpProtocolHandler getInstance() {
         return httpProtocolHandler;
     }
 
     /**
      * 私有的构造方法
      */
-    private HttpProtocolHandler() {
+    private Ali2HttpProtocolHandler() {
         // 创建一个线程安全的HTTP连接池
         connectionManager = new MultiThreadedHttpConnectionManager();
         connectionManager.getParams().setDefaultMaxConnectionsPerHost(defaultMaxConnPerHost);
@@ -94,7 +94,7 @@ public class HttpProtocolHandler {
      * @return 
      * @throws HttpException, IOException 
      */
-    public HttpResponse execute(HttpRequest request, String strParaFileName, String strFilePath) throws HttpException, IOException {
+    public Ali2HttpResponse execute(Ali2HttpRequest request, String strParaFileName, String strFilePath) throws HttpException, IOException {
         HttpClient httpclient = new HttpClient(connectionManager);
 
         // 设置连接超时
@@ -119,7 +119,7 @@ public class HttpProtocolHandler {
         HttpMethod method = null;
 
         //get模式且不带上传文件
-        if (request.getMethod().equals(HttpRequest.METHOD_GET)) {
+        if (request.getMethod().equals(Ali2HttpRequest.METHOD_GET)) {
             method = new GetMethod(request.getUrl());
             method.getParams().setCredentialCharset(charset);
 
@@ -147,13 +147,13 @@ public class HttpProtocolHandler {
 
         // 设置Http Header中的User-Agent属性
         method.addRequestHeader("User-Agent", "Mozilla/4.0");
-        HttpResponse response = new HttpResponse();
+        Ali2HttpResponse response = new Ali2HttpResponse();
 
         try {
             httpclient.executeMethod(method);
-            if (request.getResultType().equals(HttpResultType.STRING)) {
+            if (request.getResultType().equals(Ali2HttpResultType.STRING)) {
                 response.setStringResult(method.getResponseBodyAsString());
-            } else if (request.getResultType().equals(HttpResultType.BYTES)) {
+            } else if (request.getResultType().equals(Ali2HttpResultType.BYTES)) {
                 response.setByteResult(method.getResponseBody());
             }
             response.setResponseHeaders(method.getResponseHeaders());

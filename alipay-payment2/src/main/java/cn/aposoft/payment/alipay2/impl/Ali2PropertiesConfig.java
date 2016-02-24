@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.log4j.Logger;
-import cn.aposoft.payment.alipay2.Config;
+import cn.aposoft.payment.alipay2.Ali2Config;
 
 /**
  * 从配置文件进行读取微信支付服务端配置项
@@ -22,8 +22,8 @@ import cn.aposoft.payment.alipay2.Config;
  * 
  * @author Yujinshui
  */
-public class PropertiesConfig implements Config {
-	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
+public class Ali2PropertiesConfig implements Ali2Config {
+	private static Logger logger = Logger.getLogger(Ali2PropertiesConfig.class);
 	/**
 	 * 商户的私钥
 	 */
@@ -92,7 +92,7 @@ public class PropertiesConfig implements Config {
 	 * 其他方式输入配置内容
 	 * <p>
 	 */
-	public PropertiesConfig(Map<String, String> map) {
+	public Ali2PropertiesConfig(Map<String, String> map) {
 		PRIVATE_KEY = map.get("PRIVATE_KEY");
 		KEY = map.get("KEY");
 		PID = map.get("PID");
@@ -108,7 +108,7 @@ public class PropertiesConfig implements Config {
 
 	}
 
-	public PropertiesConfig(String fileName) {
+	public Ali2PropertiesConfig(String fileName) {
 		getProperties(fileName);
 	}
 
@@ -117,7 +117,7 @@ public class PropertiesConfig implements Config {
 	 * <p>
 	 * 读取默认配置文件 : classpath:alipay.properties
 	 */
-	public PropertiesConfig() {
+	public Ali2PropertiesConfig() {
 		getProperties("alipay.properties");
 	}
 
@@ -133,7 +133,7 @@ public class PropertiesConfig implements Config {
 	 * @author Yujinshui
 	 * @time 2015年10月25日 上午11:52:08
 	 */
-	public PropertiesConfig(String fileName, String encoding) {
+	public Ali2PropertiesConfig(String fileName, String encoding) {
 		getFileProperties(fileName, encoding);
 	}
 
@@ -217,7 +217,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 商户的私钥 [源自官网demo说明]
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#private_key()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#private_key()
 	 */
 	@Override
 	public String private_key() {
@@ -227,7 +227,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 商户key
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#key()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#key()
 	 */
 	@Override
 	public String key() {
@@ -238,7 +238,7 @@ public class PropertiesConfig implements Config {
 	 * <font color=red>*</font>合作身份者ID[partner]，以2088开头由16位纯数字组成的字符串
 	 * [源自官网demo说明]
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#pid()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#pid()
 	 */
 	@Override
 	public String pid() {
@@ -248,7 +248,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 支付宝分配给开发者的应用Id
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#appid()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#appid()
 	 */
 	@Override
 	public String appid() {
@@ -258,7 +258,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 请求使用的编码格式，如utf-8(推荐),gbk,gb2312等
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#charset()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#charset()
 	 */
 	@Override
 	public String charset() {
@@ -268,7 +268,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * <font color=red>*</font>签名方式 不需修改 [源自官网demo说明]
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#sign_type()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#sign_type()
 	 */
 	@Override
 	public String sign_type() {
@@ -278,7 +278,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 调用的接口版本，固定为：1.0
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#version()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#version()
 	 */
 	@Override
 	public String version() {
@@ -288,7 +288,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * [接口异步通知url ]支付宝服务器主动通知商户服务器里指定的页面http路径。
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#notify_url()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#notify_url()
 	 */
 	@Override
 	public String notify_url() {
@@ -298,7 +298,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 支付宝的公钥，无需修改该值 [源自官网demo说明]
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#ali_public_key()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#ali_public_key()
 	 */
 	@Override
 	public String ali_public_key() {
@@ -308,7 +308,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 支付宝通用网关接口
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.aposoft.alipay.Config#ali_gateway()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.aposoft.alipay.Config#ali_gateway()
 	 */
 	@Override
 	public String ali_gateway() {
@@ -318,7 +318,7 @@ public class PropertiesConfig implements Config {
 	/**
 	 * 日志存放路径
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Config#log_path()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.Config#log_path()
 	 */
 	@Override
 	public String log_path() {
@@ -340,7 +340,7 @@ public class PropertiesConfig implements Config {
 	    2：订单码-跳转模式
 	 * </pre>
 	 * 
-	 * @see cn.aposoft.ecommerce.payment.alipay.Config#qr_pay_mode()
+	 * @see cn.aposoft.Ali2Config.payment.alipay.Config#qr_pay_mode()
 	 */
 
 	@Override

@@ -2,8 +2,6 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import cn.aposoft.ecommerce.payment.wechat.CouponParser;
 import cn.aposoft.ecommerce.payment.wechat.RefundResultParser;
 import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
 

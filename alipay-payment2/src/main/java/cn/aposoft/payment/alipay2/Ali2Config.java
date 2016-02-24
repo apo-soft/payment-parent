@@ -11,7 +11,7 @@ package cn.aposoft.payment.alipay2;
  * @author Jann Liu
  *
  */
-public interface Config {
+public interface Ali2Config {
 
 	/**
 	 * 商户的私钥<br>

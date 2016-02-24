@@ -63,7 +63,7 @@ public class RefundDemo {
 	private RefundVo setValue() {
 		RefundVo fund = new RefundVo();
 		fund.setService("alipay.acquire.refund");
-		fund.setOut_trade_no("F6D8D840890B11E59840FC1C7E19F60_3");
+		fund.setOut_trade_no("95F60C70BB3111E58C708CF24B208DD1");
 		BigDecimal b = new BigDecimal(0.01);
 		fund.setRefund_amount(b);
 

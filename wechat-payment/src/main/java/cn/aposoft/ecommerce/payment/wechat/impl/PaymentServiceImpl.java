@@ -5,9 +5,6 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import java.io.Closeable;
 import java.io.IOException;
-
-import org.apache.log4j.Logger;
-
 import cn.aposoft.ecommerce.payment.wechat.BasePaymentService;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
 import cn.aposoft.ecommerce.payment.wechat.Config;
@@ -35,7 +32,6 @@ import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
  *
  */
 public class PaymentServiceImpl implements PaymentService, Closeable {
-	private static final Logger logger = Logger.getLogger(PaymentServiceImpl.class);
 	private Config config;
 	private BasePaymentService baseService;
 

@@ -15,7 +15,7 @@ import java.util.List;
  * 
  * @author Yujinshui
  */
-public class PayResponseUtil {
+public class Ali2PayResponseUtil {
 
 	/**
 	 * [abc]返回编号*

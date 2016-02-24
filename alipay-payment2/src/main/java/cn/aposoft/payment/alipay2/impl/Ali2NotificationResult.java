@@ -9,7 +9,7 @@ package cn.aposoft.payment.alipay2.impl;
  * @author Yujinshui
  *
  */
-public class NotificationResult {
+public class Ali2NotificationResult {
 
 	/**
 	 * 接收结果返回值
@@ -45,8 +45,8 @@ public class NotificationResult {
 	 * @author Yujinshui
 	 * @time 2015年11月15日 上午11:26:37
 	 */
-	public NotificationResult successResult() {
-		NotificationResult result = new NotificationResult();
+	public Ali2NotificationResult successResult() {
+		Ali2NotificationResult result = new Ali2NotificationResult();
 		result.return_msg = "success";
 		return result;
 
@@ -59,8 +59,8 @@ public class NotificationResult {
 	 * @author Yujinshui
 	 * @time 2015年11月15日 上午11:27:07
 	 */
-	public NotificationResult failResult() {
-		NotificationResult result = new NotificationResult();
+	public Ali2NotificationResult failResult() {
+		Ali2NotificationResult result = new Ali2NotificationResult();
 		result.return_msg = "fail";
 		return result;
 	}
