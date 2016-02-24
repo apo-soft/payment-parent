@@ -238,5 +238,4 @@ public class OrderVo implements Order, MerchantIdProvider {
 		this.merchantId = merchantId;
 	}
 
-
 }

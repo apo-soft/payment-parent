@@ -20,7 +20,7 @@ public class WechatPaymentController {
 	}
 
 	@RequestMapping("/payment/wechat")
-	public String showHomePage(Map<String, Object> model) {
+	public String preparePay(Map<String, Object> model) {
 		long sleep = 1 * 1000;
 		System.out.println("in: /payment/wechat , at:" + new Date());
 		try {
