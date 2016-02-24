@@ -23,7 +23,10 @@
 			<groupId>${spring.group}</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>${spring.group}</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

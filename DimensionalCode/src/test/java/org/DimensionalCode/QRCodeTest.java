@@ -39,7 +39,7 @@ public class QRCodeTest {
 	 */
 	@Test
 	public void testEncode() throws WriterException, IOException {
-		String filePath = "F://";
+		String filePath = "temp/";
 		String fileName = "zxing.png";
 		JSONObject json = new JSONObject();
 		json.put("zxing", "https://github.com/zxing/zxing/tree/zxing-3.0.0/javase/src/main/java/com/google/zxing");
@@ -61,7 +61,7 @@ public class QRCodeTest {
 	 */
 	@Test
 	public void testDecode() {
-		String filePath = "F://zxing.png";
+		String filePath = "temp/zxing.png";
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File(filePath));
