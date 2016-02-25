@@ -2,10 +2,15 @@ package cn.aposoft.ecommerce.payment.wechat.util;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MD5 {
 	private final static String[] hexDigits = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
 			"e", "f" };
+
+	private final static MessageDigest MD5 = createMD5Digest();
+
+	private final static Charset CHARSET = Charset.forName("UTF-8");
 
 	/**
 	 * 转换字节数组为16进制字串
@@ -20,6 +25,18 @@ public class MD5 {
 			resultSb.append(byteToHexString(aB));
 		}
 		return resultSb.toString();
+	}
+
+	private static MessageDigest createMD5Digest() {
+		MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+			return messageDigest;
+		} catch (NoSuchAlgorithmException e) {
+			// this will never happen
+			return null;
+		}
+
 	}
 
 	/**
@@ -47,11 +64,13 @@ public class MD5 {
 	 * @return 经过MD5加密之后的结果
 	 */
 	public static String MD5Encode(String origin) {
+		if (origin == null) {
+			throw new IllegalArgumentException("Origin String must not be null.");
+		}
 		String resultString = null;
 		try {
 			resultString = origin;
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			resultString = byteArrayToHexString(md.digest(resultString.getBytes(Charset.forName("UTF-8"))));
+			resultString = byteArrayToHexString(MD5.digest(origin.getBytes(CHARSET)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
