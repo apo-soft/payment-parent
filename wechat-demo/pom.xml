@@ -24,6 +24,16 @@
 				<artifactId>wechat-spring-controller</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>wechat-payment</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>DimensionalCode</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>

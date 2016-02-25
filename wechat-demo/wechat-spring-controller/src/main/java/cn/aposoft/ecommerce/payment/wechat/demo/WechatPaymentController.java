@@ -1,10 +1,23 @@
 package cn.aposoft.ecommerce.payment.wechat.demo;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import cn.aposoft.ecommerce.payment.wechat.Order;
+import cn.aposoft.ecommerce.payment.wechat.PaymentService;
+import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
+import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory;
+import cn.aposoft.image.QRCodeUtil;
 
 /**
  * 支付控制器
@@ -13,24 +26,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping("/")
 public class WechatPaymentController {
-
+	@Autowired
+	private PaymentService payservice ;
 	public WechatPaymentController() {
 	}
 
-	@RequestMapping("/payment/wechat")
-	public String preparePay(Map<String, Object> model) {
-		long sleep = 1 * 1000;
-		System.out.println("in: /payment/wechat , at:" + new Date());
-		try {
-			Thread.sleep(sleep);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	@RequestMapping(value="/payment/order" ,method=RequestMethod.POST)
+	public String showHomePage(OrderVo order ,HttpServletRequest req) {
+		Order o = createOrder(order);
+		PayResponse result = payservice.preparePay(o);
+		if(!StringUtils.isEmpty(result.getCode_url()) ){
+			req.setAttribute("pngUrl", result.getCode_url());
 		}
 		return "payment/wechat";
 	}
-
+	
+	private static  Order createOrder(OrderVo order){
+		order.setBody(order.getBody());
+		order.setGoods_tag("no");
+		order.setOut_trade_no(NumUtil.makeNum(8));// 只要未支付，即可继续重复使用该单号
+		order.setSpbill_create_ip("127.0.0.1");
+		order.setTrade_type("NATIVE");  
+		order.setTotal_fee(order.getTotal_fee());
+		return order;
+	}
+	@RequestMapping("/topay")
+	public String toPay(){
+		return "payment/topay";
+	}
+	
 	@RequestMapping("/payment/refund")
 	public String refund(Map<String, Object> model) {
 		long sleep = 5 * 1000;

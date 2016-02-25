@@ -8,6 +8,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> 
+			classpath:spring-config.xml
 		  <!-- classpath:service-context.xml,
 		       classpath:persistence-context.xml  -->
 		</param-value>
@@ -15,6 +16,32 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<servlet>
+		<servlet-name>QRcode</servlet-name>
+		<servlet-class>cn.aposoft.image.QRcodeServlet</servlet-class>
+		<init-param>
+			<param-name>imgMax</param-name>
+			<param-value>2000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>imgMin</param-name>
+			<param-value>100</param-value>
+		</init-param>
+		<init-param>
+			<param-name>defaultImgType</param-name>
+			<param-value>png</param-value>
+		</init-param>
+		<init-param>
+			<param-name>defaultContentEncoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QRcode</servlet-name>
+		<url-pattern>/qrcode</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

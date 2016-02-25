@@ -184,6 +184,11 @@
 				<artifactId>javase</artifactId>
 				<version>${com.google.zxing.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>wechat-payment</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>

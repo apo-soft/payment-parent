@@ -5,18 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Wechat Payment Page</title>
-<script type=”text/javascript”>
-window.setInterval(function(){
-showalert(“aaaaa”);
-}, 2000);
-function showalert(mess)
-{
-//alert(mess);
-}
-
-</script>
 </head>
 <body>
-	<img src="/qrcode/?width=150&height=150&content=${pngUrl}&type=png">
+	<form action="/payment/order" method="post">
+		商品描述：<input type="text" name="body"></input>
+		<br/>
+		商品价格：<input type="text" name="total_fee"></input>
+		<br/>
+		
+		<input type="submit" value="提交订单"></input>
+	</form>
 </body>
 </html>
