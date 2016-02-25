@@ -17,7 +17,7 @@ public class CreateDimensionalCode {
 	// 424个汉字,1273个字母
 	public static String getCont() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("hello,艾俪雅");
+		buffer.append("hello,world");
 		return buffer.toString();
 	}
 
