@@ -59,7 +59,7 @@ public class QRCodeUtil {
 	 * @param content
 	 *            待转换的字符串
 	 * @param format
-	 *            输出图像格式
+	 *            输出图像格式 png,jpg
 	 * @param width
 	 *            图片宽度
 	 * @param height
