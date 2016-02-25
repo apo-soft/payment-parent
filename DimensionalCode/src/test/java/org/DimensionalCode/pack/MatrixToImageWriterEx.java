@@ -9,6 +9,8 @@ import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 
+import org.DimensionalCode.pack.MatrixToLogoImageConfig;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -84,7 +86,8 @@ public class MatrixToImageWriterEx {
 	 * @param logoConfig
 	 *            logo配置对象
 	 * @throws IOException
-	 */
+	 */ 
+	@SuppressWarnings("deprecation")
 	public static void writeToFile(BitMatrix matrix, String format, String imagePath, String logoPath,
 			MatrixToLogoImageConfig logoConfig) throws IOException {
 		MatrixToImageWriter.writeToFile(matrix, format, new File(imagePath), new MatrixToImageConfig());
@@ -137,5 +140,4 @@ public class MatrixToImageWriterEx {
 			e.printStackTrace();
 		}
 	}
-
 }
