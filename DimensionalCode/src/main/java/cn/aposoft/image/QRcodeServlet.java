@@ -69,7 +69,8 @@ public class QRcodeServlet extends HttpServlet {
 				out.write(bytes);
 				out.flush();
 			} catch (NumberFormatException | WriterException e) {
-				//返回默认图片
+				response.sendRedirect("/1.png");
+				
 			}
 		}else{
 			//返回默认图片

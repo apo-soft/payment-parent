@@ -14,6 +14,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/wechat-jsp-web/target/classes"/>
-        <property name="context-root" value="paymentdemo"/>
+        <property name="context-root" value="payment"/>
     </wb-module>
 </project-modules>

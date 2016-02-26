@@ -39,6 +39,7 @@ public class WechatPaymentController {
 	 * 
 	 * @return 登陆处理页地址
 	 */
+	
 	@RequestMapping("/topay")
 	public String toPay() {
 		return "payment/topay";
