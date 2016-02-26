@@ -1,11 +1,15 @@
 package cn.aposoft.ecommerce.payment.wechat.demo;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -27,6 +31,7 @@ import cn.aposoft.image.QRCodeUtil;
  */
 @Controller
 public class WechatPaymentController {
+	
 	@Autowired
 	private PaymentService payservice ;
 	public WechatPaymentController() {
@@ -37,7 +42,11 @@ public class WechatPaymentController {
 		Order o = createOrder(order);
 		PayResponse result = payservice.preparePay(o);
 		if(!StringUtils.isEmpty(result.getCode_url()) ){
-			req.setAttribute("pngUrl", result.getCode_url());
+			try {
+				req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(),"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				//log
+			}
 		}
 		return "payment/wechat";
 	}

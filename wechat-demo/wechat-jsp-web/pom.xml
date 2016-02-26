@@ -67,6 +67,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>/</finalName>
+		<finalName>paymentdemo</finalName>
 	</build>
 </project>
