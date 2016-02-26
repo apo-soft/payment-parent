@@ -17,6 +17,7 @@ function showalert(mess)
 </script>
 </head>
 <body>
-	<img src="/qrcode/?width=150&height=150&content=${pngUrl}&type=png">
+	<img
+		src="${pageContext.request.contextPath}/qrcode?width=150&height=150&content=${pngUrl}&type=png">
 </body>
 </html>

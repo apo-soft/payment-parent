@@ -16,6 +16,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
 	
 	<filter>  
        <filter-name>springUtf8Encoding</filter-name>  
@@ -34,6 +35,26 @@
        <url-pattern>/*</url-pattern>  
    </filter-mapping> 
    
+
+	<!-- 配置请求过滤器，编码格式设为UTF-8，避免中文乱码 -->
+	<filter>
+		<filter-name>springUtf8Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>springUtf8Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 	<servlet>
 		<servlet-name>QRcode</servlet-name>
 		<servlet-class>cn.aposoft.image.QRcodeServlet</servlet-class>
@@ -53,13 +74,13 @@
 			<param-name>defaultContentEncoding</param-name>
 			<param-value>utf-8</param-value>
 		</init-param>
-		
+
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>QRcode</servlet-name>
 		<url-pattern>/qrcode</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

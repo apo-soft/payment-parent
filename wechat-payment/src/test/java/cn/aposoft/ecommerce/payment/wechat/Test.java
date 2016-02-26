@@ -32,13 +32,36 @@ public class Test {
 
 	public static void payInfo_1() {
 
-		OrderVo order = setValue(config);
+		// OrderVo order = setValue(config);
+		OrderVo order = setValue1(config);
 		PayResponse result = payService.preparePay(order);
 		System.out.println("app_id:" + result.getAppid());
 		System.out.println("code_url:" + result.getCode_url());
 		System.out.println("device_info:" + result.getDevice_info());
 		System.out.println("return_code:" + result.getReturn_code());
 		System.out.println("OK:" + result.getReturn_msg());
+	}
+
+	public static OrderVo setValue1(Config config) {
+
+		OrderVo order = new OrderVo();
+		order.setBody("电脑");
+		order.setGoods_tag("no");
+		order.setOut_trade_no("swrtjtdw");// 只要未支付，即可继续重复使用该单号
+		order.setSpbill_create_ip("127.0.0.1");
+		order.setTrade_type("NATIVE");
+		order.setTotal_fee(43);
+		// order.setAppid(config.appId());
+		// order.setAttach(attach);
+		// order.setDetail(detail);
+		// order.setDevice_info("Device_info");
+		// order.setFee_type(fee_type);
+		// order.setOpenid(openid);
+		// order.setProduct_id(product_id);
+		// order.setTime_start(getTime());// 设定交易有效的时间范围
+		// order.setTime_expire(getTime2());// 设定交易有效的时间范围
+
+		return order;
 	}
 
 	static int i = 1;
@@ -73,7 +96,7 @@ public class Test {
 	public static void refundTest_1() {
 
 		// 支付内容
-//		OrderVo order = setValue(config, httpUtil);
+		// OrderVo order = setValue(config, httpUtil);
 
 		RefundVo refund = new RefundVo();
 
@@ -172,15 +195,15 @@ public class Test {
 	public static OrderQueryVo setQuery() {
 		OrderQueryVo query = new OrderQueryVo();
 		// query.setOut_trade_no("");
-		 query.setTransaction_id("1009250532201602153282119059");
-//		query.setOut_trade_no("DE5773D0BDBD11E5ABE7F23AD07C9706");
+		query.setTransaction_id("1009250532201602153282119059");
+		// query.setOut_trade_no("DE5773D0BDBD11E5ABE7F23AD07C9706");
 		return query;
 	}
 
 	public static void refundQuery() {
 
 		RefundQuery params = RefundQueryVo.demo();
-		
+
 		long begin = System.currentTimeMillis();
 		RefundQueryResponse response = payService.refundQuery(params);
 		long end = System.currentTimeMillis();
@@ -239,10 +262,10 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-//		payInfo_1();// 支付测试
+		payInfo_1();// 支付测试
 
-		 refundTest_1();// 退款测试
-//		 orderQuery();// 订单测试
+		// refundTest_1();// 退款测试
+		// orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 

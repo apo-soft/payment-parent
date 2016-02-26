@@ -16,6 +16,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 		</dependency>
@@ -23,10 +27,10 @@
 			<groupId>${spring.group}</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-		 <dependency>
+		<dependency>
 			<groupId>${spring.group}</groupId>
 			<artifactId>spring-context-support</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
