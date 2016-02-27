@@ -11,20 +11,15 @@
 	<bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService"
 		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"
 		factory-method="getService" destroy-method="close">
-
 	</bean>
 	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
-
 	</bean>
-
 	<bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		p:use-pool="true" />
-
 	<!-- redis template definition -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		p:connection-factory-ref="jedisConnFactory" />
-
 
 	<!-- 扫描注解Bean -->
 	<!-- <context:component-scan base-package="com.controller"> <context:exclude-filter 
