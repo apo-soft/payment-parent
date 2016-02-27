@@ -40,7 +40,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param order
 	 *            待支付订单交易信息
-	 * @return 订单预支付处理结果
+	 * @return 订单预支付处理结果,当远程处理过程中发生异常时,返回null
 	 * @author Jann Liu
 	 */
 	public PayResponse preparePay(Order order);
@@ -65,7 +65,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param refund
 	 *            退款请求信息
-	 * @return 退款结果响应信息
+	 * @return 退款结果响应信息,当远程处理过程中发生异常时,返回null
 	 * @author Yujinshui
 	 */
 
@@ -79,7 +79,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param params
 	 *            订单查询条件参数对象
-	 * @return 订单查询结果响应对象
+	 * @return 订单查询结果响应对象,当远程处理过程中发生异常时,返回null
 	 * @author Yujinshui
 	 * @time 2015年10月26日 下午9:29:00
 	 */
@@ -95,7 +95,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param params
 	 *            关闭订单参数对象
-	 * @return 关闭订单请求的返回结果
+	 * @return 关闭订单请求的返回结果,当远程处理过程中发生异常时,返回null
 	 * @author Jann Liu
 	 */
 	public CloseOrderResponse closeOrder(CloseOrder params);
@@ -109,7 +109,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param params
 	 *            退款查询参数对象
-	 * @return 退款查询返回结果
+	 * @return 退款查询返回结果,当远程处理过程中发生异常时,返回null
 	 * @author Jann Liu
 	 */
 	public RefundQueryResponse refundQuery(RefundQuery params);
@@ -122,7 +122,7 @@ public interface PaymentService extends Closeable {
 	 * 
 	 * @param params
 	 *            对账单查询参数
-	 * @return 下载的对账单响应结果
+	 * @return 下载的对账单响应结果,当远程处理过程中发生异常时,返回null
 	 * @author Jann Liu
 	 */
 	public DownloadBillResponse downloadBill(DownloadBill params);

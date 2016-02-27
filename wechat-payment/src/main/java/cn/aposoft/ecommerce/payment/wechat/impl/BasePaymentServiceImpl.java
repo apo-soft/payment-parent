@@ -26,6 +26,8 @@ import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 
 /**
+ * 实现订单支付访问的基础实现对象
+ * 
  * @author Jann Liu
  *
  */
@@ -40,8 +42,13 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		this.httpUtil = httpUtil;
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#preparePay(cn.aposoft.ecommerce.payment.wechat.Order, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#preparePay(cn
+	 * .aposoft.ecommerce.payment.wechat.Order,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public PayResponse preparePay(Order order, Config config) {
@@ -57,8 +64,13 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#refund(cn.aposoft.ecommerce.payment.wechat.Refund, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#refund(cn.
+	 * aposoft.ecommerce.payment.wechat.Refund,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public RefundResponse refund(Refund refund, Config config) {
@@ -66,15 +78,22 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.keyCertPost(request, config, config.refundUrl());
+			RefundResponse payRefundResponse = entityUtil.parseRefundResponseXml(responseText);
+			return payRefundResponse;
 		} catch (Exception e) {
 			logger.error("发送退款请求时,发生错误:" + e.getMessage(), e);
+			return null;
 		}
-		RefundResponse payRefundResponse = entityUtil.parseRefundResponseXml(responseText);
-		return payRefundResponse;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#query(cn.aposoft.ecommerce.payment.wechat.OrderQuery, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#query(cn.
+	 * aposoft.ecommerce.payment.wechat.OrderQuery,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public OrderQueryResponse query(OrderQuery params, Config config) {
@@ -82,15 +101,22 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.orderQueryUrl());
+			OrderQueryResponse orderQueryResponse = entityUtil.parseOrderQueryResponseXml(responseText);
+			return orderQueryResponse;
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
+			return null;
 		}
-		OrderQueryResponse orderQueryResponse = entityUtil.parseOrderQueryResponseXml(responseText);
-		return orderQueryResponse;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#closeOrder(cn.aposoft.ecommerce.payment.wechat.CloseOrder, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#closeOrder(cn
+	 * .aposoft.ecommerce.payment.wechat.CloseOrder,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public CloseOrderResponse closeOrder(CloseOrder params, Config config) {
@@ -98,15 +124,22 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.orderQueryUrl());
+			CloseOrderResponse closeOrderResponse = entityUtil.parseCloseOrderResponseXml(responseText);
+			return closeOrderResponse;
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
+			return null;
 		}
-		CloseOrderResponse closeOrderResponse = entityUtil.parseCloseOrderResponseXml(responseText);
-		return closeOrderResponse;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#refundQuery(cn.aposoft.ecommerce.payment.wechat.RefundQuery, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#refundQuery(
+	 * cn.aposoft.ecommerce.payment.wechat.RefundQuery,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public RefundQueryResponse refundQuery(RefundQuery params, Config config) {
@@ -114,16 +147,22 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.refundQueryUrl());
+			RefundQueryResponse refundQueryResponse = entityUtil.parseRefundQueryResponseXml(responseText);
+			return refundQueryResponse;
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
+			return null;
 		}
-		System.out.println(responseText);
-		RefundQueryResponse refundQueryResponse = entityUtil.parseRefundQueryResponseXml(responseText);
-		return refundQueryResponse;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#downloadBill(cn.aposoft.ecommerce.payment.wechat.DownloadBill, cn.aposoft.ecommerce.payment.wechat.Config)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#downloadBill(
+	 * cn.aposoft.ecommerce.payment.wechat.DownloadBill,
+	 * cn.aposoft.ecommerce.payment.wechat.Config)
 	 */
 	@Override
 	public DownloadBillResponse downloadBill(DownloadBill params, Config config) {
@@ -132,15 +171,18 @@ public class BasePaymentServiceImpl implements Closeable, BasePaymentService {
 		String responseText = "";
 		try {
 			responseText = httpUtil.post(request, config, config.downloadBillUrl());
+			DownloadBillResponse refundQueryResponse = entityUtil.parseDownloadBillResponseXml(responseText);
+			return refundQueryResponse;
 		} catch (IOException e) {
 			logger.error("订单查询时,发生错误:" + e.getMessage(), e);
+			return null;
 		}
 
-		DownloadBillResponse refundQueryResponse = entityUtil.parseDownloadBillResponseXml(responseText);
-		return refundQueryResponse;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.aposoft.ecommerce.payment.wechat.impl.BasePaymentService#close()
 	 */
 	@Override
