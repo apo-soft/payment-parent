@@ -5,6 +5,7 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
 
 import cn.aposoft.ecommerce.payment.wechat.CallbackService;
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.Notification;
 
 /**
  * 支付结果返回处理服务

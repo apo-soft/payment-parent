@@ -7,13 +7,19 @@ import java.io.IOException;
 
 import cn.aposoft.ecommerce.payment.wechat.BasePaymentService;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
+import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.MerchantConfigProvider;
 import cn.aposoft.ecommerce.payment.wechat.MultiMerchantPaymentService;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
+import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
+import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 
 /**
  * 实现微信支付的多商户动态匹配的服务

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 关闭订单响应对象
@@ -34,6 +34,7 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  *
  */
 public class CloseOrderResponse extends ResponseBase {
+	private static final long serialVersionUID = 1893308750908312914L;
 	// Attention
 	// 在Base中不存在以下返回字段:
 	// 1. device_info

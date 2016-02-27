@@ -1,7 +1,9 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
+
+import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
 
 /**
  * 支付成功后的回调结果解析后的值对象类
@@ -11,6 +13,7 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  * 
  */
 public class Notification extends ResponseBase {
+	private static final long serialVersionUID = 3920262469487221531L;
 
 	private NotificationResult result;// 用于返回给微信服务器的数据
 

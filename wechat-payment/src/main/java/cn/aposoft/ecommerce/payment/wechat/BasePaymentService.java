@@ -2,13 +2,6 @@ package cn.aposoft.ecommerce.payment.wechat;
 
 import java.io.IOException;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
-
 public interface BasePaymentService {
 
 	/**

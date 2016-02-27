@@ -1,4 +1,6 @@
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
+
+import java.io.Serializable;
 
 /**
  * 支付，退款返回部分通用字段 查询xml样式 查询参数xml格式：
@@ -6,8 +8,8 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  * @author Yujinshui
  *
  */
-public class ResponseBase {
-
+public class ResponseBase implements Serializable {
+	private static final long serialVersionUID = -2885370743380459742L;
 	/**
 	 * <font color=red>必需</font>-返回状态码
 	 */

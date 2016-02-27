@@ -9,15 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
-import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.PropertiesConfig;
 import cn.aposoft.ecommerce.payment.wechat.impl.ReflectEntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.HttpClientUtilImpl;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;

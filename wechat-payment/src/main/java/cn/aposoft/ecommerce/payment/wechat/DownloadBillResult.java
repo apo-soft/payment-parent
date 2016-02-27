@@ -3,6 +3,7 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Jann Liu
  *
  */
-public interface DownloadBillResult {
+public interface DownloadBillResult extends Serializable {
 
 	/**
 	 * @return the headers

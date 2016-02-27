@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 退款响应报文解析结果对象
@@ -7,6 +7,7 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  *
  */
 public class RefundResponse extends ResponseBase {
+	private static final long serialVersionUID = 5584057621473123066L;
 	private String transaction_id;// 微信订单号 [是] String(28)
 	private String out_trade_no;// 商户订单号 [是] String(32)
 	private String out_refund_no;// 商户退款单号 [是] String(32)
@@ -138,7 +139,7 @@ public class RefundResponse extends ResponseBase {
 				+ "\r\n <br> err_code : " + err_code//
 				+ "\r\n <br> err_code_des : " + err_code_des //
 
-		+ "\r\n <br> transaction_id : " + transaction_id//
+				+ "\r\n <br> transaction_id : " + transaction_id//
 				+ "\r\n <br> out_trade_no : " + out_trade_no//
 				+ "\r\n <br> out_refund_no : " + out_refund_no//
 				+ "\r\n <br> refund_id : " + refund_id//

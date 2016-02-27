@@ -10,14 +10,20 @@ import org.apache.log4j.Logger;
 
 import cn.aposoft.ecommerce.payment.wechat.BasePaymentService;
 import cn.aposoft.ecommerce.payment.wechat.CloseOrder;
+import cn.aposoft.ecommerce.payment.wechat.CloseOrderResponse;
 import cn.aposoft.ecommerce.payment.wechat.Config;
 import cn.aposoft.ecommerce.payment.wechat.DownloadBill;
+import cn.aposoft.ecommerce.payment.wechat.DownloadBillResponse;
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.HttpClientUtil;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.OrderQuery;
+import cn.aposoft.ecommerce.payment.wechat.OrderQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.Refund;
 import cn.aposoft.ecommerce.payment.wechat.RefundQuery;
+import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.RefundResponse;
 
 /**
  * @author Jann Liu

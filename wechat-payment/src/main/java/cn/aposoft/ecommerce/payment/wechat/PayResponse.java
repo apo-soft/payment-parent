@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
 /**
  * 支付响应对象
@@ -10,6 +10,7 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  *
  */
 public class PayResponse extends ResponseBase {
+	private static final long serialVersionUID = -1553684282540389879L;
 	/************ 以下字段在return_code 和result_code都为SUCCESS的时候有返回 ****************/
 	/**
 	 * <font color=red>必需</font>-交易类型

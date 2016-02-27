@@ -1,5 +1,7 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Serializable;
+
 /**
  * 订单信息[完成]<br>
  * 
@@ -7,7 +9,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * @author LiuJian
  *
  */
-public interface Order {
+public interface Order extends Serializable {
 
 	/**
 	 * 设备号 device_info 否 String(32) 013467007045764 终端设备号(门店号或收银设备ID)，

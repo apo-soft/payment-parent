@@ -11,8 +11,8 @@ import java.util.List;
 import org.junit.Test;
 
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundBill;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
+import cn.aposoft.ecommerce.payment.wechat.RefundBill;
+import cn.aposoft.ecommerce.payment.wechat.RefundQueryResponse;
 import cn.aposoft.ecommerce.payment.wechat.impl.SimpleEntityUtil;
 
 /**

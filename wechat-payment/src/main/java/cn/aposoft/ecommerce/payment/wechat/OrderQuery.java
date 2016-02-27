@@ -3,6 +3,8 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Serializable;
+
 /**
  * API说明文档链接地址：
  * {@link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_2}
@@ -20,7 +22,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * @author Jann Liu
  *
  */
-public interface OrderQuery {
+public interface OrderQuery extends Serializable {
 	public String getTransaction_id();
 
 	public String getOut_trade_no();

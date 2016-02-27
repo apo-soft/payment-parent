@@ -1,12 +1,14 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Serializable;
+
 /**
  * 退款信息
  * 
  * @author Yujinshui
  *
  */
-public interface Refund {
+public interface Refund extends Serializable {
 
 	String getDevice_info();
 

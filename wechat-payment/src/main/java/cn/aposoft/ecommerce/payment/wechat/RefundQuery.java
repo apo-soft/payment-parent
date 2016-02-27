@@ -1,5 +1,7 @@
 package cn.aposoft.ecommerce.payment.wechat;
 
+import java.io.Serializable;
+
 /**
  * 微信支付退款查询请求参数接口
  * 
@@ -25,7 +27,7 @@ package cn.aposoft.ecommerce.payment.wechat;
  * @author Jann Liu
  * 
  */
-public interface RefundQuery {
+public interface RefundQuery extends Serializable {
 
 	/**
 	 * 设备号 device_info 否 String(32) 013467007045764 商户自定义的终端设备号，如门店编号、设备的ID等

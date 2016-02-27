@@ -1,12 +1,10 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
 import java.util.List;
 
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResult;
-import cn.aposoft.ecommerce.payment.wechat.DownloadBillResultParser;
 import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserFactory;
 
 /**
@@ -38,6 +36,7 @@ import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserFactory;
  * @author Jann Liu
  */
 public class DownloadBillResponse extends ResponseBase implements DownloadBillResult {
+	private static final long serialVersionUID = 6027312164496808849L;
 	/***************************************************************/
 
 	/*
@@ -54,6 +53,8 @@ public class DownloadBillResponse extends ResponseBase implements DownloadBillRe
 	 * 该日期订单未生成
 	 */
 	/***************************************************************/
+
+
 
 	/***************************************************************/
 	// 成功时返回:

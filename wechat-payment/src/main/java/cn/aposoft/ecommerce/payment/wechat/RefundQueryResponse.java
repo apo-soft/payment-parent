@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
 
 import java.util.List;
 
@@ -89,6 +89,8 @@ import java.util.List;
  *
  */
 public class RefundQueryResponse extends ResponseBase {
+	private static final long serialVersionUID = -8578684704346187482L;
+
 	/**
 	 * 微信订单号 transaction_id 是 String(32) 1217752501201407033233368018 微信订单号
 	 */

@@ -3,14 +3,7 @@
  */
 package cn.aposoft.ecommerce.payment.wechat;
 
-import cn.aposoft.ecommerce.payment.wechat.impl.CloseOrderResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.DownloadBillResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.Notification;
 import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
-import cn.aposoft.ecommerce.payment.wechat.impl.OrderQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.PayResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundQueryResponse;
-import cn.aposoft.ecommerce.payment.wechat.impl.RefundResponse;
 
 /**
  * 支付与退款的过程封装

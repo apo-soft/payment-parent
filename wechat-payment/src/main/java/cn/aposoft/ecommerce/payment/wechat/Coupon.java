@@ -1,7 +1,9 @@
 /**
  * 
  */
-package cn.aposoft.ecommerce.payment.wechat.impl;
+package cn.aposoft.ecommerce.payment.wechat;
+
+import java.io.Serializable;
 
 /**
  * 用于订单查询和退款单查询中,Coupon集合的管理
@@ -13,7 +15,8 @@ package cn.aposoft.ecommerce.payment.wechat.impl;
  * 
  * @author Jann Liu
  */
-public class Coupon implements Comparable<Coupon> {
+public class Coupon implements Comparable<Coupon>, Serializable {
+	private static final long serialVersionUID = 4878827642535154252L;
 
 	/**
 	 * 构建优惠券
