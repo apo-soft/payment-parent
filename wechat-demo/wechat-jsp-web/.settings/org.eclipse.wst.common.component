@@ -10,9 +10,6 @@
         <dependent-module archiveName="wechat-payment-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-payment/wechat-payment">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="DimensionalCode-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/DimensionalCode/DimensionalCode">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/wechat-jsp-web/target/classes"/>
         <property name="context-root" value="payment"/>
     </wb-module>
