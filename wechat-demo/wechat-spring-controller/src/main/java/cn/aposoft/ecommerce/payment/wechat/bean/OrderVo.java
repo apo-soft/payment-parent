@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.wechat.demo;
+package cn.aposoft.ecommerce.payment.wechat.bean;
 
 
 

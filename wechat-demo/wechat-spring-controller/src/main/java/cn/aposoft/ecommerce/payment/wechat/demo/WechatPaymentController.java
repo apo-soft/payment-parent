@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.PaymentService;
+import cn.aposoft.ecommerce.payment.wechat.bean.OrderVo;
+import cn.aposoft.ecommerce.payment.wechat.util.NumUtil;
 
 /**
  * 支付控制器
