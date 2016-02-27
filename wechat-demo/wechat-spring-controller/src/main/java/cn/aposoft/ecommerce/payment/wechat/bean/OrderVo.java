@@ -1,11 +1,9 @@
 package cn.aposoft.ecommerce.payment.wechat.bean;
 
-
-
 import cn.aposoft.ecommerce.payment.wechat.Order;
 
 public class OrderVo implements Order {
-
+	private static final long serialVersionUID = 1L;
 	private String device_info; // 设备号-
 	private String body; // 商品描述
 	private String detail; // 商品详情
