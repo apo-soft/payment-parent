@@ -2,6 +2,7 @@ package cn.aposoft.image;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import javax.servlet.ServletConfig;
@@ -69,11 +70,10 @@ public class QRcodeServlet extends HttpServlet {
 				out.write(bytes);
 				out.flush();
 			} catch (NumberFormatException | WriterException e) {
-				response.sendRedirect("/1.png");
-				
+				response.setStatus(404);
 			}
 		}else{
-			//返回默认图片
+			response.setStatus(404);
 		}
 	}
 	
