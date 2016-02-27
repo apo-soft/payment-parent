@@ -8,21 +8,28 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
        ">
-	<bean   class="cn.aposoft.ecommerce.payment.wechat.PaymentService" 
-			factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory" 
-				factory-method="getService"
-					destroy-method="close">
-	
+	<bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService"
+		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"
+		factory-method="getService" destroy-method="close">
+
 	</bean>
 	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
-	
-	</bean>
-	
-	<!-- 扫描注解Bean -->
-	<!-- <context:component-scan base-package="com.controller">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-	</context:component-scan> -->
 
-	
+	</bean>
+
+	<bean id="jedisConnFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" />
+
+	<!-- redis template definition -->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnFactory" />
+
+
+	<!-- 扫描注解Bean -->
+	<!-- <context:component-scan base-package="com.controller"> <context:exclude-filter 
+		type="annotation" expression="org.springframework.stereotype.Controller" 
+		/> </context:component-scan> -->
+
+
 </beans>

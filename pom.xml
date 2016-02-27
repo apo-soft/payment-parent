@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	<groupId>cn.aposoft.ecommerce</groupId>
 	<artifactId>payment-parent</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -10,7 +10,7 @@
 	<distributionManagement>
 		<site>
 			<id>website</id>
-			<url>scp://webhost.company.com/www/website</url>
+			<url>scp://www.aposoft.cn/projects/payment</url>
 		</site>
 	</distributionManagement>
 
@@ -24,6 +24,7 @@
 		<org.aspectj.version>1.8.6</org.aspectj.version>
 		<!--com.google.zxing 2.2 到 3.2.1 兼容 -->
 		<com.google.zxing.version>3.2.1</com.google.zxing.version>
+
 		<!-- json 工具版本 -->
 		<com.alibaba.fastjson.version>1.2.7</com.alibaba.fastjson.version>
 	</properties>
@@ -37,6 +38,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>2.8</version>
+			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
@@ -66,6 +72,11 @@
 				<version>${javax.inject.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>1.6.4.RELEASE</version>
+			</dependency>
+			<dependency>
 				<groupId>${spring.group}</groupId>
 				<artifactId>spring-jdbc</artifactId>
 				<version>${spring.version}</version>
@@ -88,6 +99,16 @@
 			<dependency>
 				<groupId>${spring.group}</groupId>
 				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${spring.group}</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${spring.group}</groupId>
+				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<!-- JavaEE Servlet Dependencies -->
@@ -205,5 +226,5 @@
 
 
 
-	<groupId>cn.aposoft.ecommerce</groupId>
+
 </project>
