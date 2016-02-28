@@ -44,7 +44,7 @@ public class PaymentStoreServiceImpl implements PaymentStoreService {
 		try {
 			return paymentDao.addPrepareOrder(order);
 		} catch (RuntimeException e) {
-			throw new PaymentStorageException("", e);
+			throw new PaymentStorageException("添加订单时,发生数据持久化异常.", e);
 		}
 	}
 
@@ -56,8 +56,13 @@ public class PaymentStoreServiceImpl implements PaymentStoreService {
 	 * @return 订单信息
 	 */
 	@Override
-	public Order getPrepareOrder(String orderNo) {
-		return paymentDao.getPrepareOrder(orderNo);
+	public Order getPrepareOrder(String orderNo) throws PaymentStorageException {
+		try {
+			return paymentDao.getPrepareOrder(orderNo);
+		} catch (RuntimeException e) {
+			throw new PaymentStorageException("读取订单时,发生数据持久化异常.", e);
+		}
+
 	}
 
 	@Override
@@ -68,6 +73,15 @@ public class PaymentStoreServiceImpl implements PaymentStoreService {
 	@Override
 	public void addPayNotification(Notification notification) {
 
+	}
+
+	@Override
+	public String getNextOrderNo() throws PaymentStorageException {
+		try {
+			return paymentDao.getNextOrderNo();
+		} catch (RuntimeException e) {
+			throw new PaymentStorageException("读取订单时,发生数据持久化异常.", e);
+		}
 	}
 
 }
