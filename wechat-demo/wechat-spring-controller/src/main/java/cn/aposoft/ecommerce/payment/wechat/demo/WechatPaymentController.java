@@ -19,7 +19,8 @@ import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.PaymentService;
 import cn.aposoft.ecommerce.payment.wechat.bean.OrderVo;
-import cn.aposoft.ecommerce.payment.wechat.util.NumUtil;
+import cn.aposoft.ecommerce.payment.wechat.service.PaymentStorageException;
+import cn.aposoft.ecommerce.payment.wechat.service.PaymentStoreService;
 
 /**
  * 支付控制器
@@ -33,6 +34,9 @@ public class WechatPaymentController {
 	@Autowired
 	private PaymentService payservice;
 
+	@Autowired
+	private PaymentStoreService payStoreService;
+
 	public WechatPaymentController() {
 	}
 
@@ -41,7 +45,7 @@ public class WechatPaymentController {
 	 * 
 	 * @return 登陆处理页地址
 	 */
-	
+
 	@RequestMapping("/topay")
 	public String toPay() {
 		return "payment/topay";
@@ -58,24 +62,35 @@ public class WechatPaymentController {
 	 */
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String showHomePage(OrderVo order, HttpServletRequest req) {
-		Order o = createOrder(order);
-		PayResponse result = payservice.preparePay(o);
-		if (!StringUtils.isEmpty(result.getCode_url())) {
-			try {
-				req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(), "UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				// this will never happen.
-				logger.error("虚拟机不支持UTF-8编码");
+		Order o = null;
+		try {
+			o = createOrder(order);
+			PayResponse result = payservice.preparePay(o);
+			if (!StringUtils.isEmpty(result.getCode_url())) {
+				try {
+					req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					// this will never happen.
+					logger.error("虚拟机不支持UTF-8编码");
+				}
 			}
+			return "payment/wechat";
+		} catch (PaymentStorageException e) {
+			// this will never happen.
+			logger.error("访问持久化读取SequenceOrderNo失败,", e);
+			// TODO redirect to 500 页面
+			return "payment/wechat500";
 		}
-		return "payment/wechat";
+
 	}
 
 	// 创建通信的订单对象
-	private static Order createOrder(OrderVo order) {
+	private Order createOrder(OrderVo order) throws PaymentStorageException {
+		// 从存储读取自增订单编号
+		String orderNo = payStoreService.getNextOrderNo();
 		order.setBody(order.getBody());
 		order.setGoods_tag("no");
-		order.setOut_trade_no(NumUtil.makeNum(8));// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no(orderNo);// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
 		order.setTotal_fee(order.getTotal_fee());
@@ -83,7 +98,7 @@ public class WechatPaymentController {
 	}
 
 	/**
-	 * 退款操作 TODO 为实现
+	 * 退款操作 TODO 未实现
 	 * 
 	 * @param model
 	 *            输出对象

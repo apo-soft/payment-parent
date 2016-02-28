@@ -7,8 +7,8 @@ import java.util.TreeMap;
 //import org.apache.log4j.Logger;
 
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
-import cn.aposoft.ecommerce.payment.wechat.util.CommonUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.Signature;
+import cn.aposoft.ecommerce.payment.wechat.util.WechatStringUtil;
 import cn.aposoft.ecommerce.payment.wechat.util.XMLUtil;
 
 /**
@@ -76,7 +76,7 @@ public class SimpleEntityUtil extends AbstractEntityUtil implements EntityUtil {
 		parameters.put("attach", value.getAttach());
 		parameters.put("out_trade_no", value.getOut_trade_no());
 		parameters.put("fee_type", value.getFee_type());
-		parameters.put("total_fee", CommonUtil.toString(value.getTotal_fee()));
+		parameters.put("total_fee", WechatStringUtil.toString(value.getTotal_fee()));
 		parameters.put("spbill_create_ip", value.getSpbill_create_ip());
 		parameters.put("time_start", value.getTime_start());
 		parameters.put("time_expire", value.getTime_expire());

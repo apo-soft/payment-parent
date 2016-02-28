@@ -13,6 +13,7 @@ import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.dao.PaymentDao;
+import cn.aposoft.ecommerce.payment.wechat.util.WechatStringUtil;
 
 /**
  * Jedis实现的持久化支付数据的数据访问器
@@ -22,9 +23,10 @@ import cn.aposoft.ecommerce.payment.wechat.dao.PaymentDao;
  */
 public class JedisPaymentDao implements PaymentDao {
 
-	private final static String ORDER_PREFIX = "wechat_order_no:";
-	private final static String ORDER_RESP_PREFIX = "wechat_order-resp_no:";
-	private final static String ORDER_PAY_NOTIFICATION_PREFIX = "";
+	private final static String ORDER_NO_NEXT_SEQ_KEY = "wechat_order_no:next_seq";
+	private final static String ORDER_PREFIX = "wechat_order_no:order:";
+	private final static String ORDER_RESP_PREFIX = "wechat_order_no:resp:";
+	private final static String ORDER_PAY_NOTIFICATION_PREFIX = "wechat_order_no:notify:";
 	private RedisTemplate<String, Serializable> redisTemplate;
 
 	private ValueOperations<String, Serializable> simpleOps;
@@ -70,6 +72,11 @@ public class JedisPaymentDao implements PaymentDao {
 	@Override
 	public void setPayNotification(Notification notification) {
 		simpleOps.setIfAbsent(ORDER_PAY_NOTIFICATION_PREFIX + notification.getOut_trade_no(), notification);
+	}
+
+	@Override
+	public String getNextOrderNo() {
+		return WechatStringUtil.toString(simpleOps.increment(ORDER_NO_NEXT_SEQ_KEY, 1));
 	}
 
 }

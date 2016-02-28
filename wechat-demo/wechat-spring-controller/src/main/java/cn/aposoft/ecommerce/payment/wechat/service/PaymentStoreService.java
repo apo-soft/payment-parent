@@ -28,8 +28,9 @@ public interface PaymentStoreService {
 	 * @param orderNo
 	 *            订单编号
 	 * @return 订单信息
+	 * @throws PaymentStorageException
 	 */
-	Order getPrepareOrder(String orderNo);
+	Order getPrepareOrder(String orderNo) throws PaymentStorageException;
 
 	/**
 	 * 
@@ -48,4 +49,11 @@ public interface PaymentStoreService {
 	 *             当存储时发生异常,抛出此异常
 	 */
 	void addPayNotification(Notification notification) throws PaymentStorageException;
+
+	/**
+	 * 自动化自增的seq生成方法
+	 * 
+	 * @return 获取下一个订单编号
+	 */
+	String getNextOrderNo() throws PaymentStorageException;
 }
