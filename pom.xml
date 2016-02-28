@@ -18,7 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.group>org.springframework</spring.group>
-		<spring.version>4.2.4.RELEASE</spring.version>
+		<spring.version>4.2.5.RELEASE</spring.version>
 		<javax.inject.version>1</javax.inject.version>
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<org.aspectj.version>1.8.6</org.aspectj.version>
@@ -116,7 +116,7 @@
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			
+
 			<!-- JavaEE Servlet Dependencies -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -225,6 +225,11 @@
 				<groupId>${project.groupId}</groupId>
 				<artifactId>wechat-payment</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
 			</dependency>
 		</dependencies>
 

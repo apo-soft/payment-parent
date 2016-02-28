@@ -20,7 +20,7 @@
 		<executions> <execution> <phase>package</phase> <goals> <goal>jar</goal> 
 		</goals> </execution> </executions> </plugin> </plugins> </build> -->
 	<build>
-	<resources>
+		<resources>
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
@@ -42,6 +42,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
