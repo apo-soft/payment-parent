@@ -9,21 +9,31 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
        ">
+     
 	<bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService"
 		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"
 		factory-method="getService" destroy-method="close">
-
 	</bean>
 	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
-
 	</bean>
-	<!-- <bean id="payStoreService" class="cn.aposoft.ecommerce.payment.wechat.service.impl.PaymentStoreServiceImpl">
 
+	<bean id="callbackService"
+		class="cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl">
+		<constructor-arg name="entityUtil" ref="entityUtil"></constructor-arg>
 	</bean>
-	<bean id="callbackService" class="cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl">
+	<bean id="entityUtil"
+		class="cn.aposoft.ecommerce.payment.wechat.impl.ReflectEntityUtil"
+		factory-method="getInstance">
+	</bean>
 
-	</bean> -->
-
+	<bean id="payStoreService"
+		class="cn.aposoft.ecommerce.payment.wechat.service.impl.PaymentStoreServiceImpl">
+		<constructor-arg name="paymentDao" ref="paymentDao"></constructor-arg>
+	</bean>
+	<bean id="paymentDao"
+		class="cn.aposoft.ecommerce.payment.wechat.dao.impl.JedisPaymentDao">
+		<constructor-arg name="template" ref="redisTemplate"></constructor-arg>
+	</bean>
 	<bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		p:host-name="redis.server.aposoft.cn" p:port="6379" p:use-pool="true">

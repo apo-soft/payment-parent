@@ -27,7 +27,7 @@ public class NotificationClientTest {
 	 */
 	public static void main(String[] args) {
 		CloseableHttpClient client = HttpClients.createDefault();
-		final String url = null;
+		final String url = "http://localhost:8080/payment/notificationCon";
 		HttpPost post = new HttpPost(url);
 		;
 		String content;
@@ -36,16 +36,19 @@ public class NotificationClientTest {
 
 			content = IOUtils.toString(input);
 			System.out.println(content);
-
-			HttpEntity entity = new StringEntity(content, "application/xml;charset=utf-8");
+			System.out.println("111/////////////////////////////////////////////");
+			HttpEntity entity = new StringEntity(content,"UTF-8");
 			post.setEntity(entity);
 			try {
 				CloseableHttpResponse resp = client.execute(post);
 				System.out.println(resp.getStatusLine());
+				System.out.println("222/////////////////////////////////////////////");
 				for (Header header : resp.getAllHeaders()) {
 					System.out.println(header.getName() + ":" + header.getValue());
 				}
-				System.out.println(EntityUtils.toString(entity, "UTF-8"));
+				System.out.println("333/////////////////////////////////////////////");
+				System.out.println(EntityUtils.toString(resp.getEntity(), "UTF-8"));
+				System.out.println("444/////////////////////////////////////////////");
 				EntityUtils.consume(resp.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();

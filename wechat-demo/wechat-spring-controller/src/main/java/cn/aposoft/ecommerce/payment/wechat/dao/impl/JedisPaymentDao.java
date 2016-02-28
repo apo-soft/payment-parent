@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
@@ -78,6 +79,8 @@ public class JedisPaymentDao implements PaymentDao {
 
 	@Override
 	public String getNextOrderNo() {
+		RedisConnectionFactory cf = redisTemplate.getConnectionFactory();
+		RedisConnection conn1 = cf.getConnection();
 		RedisConnection conn = redisTemplate.getConnectionFactory().getConnection();
 		byte[] keyBytes = getTextUtf8Bytes(ORDER_NO_NEXT_SEQ_KEY);
 		return WechatStringUtil.toString(conn.incr(keyBytes));

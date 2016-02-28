@@ -34,7 +34,7 @@ public class WechatPaymentController {
 	@Autowired
 	private PaymentService payService;
 
-	/*@Autowired*/
+	@Autowired
 	private PaymentStoreService payStoreService;
 	
 	public WechatPaymentController() {

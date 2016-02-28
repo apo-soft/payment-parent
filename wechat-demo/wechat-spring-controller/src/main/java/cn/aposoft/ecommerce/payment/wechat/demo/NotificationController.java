@@ -3,22 +3,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import cn.aposoft.ecommerce.payment.wechat.CallbackService;
 import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
+import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.EntityUtilFactory;
 
 @Controller
 public class NotificationController {
-	/*@Autowired*/
+	@Autowired
 	private CallbackService callbackService;
 	/**
 	 * 接收支付成功消息
 	 * */
+	@ResponseBody
 	@RequestMapping(value="/notificationCon")
-	public void receiveNotification(@RequestBody String notifyXml){
+	public String receiveNotification(@RequestBody String notifyXml){
 		if(notifyXml != null && !notifyXml.isEmpty()){
-			new CallbackServiceImpl(EntityUtilFactory.getInstance()).recveiveNotification(notifyXml);
+			Notification notify =callbackService.recveiveNotification(notifyXml);
+			return notify.getResult().toXml();
 		}
+		return null;
 	}
 }
