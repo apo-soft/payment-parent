@@ -32,7 +32,7 @@ import cn.aposoft.ecommerce.payment.wechat.service.PaymentStoreService;
 public class WechatPaymentController {
 	private static final Logger logger = LoggerFactory.getLogger(WechatPaymentController.class);
 	@Autowired
-	private PaymentService payservice;
+	private PaymentService payService;
 
 	/*@Autowired*/
 	private PaymentStoreService payStoreService;
@@ -65,7 +65,7 @@ public class WechatPaymentController {
 		Order o = null;
 		try {
 			o = createOrder(order);
-			PayResponse result = payservice.preparePay(o);
+			PayResponse result = payService.preparePay(o);
 			if (!StringUtils.isEmpty(result.getCode_url())) {
 				try {
 					req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(), "UTF-8"));
