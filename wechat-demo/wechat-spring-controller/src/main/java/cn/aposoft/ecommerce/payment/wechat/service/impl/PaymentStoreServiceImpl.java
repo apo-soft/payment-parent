@@ -37,9 +37,10 @@ public class PaymentStoreServiceImpl implements PaymentStoreService {
 	 * @param order
 	 *            订单信息
 	 * @return 订单添加结果
+	 * @throws PaymentStorageException 
 	 */
 	@Override
-	public Boolean addPrepareOrder(Order order) {
+	public Boolean addPrepareOrder(Order order) throws PaymentStorageException {
 		try {
 			return paymentDao.addPrepareOrder(order);
 		} catch (RuntimeException e) {

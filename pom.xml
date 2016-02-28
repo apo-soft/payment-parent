@@ -111,6 +111,11 @@
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>${spring.group}</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 			<!-- JavaEE Servlet Dependencies -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
