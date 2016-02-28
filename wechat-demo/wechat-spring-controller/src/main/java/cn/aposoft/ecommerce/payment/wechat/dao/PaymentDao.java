@@ -57,4 +57,13 @@ public interface PaymentDao {
 	 *            支付响应记录
 	 */
 	void setPrepareOrderResponse(String orderNo, PayResponse response);
+
+	/**
+	 * 初始化订单编号
+	 * 
+	 * @param num
+	 *            {@code long} 初始化数值
+	 * @return 设置是否成功
+	 */
+	Boolean setInitOrderNo(long num);
 }

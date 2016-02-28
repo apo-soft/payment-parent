@@ -4,7 +4,9 @@
 package cn.aposoft.ecommerce.payment.wechat.dao.impl;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
@@ -76,7 +78,24 @@ public class JedisPaymentDao implements PaymentDao {
 
 	@Override
 	public String getNextOrderNo() {
-		return WechatStringUtil.toString(simpleOps.increment(ORDER_NO_NEXT_SEQ_KEY, 1));
+		RedisConnection conn = redisTemplate.getConnectionFactory().getConnection();
+		byte[] keyBytes = getTextUtf8Bytes(ORDER_NO_NEXT_SEQ_KEY);
+		return WechatStringUtil.toString(conn.incr(keyBytes));
 	}
 
+	@Override
+	public Boolean setInitOrderNo(long num) {
+		RedisConnection conn = redisTemplate.getConnectionFactory().getConnection();
+		byte[] keyBytes = getTextUtf8Bytes(ORDER_NO_NEXT_SEQ_KEY);
+
+		return conn.setNX(keyBytes, getTextUtf8Bytes(String.valueOf(num)));
+	}
+
+	public final static byte[] getTextUtf8Bytes(String string) {
+		try {
+			return string.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("This shouldn't happen.", e);
+		}
+	}
 }

@@ -113,6 +113,20 @@ public class JedisPaymentDaoTest {
 		}
 	}
 
+	/**
+	 * 这种设置方式写入的是序列化的object,无法实际作为incr的对象
+	 */
+	@Test
+	public void testSetInitOrderNo() {
+		try {
+
+			Boolean result = paymentDao.setInitOrderNo(1000 * 1000 * 10);
+			assertNotNull(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private Order createOrder(String string) {
 		OrderVo order = new OrderVo();
 		order.setOut_trade_no(string);
