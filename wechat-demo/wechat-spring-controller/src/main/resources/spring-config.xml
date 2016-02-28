@@ -17,6 +17,12 @@
 	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
 
 	</bean>
+	<!-- <bean id="payStoreService" class="cn.aposoft.ecommerce.payment.wechat.service.impl.PaymentStoreServiceImpl">
+
+	</bean>
+	<bean id="callbackService" class="cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl">
+
+	</bean> -->
 
 	<bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
