@@ -14,8 +14,9 @@
 	<!-- <mvc:resources location="/resources/" mapping="/resources/**" /> -->
 	<mvc:resources mapping="/index.html" location="/" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+	<mvc:resources mapping="/js/**" location="/js/" />
 	<!-- component scan regions -->
-	<context:component-scan base-package="cn.aposoft.ecommerce.payment.wechat.demo" ></context:component-scan>
+	<context:component-scan base-package="cn.aposoft.ecommerce.payment.wechat" ></context:component-scan>
 
 	<!-- <bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

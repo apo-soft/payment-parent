@@ -3,6 +3,9 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
@@ -17,8 +20,10 @@ import cn.aposoft.ecommerce.payment.wechat.service.PaymentStoreService;
  * @author Jann Liu
  *
  */
+@Service("paymentStoreService")
 public class PaymentStoreServiceImpl implements PaymentStoreService {
 	//
+	@Autowired
 	private PaymentDao paymentDao;
 
 	/**
@@ -27,6 +32,10 @@ public class PaymentStoreServiceImpl implements PaymentStoreService {
 	 * @param paymentDao
 	 *            订单数据层访问方法
 	 */
+	public PaymentStoreServiceImpl(){
+		
+	}
+	
 	public PaymentStoreServiceImpl(PaymentDao paymentDao) {
 		this.paymentDao = paymentDao;
 	}

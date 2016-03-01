@@ -10,11 +10,16 @@ import cn.aposoft.ecommerce.payment.wechat.EntityUtil;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl;
 import cn.aposoft.ecommerce.payment.wechat.impl.EntityUtilFactory;
+import cn.aposoft.ecommerce.payment.wechat.impl.NotificationResult;
+import cn.aposoft.ecommerce.payment.wechat.service.PaymentStoreService;
 
 @Controller
 public class NotificationController {
 	@Autowired
 	private CallbackService callbackService;
+	
+	@Autowired
+	private PaymentStoreService paymentStoreService;
 	/**
 	 * 接收支付成功消息
 	 * */
@@ -23,8 +28,13 @@ public class NotificationController {
 	public String receiveNotification(@RequestBody String notifyXml){
 		if(notifyXml != null && !notifyXml.isEmpty()){
 			Notification notify =callbackService.recveiveNotification(notifyXml);
+			NotificationResult notifyResult =  notify.getResult();
+			if("SUCCESS".endsWith(notifyResult.getReturn_code())){
+				
+			}
 			return notify.getResult().toXml();
+			
 		}
-		return null;
+		return NotificationResult.nullResult().toXml();
 	}
 }

@@ -5,18 +5,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Wechat Payment Page</title>
-<script type=”text/javascript”>
-window.setInterval(function(){
-showalert(“aaaaa”);
-}, 2000);
-function showalert(mess)
-{
-//alert(mess);
-}
-
-</script>
 </head>
 <body>
+	<script src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
+	<script type="text/javascript">
+		var flag = window.setInterval(function() {
+			getOrderMsg('${orderNo}');
+		}, 3000);
+		var endtime= new Date().getTime();
+		alert("endtime:"+endtime);
+		function getOrderMsg(orderId) {
+			if(new Date().getTime()-endtime > 10000 ){
+				window.clearInterval(flag);
+				alert("false");
+				return ;
+			}
+			$.post("${pageContext.request.contextPath}/searchOrder/" + orderId,
+					{}, function(data) {
+						if (data == "1") {
+							window.clearInterval(flag);
+							alert("scuess");
+						}
+					});
+		}
+	</script>
 	<img
 		src="${pageContext.request.contextPath}/qrcode?width=150&height=150&content=${pngUrl}&type=png">
 </body>

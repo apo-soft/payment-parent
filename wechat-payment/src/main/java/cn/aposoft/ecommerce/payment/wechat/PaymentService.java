@@ -27,7 +27,7 @@ public interface PaymentService extends Closeable {
 	/**
 	 * 统一下单 {@code preparePay(Order order)}完成向微信支付服务器发送预处理订单并处理响应结果
 	 * {@link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1}
-	 * 
+	 *  
 	 * 应用场景
 	 * 
 	 * 除被扫支付场景以外，商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再按扫码、JSAPI、

@@ -10,12 +10,14 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
 import cn.aposoft.ecommerce.payment.wechat.dao.PaymentDao;
+import cn.aposoft.ecommerce.payment.wechat.dao.commonDao.impl.RedisDao;
 import cn.aposoft.ecommerce.payment.wechat.util.WechatStringUtil;
 
 /**
@@ -24,20 +26,21 @@ import cn.aposoft.ecommerce.payment.wechat.util.WechatStringUtil;
  * @author Jann Liu
  *
  */
-public class JedisPaymentDao implements PaymentDao {
+@Repository("paymentDao")
+public class JedisPaymentDao extends RedisDao<Order> implements PaymentDao {
 
 	private final static String ORDER_NO_NEXT_SEQ_KEY = "wechat_order_no:next_seq";
 	private final static String ORDER_PREFIX = "wechat_order_no:order:";
 	private final static String ORDER_RESP_PREFIX = "wechat_order_no:resp:";
 	private final static String ORDER_PAY_NOTIFICATION_PREFIX = "wechat_order_no:notify:";
-	private RedisTemplate<String, Serializable> redisTemplate;
+	/*private RedisTemplate<String, Serializable> redisTemplate;
 
 	private ValueOperations<String, Serializable> simpleOps;
 
 	public JedisPaymentDao(RedisTemplate<String, Serializable> template) {
 		this.redisTemplate = template;
 		simpleOps = redisTemplate.opsForValue();
-	}
+	}*/
 
 	/**
 	 * 
@@ -50,7 +53,7 @@ public class JedisPaymentDao implements PaymentDao {
 		if (order == null) {
 			throw new IllegalArgumentException("order must not be null.");
 		}
-		return simpleOps.setIfAbsent(ORDER_PREFIX + order.getOut_trade_no(), order);
+		return redisTemplate.opsForValue().setIfAbsent(ORDER_PREFIX + order.getOut_trade_no(), order);
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class JedisPaymentDao implements PaymentDao {
 		if (StringUtils.isEmpty(orderNo)) {
 			throw new IllegalArgumentException("orderNo must not be empty.");
 		}
-		return (Order) simpleOps.get(ORDER_PREFIX + orderNo);
+		return (Order) redisTemplate.opsForValue().get(ORDER_PREFIX + orderNo);
 	}
 
 	@Override
@@ -69,18 +72,16 @@ public class JedisPaymentDao implements PaymentDao {
 		if (response == null) {
 			throw new IllegalArgumentException("response must not be null.");
 		}
-		simpleOps.setIfAbsent(ORDER_RESP_PREFIX + orderNo, response);
+		redisTemplate.opsForValue().setIfAbsent(ORDER_RESP_PREFIX + orderNo, response);
 	}
 
 	@Override
 	public void setPayNotification(Notification notification) {
-		simpleOps.setIfAbsent(ORDER_PAY_NOTIFICATION_PREFIX + notification.getOut_trade_no(), notification);
+		redisTemplate.opsForValue().setIfAbsent(ORDER_PAY_NOTIFICATION_PREFIX + notification.getOut_trade_no(), notification);
 	}
 
 	@Override
 	public String getNextOrderNo() {
-		RedisConnectionFactory cf = redisTemplate.getConnectionFactory();
-		RedisConnection conn1 = cf.getConnection();
 		RedisConnection conn = redisTemplate.getConnectionFactory().getConnection();
 		byte[] keyBytes = getTextUtf8Bytes(ORDER_NO_NEXT_SEQ_KEY);
 		return WechatStringUtil.toString(conn.incr(keyBytes));
