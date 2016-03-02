@@ -22,6 +22,7 @@
 		<javax.inject.version>1</javax.inject.version>
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<org.aspectj.version>1.8.6</org.aspectj.version>
+		<org.slf4j.version>1.7.18</org.slf4j.version>
 		<!--com.google.zxing 2.2 到 3.2.1 兼容 -->
 		<com.google.zxing.version>3.2.1</com.google.zxing.version>
 
@@ -187,12 +188,12 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.13</version>
+				<version>${org.slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.13</version>
+				<version>${org.slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
