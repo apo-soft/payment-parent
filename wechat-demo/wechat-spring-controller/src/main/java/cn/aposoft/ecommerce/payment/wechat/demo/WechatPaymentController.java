@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,7 +35,7 @@ public class WechatPaymentController {
 	private PaymentService payService;
 
 	@Autowired
-	private PaymentStoreService payStoreService;
+	private PaymentStoreService paymentStoreService;
 	
 	public WechatPaymentController() {
 	}
@@ -50,7 +50,8 @@ public class WechatPaymentController {
 	public String toPay() {
 		return "payment/topay";
 	}
-
+	
+	
 	/**
 	 * 接收订单提交的post请求,并进行预付款处理
 	 * 
@@ -68,6 +69,7 @@ public class WechatPaymentController {
 			PayResponse result = payService.preparePay(o);
 			if (!StringUtils.isEmpty(result.getCode_url())) {
 				try {
+					req.setAttribute("orderNo", order.getOut_trade_no());
 					req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(), "UTF-8"));
 				} catch (UnsupportedEncodingException e) {
 					// this will never happen.
@@ -87,7 +89,7 @@ public class WechatPaymentController {
 	// 创建通信的订单对象
 	private Order createOrder(OrderVo order) throws PaymentStorageException {
 		// 从存储读取自增订单编号
-		String orderNo = payStoreService.getNextOrderNo();
+		String orderNo = paymentStoreService.getNextOrderNo();
 		order.setBody(order.getBody());
 		order.setGoods_tag("no");
 		order.setOut_trade_no(orderNo);// 只要未支付，即可继续重复使用该单号

@@ -26,14 +26,14 @@
 		factory-method="getInstance">
 	</bean>
 
-	<bean id="payStoreService"
+	<!-- <bean id="payStoreService"
 		class="cn.aposoft.ecommerce.payment.wechat.service.impl.PaymentStoreServiceImpl">
 		<constructor-arg name="paymentDao" ref="paymentDao"></constructor-arg>
-	</bean>
-	<bean id="paymentDao"
+	</bean> -->
+	<!-- <bean id="paymentDao"
 		class="cn.aposoft.ecommerce.payment.wechat.dao.impl.JedisPaymentDao">
 		<constructor-arg name="template" ref="redisTemplate"></constructor-arg>
-	</bean>
+	</bean> -->
 	<bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		p:host-name="redis.server.aposoft.cn" p:port="6379" p:use-pool="true">
@@ -43,10 +43,10 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		p:connection-factory-ref="jedisConnFactory" />
 
-	<bean id="jedisPaymentDao"
+	<!-- <bean id="jedisPaymentDao"
 		class="cn.aposoft.ecommerce.payment.wechat.dao.impl.JedisPaymentDao">
 		<constructor-arg ref="redisTemplate"></constructor-arg>
-	</bean>
+	</bean> -->
 
 	<!-- 扫描注解Bean -->
 	<!-- <context:component-scan base-package="com.controller"> <context:exclude-filter 
