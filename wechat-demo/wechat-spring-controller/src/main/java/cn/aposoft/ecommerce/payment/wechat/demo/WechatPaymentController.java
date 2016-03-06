@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,7 +36,7 @@ public class WechatPaymentController {
 
 	@Autowired
 	private PaymentStoreService paymentStoreService;
-	
+
 	public WechatPaymentController() {
 	}
 
@@ -50,8 +50,7 @@ public class WechatPaymentController {
 	public String toPay() {
 		return "payment/topay";
 	}
-	
-	
+
 	/**
 	 * 接收订单提交的post请求,并进行预付款处理
 	 * 

@@ -3,10 +3,11 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.dao.impl;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
 import cn.aposoft.ecommerce.payment.wechat.Notification;
@@ -22,25 +23,21 @@ import cn.aposoft.ecommerce.payment.wechat.util.WechatStringUtil;
  * @author Jann Liu
  *
  */
-@Repository("paymentDao")
+// @Repository("paymentDao")
 public class JedisPaymentDao extends RedisDao<Order> implements PaymentDao {
 
 	private final static String ORDER_NO_NEXT_SEQ_KEY = "wechat_order_no:next_seq";
 	private final static String ORDER_PREFIX = "wechat_order_no:order:";
 	private final static String ORDER_RESP_PREFIX = "wechat_order_no:resp:";
 	private final static String ORDER_PAY_NOTIFICATION_PREFIX = "wechat_order_no:notify:";
-	/*private RedisTemplate<String, Serializable> redisTemplate;
 
-	private ValueOperations<String, Serializable> simpleOps;
+	private RedisTemplate<String, Serializable> redisTemplate;
 
 	public JedisPaymentDao(RedisTemplate<String, Serializable> template) {
 		this.redisTemplate = template;
-		simpleOps = redisTemplate.opsForValue();
-	}*/
+	}
 
 	/**
-	 * 
-	 * 
 	 * @param order
 	 *            订单
 	 */
@@ -73,7 +70,8 @@ public class JedisPaymentDao extends RedisDao<Order> implements PaymentDao {
 
 	@Override
 	public void setPayNotification(Notification notification) {
-		redisTemplate.opsForValue().setIfAbsent(ORDER_PAY_NOTIFICATION_PREFIX + notification.getOut_trade_no(), notification);
+		redisTemplate.opsForValue().setIfAbsent(ORDER_PAY_NOTIFICATION_PREFIX + notification.getOut_trade_no(),
+				notification);
 	}
 
 	@Override

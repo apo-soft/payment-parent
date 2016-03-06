@@ -30,6 +30,7 @@ public class JedisPaymentDaoTest {
 
 	@Test
 	public void testAddOrder() {
+
 		try {
 			Order order = createOrder();
 			String orderNo = order.getOut_trade_no();

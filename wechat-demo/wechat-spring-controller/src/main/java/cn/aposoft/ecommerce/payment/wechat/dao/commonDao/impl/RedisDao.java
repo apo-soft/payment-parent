@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
 import cn.aposoft.ecommerce.payment.wechat.dao.commonDao.IRedisDao;
 

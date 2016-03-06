@@ -15,10 +15,16 @@
 	<modules>
 		<module>wechat-spring-controller</module>
 		<module>wechat-jsp-web</module>
+		<module>wechat-mybatis-dao</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>wechat-spring-controller</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>wechat-spring-controller</artifactId>
@@ -33,6 +39,21 @@
 				<groupId>${project.groupId}</groupId>
 				<artifactId>DimensionalCode</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.miemiedev</groupId>
+				<artifactId>mybatis-paginator</artifactId>
+				<version>1.2.15</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>3.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>1.2.3</version>
 			</dependency>
 		</dependencies>
 
