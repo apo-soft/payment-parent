@@ -3,13 +3,9 @@
  */
 package cn.aposoft.ecommerce.payment.wechat.dao.impl;
 
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
