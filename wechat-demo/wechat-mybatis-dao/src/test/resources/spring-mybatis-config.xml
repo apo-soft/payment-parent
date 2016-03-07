@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis="http://www.mybatis.org/schema/mybatis"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.mybatis.org/schema/mybatis
+     http://www.mybatis.org/schema/mybatis/mybatis-spring.xsd
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<context:component-scan base-package="cn.aposoft.ecommerce.payment.wechat.dao" />
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:cn/aposoft/ecommerce/payment/wechat/dao/*.xml" />
+		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+		<property name="typeAliasesPackage" value="cn.aposoft.ecommerce.payment.wechat.bean" />
+		<property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
+	</bean>
+	<!--basePackage指定要扫描的包，在此包之下的映射器都会被 搜索到,可指定多个包,包与包之间用逗号或分号分隔 -->
+	<!-- annotationClass 用于定义mybatis的类扫描范围,可以自定义注解后,缩小类扫描范围 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.aposoft.ecommerce.payment.wechat.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<!-- <property name="markerInterface" value="org.mybatis.example.DeptMapper" 
+			/> -->
+		<!-- <property name="annotationClass" value="com.tiantian.mybatis.annotation.MybatisMapper" 
+			/> -->
+	</bean>
+</beans>

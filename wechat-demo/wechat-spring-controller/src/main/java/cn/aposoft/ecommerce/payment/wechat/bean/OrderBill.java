@@ -4,93 +4,127 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderBill {
-    private Integer orderId;
 
-    private String orderNo;
+	/**
+	 * 订单状态类
+	 * 
+	 * @author Jann Liu
+	 *
+	 */
+	public static class OrderBillState {
+		/**
+		 * 订单已经创建,客户点击创建
+		 */
+		public static final int CREATED = 0;
+		/**
+		 * 订单已经提交,客户提交,进行支付
+		 */
+		public static final int SUBMITTED = 1;
+		/**
+		 * 订单已经支付完成,第三方支付确认支付
+		 */
+		public static final int PAID = 2;
+		/**
+		 * 订单已经关闭,后台客服关闭
+		 */
+		public static final int CLOSED = 3;
+		/**
+		 * 订单已经过期,自动超时过期
+		 */
+		public static final int EXPIRED = 4;
+		/**
+		 * 订单已经取消 客户取消
+		 */
+		public static final int CANCEL = 5;
+	}
 
-    private String orderDesc;
+	private Integer orderId;
 
-    private BigDecimal orderAmount;
+	private String orderNo;
 
-    private BigDecimal orderPaidAmount;
+	private String orderDesc;
 
-    private Boolean orderState;
+	private BigDecimal orderAmount;
 
-    private Date createTime;
+	private BigDecimal orderPaidAmount;
 
-    private Date updateTime;
+	private Integer orderState;
 
-    private Date closedTime;
+	private Date createTime;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+	private Date updateTime;
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+	private Date closedTime;
 
-    public String getOrderNo() {
-        return orderNo;
-    }
+	public Integer getOrderId() {
+		return orderId;
+	}
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo == null ? null : orderNo.trim();
-    }
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
 
-    public String getOrderDesc() {
-        return orderDesc;
-    }
+	public String getOrderNo() {
+		return orderNo;
+	}
 
-    public void setOrderDesc(String orderDesc) {
-        this.orderDesc = orderDesc == null ? null : orderDesc.trim();
-    }
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo == null ? null : orderNo.trim();
+	}
 
-    public BigDecimal getOrderAmount() {
-        return orderAmount;
-    }
+	public String getOrderDesc() {
+		return orderDesc;
+	}
 
-    public void setOrderAmount(BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
-    }
+	public void setOrderDesc(String orderDesc) {
+		this.orderDesc = orderDesc == null ? null : orderDesc.trim();
+	}
 
-    public BigDecimal getOrderPaidAmount() {
-        return orderPaidAmount;
-    }
+	public BigDecimal getOrderAmount() {
+		return orderAmount;
+	}
 
-    public void setOrderPaidAmount(BigDecimal orderPaidAmount) {
-        this.orderPaidAmount = orderPaidAmount;
-    }
+	public void setOrderAmount(BigDecimal orderAmount) {
+		this.orderAmount = orderAmount;
+	}
 
-    public Boolean getOrderState() {
-        return orderState;
-    }
+	public BigDecimal getOrderPaidAmount() {
+		return orderPaidAmount;
+	}
 
-    public void setOrderState(Boolean orderState) {
-        this.orderState = orderState;
-    }
+	public void setOrderPaidAmount(BigDecimal orderPaidAmount) {
+		this.orderPaidAmount = orderPaidAmount;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public Integer getOrderState() {
+		return orderState;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setOrderState(Integer orderState) {
+		this.orderState = orderState;
+	}
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public Date getClosedTime() {
-        return closedTime;
-    }
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-    public void setClosedTime(Date closedTime) {
-        this.closedTime = closedTime;
-    }
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getClosedTime() {
+		return closedTime;
+	}
+
+	public void setClosedTime(Date closedTime) {
+		this.closedTime = closedTime;
+	}
 }
