@@ -8,6 +8,7 @@ import java.math.MathContext;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -21,6 +22,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.aposoft.ecommerce.payment.wechat.bean.OrderBill;
+import cn.aposoft.ecommerce.payment.wechat.bean.OrderBillExample;
+import cn.aposoft.ecommerce.payment.wechat.bean.OrderBillExample.Criteria;
 
 /**
  * OrderBill测试类
@@ -38,7 +41,7 @@ public class OrderBillMapperTest {
 	private DataSource dataSource;
 
 	@Autowired
-	private OrderBillMapper orderBillDao;
+	private OrderBillMapper orderBillMapper;
 
 	@Before
 	public void init() {
@@ -68,24 +71,71 @@ public class OrderBillMapperTest {
 		// 验证测试用例是否可以有效执行
 		Assume.assumeTrue(execute);
 		if (!execute) {
-			System.out.println("ignored.");
 			return;
 		}
 		OrderBill record = createDemoOrderBill();
-		orderBillDao.insert(record);
+		orderBillMapper.insertSelective(record);
 
 		Assert.assertTrue(true);
 	}
 
 	/**
-	 * BigDecimal 操作验证
+	 * 测试根据id读取订单
 	 */
 	@Test
-	public void testBigDecimalScale() {
-		OrderBill orderBill = createDemoOrderBill();
-		//
-		System.out.println(orderBill.getOrderAmount());
-		System.out.println(orderBill.getOrderAmount().scale());
+	public void testGetOrderById() {
+		// 验证测试用例是否可以有效执行
+		Assume.assumeTrue(execute);
+		if (!execute) {
+			return;
+		}
+		final BigDecimal d001 = new BigDecimal("0.01");
+		OrderBill orderBill = getDemoOrderBill(1);
+		Assert.assertNotNull(orderBill);
+		Assert.assertEquals(1, orderBill.getOrderId().intValue());
+		Assert.assertEquals("1123", orderBill.getOrderNo());
+		Assert.assertEquals("test bill", orderBill.getOrderDesc());
+		Assert.assertEquals(d001, orderBill.getOrderAmount());
+		Assert.assertEquals(d001, orderBill.getOrderPaidAmount());
+		Assert.assertEquals(0, orderBill.getOrderState().intValue());
+	}
+
+	/**
+	 * 查询示例订单信息
+	 * 
+	 * @return 示例订单信息
+	 */
+	OrderBill getDemoOrderBill(int orderId) {
+		OrderBillExample example = new OrderBillExample();
+
+		Criteria criteria = example.createCriteria();
+		criteria.andOrderIdEqualTo(orderId);
+		List<OrderBill> orderBills = orderBillMapper.selectByExample(example);
+		if (orderBills != null && !orderBills.isEmpty()) {
+			return orderBills.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 验证UpdateOrderBill成功 updateTime 修改成功
+	 */
+	@Test
+	public void testUpdateOrderBill() {
+		// 验证测试用例是否可以有效执行
+		Assume.assumeTrue(execute);
+		if (!execute) {
+			System.out.println("ignored.");
+			return;
+		}
+		OrderBill record = getDemoOrderBill(11);
+		record.setUpdateTime(new Date());
+
+		OrderBillExample example = new OrderBillExample();
+		example.createCriteria().andOrderIdEqualTo(record.getOrderId());
+		orderBillMapper.updateByExampleSelective(record, example);
+		Assert.assertTrue(true);
 	}
 
 	/**

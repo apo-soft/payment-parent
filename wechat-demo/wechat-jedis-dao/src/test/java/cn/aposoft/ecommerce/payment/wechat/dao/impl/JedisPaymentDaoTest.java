@@ -30,7 +30,6 @@ public class JedisPaymentDaoTest {
 
 	@Test
 	public void testAddOrder() {
-
 		try {
 			Order order = createOrder();
 			String orderNo = order.getOut_trade_no();
@@ -141,7 +140,6 @@ public class JedisPaymentDaoTest {
 	 */
 	private Order createOrder() {
 		return createOrder("123456");
-
 	}
 
 }

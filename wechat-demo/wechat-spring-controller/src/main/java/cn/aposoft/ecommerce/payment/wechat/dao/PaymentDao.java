@@ -6,7 +6,6 @@ package cn.aposoft.ecommerce.payment.wechat.dao;
 import cn.aposoft.ecommerce.payment.wechat.Notification;
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
-import cn.aposoft.ecommerce.payment.wechat.dao.commonDao.IRedisDao;
 
 /**
  * 
@@ -15,7 +14,7 @@ import cn.aposoft.ecommerce.payment.wechat.dao.commonDao.IRedisDao;
  * @author Jann Liu
  *
  */
-public interface PaymentDao extends IRedisDao<Order>{
+public interface PaymentDao {
 	/**
 	 * 读取下一个订单编号
 	 * 
