@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-extraProperties=sonar.version\=2.5\r\nsonar.jdbc.username\=sonar\r\nsonar.host.url\=http\://localhost\:9000\r\nsonar.jdbc.password\=sonar\r\nsonar.jdbc.url\=jdbc\:oracle\:thin\:@localhost\:1521/orcl\r\nsonar.language\=java
+extraProperties=sonar.language\=java\r\nsonar.jdbc.username\=sonar\r\nsonar.host.url\=http\://localhost\:9000\r\nsonar.jdbc.password\=sonar\r\nsonar.jdbc.url\=jdbc\:oracle\:thin\:@localhost\:1521/orcl\r\nsonar.version\=2.5
 projectKey=cn.aposoft.ecommerce\:alipay-payment
 serverUrl=http\://localhost\:9000
 version=2
