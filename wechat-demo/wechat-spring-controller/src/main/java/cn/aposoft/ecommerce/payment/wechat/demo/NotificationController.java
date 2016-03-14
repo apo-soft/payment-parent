@@ -32,4 +32,14 @@ public class NotificationController {
 		}
 		return NotificationResult.nullResult().toXml();
 	}
+
+	/**
+	 * 接收支付成功消息
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/notify")
+	public String receiveDemo() {
+
+		return "刘健解决乱码";
+	}
 }

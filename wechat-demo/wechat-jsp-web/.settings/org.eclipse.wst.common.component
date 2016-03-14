@@ -1,25 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
 	<wb-module deploy-name="wechat-jsp-web">
-		<wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources" />
-		<wb-resource deploy-path="/" source-path="/src/main/webapp"
-			tag="defaultRootSource" />
-		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java" />
-		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources" />
-		<dependent-module archiveName="wechat-spring-controller-1.1.0-SNAPSHOT.jar"
-			deploy-path="/WEB-INF/lib"
-			handle="module:/resource/wechat-spring-controller/wechat-spring-controller">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="wechat-payment-1.1.0-SNAPSHOT.jar"
-			deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-payment/wechat-payment">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="DimensionalCode-1.1.0-SNAPSHOT.jar"
-			deploy-path="/WEB-INF/lib" handle="module:/resource/DimensionalCode/DimensionalCode">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<property name="java-output-path" value="/wechat-jsp-web/target/classes" />
-		<property name="context-root" value="payment" />
+		<wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="wechat-spring-controller-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-spring-controller/wechat-spring-controller">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="wechat-payment-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-payment/wechat-payment">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="DimensionalCode-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/DimensionalCode/DimensionalCode">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="wechat-jedis-dao-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-jedis-dao/wechat-jedis-dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+		<property name="java-output-path" value="/wechat-jsp-web/target/classes"/>
+		<property name="context-root" value="payment"/>
 	</wb-module>
 </project-modules>
