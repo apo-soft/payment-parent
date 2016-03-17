@@ -21,10 +21,10 @@
 	<context:component-scan base-package="cn.aposoft.ecommerce.payment.wechat"></context:component-scan>
 
 	<!-- 过滤静态资源 -->
-	<!-- <mvc:resources location="/resources/" mapping="/resources/**" /> -->
-	<mvc:resources mapping="/index.html" location="/" />
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<mvc:resources mapping="/index.jsp" location="/" />
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
-	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources location="/js/" mapping="/js/**" />
 
 	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
 		by default it is not jstlView <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" 

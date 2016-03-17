@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	<debug />
+
+	<global-method-security pre-post-annotations="enabled" />
+
+	<http pattern="/resources/**" security="none" />
+
+
+	<http>
+		<!-- Allow all other requests. In a real application you should adopt a 
+			whitelisting approach where access is not allowed by default -->
+		<intercept-url pattern="/login.jsp*" access="permitAll" />
+
+
+		<intercept-url pattern="/404.html" access="permitAll" />
+		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		<!-- <intercept-url pattern="/index.html" access="permitAll" /> -->
+		<intercept-url pattern="/**" access="hasAuthority('user')" />
+		<!-- <intercept-url pattern="/**" access="authenticated" /> -->
+		<form-login login-page='/login.jsp' />
+		<!-- 退出删除JSESSIONID cookie -->
+		<logout logout-url="/logout" logout-success-url="/login.jsp?logout"
+			delete-cookies="JSESSIONID" />
+		<!--<logout /> -->
+		<!-- 实现免登陆验证 -->
+		<remember-me />
+		<!-- Uncomment to enable X509 client authentication support <x509 /> -->
+		<!-- Uncomment to limit the number of sessions a user can have -->
+		<session-management invalid-session-url="/login.jsp?timeout">
+			<concurrency-control max-sessions="1" />
+			<!-- <concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" /> -->
+		</session-management>
+	</http>
+
+	<!-- Usernames/Passwords are rod/koala dianne/emu scott/wombat peter/opal -->
+	<b:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder ref="encoder" />
+			<user-service>
+				<user name="rod"
+					password="$2a$10$75pBjapg4Nl8Pzd.3JRnUe7PDJmk9qBGwNEJDAlA3V.dEJxcDKn5O"
+					authorities="supervisor, user, teller" />
+				<user name="dianne"
+					password="$2a$04$bCMEyxrdF/7sgfUiUJ6Ose2vh9DAMaVBldS1Bw2fhi1jgutZrr9zm"
+					authorities="user,teller" />
+				<user name="scott"
+					password="$2a$06$eChwvzAu3TSexnC3ynw4LOSw1qiEbtNItNeYv5uI40w1i3paoSfLu"
+					authorities="user" />
+				<user name="peter"
+					password="$2a$04$8.H8bCMROLF4CIgd7IpeQ.tcBXLP5w8iplO0n.kCIkISwrIgX28Ii"
+					authorities="user" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</b:beans>

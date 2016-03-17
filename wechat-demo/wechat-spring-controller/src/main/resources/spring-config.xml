@@ -10,12 +10,17 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
        ">
 
+	<!-- mock 微信支付的服务及工厂 bean名称应当配置在properties文件中 -->
+	<bean id="paymentServiceFactory" class="${paymentServiceFactory.className}"></bean>
 	<bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService"
-		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"
-		factory-method="getService" destroy-method="close">
+		factory-bean="paymentServiceFactory" factory-method="getService"
+		destroy-method="close">
 	</bean>
-	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
-	</bean>
+
+	<!-- <bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"> 
+		</bean> <bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService" 
+		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory" 
+		factory-method="getService" destroy-method="close"> </bean> -->
 
 	<bean id="callbackService"
 		class="cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl">

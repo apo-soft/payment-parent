@@ -4,6 +4,9 @@
 		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="spring-security-management-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/spring-security-management/spring-security-management">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="wechat-spring-controller-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-spring-controller/wechat-spring-controller">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -11,6 +14,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="DimensionalCode-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/DimensionalCode/DimensionalCode">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="wechat-payment-mock-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-payment-mock/wechat-payment-mock">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="wechat-jedis-dao-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wechat-jedis-dao/wechat-jedis-dao">

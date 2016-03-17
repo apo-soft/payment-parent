@@ -23,6 +23,10 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>spring-security-management</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>wechat-spring-controller</artifactId>
 		</dependency>
 		<dependency>
@@ -80,8 +84,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-
 		<finalName>payment</finalName>
-
 	</build>
 </project>

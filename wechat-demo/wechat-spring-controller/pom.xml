@@ -81,5 +81,9 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>DimensionalCode</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>wechat-payment-mock</artifactId>
+		</dependency>
 	</dependencies>
 </project>

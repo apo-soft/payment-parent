@@ -12,9 +12,11 @@ import cn.aposoft.ecommerce.payment.wechat.PaymentService;
  * 付款接口启用
  * 
  * @author Yujinshui
+ * @author Jann Liu
  *
  */
 public class PaymentServiceFactory {
+
 	/**
 	 * 1.通过读取默认配置文件（wechatpay.properties）进行读取
 	 * 
