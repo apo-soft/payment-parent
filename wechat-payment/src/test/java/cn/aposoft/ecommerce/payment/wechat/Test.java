@@ -18,7 +18,8 @@ import cn.aposoft.ecommerce.payment.wechat.util.DownloadBillResultParserTest;
 import cn.aposoft.ecommerce.payment.wechat.util.EntityUtilTest;
 
 public class Test {
-	private static Config config = new PropertiesConfig("E:/environments/pay/wechat/wechatpay.properties", "utf-8");
+//	private static Config config = new PropertiesConfig("E:/environments/properties/pay/wechat/wechatpay.properties", "utf-8");
+	private static Config config = new PropertiesConfig();
 
 	private static HttpClientUtil httpUtil = HttpClientUtilImpl.getInstance(config);
 	private static EntityUtil entityUtil = ReflectEntityUtil.getInstance();
@@ -190,7 +191,7 @@ public class Test {
 	public static OrderQueryVo setQuery() {
 		OrderQueryVo query = new OrderQueryVo();
 		// query.setOut_trade_no("");
-		query.setTransaction_id("1009250532201602153282119059");
+		query.setTransaction_id("4004152001201603234213000725");
 		// query.setOut_trade_no("DE5773D0BDBD11E5ABE7F23AD07C9706");
 		return query;
 	}
@@ -257,10 +258,10 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-		payInfo_1();// 支付测试
+//		payInfo_1();// 支付测试
 
 		// refundTest_1();// 退款测试
-		// orderQuery();// 订单测试
+		 orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 

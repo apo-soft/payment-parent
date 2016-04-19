@@ -35,6 +35,7 @@
 		<module>alipay-payment</module>
 		<module>alipay-payment2</module>
 		<module>DimensionalCode</module>
+		<module>csh-payment</module>
 	</modules>
 
 	<dependencyManagement>

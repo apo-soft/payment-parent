@@ -10,7 +10,7 @@ import cn.aposoft.ecommerce.payment.alipay.impl.AliSingletonHttpClientUtil;
 
 public class AliTest {
 
-	AliConfig config = new AliPropertiesConfig("E:/environments/pay/ali/alipay.properties", "utf-8");
+	AliConfig config = new AliPropertiesConfig("E:/environments/properties/pay/ali/alipay.properties", "utf-8");
 	AliHttpClientUtil httpclient = AliSingletonHttpClientUtil.getInstance();
 	AliEntityUtil entityUtil = new AliSimpleEntityUtil();
 
@@ -38,8 +38,8 @@ public class AliTest {
 	// 异步回调地址：yangxinxin-163.6655.la:16834
 	public static void main(String[] args) {
 		AliTest ali = new AliTest();
-		ali.refund();
-//		 ali.pay();
+//		ali.refund();
+		 ali.pay();
 	}
 
 }
