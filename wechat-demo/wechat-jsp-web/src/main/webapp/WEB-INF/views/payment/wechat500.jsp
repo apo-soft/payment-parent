@@ -7,6 +7,6 @@
 <title>微信支付失败页面</title>
 </head>
 <body>
-    
+	<div>创建订单过程发生错误,请稍后重试.</div>
 </body>
 </html>

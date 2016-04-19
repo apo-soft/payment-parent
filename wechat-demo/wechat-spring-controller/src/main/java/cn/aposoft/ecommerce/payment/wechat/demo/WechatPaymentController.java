@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.aposoft.ecommerce.payment.wechat.Order;
 import cn.aposoft.ecommerce.payment.wechat.PayResponse;
@@ -21,6 +23,7 @@ import cn.aposoft.ecommerce.payment.wechat.PaymentService;
 import cn.aposoft.ecommerce.payment.wechat.bean.OrderVo;
 import cn.aposoft.ecommerce.payment.wechat.service.PaymentStorageException;
 import cn.aposoft.ecommerce.payment.wechat.service.PaymentStoreService;
+import cn.aposoft.ecommerce.payment.wechat.vo.WechatPaymentModel;
 
 /**
  * 支付控制器
@@ -36,7 +39,7 @@ public class WechatPaymentController {
 
 	@Autowired
 	private PaymentStoreService paymentStoreService;
-	
+
 	public WechatPaymentController() {
 	}
 
@@ -50,8 +53,7 @@ public class WechatPaymentController {
 	public String toPay() {
 		return "payment/topay";
 	}
-	
-	
+
 	/**
 	 * 接收订单提交的post请求,并进行预付款处理
 	 * 
@@ -62,28 +64,50 @@ public class WechatPaymentController {
 	 * @return 预付款处理结果视图地址
 	 */
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String showHomePage(OrderVo order, HttpServletRequest req) {
+	public String submitOrder(OrderVo order, HttpServletRequest req) {
 		Order o = null;
 		try {
 			o = createOrder(order);
 			PayResponse result = payService.preparePay(o);
+
 			if (!StringUtils.isEmpty(result.getCode_url())) {
 				try {
-					req.setAttribute("orderNo", order.getOut_trade_no());
-					req.setAttribute("pngUrl", URLEncoder.encode(result.getCode_url(), "UTF-8"));
+					WechatPaymentModel model = new WechatPaymentModel();
+					model.setOrderNo(o.getOut_trade_no());
+					model.setPngUrl(URLEncoder.encode(result.getCode_url(), "UTF-8"));
+					model.setTotalFee(String.valueOf(o.getTotal_fee()));
+					req.getSession().setAttribute("order:" + o.getOut_trade_no(), model);
+
 				} catch (UnsupportedEncodingException e) {
-					// this will never happen.
-					logger.error("虚拟机不支持UTF-8编码");
+					logger.error("虚拟机不支持UTF-8编码");// this will never happen.
 				}
+				return "redirect:wechat?orderNo=" + order.getOut_trade_no();
+			} else {
+				// redirect to 500 页面
+				return "payment/wechat500";
 			}
-			return "payment/wechat";
 		} catch (PaymentStorageException e) {
-			// this will never happen.
 			logger.error("访问持久化读取SequenceOrderNo失败,", e);
-			// TODO redirect to 500 页面
+			// redirect to 500 页面
 			return "payment/wechat500";
 		}
+	}
 
+	@RequestMapping(value = "/wechat")
+	public String showWechatPaymentPage(String orderNo, HttpServletRequest req) {
+		WechatPaymentModel model = (WechatPaymentModel) req.getSession().getAttribute("order:" + orderNo);
+		if (model != null) {
+			req.setAttribute("model", model);
+			return "payment/wechat";
+		} else {
+			return "payment/wechat500";
+		}
+	}
+
+	@RequestMapping("/searchOrder/{orderNo}")
+	@ResponseBody
+	public String searchOrderState(@PathVariable("orderNo") String orderNo, HttpServletRequest req) {
+		return "1";
 	}
 
 	// 创建通信的订单对象
@@ -100,7 +124,7 @@ public class WechatPaymentController {
 	}
 
 	/**
-	 * 退款操作 TODO 未实现
+	 * 退款操作 未实现
 	 * 
 	 * @param model
 	 *            输出对象

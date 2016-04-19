@@ -23,6 +23,7 @@
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<org.aspectj.version>1.8.6</org.aspectj.version>
 		<org.slf4j.version>1.7.18</org.slf4j.version>
+		<dbcp.version>1.4</dbcp.version>
 		<!--com.google.zxing 2.2 到 3.2.1 兼容 -->
 		<com.google.zxing.version>3.2.1</com.google.zxing.version>
 
@@ -238,11 +239,21 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>${dbcp.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.37</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.miemiedev</groupId>
+				<artifactId>mybatis-paginator</artifactId>
+				<version>1.2.15</version>
+			</dependency>
 		</dependencies>
-
 	</dependencyManagement>
-
-
-
-
 </project>

@@ -9,13 +9,18 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
        ">
-     
+
+	<!-- mock 微信支付的服务及工厂 bean名称应当配置在properties文件中 -->
+	<bean id="paymentServiceFactory" class="${paymentServiceFactory.className}"></bean>
 	<bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService"
-		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"
-		factory-method="getService" destroy-method="close">
+		factory-bean="paymentServiceFactory" factory-method="getService"
+		destroy-method="close">
 	</bean>
-	<bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory">
-	</bean>
+
+	<!-- <bean class="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory"> 
+		</bean> <bean class="cn.aposoft.ecommerce.payment.wechat.PaymentService" 
+		factory-bean="cn.aposoft.ecommerce.payment.wechat.impl.PaymentServiceFactory" 
+		factory-method="getService" destroy-method="close"> </bean> -->
 
 	<bean id="callbackService"
 		class="cn.aposoft.ecommerce.payment.wechat.impl.CallbackServiceImpl">
@@ -26,14 +31,14 @@
 		factory-method="getInstance">
 	</bean>
 
-	<!-- <bean id="payStoreService"
+	<bean id="payStoreService"
 		class="cn.aposoft.ecommerce.payment.wechat.service.impl.PaymentStoreServiceImpl">
 		<constructor-arg name="paymentDao" ref="paymentDao"></constructor-arg>
-	</bean> -->
-	<!-- <bean id="paymentDao"
+	</bean>
+	<bean id="paymentDao"
 		class="cn.aposoft.ecommerce.payment.wechat.dao.impl.JedisPaymentDao">
 		<constructor-arg name="template" ref="redisTemplate"></constructor-arg>
-	</bean> -->
+	</bean>
 	<bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		p:host-name="redis.server.aposoft.cn" p:port="6379" p:use-pool="true">
@@ -43,15 +48,16 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		p:connection-factory-ref="jedisConnFactory" />
 
-	<!-- <bean id="jedisPaymentDao"
+	<bean id="jedisPaymentDao"
 		class="cn.aposoft.ecommerce.payment.wechat.dao.impl.JedisPaymentDao">
 		<constructor-arg ref="redisTemplate"></constructor-arg>
-	</bean> -->
+	</bean>
 
 	<!-- 扫描注解Bean -->
-	<!-- <context:component-scan base-package="com.controller"> <context:exclude-filter 
-		type="annotation" expression="org.springframework.stereotype.Controller" 
-		/> </context:component-scan> -->
+	<context:component-scan base-package="com.controller">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 
 </beans>

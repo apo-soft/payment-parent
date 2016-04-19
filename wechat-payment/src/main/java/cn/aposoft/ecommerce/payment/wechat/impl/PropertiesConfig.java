@@ -9,8 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
 import cn.aposoft.ecommerce.payment.wechat.Config;
 
 /**
@@ -19,10 +17,12 @@ import cn.aposoft.ecommerce.payment.wechat.Config;
  * 配置文件默认名称：wechatpay.properties<br>
  * 可以指定配置文件名称
  * 
+ * 2015/3/17 修改初始化方法,当初始化配置信息报错是,直接抛出运行时异常.
+ * 
  * @author Yujinshui
+ * @author Jann Liu
  */
 public class PropertiesConfig implements Config {
-	private static Logger logger = Logger.getLogger(PropertiesConfig.class);
 	/**
 	 * 单一主机最大并发连接数:默认为2,这里进行动态配置,避免高并发时,因此导致支付阻塞.
 	 */
@@ -177,16 +177,14 @@ public class PropertiesConfig implements Config {
 		try {
 			reader = new InputStreamReader(new FileInputStream(fileName), encoding);
 		} catch (UnsupportedEncodingException | FileNotFoundException e) {
-			System.out.println("读取指定路径配置失败。" + fileName);
-			logger.error("读取指定路径配置文件失败，请检查文件是否存在。" + fileName);
-			e.printStackTrace();
+			throw new RuntimeException("初始化微信支付过程中,读取配置文件失败,配置文件[classpath:" + fileName + "]，请检查.", e);
 		}
 		Properties p = new Properties();
 		try {
 			p.load(reader);
-		} catch (IOException e1) {
-			System.out.println("配置文件读取失败，请检查.");
-			e1.printStackTrace();
+		} catch (IOException e) {
+			throw new RuntimeException("初始化微信支付过程中,读取配置文件失败,配置文件[classpath:" + fileName + "]，请检查.", e);
+
 		}
 		setPropertiesValues(p);
 	}
@@ -204,9 +202,8 @@ public class PropertiesConfig implements Config {
 		Properties p = new Properties();
 		try {
 			p.load(inputStream);
-		} catch (IOException e1) {
-			System.out.println("配置文件读取失败，请检查.");
-			e1.printStackTrace();
+		} catch (IOException e) {
+			throw new RuntimeException("初始化微信支付过程中,读取配置文件失败,配置文件[classpath:" + fileName + "]，请检查.", e);
 		}
 		setPropertiesValues(p);
 	}
