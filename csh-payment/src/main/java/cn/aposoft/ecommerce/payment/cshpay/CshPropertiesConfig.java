@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.cshpay;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,24 +17,58 @@ public class CshPropertiesConfig implements CshConfig {
 	private String ve;
 	private String secret;
 	private String cid;
+	private String bid;
+	private String callback;
+	private String payurl;
+	private String qrcodeurl;
 
-	public CshPropertiesConfig(Map<String, String> map) {
-		key = map.get("key");
-		ve = map.get("ve");
-		secret = map.get("secret");
-		cid = map.get("cid");
-	}
-
+	/**
+	 * 默认资源文件
+	 */
 	public CshPropertiesConfig() {
 		getProperties("csh.properties");
 	}
 
+	/**
+	 * 资源文件
+	 * 
+	 * @param fileName
+	 */
 	public CshPropertiesConfig(String fileName) {
 		getProperties(fileName);
 	}
 
+	/**
+	 * 外部文件
+	 * 
+	 * @param outFileName
+	 * @param encoding
+	 */
 	public CshPropertiesConfig(String outFileName, String encoding) {
 		getFileProperties(outFileName, encoding);
+	}
+
+	public CshPropertiesConfig(Map<String, String> map) {
+		key = map.get("KEY");
+		ve = map.get("VE");
+		secret = map.get("SECRET");
+		cid = map.get("CID");
+		bid = map.get("BID");
+		callback = map.get("CALLBACK");
+		payurl = map.get("PAY_URL");
+		qrcodeurl = map.get("QRCODE_URL");
+	}
+
+	private void setPropertiesValues(Properties p) {
+		key = p.getProperty("KEY");
+		ve = p.getProperty("VE");
+		secret = p.getProperty("SECRET");
+		cid = p.getProperty("CID");
+		bid = p.getProperty("BID");
+		callback = p.getProperty("CALLBACK");
+		payurl = p.getProperty("PAY_URL");
+		qrcodeurl = p.getProperty("QRCODE_URL");
+
 	}
 
 	private void getFileProperties(String fileName, String encoding) {
@@ -76,14 +110,6 @@ public class CshPropertiesConfig implements CshConfig {
 		setPropertiesValues(p);
 	}
 
-	private void setPropertiesValues(Properties p) {
-		key = p.getProperty("key");
-		ve = p.getProperty("ve");
-		secret = p.getProperty("secret");
-		cid = p.getProperty("cid");
-
-	}
-
 	@Override
 	public String key() {
 		return key;
@@ -102,5 +128,25 @@ public class CshPropertiesConfig implements CshConfig {
 	@Override
 	public String cid() {
 		return cid;
+	}
+
+	@Override
+	public String bid() {
+		return bid;
+	}
+
+	@Override
+	public String callback() {
+		return callback;
+	}
+
+	@Override
+	public String payUrl() {
+		return payurl;
+	}
+
+	@Override
+	public String qrcodeUrl() {
+		return qrcodeurl;
 	}
 }

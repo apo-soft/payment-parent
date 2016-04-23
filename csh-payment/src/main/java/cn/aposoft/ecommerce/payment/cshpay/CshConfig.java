@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.payment.alipay;
+package cn.aposoft.ecommerce.payment.cshpay;
 
 /**
  * 彩之云支付账号配置接口
@@ -7,6 +7,42 @@ package cn.aposoft.ecommerce.payment.alipay;
  * @createTime 2016年4月19日 下午11:20:41
  */
 public interface CshConfig {
+	/**
+	 * 二维码返回根地址
+	 *
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月23日 下午6:53:31
+	 */
+	String qrcodeUrl();
+
+	/**
+	 * 支付请求URL
+	 *
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月23日 下午3:35:05
+	 */
+	String payUrl();
+
+	/**
+	 * 订单回调地址
+	 * 
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月23日 下午3:28:51
+	 */
+	String callback();
+
+	/**
+	 * 商家编号，自动售货机在彩生活内部编号
+	 *
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月23日 下午3:26:53
+	 */
+	String bid();
+
 	/**
 	 * 合作方编号，由合作方统一分配
 	 *
