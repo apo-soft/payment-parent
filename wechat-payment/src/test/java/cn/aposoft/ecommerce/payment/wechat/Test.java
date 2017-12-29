@@ -46,7 +46,7 @@ public class Test {
 		order.setOut_trade_no("swrtjtdw");// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
-		order.setTotal_fee(43);
+		order.setTotal_fee(1);
 		// order.setAppid(config.appId());
 		// order.setAttach(attach);
 		// order.setDetail(detail);
@@ -55,7 +55,7 @@ public class Test {
 		// order.setOpenid(openid);
 		// order.setProduct_id(product_id);
 		// order.setTime_start(getTime());// 设定交易有效的时间范围
-		// order.setTime_expire(getTime2());// 设定交易有效的时间范围
+		 order.setTime_expire(getTime2());// 设定交易有效的时间范围
 
 		return order;
 	}
@@ -79,7 +79,7 @@ public class Test {
 		// order.setOpenid(openid);
 		// order.setProduct_id(product_id);
 		// order.setTime_start(getTime());// 设定交易有效的时间范围
-		// order.setTime_expire(getTime2());// 设定交易有效的时间范围
+		 order.setTime_expire(getTime2());// 设定交易有效的时间范围
 
 		return order;
 	}
@@ -258,10 +258,10 @@ public class Test {
 	public static void main(String[] args) {
 		// 生成的微信链接，只要不进行支付，在有效期内，就一直处于可用状态
 
-//		payInfo_1();// 支付测试
+		payInfo_1();// 支付测试
 
 		// refundTest_1();// 退款测试
-		 orderQuery();// 订单测试
+//		 orderQuery();// 订单测试
 		// refundQuery();// 退款查询测试
 		// 下载对账单测试
 

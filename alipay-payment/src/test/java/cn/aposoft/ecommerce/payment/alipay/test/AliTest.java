@@ -8,9 +8,14 @@ import cn.aposoft.ecommerce.payment.alipay.impl.AliPropertiesConfig;
 import cn.aposoft.ecommerce.payment.alipay.impl.AliSimpleEntityUtil;
 import cn.aposoft.ecommerce.payment.alipay.impl.AliSingletonHttpClientUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AliTest {
 
-	AliConfig config = new AliPropertiesConfig("E:/environments/properties/pay/ali/alipay.properties", "utf-8");
+	private Map<String,String> map = new HashMap<>();
+	//	AliConfig config = new AliPropertiesConfig("E:/environments/properties/pay/ali/alipay.properties", "utf-8");
+private AliConfig config = new AliPropertiesConfig();
 	AliHttpClientUtil httpclient = AliSingletonHttpClientUtil.getInstance();
 	AliEntityUtil entityUtil = new AliSimpleEntityUtil();
 
