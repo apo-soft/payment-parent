@@ -43,7 +43,7 @@ public class Test {
 		OrderVo order = new OrderVo();
 		order.setBody("电脑");
 		order.setGoods_tag("no");
-		order.setOut_trade_no("swrtjtdw");// 只要未支付，即可继续重复使用该单号
+		order.setOut_trade_no("swrtjtdw1");// 只要未支付，即可继续重复使用该单号
 		order.setSpbill_create_ip("127.0.0.1");
 		order.setTrade_type("NATIVE");
 		order.setTotal_fee(1);
