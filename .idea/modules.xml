@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/alipay-payment/alipay-payment.iml" filepath="$PROJECT_DIR$/alipay-payment/alipay-payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/alipay-payment2/alipay-payment2.iml" filepath="$PROJECT_DIR$/alipay-payment2/alipay-payment2.iml" />
       <module fileurl="file://$PROJECT_DIR$/csh-payment/csh-payment.iml" filepath="$PROJECT_DIR$/csh-payment/csh-payment.iml" />
-      <module fileurl="file://$PROJECT_DIR$/payment-parent.iml" filepath="$PROJECT_DIR$/payment-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/payment-parent.iml" filepath="$PROJECT_DIR$/.idea/payment-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/wechat-demo/spring-security-management/spring-security-management.iml" filepath="$PROJECT_DIR$/wechat-demo/spring-security-management/spring-security-management.iml" />
       <module fileurl="file://$PROJECT_DIR$/wechat-demo/wechat-demo.iml" filepath="$PROJECT_DIR$/wechat-demo/wechat-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/wechat-demo/wechat-jedis-dao/wechat-jedis-dao.iml" filepath="$PROJECT_DIR$/wechat-demo/wechat-jedis-dao/wechat-jedis-dao.iml" />

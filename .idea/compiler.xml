@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions />
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.form" />
-      <entry name="!?*.class" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.flex" />
-      <entry name="!?*.kt" />
-      <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
-    </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="alipay-payment" />
         <module name="alipay-payment2" />
         <module name="csh-payment" />
@@ -36,19 +20,19 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="alipay-payment" target="1.7" />
-      <module name="alipay-payment2" target="1.7" />
-      <module name="csh-payment" target="1.7" />
-      <module name="DimensionalCode" target="1.7" />
-      <module name="payment-parent" target="1.7" />
-      <module name="spring-security-management" target="1.7" />
-      <module name="wechat-demo" target="1.7" />
-      <module name="wechat-jedis-dao" target="1.7" />
-      <module name="wechat-jsp-web" target="1.7" />
-      <module name="wechat-mybatis-dao" target="1.7" />
-      <module name="wechat-payment" target="1.7" />
-      <module name="wechat-payment-mock" target="1.7" />
-      <module name="wechat-spring-controller" target="1.7" />
+      <module name="alipay-payment" target="1.8" />
+      <module name="alipay-payment2" target="1.8" />
+      <module name="csh-payment" target="1.8" />
+      <module name="DimensionalCode" target="1.8" />
+      <module name="payment-parent" target="1.8" />
+      <module name="spring-security-management" target="1.8" />
+      <module name="wechat-demo" target="1.8" />
+      <module name="wechat-jedis-dao" target="1.8" />
+      <module name="wechat-jsp-web" target="1.8" />
+      <module name="wechat-mybatis-dao" target="1.8" />
+      <module name="wechat-payment" target="1.8" />
+      <module name="wechat-payment-mock" target="1.8" />
+      <module name="wechat-spring-controller" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
