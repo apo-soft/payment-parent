@@ -1,5 +1,0 @@
-eclipse.preferences.version=1
-extraProperties=sonar.version\=2.5\r\nsonar.language\=java
-projectKey=cn.aposoft.ecommerce\:alipay-payment
-serverUrl=http\://localhost\:9000
-version=2
