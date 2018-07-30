@@ -2,26 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e33e595-05ac-42e2-b243-473eee0bf16a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/wechat_jsp_web_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/wechat_jsp_web_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wechat-public/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DimensionalCode/DimensionalCode.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/alipay-payment/alipay-payment.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/alipay-payment2/alipay-payment2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/csh-payment/csh-payment.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/spring-security-management/spring-security-management.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-demo.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-jedis-dao/wechat-jedis-dao.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-jsp-web/wechat-jsp-web.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-mybatis-dao/wechat-mybatis-dao.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-payment-mock/wechat-payment-mock.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-demo/wechat-spring-controller/wechat-spring-controller.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-payment/wechat-payment.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/wechat-demo/wechat-jedis-dao/target/" />
     <ignored path="$PROJECT_DIR$/wechat-demo/spring-security-management/target/" />
@@ -36,6 +22,7 @@
     <ignored path="$PROJECT_DIR$/csh-payment/target/" />
     <ignored path="$PROJECT_DIR$/wechat-demo/wechat-jsp-web/target/" />
     <ignored path="$PROJECT_DIR$/alipay-payment2/target/" />
+    <ignored path="$PROJECT_DIR$/wechat-public/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +34,7 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wechat-demo/wechat-payment-mock/src/main/java/org/wechat/payment/mock/App.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -57,13 +44,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="paySuccess(微信支付-微信回调接口样例-jfinal-2.0).java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wechat-payment/document/paySuccess(微信支付-微信回调接口样例-jfinal-2.0).java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wechat-payment/document/readme.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            <state relative-caret-position="289">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/alipay-payment/pom.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wechat-public/pom.xml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -91,15 +111,23 @@
         <option name="userSettingsFile" value="$USER_HOME$/.m2/settings.xml" />
       </MavenGeneralSettings>
     </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="48" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="51" />
     <option name="y" value="23" />
-    <option name="width" value="1232" />
-    <option name="height" value="777" />
+    <option name="width" value="1389" />
+    <option name="height" value="877" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -107,7 +135,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -118,62 +145,24 @@
             <path>
               <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
               <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
               <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
+              <item name="wechat-public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
               <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
+              <item name="wechat-public" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
-              <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
-              <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
-              <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="mock" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="payment-parent" type="b2602c69:ProjectViewProjectNode" />
-              <item name="payment-parent" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-demo" type="462c0819:PsiDirectoryNode" />
-              <item name="wechat-payment-mock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="mock" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -273,12 +262,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1532578810669</updated>
-      <workItem from="1532578812291" duration="371000" />
+      <workItem from="1532578812291" duration="1111000" />
+      <workItem from="1532584365442" duration="686000" />
+      <workItem from="1532943990537" duration="728000" />
     </task>
+    <task id="LOCAL-00001" summary="添加忽略文件配置">
+      <created>1532579252352</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1532579252352</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13117000" />
+    <option name="totallyTimeSpent" value="15271000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -291,41 +290,43 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="51" y="23" width="1389" height="877" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" />
+      <window_info id="UI Designer" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32893" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info anchor="bottom" id="Java Enterprise" />
-      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="Java Enterprise" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32893" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Spring" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32893" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494432" />
-      <window_info id="Web" side_tool="true" />
-      <window_info anchor="bottom" id="JProfiler" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.28533685" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2806236" />
+      <window_info id="Web" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="JProfiler" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -337,6 +338,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="添加忽略文件配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加忽略文件配置" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -361,6 +366,30 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/wechat-demo/wechat-payment-mock/src/main/java/org/wechat/payment/mock/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-payment/document/paySuccess(微信支付-微信回调接口样例-jfinal-2.0).java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-payment/document/readme.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-demo/wechat-payment-mock/src/main/java/org/wechat/payment/mock/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wechat-demo/wechat-payment-mock/src/main/java/cn/aposoft/ecommerce/payment/wechat/mock/PaymentServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
@@ -382,10 +411,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-payment/document/paySuccess(微信支付-微信回调接口样例-jfinal-2.0).java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-payment/document/readme.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/alipay-payment/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat-public/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        <state relative-caret-position="289">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
