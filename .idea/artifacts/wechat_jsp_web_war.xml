@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="wechat-jsp-web:war">
-    <output-path>$PROJECT_DIR$/wechat-demo/wechat-jsp-web/target</output-path>
-    <root id="archive" name="payment.war">
-      <element id="artifact" artifact-name="wechat-jsp-web:war exploded" />
-    </root>
-  </artifact>
-</component>
