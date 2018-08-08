@@ -7,7 +7,7 @@ import java.util.List;
  * Date: 2014/10/25
  * Time: 16:36
  */
-public class RefundQueryResData {
+public class WechatRefundQueryResData {
     //协议层
     private String return_code = "";
     private String return_msg = "";

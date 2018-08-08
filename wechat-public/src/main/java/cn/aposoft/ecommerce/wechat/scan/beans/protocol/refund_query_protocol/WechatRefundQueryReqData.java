@@ -1,4 +1,4 @@
-package cn.aposoft.ecommerce.wechat.scan.beans.protocol.refund_protocol;
+package cn.aposoft.ecommerce.wechat.scan.beans.protocol.refund_query_protocol;
 
 import cn.aposoft.ecommerce.tencent.RandomStringGenerator;
 import cn.aposoft.ecommerce.tencent.WechatConfigure;
@@ -11,10 +11,9 @@ import java.util.Map;
 /**
  * User: rizenguo
  * Date: 2014/10/25
- * Time: 16:12
+ * Time: 16:35
  */
-public class RefundReqData {
-
+public class WechatRefundQueryReqData {
     //每个字段具体的意思请查看API文档
     private String appid = "";
     private String mch_id = "";
@@ -23,14 +22,9 @@ public class RefundReqData {
     private String sign = "";
     private String transaction_id = "";
     private String out_trade_no = "";
-    private String out_refund_no = "";
-    private int total_fee = 0;
-    private int refund_fee = 0;
-    private String refund_fee_type = "CNY";
-    private String op_user_id = "";
 
 
-	public RefundReqData(WechatConfigure configure){
+	public WechatRefundQueryReqData(WechatConfigure configure){
 		//微信分配的公众号ID（开通公众号之后可以获取到）
 		setAppid(configure.getAppID());
 
@@ -39,20 +33,15 @@ public class RefundReqData {
 	}
 
     /**
-     * 请求退款服务
+     * 请求退款查询服务
      * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
      * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
      * @param deviceInfo 微信支付分配的终端设备号，与下单一致
      * @param outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
-     * @param totalFee 订单总金额，单位为分
-     * @param refundFee 退款总金额，单位为分,可以做部分退款
-     * @param opUserID 操作员帐号, 默认为商户号
-     * @param refundFeeType 货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
+     * @param refundID 来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
      */
-    public RefundReqData(WechatConfigure configure,String transactionID,String outTradeNo,String deviceInfo,String outRefundNo,int totalFee,int refundFee,
-                         String
-		    opUserID,String
-		    refundFeeType){
+
+    public WechatRefundQueryReqData(WechatConfigure configure, String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, String refundID){
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(configure.getAppID());
@@ -71,11 +60,8 @@ public class RefundReqData {
 
         setOut_refund_no(outRefundNo);
 
-        setTotal_fee(totalFee);
-
-        setRefund_fee(refundFee);
-
-        setOp_user_id(opUserID);
+        //商户系统自己管理的退款号，商户自身必须保证这个号在系统内唯一
+        setRefund_id(refundID);
 
         //随机字符串，不长于32 位
         setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
@@ -158,37 +144,16 @@ public class RefundReqData {
         this.out_refund_no = out_refund_no;
     }
 
-    public int getTotal_fee() {
-        return total_fee;
+    public String getRefund_id() {
+        return refund_id;
     }
 
-    public void setTotal_fee(int total_fee) {
-        this.total_fee = total_fee;
+    public void setRefund_id(String refund_id) {
+        this.refund_id = refund_id;
     }
 
-    public int getRefund_fee() {
-        return refund_fee;
-    }
-
-    public void setRefund_fee(int refund_fee) {
-        this.refund_fee = refund_fee;
-    }
-
-    public String getOp_user_id() {
-        return op_user_id;
-    }
-
-    public void setOp_user_id(String op_user_id) {
-        this.op_user_id = op_user_id;
-    }
-
-    public String getRefund_fee_type() {
-        return refund_fee_type;
-    }
-
-    public void setRefund_fee_type(String refund_fee_type) {
-        this.refund_fee_type = refund_fee_type;
-    }
+    private String out_refund_no;
+    private String refund_id;
 
     public Map<String,Object> toMap(){
         Map<String,Object> map = new HashMap<String, Object>();
