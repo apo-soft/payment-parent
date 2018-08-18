@@ -1,8 +1,10 @@
 package cn.aposoft.ecommerce.wechat.scan.beans.protocol.refund_query_protocol;
 
-import cn.aposoft.ecommerce.tencent.RandomStringGenerator;
-import cn.aposoft.ecommerce.tencent.WechatConfigure;
+
 import cn.aposoft.ecommerce.tencent.WechatSignature;
+import cn.aposoft.ecommerce.tencent.WechatUtil;
+import cn.aposoft.ecommerce.util.LogPortal;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -24,61 +26,61 @@ public class WechatRefundQueryReqData {
     private String out_trade_no = "";
 
 
-	public WechatRefundQueryReqData(WechatConfigure configure){
-		//微信分配的公众号ID（开通公众号之后可以获取到）
-		setAppid(configure.getAppID());
+//    /**
+//     * 请求退款查询服务
+//     * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
+//     * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
+//     * @param deviceInfo 微信支付分配的终端设备号，与下单一致
+//     * @param outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
+//     * @param refundID 来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
+//     */
+//
+//    public WechatRefundQueryReqData(WechatConfigure configure, String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, String refundID){
+//
+//        //微信分配的公众号ID（开通公众号之后可以获取到）
+//        setAppid(configure.getAppID());
+//
+//        //微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+//        setMch_id(configure.getMchID());
+//
+//        //transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
+//        setTransaction_id(transactionID);
+//
+//        //商户系统自己生成的唯一的订单号
+//        setOut_trade_no(outTradeNo);
+//
+//        //微信支付分配的终端设备号，与下单一致
+//        setDevice_info(deviceInfo);
+//
+//        setOut_refund_no(outRefundNo);
+//
+//        //商户系统自己管理的退款号，商户自身必须保证这个号在系统内唯一
+//        setRefund_id(refundID);
+//
+//        //随机字符串，不长于32 位
+//        setNonce_str(WechatUtil.generateNonceStr(32));
+//
+//        //根据API给的签名规则进行签名
+//        String sign = WechatSignature.getSign(configure.getKey(), toMap());
+//        setSign(sign);//把签名数据设置到Sign这个属性中
+//
+//    }
 
-		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-		setMch_id(configure.getMchID());
-	}
-
-    /**
-     * 请求退款查询服务
-     * @param transactionID 是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。建议优先使用
-     * @param outTradeNo 商户系统内部的订单号,transaction_id 、out_trade_no 二选一，如果同时存在优先级：transaction_id>out_trade_no
-     * @param deviceInfo 微信支付分配的终端设备号，与下单一致
-     * @param outRefundNo 商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
-     * @param refundID 来自退款API的成功返回，微信退款单号refund_id、out_refund_no、out_trade_no 、transaction_id 四个参数必填一个，如果同事存在优先级为：refund_id>out_refund_no>transaction_id>out_trade_no
-     */
-
-    public WechatRefundQueryReqData(WechatConfigure configure, String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, String refundID){
-
-        //微信分配的公众号ID（开通公众号之后可以获取到）
-        setAppid(configure.getAppID());
-
-        //微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-        setMch_id(configure.getMchID());
-
-        //transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
-        setTransaction_id(transactionID);
-
-        //商户系统自己生成的唯一的订单号
-        setOut_trade_no(outTradeNo);
-
-        //微信支付分配的终端设备号，与下单一致
-        setDevice_info(deviceInfo);
-
-        setOut_refund_no(outRefundNo);
-
-        //商户系统自己管理的退款号，商户自身必须保证这个号在系统内唯一
-        setRefund_id(refundID);
-
+    //TODO 后期把它抽掉，改为赋值过程进行sign的生成
+    public void generateSign(String key) {
         //随机字符串，不长于32 位
-        setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
-
+        if (StringUtils.isEmpty(getNonce_str())) {//如果已赋值，不再重复赋值
+            setNonce_str(WechatUtil.generateNonceStr());
+        }
         //根据API给的签名规则进行签名
-        String sign = WechatSignature.getSign(configure.getKey(), toMap());
+        String sign = null;
+        try {
+            sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(this), key);
+        } catch (Exception e) {
+            LogPortal.error("微信对账单下载参数，签名创建异常", e);
+        }
         setSign(sign);//把签名数据设置到Sign这个属性中
-
     }
-
-	public void generateSign(String key){
-		//随机字符串，不长于32 位
-		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
-		//根据API给的签名规则进行签名
-		String sign = WechatSignature.getSign(key, toMap());
-		setSign(sign);//把签名数据设置到Sign这个属性中
-	}
 
     public String getAppid() {
         return appid;

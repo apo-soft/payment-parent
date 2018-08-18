@@ -1,13 +1,18 @@
 package cn.aposoft.ecommerce.tencent;
 
+import cn.aposoft.ecommerce.util.LogPortal;
 import org.xml.sax.SAXException;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: rizenguo
@@ -15,118 +20,140 @@ import java.util.Map;
  * Time: 15:23
  */
 public class WechatSignature {
-	/**
-	 * 签名算法
-	 *
-	 * @param key
-	 * @param o 要参与签名的数据对象
-	 * @return 签名
-	 * @throws IllegalAccessException
-	 */
-	public static String getSign(String key, Object o) throws IllegalAccessException {
-		ArrayList<String> list = new ArrayList<String>();
-		Class cls = o.getClass();
-		Field[] fields = cls.getDeclaredFields();
-		for (Field f : fields) {
-			f.setAccessible(true);
-			if (f.get(o) != null && f.get(o) != "") {
-				list.add(f.getName() + "=" + f.get(o) + "&");
-			}
-		}
-		int size = list.size();
-		String[] arrayToSort = list.toArray(new String[size]);
-		Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < size; i++) {
-			sb.append(arrayToSort[i]);
-		}
-		String result = sb.toString();
-		result += "key=" + key;
-		WechatUtil.log("Sign Before MD5:" + result);
-		result = MD5.MD5Encode(result).toUpperCase();
-		WechatUtil.log("Sign Result:" + result);
-		return result;
-	}
+    public enum SignType {
+        MD5, HMACSHA256
+    }
 
-	/**
-	 * @param key
-	 * @param map
-	 * @return
-	 */
-	public static String getSign(String key, Map<String, Object> map) {
-		ArrayList<String> list = new ArrayList<String>();
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
-			if (entry.getValue() != "") {
-				list.add(entry.getKey() + "=" + entry.getValue() + "&");
-			}
-		}
-		int size = list.size();
-		String[] arrayToSort = list.toArray(new String[size]);
-		Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < size; i++) {
-			sb.append(arrayToSort[i]);
-		}
-		String result = sb.toString();
-		result += "key=" + key;
-		//Util.log("Sign Before MD5:" + result);
-		result = MD5.MD5Encode(result).toUpperCase();
-		//Util.log("Sign Result:" + result);
-		return result;
-	}
+    /**
+     * HmacSHA256加密模式判断签名是否正确
+     *
+     * @param xml XML格式数据
+     * @param key API密钥
+     * @return 签名是否正确
+     * @throws Exception
+     */
+    public static boolean verifySignWithHMACSHA256(String xml, String key) throws Exception {
+        return verifySign(WechatUtil.xmlToMap(xml), key, SignType.HMACSHA256);
+    }
 
-	/**
-	 * 从API返回的XML数据里面重新计算一次签名
-	 *
-	 * @param key
-	 * @param responseString API返回的XML数据
-	 * @return 新鲜出炉的签名
-	 * @throws ParserConfigurationException
-	 * @throws IOException
-	 * @throws SAXException
-	 */
-	public static String getSignFromResponseString(String key, String responseString) throws IOException, SAXException,
-			ParserConfigurationException {
-		Map<String, Object> map = XMLParser.getMapFromXML(responseString);
-		//清掉返回数据对象里面的Sign数据（不能把这个数据也加进去进行签名），然后用签名算法进行签名
-		map.put("sign", "");
-		//将API返回的数据根据用签名算法进行计算新的签名，用来跟API返回的签名进行比较
-		return WechatSignature.getSign(key, map);
-	}
+    public static boolean verifySignWithMD5(String xml, String key) throws Exception {
+        return verifySign(WechatUtil.xmlToMap(xml), key, SignType.MD5);
+    }
 
-	/**
-	 * 检验API返回的数据里面的签名是否合法，避免数据在传输的过程中被第三方篡改
-	 *
-	 * @param key
-	 * @param responseString API返回的XML数据字符串
-	 * @return API签名是否合法
-	 * @throws ParserConfigurationException
-	 * @throws IOException
-	 * @throws SAXException
-	 */
-	public static boolean checkIsSignValidFromResponseString(String key, String responseString) throws ParserConfigurationException, IOException, SAXException {
+    public static boolean verifySignWithHMACSHA256(Map<String, String> data, String key) throws Exception {
+        return verifySign(data, key, SignType.HMACSHA256);
+    }
 
-		Map<String, Object> map = XMLParser.getMapFromXML(responseString);
-		WechatUtil.log(map.toString());
+    public static boolean verifySignWithMD5(Map<String, String> data, String key) throws Exception {
+        return verifySign(data, key, SignType.MD5);
+    }
 
-		Object signFromAPIResponse = map.get("sign");
-		if (signFromAPIResponse == null || String.valueOf(signFromAPIResponse) == "") {
-			WechatUtil.log("API返回的数据签名数据不存在，有可能被第三方篡改!!!");
-			return false;
-		}
-		WechatUtil.log("服务器回包里面的签名是:" + signFromAPIResponse);
-		//清掉返回数据对象里面的Sign数据（不能把这个数据也加进去进行签名），然后用签名算法进行签名
-		map.put("sign", "");
-		//将API返回的数据根据用签名算法进行计算新的签名，用来跟API返回的签名进行比较
-		String signForAPIResponse = WechatSignature.getSign(key, map);
 
-		if (!signForAPIResponse.equals(signFromAPIResponse)) {
-			//签名验不过，表示这个API返回的数据有可能已经被篡改了
-			WechatUtil.log("API返回的数据签名验证不通过，有可能被第三方篡改!!!");
-			return false;
-		}
-		WechatUtil.log("恭喜，API返回的数据签名验证通过!!!");
-		return true;
-	}
+    /**
+     * 判断签名是否正确，必须包含sign字段，否则返回false。
+     *
+     * @param data     Map类型数据
+     * @param key      API密钥
+     * @param signType 签名方式
+     * @return 签名是否正确
+     * @throws Exception
+     */
+    public static boolean verifySign(Map<String, String> data, String key, SignType signType) throws Exception {
+        if (!data.containsKey(WechatConstant.SIGN)) {
+            return false;
+        }
+        String sign = data.get(WechatConstant.SIGN);
+        return generateSignature(data, key, signType).equals(sign);
+    }
 
+
+    /**
+     * 生成签名
+     *
+     * @param data 待签名数据
+     * @param key  API密钥
+     * @return 签名
+     */
+    public static String generateSignatureWithHMACSHA256(final Map<String, String> data, String key) throws Exception {
+        return generateSignature(data, key, SignType.HMACSHA256);
+    }
+
+    /**
+     * 生成签名信息
+     *
+     * @param data     要签名的map信息
+     * @param key      微信密钥信息
+     * @param signType 签名类型
+     * @return
+     * @throws Exception
+     */
+    public static String generateSignature(final Map<String, String> data, String key, SignType signType) throws Exception {
+        String[] keyArray = sortKey(data);
+        StringBuilder sb = new StringBuilder();
+        for (String k : keyArray) {
+            if (k.equals(WechatConstant.SIGN)) {
+                continue;
+            }
+            if (data.get(k).trim().length() > 0) // 参数值为空，则不参与签名
+                sb.append(k).append("=").append(data.get(k).trim()).append("&");
+        }
+        sb.append("key=").append(key);
+        LogPortal.info("签名字符串：" + sb.toString());
+        if (SignType.MD5.equals(signType)) {
+            return MD5(sb.toString()).toUpperCase();
+        } else if (SignType.HMACSHA256.equals(signType)) {
+            return HMACSHA256(sb.toString(), key);
+        } else {
+            throw new Exception(String.format("Invalid sign_type: %s", signType));
+        }
+    }
+
+    /**
+     * 给map中的key进行排序
+     *
+     * @param data
+     * @return
+     */
+    private static String[] sortKey(Map<String, String> data) {
+        Set<String> keySet = data.keySet();
+        String[] keyArray = keySet.toArray(new String[keySet.size()]);
+        Arrays.sort(keyArray);
+        return keyArray;
+    }
+
+    /**
+     * 生成 MD5
+     *
+     * @param data 待处理数据
+     * @return MD5结果
+     */
+    public static String MD5(String data) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] array = md.digest(data.getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte item : array) {
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    /**
+     * 生成 HMACSHA256
+     *
+     * @param data 待处理数据
+     * @param key  密钥
+     * @return 加密结果
+     * @throws Exception
+     */
+    public static String HMACSHA256(String data, String key) throws Exception {
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte item : array) {
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString().toUpperCase();
+    }
 }

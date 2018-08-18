@@ -6,9 +6,11 @@ package cn.aposoft.ecommerce.wechat.scan.beans.protocol.pay_protocol;
  * Time: 21:29
  */
 
-import cn.aposoft.ecommerce.tencent.RandomStringGenerator;
-import cn.aposoft.ecommerce.tencent.WechatConfigure;
 import cn.aposoft.ecommerce.tencent.WechatSignature;
+import cn.aposoft.ecommerce.tencent.WechatUtil;
+import cn.aposoft.ecommerce.util.LogPortal;
+import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseRequestBeans;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -18,16 +20,11 @@ import java.util.Map;
  * 微信公众号服务商版统一下单接口需要提交的数据
  * URL：https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_1
  */
-public class WeChatPayReqData {
+public class WeChatPayReqData extends BaseRequestBeans {
 
     //每个字段具体的意思请查看API文档
-    private String appid;
-    private String mch_id;
-    private String sub_appid;
-    private String sub_mch_id;
+
     private String device_info;
-    private String nonce_str;
-    private String sign;
     private String sign_type;
     private String body;
     private String detail;
@@ -48,108 +45,22 @@ public class WeChatPayReqData {
     private Object scene_info;
 
 
-    public WeChatPayReqData(WechatConfigure configure) {
-        //微信分配的公众号ID（开通公众号之后可以获取到）
-        setAppid(configure.getAppID());
-
-        //微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-        setMch_id(configure.getMchID());
-    }
-
-    /**
-     * @param configure      微信配置信息
-     * @param body           要支付的商品的描述信息，用户会在支付成功页面里看到这个信息
-     * @param detail         商品名称明细列表
-     * @param outTradeNo     商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
-     * @param totalFee       订单总金额，单位为“分”，只能整数
-     * @param spBillCreateIP 订单生成的机器IP
-     * @param timeStart      订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
-     * @param timeExpire     订单失效时间，格式同上
-     * @param notify_url     通知地址
-     */
-    public WeChatPayReqData(WechatConfigure configure, String body, String detail, String outTradeNo, int totalFee, String spBillCreateIP, String timeStart, String
-            timeExpire, String notify_url) {
-
-        //微信分配的公众号ID（开通公众号之后可以获取到）
-        setAppid(configure.getAppID());
-
-        //微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-        setMch_id(configure.getMchID());
-
-        //要支付的商品的描述信息，用户会在支付成功页面里看到这个信息
-        setBody(body);
-
-        setDetail(detail);
-
-        //商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
-        setOut_trade_no(outTradeNo);
-
-        //订单总金额，单位为“分”，只能整数
-        setTotal_fee(totalFee);
-
-
-        //订单生成的机器IP
-        setSpbill_create_ip(spBillCreateIP);
-
-        //订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
-        setTime_start(timeStart);
-
-        //订单失效时间，格式同上
-        setTime_expire(timeExpire);
-
-
-        //随机字符串，不长于32 位
-        setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
-
-        //根据API给的签名规则进行签名
-        String sign = WechatSignature.getSign(configure.getKey(), toMap());
-        setSign(sign);//把签名数据设置到Sign这个属性中
-
-    }
-
+    //TODO 后期把它抽掉，改为赋值过程进行sign的生成
     public void generateSign(String key) {
         //随机字符串，不长于32 位
-        setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+        if (StringUtils.isEmpty(getNonce_str())) {//如果已赋值，不再重复赋值
+            setNonce_str(WechatUtil.generateNonceStr());
+        }
         //根据API给的签名规则进行签名
-        String sign = WechatSignature.getSign(key, toMap());
+        String sign = null;
+        try {
+            sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(this), key);
+        } catch (Exception e) {
+            LogPortal.error("微信对账单下载参数，签名创建异常", e);
+        }
         setSign(sign);//把签名数据设置到Sign这个属性中
     }
 
-    public String getAppid() {
-        return appid;
-    }
-
-    public WeChatPayReqData setAppid(String appid) {
-        this.appid = appid;
-        return this;
-    }
-
-    public String getMch_id() {
-        return mch_id;
-    }
-
-    public WeChatPayReqData setMch_id(String mch_id) {
-        this.mch_id = mch_id;
-        return this;
-    }
-
-    public String getSub_appid() {
-        return sub_appid;
-    }
-
-    public WeChatPayReqData setSub_appid(String sub_appid) {
-        this.sub_appid = sub_appid;
-        return this;
-    }
-
-    public String getSub_mch_id() {
-        return sub_mch_id;
-    }
-
-    public WeChatPayReqData setSub_mch_id(String sub_mch_id) {
-        this.sub_mch_id = sub_mch_id;
-        return this;
-    }
 
     public String getDevice_info() {
         return device_info;
@@ -157,24 +68,6 @@ public class WeChatPayReqData {
 
     public WeChatPayReqData setDevice_info(String device_info) {
         this.device_info = device_info;
-        return this;
-    }
-
-    public String getNonce_str() {
-        return nonce_str;
-    }
-
-    public WeChatPayReqData setNonce_str(String nonce_str) {
-        this.nonce_str = nonce_str;
-        return this;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public WeChatPayReqData setSign(String sign) {
-        this.sign = sign;
         return this;
     }
 
@@ -340,22 +233,39 @@ public class WeChatPayReqData {
         return this;
     }
 
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        Class<?> cls = this.getClass();
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {
             Object obj;
             try {
                 obj = field.get(this);
                 if (obj != null) {
-                    map.put(field.getName(), obj);
+                    map.put(field.getName(), String.valueOf(obj));
                 }
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                LogPortal.error("WeChatPayReqData 转换为map异常", e);
             }
         }
+        //读取父类属性信息
+        for (Class<?> superCls = cls.getSuperclass(); superCls != null; superCls = superCls.getSuperclass()) {
+            fields = superCls.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object obj = null;
+                try {
+                    obj = field.get(this);
+                } catch (IllegalAccessException e) {
+                    LogPortal.error("WeChatPayReqData 转换为map异常", e);
+                }
+                if (obj != null && obj != "") {
+                    map.put(field.getName(), String.valueOf(obj));
+                }
+            }
+        }
+
+
         return map;
     }
 

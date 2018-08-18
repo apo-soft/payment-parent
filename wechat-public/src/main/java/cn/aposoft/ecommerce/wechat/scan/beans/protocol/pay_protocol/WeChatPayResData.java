@@ -6,51 +6,36 @@ package cn.aposoft.ecommerce.wechat.scan.beans.protocol.pay_protocol;
  * Time: 16:42
  */
 
+
+import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseResponseBeans;
+
 /**
  * 支付提交Post数据给到API之后，API会返回XML格式的数据，这个类用来装这些数据
  * https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_1
  */
-public class WeChatPayResData {
-    //协议层
-    private String return_code = "";
-    private String return_msg = "";
+public class WeChatPayResData extends BaseResponseBeans {
+
 
     //协议返回的具体数据（以下字段在return_code 为SUCCESS 的时候有返回）
-    private String appid = "";
-    private String mch_id = "";
-    private String sub_appid = "";
-    private String sub_mch_id = "";
-    private String device_info = "";
-    private String nonce_str = "";
-    private String sign = "";
-    private String result_code = "";
-    private String err_code = "";
-    private String err_code_des = "";
+    private String appid;
+    private String mch_id;
+    private String sub_appid;
+    private String sub_mch_id;
+    private String device_info;
+    private String nonce_str;
+    private String sign;
+    private String result_code;
+    private String err_code;
+    private String err_code_des;
 
 
     //业务返回的具体数据（以下字段在return_code 和result_code 都为SUCCESS 的时候有返回）
-    private String trade_type = "";
-    private String prepay_id = "";
+    private String trade_type;
+    private String prepay_id;
 
-    private String code_url = "";
+    private String code_url;
 
-    public String getReturn_code() {
-        return return_code;
-    }
 
-    public WeChatPayResData setReturn_code(String return_code) {
-        this.return_code = return_code;
-        return this;
-    }
-
-    public String getReturn_msg() {
-        return return_msg;
-    }
-
-    public WeChatPayResData setReturn_msg(String return_msg) {
-        this.return_msg = return_msg;
-        return this;
-    }
 
     public String getAppid() {
         return appid;

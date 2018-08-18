@@ -1,14 +1,27 @@
 package cn.aposoft.ecommerce.tencent;
 
+import cn.aposoft.ecommerce.util.LogPortal;
 import com.thoughtworks.xstream.XStream;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * User: rizenguo
@@ -20,33 +33,160 @@ public class WechatUtil {
     //打log用
     private static Log logger = new Log(LoggerFactory.getLogger(WechatUtil.class));
 
+
+    private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    private static final Random RANDOM = new SecureRandom();
+
     /**
-     * 通过反射的方式遍历对象的属性和属性值，方便调试
+     * 获取随机字符串 Nonce Str
      *
-     * @param o 要遍历的对象
+     * @return String 随机字符串
+     */
+    public static String generateNonceStr() {
+        return generateNonceStr(32);
+    }
+    public static String generateNonceStr(int length) {
+        char[] nonceChars = new char[32];
+        for (int index = 0; index < nonceChars.length; ++index) {
+            nonceChars[index] = SYMBOLS.charAt(RANDOM.nextInt(SYMBOLS.length()));
+        }
+        return new String(nonceChars);
+    }
+    /**
+     * XML格式字符串转换为Map
+     *
+     * @param strXML XML字符串
+     * @return XML数据转换后的Map
      * @throws Exception
      */
-    public static void reflect(Object o) throws Exception {
-        Class cls = o.getClass();
-        Field[] fields = cls.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field f = fields[i];
-            f.setAccessible(true);
-            WechatUtil.log(f.getName() + " -> " + f.get(o));
+    public static Map<String, String> xmlToMap(String strXML) throws Exception {
+        try {
+            Map<String, String> data = new HashMap<String, String>();
+            DocumentBuilder documentBuilder = newDocumentBuilder();
+            InputStream stream = new ByteArrayInputStream(strXML.getBytes("UTF-8"));
+            org.w3c.dom.Document doc = documentBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            for (int idx = 0; idx < nodeList.getLength(); ++idx) {
+                Node node = nodeList.item(idx);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                    data.put(element.getNodeName(), element.getTextContent());
+                }
+            }
+            try {
+                stream.close();
+            } catch (Exception ex) {
+                // do nothing
+            }
+            return data;
+        } catch (Exception ex) {
+            LogPortal.error("Invalid XML, can not convert to map. Error message: {}. XML content: {}", ex.getMessage(), strXML);
+            throw ex;
         }
+
     }
 
-    public static byte[] readInput(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int len = 0;
-        byte[] buffer = new byte[1024];
-        while ((len = in.read(buffer)) > 0) {
-            out.write(buffer, 0, len);
+    /**
+     * 将Map转换为XML格式的字符串
+     *
+     * @param data Map类型数据
+     * @return XML格式的字符串
+     * @throws Exception
+     */
+    public static String mapToXml(Map<String, String> data) throws Exception {
+        org.w3c.dom.Document document = newDocument();
+        org.w3c.dom.Element root = document.createElement("xml");
+        document.appendChild(root);
+        for (String key : data.keySet()) {
+            String value = String.valueOf(data.get(key));
+            if (value == null) {
+                value = "";
+            }
+            value = value.trim();
+            org.w3c.dom.Element filed = document.createElement(key);
+            filed.appendChild(document.createTextNode(value));
+            root.appendChild(filed);
         }
-        out.close();
-        in.close();
-        return out.toByteArray();
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        DOMSource source = new DOMSource(document);
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        transformer.transform(source, result);
+        String output = writer.getBuffer().toString(); //.replaceAll("\n|\r", "");
+        try {
+            writer.close();
+        } catch (Exception ex) {
+        }
+        return output;
     }
+
+    /**
+     * 防止外部实体注入，xml漏洞攻击解决
+     *
+     * @return
+     * @throws ParserConfigurationException
+     */
+    public static DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        documentBuilderFactory.setXIncludeAware(false);
+        documentBuilderFactory.setExpandEntityReferences(false);
+
+        return documentBuilderFactory.newDocumentBuilder();
+    }
+
+    private static Document newDocument() throws ParserConfigurationException {
+        return newDocumentBuilder().newDocument();
+    }
+
+
+    public static Map<String, String> objectToMap(Object object) {
+        Map<String, String> map = new HashMap<String, String>();
+        Class<?> cls = object.getClass();
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            Object obj;
+            try {
+                obj = field.get(object);
+                if (obj != null) {
+                    map.put(field.getName(), String.valueOf(obj));
+                }
+            } catch (IllegalAccessException e) {
+                LogPortal.error("WeChatPayReqData 转换为map异常", e);
+            }
+        }
+        //读取父类属性信息
+        for (Class<?> superCls = cls.getSuperclass(); superCls != null; superCls = superCls.getSuperclass()) {
+            fields = superCls.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object obj = null;
+                try {
+                    obj = field.get(object);
+                } catch (IllegalAccessException e) {
+                    LogPortal.error("WeChatPayReqData 转换为map异常", e);
+                }
+                if (obj != null && obj != "") {
+                    map.put(field.getName(), String.valueOf(obj));
+                }
+            }
+        }
+
+
+        return map;
+    }
+
+//========================
+
 
     public static String inputStreamToString(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -98,10 +238,11 @@ public class WechatUtil {
 
     /**
      * 打log接口
+     *
      * @param log 要打印的log字符串
      * @return 返回log
      */
-    public static String log(Object log){
+    public static String log(Object log) {
         logger.i(log.toString());
         //System.out.println(log);
         return log.toString();
@@ -109,6 +250,7 @@ public class WechatUtil {
 
     /**
      * 读取本地的xml数据，一般用来自测用
+     *
      * @param localPath 本地xml文件路径
      * @return 读到的xml字符串
      */
