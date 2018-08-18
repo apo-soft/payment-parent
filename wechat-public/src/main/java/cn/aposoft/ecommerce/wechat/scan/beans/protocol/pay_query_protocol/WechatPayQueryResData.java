@@ -1,23 +1,16 @@
 package cn.aposoft.ecommerce.wechat.scan.beans.protocol.pay_query_protocol;
 
+import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseResponseBeans;
+
 /**
+ *
  * User: rizenguo
  * Date: 2014/10/25
  * Time: 13:54
  */
-public class WechatPayQueryResData {
+public class WechatPayQueryResData extends BaseResponseBeans {
 
-    //协议层
-    private String return_code;
-    private String return_msg;
 
-    //协议返回的具体数据（以下字段在return_code 为SUCCESS 的时候有返回）
-    private String appid;
-    private String mch_id;
-    private String sub_appid;
-    private String sub_mch_id;//新增
-    private String nonce_str;
-    private String sign;
     private String result_code;
     private String err_code;
     private String err_code_des;
@@ -62,78 +55,6 @@ public class WechatPayQueryResData {
     private String attach;
     private String time_end;
     private String trade_state_desc;
-
-    public String getReturn_code() {
-        return return_code;
-    }
-
-    public WechatPayQueryResData setReturn_code(String return_code) {
-        this.return_code = return_code;
-        return this;
-    }
-
-    public String getReturn_msg() {
-        return return_msg;
-    }
-
-    public WechatPayQueryResData setReturn_msg(String return_msg) {
-        this.return_msg = return_msg;
-        return this;
-    }
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public WechatPayQueryResData setAppid(String appid) {
-        this.appid = appid;
-        return this;
-    }
-
-    public String getMch_id() {
-        return mch_id;
-    }
-
-    public WechatPayQueryResData setMch_id(String mch_id) {
-        this.mch_id = mch_id;
-        return this;
-    }
-
-    public String getSub_appid() {
-        return sub_appid;
-    }
-
-    public WechatPayQueryResData setSub_appid(String sub_appid) {
-        this.sub_appid = sub_appid;
-        return this;
-    }
-
-    public String getSub_mch_id() {
-        return sub_mch_id;
-    }
-
-    public WechatPayQueryResData setSub_mch_id(String sub_mch_id) {
-        this.sub_mch_id = sub_mch_id;
-        return this;
-    }
-
-    public String getNonce_str() {
-        return nonce_str;
-    }
-
-    public WechatPayQueryResData setNonce_str(String nonce_str) {
-        this.nonce_str = nonce_str;
-        return this;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public WechatPayQueryResData setSign(String sign) {
-        this.sign = sign;
-        return this;
-    }
 
     public String getResult_code() {
         return result_code;
@@ -243,11 +164,11 @@ public class WechatPayQueryResData {
         return this;
     }
 
-    public int getTotal_fee() {
+    public Integer getTotal_fee() {
         return total_fee;
     }
 
-    public WechatPayQueryResData setTotal_fee(int total_fee) {
+    public WechatPayQueryResData setTotal_fee(Integer total_fee) {
         this.total_fee = total_fee;
         return this;
     }

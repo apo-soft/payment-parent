@@ -35,21 +35,6 @@ public class DownloadBillReqData extends BaseRequestBeans {
      */
 
 
-    //TODO 后期把它抽掉，改为赋值过程进行sign的生成
-    public void generateSign(String key) {
-        //随机字符串，不长于32 位
-        if (StringUtils.isEmpty(getNonce_str())) {//如果已赋值，不再重复赋值
-            setNonce_str(WechatUtil.generateNonceStr());
-        }
-        //根据API给的签名规则进行签名
-        String sign = null;
-        try {
-            sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(this), key);
-        } catch (Exception e) {
-            LogPortal.error("微信对账单下载参数，签名创建异常", e);
-        }
-        setSign(sign);//把签名数据设置到Sign这个属性中
-    }
 
 
     public String getBill_date() {

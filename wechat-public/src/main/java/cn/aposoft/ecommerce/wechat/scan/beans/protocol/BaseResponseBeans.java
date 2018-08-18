@@ -8,7 +8,7 @@ package cn.aposoft.ecommerce.wechat.scan.beans.protocol;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/11下午12:00
  */
-public class BaseResponseBeans {
+public class BaseResponseBeans extends BaseRequestBeans {
     //协议层
     private String return_code;
     private String return_msg;

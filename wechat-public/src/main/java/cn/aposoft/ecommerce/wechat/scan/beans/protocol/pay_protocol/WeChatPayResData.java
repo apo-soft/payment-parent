@@ -16,14 +16,7 @@ import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseResponseBeans;
 public class WeChatPayResData extends BaseResponseBeans {
 
 
-    //协议返回的具体数据（以下字段在return_code 为SUCCESS 的时候有返回）
-    private String appid;
-    private String mch_id;
-    private String sub_appid;
-    private String sub_mch_id;
     private String device_info;
-    private String nonce_str;
-    private String sign;
     private String result_code;
     private String err_code;
     private String err_code_des;
@@ -35,68 +28,12 @@ public class WeChatPayResData extends BaseResponseBeans {
 
     private String code_url;
 
-
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public WeChatPayResData setAppid(String appid) {
-        this.appid = appid;
-        return this;
-    }
-
-    public String getMch_id() {
-        return mch_id;
-    }
-
-    public WeChatPayResData setMch_id(String mch_id) {
-        this.mch_id = mch_id;
-        return this;
-    }
-
-    public String getSub_appid() {
-        return sub_appid;
-    }
-
-    public WeChatPayResData setSub_appid(String sub_appid) {
-        this.sub_appid = sub_appid;
-        return this;
-    }
-
-    public String getSub_mch_id() {
-        return sub_mch_id;
-    }
-
-    public WeChatPayResData setSub_mch_id(String sub_mch_id) {
-        this.sub_mch_id = sub_mch_id;
-        return this;
-    }
-
     public String getDevice_info() {
         return device_info;
     }
 
     public WeChatPayResData setDevice_info(String device_info) {
         this.device_info = device_info;
-        return this;
-    }
-
-    public String getNonce_str() {
-        return nonce_str;
-    }
-
-    public WeChatPayResData setNonce_str(String nonce_str) {
-        this.nonce_str = nonce_str;
-        return this;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public WeChatPayResData setSign(String sign) {
-        this.sign = sign;
         return this;
     }
 

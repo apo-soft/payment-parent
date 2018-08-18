@@ -1,20 +1,13 @@
 package cn.aposoft.ecommerce.wechat.scan.beans.protocol.refund_protocol;
 
+import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseResponseBeans;
+
 /**
  * 退款返回参数
  * https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_4
  */
-public class WeChatRefundResData {
+public class WeChatRefundResData extends BaseResponseBeans {
 
-    //协议层
-    /**
-     * 返回状态码
-     */
-    private String return_code;
-    /**
-     * 返回信息
-     */
-    private String return_msg;
 
     //协议返回的具体数据（以下字段在return_code 为SUCCESS 的时候有返回）
     /**
@@ -29,30 +22,7 @@ public class WeChatRefundResData {
      * 错误代码描述
      */
     private String err_code_des;
-    /**
-     * 公众账号ID
-     */
-    private String appid;
-    /**
-     * 商户号
-     */
-    private String mch_id;
-    /**
-     * 子商户公众账号ID
-     */
-    private String sub_appid;
-    /**
-     * 子商户号
-     */
-    private String sub_mch_id;
-    /**
-     * 随机字符串
-     */
-    private String nonce_str;
-    /**
-     * 签名
-     */
-    private String sign;
+
     /**
      * 微信订单号
      */
@@ -119,24 +89,6 @@ public class WeChatRefundResData {
     private int coupon_refund_fee_$n;
 
 
-    public String getReturn_code() {
-        return return_code;
-    }
-
-    public WeChatRefundResData setReturn_code(String return_code) {
-        this.return_code = return_code;
-        return this;
-    }
-
-    public String getReturn_msg() {
-        return return_msg;
-    }
-
-    public WeChatRefundResData setReturn_msg(String return_msg) {
-        this.return_msg = return_msg;
-        return this;
-    }
-
     public String getResult_code() {
         return result_code;
     }
@@ -161,51 +113,6 @@ public class WeChatRefundResData {
 
     public WeChatRefundResData setErr_code_des(String err_code_des) {
         this.err_code_des = err_code_des;
-        return this;
-    }
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public WeChatRefundResData setAppid(String appid) {
-        this.appid = appid;
-        return this;
-    }
-
-    public String getMch_id() {
-        return mch_id;
-    }
-
-    public WeChatRefundResData setMch_id(String mch_id) {
-        this.mch_id = mch_id;
-        return this;
-    }
-
-    public String getSub_mch_id() {
-        return sub_mch_id;
-    }
-
-    public WeChatRefundResData setSub_mch_id(String sub_mch_id) {
-        this.sub_mch_id = sub_mch_id;
-        return this;
-    }
-
-    public String getNonce_str() {
-        return nonce_str;
-    }
-
-    public WeChatRefundResData setNonce_str(String nonce_str) {
-        this.nonce_str = nonce_str;
-        return this;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public WeChatRefundResData setSign(String sign) {
-        this.sign = sign;
         return this;
     }
 
