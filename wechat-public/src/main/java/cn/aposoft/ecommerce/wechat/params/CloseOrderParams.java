@@ -12,4 +12,5 @@ import java.io.Serializable;
  * @Created on 2018/8/19下午5:48
  */
 public interface CloseOrderParams extends Serializable {
+    String getOut_trade_no();
 }

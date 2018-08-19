@@ -12,4 +12,6 @@ import java.io.Serializable;
  * @Created on 2018/8/19下午5:50
  */
 public interface DownloadBillParams extends Serializable {
+    public String getBill_date();
+    public String getBill_type();
 }

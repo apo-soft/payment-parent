@@ -13,4 +13,16 @@ import java.io.Serializable;
  * @Created on 2018/8/19下午5:49
  */
 public interface RefundQueryParams extends Serializable {
+    public String getTransaction_id();
+
+
+    public String getOut_trade_no();
+
+
+    public String getOut_refund_no();
+
+
+    public String getRefund_id();
+
+
 }

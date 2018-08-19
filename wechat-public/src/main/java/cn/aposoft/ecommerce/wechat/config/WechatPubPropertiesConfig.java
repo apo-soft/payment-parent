@@ -6,13 +6,13 @@ import java.util.Properties;
 
 /**
  * @author code
- * @Title: WechatPropertiesConfig
+ * @Title: WechatPubPropertiesConfig
  * @Copyright: Copyright (c) 2017
  * @Description: <br>
  * @Company: www.qdingnet.com
  * @Created on 2018/8/11上午11:43
  */
-public class WechatPropertiesConfig implements BaseWechatConfig {
+public class WechatPubPropertiesConfig implements BaseWechatConfig {
 
     /**
      * 单一主机最大并发连接数:默认为2,这里进行动态配置,避免高并发时,因此导致支付阻塞.
@@ -143,7 +143,7 @@ public class WechatPropertiesConfig implements BaseWechatConfig {
      * [订单查询-请求URL]ORDER_QUERY_URL<br>
      * [认证证书路径]PKCS12_PATH
      */
-    public WechatPropertiesConfig(Map<String, String> map) {
+    public WechatPubPropertiesConfig(Map<String, String> map) {
         APPID = map.get("APPID");
         MCH_ID = map.get("MCH_ID");
         KEY = map.get("KEY");
@@ -163,7 +163,7 @@ public class WechatPropertiesConfig implements BaseWechatConfig {
         PKCS12_BASE64 = map.get("PKCS12_BASE64");
     }
 
-    public WechatPropertiesConfig(String fileName) {
+    public WechatPubPropertiesConfig(String fileName) {
         getProperties(fileName);
     }
 
@@ -172,7 +172,7 @@ public class WechatPropertiesConfig implements BaseWechatConfig {
      * <p>
      * 读取默认配置文件 : classpath:wechatpay.properties
      */
-    public WechatPropertiesConfig() {
+    public WechatPubPropertiesConfig() {
         getProperties("wechatpub.properties");
     }
 
@@ -186,7 +186,7 @@ public class WechatPropertiesConfig implements BaseWechatConfig {
      * @author Yujinshui
      * @time 2015年10月25日 上午11:52:08
      */
-    public WechatPropertiesConfig(String fileName, String encoding) {
+    public WechatPubPropertiesConfig(String fileName, String encoding) {
         getFileProperties(fileName, encoding);
     }
 
