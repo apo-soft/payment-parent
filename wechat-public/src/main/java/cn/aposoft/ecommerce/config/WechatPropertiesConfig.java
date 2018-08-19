@@ -12,7 +12,7 @@ import java.util.Properties;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/11上午11:43
  */
-public class WechatPropertiesConfig  implements BaseWechatConfig{
+public class WechatPropertiesConfig implements BaseWechatConfig {
 
     /**
      * 单一主机最大并发连接数:默认为2,这里进行动态配置,避免高并发时,因此导致支付阻塞.
@@ -21,11 +21,16 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
     /**
      * 订单查询URL
      */
-    private String ORDER_URL = null;
+    private String ORDER_QUERY_URL = null;
     /**
      * 认证证书路径
      */
-    private String PKCS12 = null;
+    private String PKCS12_PATH = null;
+
+    /**
+     * 认证证书base64内容
+     */
+    private String PKCS12_BASE64 = null;
     /**
      * 商户KEY
      */
@@ -64,11 +69,6 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
     private String SUB_MCH_ID;
 
     /**
-     * 用户标识
-     */
-    private String OPENID = null;
-
-    /**
      * 微信支付-请求URL
      */
     private String PAY_URL = null;
@@ -104,8 +104,8 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
      * [商户KEY]KEY<br>
      * [微信支付-请求URL]PAY_URL<br>
      * [退款-请求URL]REFUND_URL<br>
-     * [订单查询-请求URL]ORDER_URL<br>
-     * [认证证书路径]PKCS12
+     * [订单查询-请求URL]ORDER_QUERY_URL<br>
+     * [认证证书路径]PKCS12_PATH
      *
      * @param p 属性信息
      * @author Yujinshui
@@ -118,17 +118,17 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
         PAY_URL = p.getProperty("PAY_URL");
         NOTIFY_URL = p.getProperty("NOTIFY_URL");
         REFUND_URL = p.getProperty("REFUND_URL");
-        ORDER_URL = p.getProperty("ORDER_URL");
+        ORDER_QUERY_URL = p.getProperty("ORDER_QUERY_URL");
         CLOSE_ORDER_URL = p.getProperty("CLOSE_ORDER_URL");
         REFUND_QUERY_URL = p.getProperty("REFUND_QUERY_URL");
         DOWNLOAD_BILL_URL = p.getProperty("DOWNLOAD_BILL_URL");
-        PKCS12 = p.getProperty("PKCS12");
-        OPENID = p.getProperty("OPENID");
-        /** add yujinshui 2016-02-02 */
+        PKCS12_PATH = p.getProperty("PKCS12_PATH");
+
         CONNECTIONS_PER_ROUTE = p.getProperty("CONNECTIONS_PER_ROUTE");
         SUB_MCH_ID = p.getProperty("SUB_MCH_ID");
         SUB_APPID = p.getProperty("SUB_APPID");
         STATEMENT_FILE_PATH = p.getProperty("STATEMENT_FILE_PATH");
+        PKCS12_BASE64 = p.getProperty("PKCS12_BASE64");
     }
 
     /**
@@ -140,27 +140,27 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
      * [商户KEY]KEY<br>
      * [微信支付-请求URL]PAY_URL<br>
      * [退款-请求URL]REFUND_URL<br>
-     * [订单查询-请求URL]ORDER_URL<br>
-     * [认证证书路径]PKCS12
+     * [订单查询-请求URL]ORDER_QUERY_URL<br>
+     * [认证证书路径]PKCS12_PATH
      */
     public WechatPropertiesConfig(Map<String, String> map) {
         APPID = map.get("APPID");
         MCH_ID = map.get("MCH_ID");
-        OPENID = map.get("OPENID");
         KEY = map.get("KEY");
         PAY_URL = map.get("PAY_URL");
         NOTIFY_URL = map.get("NOTIFY_URL");
         REFUND_URL = map.get("REFUND_URL");
-        ORDER_URL = map.get("ORDER_URL");
+        ORDER_QUERY_URL = map.get("ORDER_QUERY_URL");
         CLOSE_ORDER_URL = map.get("CLOSE_ORDER_URL");
         REFUND_QUERY_URL = map.get("REFUND_QUERY_URL");
         DOWNLOAD_BILL_URL = map.get("DOWNLOAD_BILL_URL");
-        PKCS12 = map.get("PKCS12");
+        PKCS12_PATH = map.get("PKCS12_PATH");
         /** add yujinshui 2016-02-02 */
         CONNECTIONS_PER_ROUTE = map.get("CONNECTIONS_PER_ROUTE");
         SUB_MCH_ID = map.get("SUB_MCH_ID");
         SUB_APPID = map.get("SUB_APPID");
         STATEMENT_FILE_PATH = map.get("STATEMENT_FILE_PATH");
+        PKCS12_BASE64 = map.get("PKCS12_BASE64");
     }
 
     public WechatPropertiesConfig(String fileName) {
@@ -173,7 +173,7 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
      * 读取默认配置文件 : classpath:wechatpay.properties
      */
     public WechatPropertiesConfig() {
-        getProperties("wechatpay.properties");
+        getProperties("wechatpub.properties");
     }
 
     /**
@@ -239,17 +239,6 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
 
 
     /**
-     * 用户标识
-     * <p>
-     * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
-     * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
-     */
-    @Override
-    public String getOpenId() {
-        return OPENID;
-    }
-
-    /**
      * 微信支付URL
      */
     @Override
@@ -278,7 +267,7 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
      */
     @Override
     public String getOrderQueryUrl() {
-        return ORDER_URL;
+        return ORDER_QUERY_URL;
     }
 
     @Override
@@ -352,7 +341,11 @@ public class WechatPropertiesConfig  implements BaseWechatConfig{
         return KEY;
     }
 
+    public String getPKCS12_BASE64() {
+        return PKCS12_BASE64;
+    }
+
     public InputStream getCertStream() throws Exception {
-        return new FileInputStream(new File(PKCS12));
+        return new FileInputStream(new File(PKCS12_PATH));
     }
 }

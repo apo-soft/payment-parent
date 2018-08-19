@@ -19,14 +19,6 @@ public interface BaseWechatConfig {
 
     public String getKey();
 
-    /**
-     * 用户标识
-     * <p>
-     * trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取，可参考【获取openid】。企业号请使用【
-     * 企业号OAuth2.0接口】获取企业号内成员userid，再调用【企业号userid转openid接口】进行转换
-     */
-
-    public String getOpenId();
 
     /**
      * 微信支付URL
@@ -53,6 +45,13 @@ public interface BaseWechatConfig {
     public String getOrderQueryUrl();
 
     public String getStatementPath();
+
+    /**
+     * 获取base64加密后的证书内容
+     *
+     * @return
+     */
+    public String getPKCS12_BASE64();
 
     /**
      * 关闭订单URL
