@@ -1,10 +1,6 @@
 package cn.aposoft.ecommerce.wechat.scan.beans.protocol.refund_protocol;
 
-import cn.aposoft.ecommerce.tencent.WechatSignature;
-import cn.aposoft.ecommerce.tencent.WechatUtil;
-import cn.aposoft.ecommerce.util.LogPortal;
 import cn.aposoft.ecommerce.wechat.scan.beans.protocol.BaseRequestBeans;
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
