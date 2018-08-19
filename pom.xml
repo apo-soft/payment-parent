@@ -97,6 +97,11 @@
 			</dependency>
 			<dependency>
 				<groupId>${spring.group}</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${spring.group}</groupId>
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
