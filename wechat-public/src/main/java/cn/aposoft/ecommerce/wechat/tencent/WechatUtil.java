@@ -32,9 +32,6 @@ import java.util.Random;
  */
 public class WechatUtil {
 
-    //打log用
-    private static Log logger = new Log(LoggerFactory.getLogger(WechatUtil.class));
-
 
     private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -48,6 +45,7 @@ public class WechatUtil {
     public static String generateNonceStr() {
         return generateNonceStr(32);
     }
+
     public static String generateNonceStr(int length) {
         char[] nonceChars = new char[32];
         for (int index = 0; index < nonceChars.length; ++index) {
@@ -263,17 +261,6 @@ public class WechatUtil {
         return Integer.parseInt((String) map.get(key));
     }
 
-    /**
-     * 打log接口
-     *
-     * @param log 要打印的log字符串
-     * @return 返回log
-     */
-    public static String log(Object log) {
-        logger.i(log.toString());
-        //System.out.println(log);
-        return log.toString();
-    }
 
     /**
      * 读取本地的xml数据，一般用来自测用

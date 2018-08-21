@@ -6,22 +6,20 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
-import cn.aposoft.ecommerce.wechat.exceptions.WechatConfigNullException;
-import cn.aposoft.ecommerce.wechat.params.*;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
+import cn.aposoft.ecommerce.wechat.params.*;
 
 import java.io.IOException;
 
 /**
  * @author code
- * @Title: PaymentService
+ * @Title: BasePaymentService
  * @Copyright: Copyright (c) 2017
  * @Description: <br>
  * @Company: www.qdingnet.com
- * @Created on 2018/8/19上午10:13
+ * @Created on 2018/8/21下午8:55
  */
-public interface PaymentService {
-
+public interface BasePaymentService {
     /**
      * 实现支付订单的发送及返回值的返回
      * {@link https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_1}
@@ -40,7 +38,7 @@ public interface PaymentService {
      * @return 订单预支付处理结果
      * @author
      */
-    WeChatPayResData pay(OrderParams orderParams) throws Exception;
+    WeChatPayResData pay(OrderParams orderParams, BaseWechatConfig config) throws Exception;
 
 
     /**
@@ -66,7 +64,7 @@ public interface PaymentService {
      * @return 订单查询结果响应对象
      * @author Yujinshui
      */
-    WechatPayQueryResData query(OrderQueryParams orderQueryParams) throws Exception;
+    WechatPayQueryResData query(OrderQueryParams orderQueryParams, BaseWechatConfig config) throws Exception;
 
 
     /**
@@ -86,7 +84,7 @@ public interface PaymentService {
      * @author codejiayou
      * params)
      */
-    CloseResData closeOrder(CloseOrderParams params) throws Exception;
+    CloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) throws Exception;
 
 
     /**
@@ -111,7 +109,7 @@ public interface PaymentService {
      * @return 退款结果响应信息
      * @author Yujinshui
      */
-    WeChatRefundResData refund(RefundParams refund) throws Exception;
+    WeChatRefundResData refund(RefundParams refund, BaseWechatConfig config) throws Exception;
 
     /**
      * 退款查询服务接口:
@@ -126,7 +124,7 @@ public interface PaymentService {
      * @return 退款查询返回结果
      * @author codejiayou
      */
-    WechatRefundQueryResData refundQuery(RefundQueryParams params) throws Exception;
+    WechatRefundQueryResData refundQuery(RefundQueryParams params, BaseWechatConfig config) throws Exception;
 
     /**
      * 下载对账单
@@ -149,7 +147,7 @@ public interface PaymentService {
      * @return 下载的对账单响应结果
      * @author codejiayou
      */
-    DownloadBillResData downloadBill(DownloadBillParams params) throws Exception;
+    DownloadBillResData downloadBill(DownloadBillParams params, BaseWechatConfig config) throws Exception;
 
     void close() throws IOException;
 }

@@ -1,5 +1,7 @@
 package cn.aposoft.ecommerce.wechat.config;
 
+import java.io.InputStream;
+
 /**
  * @author code
  * @Title: BaseWechatConfig
@@ -53,6 +55,8 @@ public interface BaseWechatConfig {
      */
     public String getPKCS12_BASE64();
 
+
+    public InputStream getCertStream() throws Exception;
     /**
      * 关闭订单URL
      */

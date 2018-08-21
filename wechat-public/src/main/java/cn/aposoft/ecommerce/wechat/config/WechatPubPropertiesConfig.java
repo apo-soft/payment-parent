@@ -340,11 +340,11 @@ public class WechatPubPropertiesConfig implements BaseWechatConfig {
     public String getKey() {
         return KEY;
     }
-
+    @Override
     public String getPKCS12_BASE64() {
         return PKCS12_BASE64;
     }
-
+    @Override
     public InputStream getCertStream() throws Exception {
         return new FileInputStream(new File(PKCS12_PATH));
     }

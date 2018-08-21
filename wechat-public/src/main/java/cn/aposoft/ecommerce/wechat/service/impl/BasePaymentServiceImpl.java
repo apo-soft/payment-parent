@@ -7,47 +7,54 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQu
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
+import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.params.*;
-import cn.aposoft.ecommerce.wechat.service.PaymentService;
+import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
 
 import java.io.IOException;
 
 /**
  * @author code
- * @Title: PaymentServiceImpl
+ * @Title: BasePaymentServiceImpl
  * @Copyright: Copyright (c) 2017
  * @Description: <br>
  * @Company: www.qdingnet.com
- * @Created on 2018/8/19下午6:01
+ * @Created on 2018/8/21下午8:57
  */
-public class PaymentServiceImpl implements PaymentService {
+public class BasePaymentServiceImpl implements BasePaymentService {
+    HttpRequestUtil httpRequestUtil;
+
+    public BasePaymentServiceImpl(HttpRequestUtil httpRequestUtil) {
+        this.httpRequestUtil = httpRequestUtil;
+    }
+
     @Override
-    public WeChatPayResData pay(OrderParams orderParams, BaseWechatConfig config) {
+    public WeChatPayResData pay(OrderParams orderParams, BaseWechatConfig config) throws Exception {
         return null;
     }
 
     @Override
-    public WechatPayQueryResData query(OrderQueryParams orderQueryParams, BaseWechatConfig config) {
+    public WechatPayQueryResData query(OrderQueryParams orderQueryParams, BaseWechatConfig config) throws Exception {
         return null;
     }
 
     @Override
-    public CloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) {
+    public CloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) throws Exception {
         return null;
     }
 
     @Override
-    public WeChatRefundResData refund(RefundParams refund, BaseWechatConfig config) {
+    public WeChatRefundResData refund(RefundParams refund, BaseWechatConfig config) throws Exception {
         return null;
     }
 
     @Override
-    public WechatRefundQueryResData refundQuery(RefundQueryParams params, BaseWechatConfig config) {
+    public WechatRefundQueryResData refundQuery(RefundQueryParams params, BaseWechatConfig config) throws Exception {
         return null;
     }
 
     @Override
-    public DownloadBillResData downloadBill(DownloadBillParams params, BaseWechatConfig config) {
+    public DownloadBillResData downloadBill(DownloadBillParams params, BaseWechatConfig config) throws Exception {
         return null;
     }
 
