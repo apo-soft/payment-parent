@@ -42,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.PAY_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return basePaymentService.pay(orderParams);
+        return basePaymentService.pay(orderParams, config);
     }
 
     protected void checkWechatConfig(BaseWechatConfig config, UrlEnum urlEnum) throws Exception {

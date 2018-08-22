@@ -14,6 +14,7 @@ public class OrderParamsDTO implements OrderParams {
 
     String sign_type;
     private String body;
+    private String openid;
 
     private String out_trade_no;
     private int total_fee;
@@ -29,6 +30,11 @@ public class OrderParamsDTO implements OrderParams {
 
     public OrderParamsDTO setBody(String body) {
         this.body = body;
+        return this;
+    }
+
+    public OrderParamsDTO setOpenid(String openid) {
+        this.openid = openid;
         return this;
     }
 
@@ -68,6 +74,11 @@ public class OrderParamsDTO implements OrderParams {
     }
 
     @Override
+    public String getOpenid() {
+        return openid;
+    }
+
+    @Override
     public String getOut_trade_no() {
         return out_trade_no;
     }
@@ -91,4 +102,6 @@ public class OrderParamsDTO implements OrderParams {
     public String getTrade_type() {
         return trade_type;
     }
+
+
 }

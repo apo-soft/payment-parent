@@ -39,5 +39,7 @@ public interface OrderParams extends Serializable {
 
     public String getTrade_type();
 
+    public String getOpenid();
+
 
 }

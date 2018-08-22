@@ -1,6 +1,7 @@
 package cn.aposoft.ecommerce.wechat.tencent;
 
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
+import com.alibaba.fastjson.JSON;
 import com.thoughtworks.xstream.XStream;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -52,6 +53,11 @@ public class WechatUtil {
             nonceChars[index] = SYMBOLS.charAt(RANDOM.nextInt(SYMBOLS.length()));
         }
         return new String(nonceChars);
+    }
+
+    public static String ObjectToXml(Object object) throws Exception {
+        Map  map = JSON.parseObject(JSON.toJSONString(object),HashMap.class);
+        return mapToXml(map);
     }
 
     public static Map<String, Object> getMapFromXML(String xmlString) throws ParserConfigurationException, IOException, SAXException {

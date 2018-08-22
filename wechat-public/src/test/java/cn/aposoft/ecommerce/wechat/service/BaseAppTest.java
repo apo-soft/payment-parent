@@ -2,6 +2,10 @@ package cn.aposoft.ecommerce.wechat.service;
 
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.config.WechatPubPropertiesConfig;
+import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
+import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtilImpl;
+import cn.aposoft.ecommerce.wechat.service.impl.BasePaymentServiceImpl;
+import cn.aposoft.ecommerce.wechat.service.middle.PaymentServiceImpl;
 import org.junit.Before;
 
 /**
@@ -16,8 +20,15 @@ public class BaseAppTest {
 
     public static BaseWechatConfig config = new WechatPubPropertiesConfig();
 
-    @Before
-    public void config(){
+    private HttpRequestUtil httpClientUtl = null;
+    private BasePaymentService basePaymentService = null;
+    PaymentService paymentService = null;
 
+    @Before
+    public void config() {
+
+        httpClientUtl = HttpRequestUtilImpl.getInstance(config);
+        basePaymentService = new BasePaymentServiceImpl(httpClientUtl);
+        paymentService = new PaymentServiceImpl(config, basePaymentService);
     }
 }

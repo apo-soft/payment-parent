@@ -25,7 +25,6 @@ public interface HttpRequestUtil {
      * @throws IOException
      */
     String post(String request, BaseWechatConfig config, String url) throws IOException;
-    String get(String request, BaseWechatConfig config, String url) throws IOException;
 
     /**
      * 退款post

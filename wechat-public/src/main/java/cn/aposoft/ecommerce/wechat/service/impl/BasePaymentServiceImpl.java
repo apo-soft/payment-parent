@@ -10,10 +10,13 @@ import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.params.*;
 import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
+import cn.aposoft.ecommerce.wechat.tencent.WechatUtil;
 
 import java.io.IOException;
 
 /**
+ * 调用HTTP接口进行访问操作
+ *
  * @author code
  * @Title: BasePaymentServiceImpl
  * @Copyright: Copyright (c) 2017
@@ -21,7 +24,7 @@ import java.io.IOException;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/21下午8:57
  */
-public class BasePaymentServiceImpl implements BasePaymentService {
+public class BasePaymentServiceImpl extends AbstractBasePaymentService {
     HttpRequestUtil httpRequestUtil;
 
     public BasePaymentServiceImpl(HttpRequestUtil httpRequestUtil) {
@@ -30,7 +33,10 @@ public class BasePaymentServiceImpl implements BasePaymentService {
 
     @Override
     public WeChatPayResData pay(OrderParams orderParams, BaseWechatConfig config) throws Exception {
-        return null;
+
+        String xml = createPayRequest(orderParams, config);
+        String response = httpRequestUtil.post(xml, config, config.getPayUrl());
+        return WechatUtil.getObjectFromXML(response, WeChatPayResData.class);
     }
 
     @Override
