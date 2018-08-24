@@ -41,28 +41,36 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
             data.setNotify_url(config.getNotifyUrl());//默认notify_url从配置文件中获取
         }
 
-        setAccountData(config, data,WechatConstant.HMACSHA256);
+        setAccountData(config, data, WechatConstant.HMACSHA256);
 
         // 下单请求参数转换
         return WechatUtil.ObjectToXml(data);
     }
 
 
-    protected String createQueryRequest(OrderQueryParams orderQueryParams, BaseWechatConfig config) throws Exception {
-        WechatPayQueryReqData data = BeanConvertUtils.convert(orderQueryParams, WechatPayQueryReqData.class);
-        setAccountData(config, data,WechatConstant.MD5);
-        // 下单请求参数转换
+    /**
+     * 创建xmlRequest信息
+     *
+     * @param requestBeans
+     * @param config
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
+    protected String createXmlRequest(Object requestBeans, BaseWechatConfig config, Class clazz) throws Exception {
+        BaseRequestBeans data = (BaseRequestBeans) BeanConvertUtils.convert(requestBeans, clazz);
+        setAccountData(config, data, WechatConstant.MD5);
         return WechatUtil.ObjectToXml(data);
     }
 
-    private void setAccountData(BaseWechatConfig config, BaseRequestBeans data,String signType) {
+    private void setAccountData(BaseWechatConfig config, BaseRequestBeans data, String signType) {
         data.setAppid(config.getAppID())
                 .setMch_id(config.getMchID())
                 .setSub_appid(config.getSubAppId())
                 .setSub_mch_id(config.getSubMchId())
         ;
 
-        data.generateSign(config.getKey(), data,signType);
+        data.generateSign(config.getKey(), data, signType);
 
     }
 }

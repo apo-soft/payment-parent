@@ -3,6 +3,7 @@ package cn.aposoft.ecommerce.wechat.service.impl;
 import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.CloseResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.DownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
@@ -41,7 +42,7 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
 
     @Override
     public WechatPayQueryResData query(OrderQueryParams orderQueryParams, BaseWechatConfig config) throws Exception {
-        String xml = createQueryRequest(orderQueryParams,config);
+        String xml = createXmlRequest(orderQueryParams,config,WechatPayQueryReqData.class);
         String response = httpRequestUtil.post(xml,config,config.getOrderQueryUrl());
         return WechatUtil.getObjectFromXML(response,WechatPayQueryResData.class);
     }
