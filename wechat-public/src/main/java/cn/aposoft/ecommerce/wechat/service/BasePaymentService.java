@@ -149,5 +149,5 @@ public interface BasePaymentService {
      */
     DownloadBillResData downloadBill(DownloadBillParams params, BaseWechatConfig config) throws Exception;
 
-    void close() throws IOException;
+    void close() throws Exception;
 }

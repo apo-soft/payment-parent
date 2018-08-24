@@ -1,5 +1,6 @@
 package cn.aposoft.ecommerce.wechat.beans.protocol;
 
+import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
 import cn.aposoft.ecommerce.wechat.tencent.WechatSignature;
 import cn.aposoft.ecommerce.wechat.tencent.WechatUtil;
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
@@ -26,7 +27,7 @@ public class BaseRequestBeans {
     }
 
     //TODO 后期把它抽掉，改为赋值过程进行sign的生成
-    public void generateSign(String key, Object obj) {
+    public void generateSign(String key, Object obj,String signType) {
         //随机字符串，不长于32 位
         if (StringUtils.isEmpty(getNonce_str())) {//如果已赋值，不再重复赋值
             setNonce_str(WechatUtil.generateNonceStr());
@@ -34,7 +35,11 @@ public class BaseRequestBeans {
         //根据API给的签名规则进行签名
         String sign = null;
         try {
-            sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(obj), key);
+            if (StringUtils.isEmpty(signType)||WechatConstant.MD5.equals(signType)){
+                sign = WechatSignature.generateSignatureWithMD5(WechatUtil.objectToMap(obj), key);
+            }else if(WechatConstant.HMACSHA256.equals(sign)) {
+                sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(obj), key);
+            }
         } catch (Exception e) {
             LogPortal.error("微信对账单下载参数，签名创建异常", e);
         }

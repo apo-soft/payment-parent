@@ -41,7 +41,9 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
 
     @Override
     public WechatPayQueryResData query(OrderQueryParams orderQueryParams, BaseWechatConfig config) throws Exception {
-        return null;
+        String xml = createQueryRequest(orderQueryParams,config);
+        String response = httpRequestUtil.post(xml,config,config.getOrderQueryUrl());
+        return WechatUtil.getObjectFromXML(response,WechatPayQueryResData.class);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
     }
 
     @Override
-    public void close() throws IOException {
-
+    public void close() throws Exception {
+        httpRequestUtil.close();
     }
 }

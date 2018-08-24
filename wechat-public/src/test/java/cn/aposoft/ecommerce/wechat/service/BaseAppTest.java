@@ -18,7 +18,9 @@ import org.junit.Before;
  */
 public class BaseAppTest {
 
-    public static BaseWechatConfig config = new WechatPubPropertiesConfig();
+    private static String fileName="/Users/yujinshui/Desktop/千丁互联/项目资料/微信公众号信息/wechatpub.properties";
+    public static BaseWechatConfig config = new WechatPubPropertiesConfig(fileName,"UTF-8");
+//    public static BaseWechatConfig config = new WechatPubPropertiesConfig();
 
     private HttpRequestUtil httpClientUtl = null;
     private BasePaymentService basePaymentService = null;

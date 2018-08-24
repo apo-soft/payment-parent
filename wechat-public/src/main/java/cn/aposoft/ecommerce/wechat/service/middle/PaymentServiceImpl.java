@@ -25,7 +25,7 @@ import java.io.IOException;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/19下午6:01
  */
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImpl implements PaymentService,AutoCloseable {
     BaseWechatConfig config;
     BasePaymentService basePaymentService;
 
@@ -109,7 +109,7 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.ORDER_QUERY_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return null;
+        return basePaymentService.query(orderQueryParams, config);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.CLOSE_ORDER_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return null;
+        return basePaymentService.closeOrder(params, config);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.REFUND_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return null;
+        return basePaymentService.refund(refund, config);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.REFUND_QUERY_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return null;
+        return basePaymentService.refundQuery(params, config);
     }
 
     @Override
@@ -153,11 +153,11 @@ public class PaymentServiceImpl implements PaymentService {
             checkWechatConfig(config, UrlEnum.DOWNLOAD_BILL_URL);
         }
         //检查完成没有问题，开始发起HTTP请求
-        return null;
+        return basePaymentService.downloadBill(params, config);
     }
 
     @Override
-    public void close() throws IOException {
-
+    public void close() throws Exception {
+        basePaymentService.close();
     }
 }

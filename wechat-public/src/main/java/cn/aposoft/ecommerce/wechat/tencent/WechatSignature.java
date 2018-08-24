@@ -72,7 +72,16 @@ public class WechatSignature {
     public static String generateSignatureWithHMACSHA256(final Map<String, String> data, String key) throws Exception {
         return generateSignature(data, key, SignType.HMACSHA256);
     }
-
+    /**
+     * 生成签名
+     *
+     * @param data 待签名数据
+     * @param key  API密钥
+     * @return 签名
+     */
+    public static String generateSignatureWithMD5(final Map<String, String> data, String key) throws Exception {
+        return generateSignature(data, key, SignType.MD5);
+    }
     /**
      * 生成签名信息
      *

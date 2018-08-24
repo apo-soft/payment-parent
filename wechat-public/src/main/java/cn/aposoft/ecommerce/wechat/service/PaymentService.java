@@ -151,5 +151,5 @@ public interface PaymentService {
      */
     DownloadBillResData downloadBill(DownloadBillParams params) throws Exception;
 
-    void close() throws IOException;
+    void close() throws Exception;
 }

@@ -12,6 +12,8 @@ package cn.aposoft.ecommerce.wechat.tencent;
 public class WechatConstant {
 
     public static final String SIGN = "sign";
+    public static final String HMACSHA256 = "HMAC-SHA256";
+    public static final String MD5 = "MD5";
 
 
     //这个就是自己要保管好的私有Key了（切记只能放在自己的后台代码里，不能放在任何可能被看到源代码的客户端程序中）

@@ -2,6 +2,7 @@ package cn.aposoft.ecommerce.wechat.httpclient;
 
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -12,7 +13,7 @@ import java.io.IOException;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/21下午9:06
  */
-public interface HttpRequestUtil {
+public interface HttpRequestUtil extends AutoCloseable {
     /**
      * 支付post
      *

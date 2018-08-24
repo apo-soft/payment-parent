@@ -185,6 +185,7 @@ public class WechatUtil {
         Class<?> cls = object.getClass();
         Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
+            field.setAccessible(true);//保证私有属性可以被读取
             Object obj;
             try {
                 obj = field.get(object);

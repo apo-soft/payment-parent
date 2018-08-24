@@ -182,4 +182,33 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
         return httpPost;
     }
 
+    /**
+     * 当应用停止时,应调用此方法,避免由未释放资源需要释放
+     * @throws IOException
+     */
+    @Override
+    public void close() throws IOException {
+        IOException ex = null;
+        try {
+            if (client != null) {
+                client.close();
+            }
+        } catch (IOException e) {
+            ex = e;
+        }
+        for (CloseableHttpClient client1 : httpsClients.values()) {
+            if (client1 != null) {
+                try {
+                    client1.close();
+                } catch (IOException e) {
+                    if (ex == null) {
+                        ex = e;
+                    }
+                }
+            }
+        }
+        if (ex != null) {
+            throw ex;
+        }
+    }
 }
