@@ -11,7 +11,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.BaseRequestBeans;
  * Date: 2014/10/25
  * Time: 16:42
  */
-public class CloseReqData extends BaseRequestBeans {
+public class WechatCloseReqData extends BaseRequestBeans {
 
     private String out_trade_no;
 
@@ -20,7 +20,7 @@ public class CloseReqData extends BaseRequestBeans {
         return out_trade_no;
     }
 
-    public CloseReqData setOut_trade_no(String out_trade_no) {
+    public WechatCloseReqData setOut_trade_no(String out_trade_no) {
         this.out_trade_no = out_trade_no;
         return this;
     }

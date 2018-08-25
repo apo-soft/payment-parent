@@ -1,7 +1,7 @@
 package cn.aposoft.ecommerce.wechat.service;
 
-import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.CloseResData;
-import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.DownloadBillResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
@@ -9,7 +9,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRe
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.params.*;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * @author code
@@ -84,7 +84,7 @@ public interface BasePaymentService {
      * @author codejiayou
      * params)
      */
-    CloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) throws Exception;
+    WechatCloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) throws Exception;
 
 
     /**
@@ -128,6 +128,8 @@ public interface BasePaymentService {
 
     /**
      * 下载对账单
+     * 如果对账单存储路径存在，则会根据路径生成对账单文件记录，不存在，则不会生成文件记录
+     * 文件生成路径规则：STATEMENT_FILE_PATH+对账单日期+对账单类型.csv
      * {@link https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_6}
      * 商户可以通过该接口下载历史交易清单。比如掉单、系统错误等导致商户侧和微信侧数据不一致，通过对账单核对后可校正支付状态。
      * <p>
@@ -147,7 +149,7 @@ public interface BasePaymentService {
      * @return 下载的对账单响应结果
      * @author codejiayou
      */
-    DownloadBillResData downloadBill(DownloadBillParams params, BaseWechatConfig config) throws Exception;
+    List<WechatDownloadBillResData> downloadBill(DownloadBillParams params, BaseWechatConfig config) throws Exception;
 
     void close() throws Exception;
 }

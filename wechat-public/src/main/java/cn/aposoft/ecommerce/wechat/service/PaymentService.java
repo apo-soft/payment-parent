@@ -1,16 +1,14 @@
 package cn.aposoft.ecommerce.wechat.service;
 
-import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.CloseResData;
-import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.DownloadBillResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
-import cn.aposoft.ecommerce.wechat.exceptions.WechatConfigNullException;
 import cn.aposoft.ecommerce.wechat.params.*;
-import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * @author code
@@ -86,7 +84,7 @@ public interface PaymentService {
      * @author codejiayou
      * params)
      */
-    CloseResData closeOrder(CloseOrderParams params) throws Exception;
+    WechatCloseResData closeOrder(CloseOrderParams params) throws Exception;
 
 
     /**
@@ -149,7 +147,7 @@ public interface PaymentService {
      * @return 下载的对账单响应结果
      * @author codejiayou
      */
-    DownloadBillResData downloadBill(DownloadBillParams params) throws Exception;
+    List<WechatDownloadBillResData> downloadBill(DownloadBillParams params) throws Exception;
 
     void close() throws Exception;
 }

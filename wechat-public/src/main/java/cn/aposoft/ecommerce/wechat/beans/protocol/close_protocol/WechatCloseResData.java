@@ -9,7 +9,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.BaseResponseBeans;
  * Date: 2014/10/25
  * Time: 16:43
  */
-public class CloseResData extends BaseResponseBeans {
+public class WechatCloseResData extends BaseResponseBeans {
 
 
     private String appid;
@@ -26,7 +26,7 @@ public class CloseResData extends BaseResponseBeans {
         return appid;
     }
 
-    public CloseResData setAppid(String appid) {
+    public WechatCloseResData setAppid(String appid) {
         this.appid = appid;
         return this;
     }
@@ -35,7 +35,7 @@ public class CloseResData extends BaseResponseBeans {
         return mch_id;
     }
 
-    public CloseResData setMch_id(String mch_id) {
+    public WechatCloseResData setMch_id(String mch_id) {
         this.mch_id = mch_id;
         return this;
     }
@@ -44,7 +44,7 @@ public class CloseResData extends BaseResponseBeans {
         return sub_appid;
     }
 
-    public CloseResData setSub_appid(String sub_appid) {
+    public WechatCloseResData setSub_appid(String sub_appid) {
         this.sub_appid = sub_appid;
         return this;
     }
@@ -53,7 +53,7 @@ public class CloseResData extends BaseResponseBeans {
         return sub_mch_id;
     }
 
-    public CloseResData setSub_mch_id(String sub_mch_id) {
+    public WechatCloseResData setSub_mch_id(String sub_mch_id) {
         this.sub_mch_id = sub_mch_id;
         return this;
     }
@@ -62,7 +62,7 @@ public class CloseResData extends BaseResponseBeans {
         return nonce_str;
     }
 
-    public CloseResData setNonce_str(String nonce_str) {
+    public WechatCloseResData setNonce_str(String nonce_str) {
         this.nonce_str = nonce_str;
         return this;
     }
@@ -71,7 +71,7 @@ public class CloseResData extends BaseResponseBeans {
         return sign;
     }
 
-    public CloseResData setSign(String sign) {
+    public WechatCloseResData setSign(String sign) {
         this.sign = sign;
         return this;
     }
@@ -80,7 +80,7 @@ public class CloseResData extends BaseResponseBeans {
         return err_code;
     }
 
-    public CloseResData setErr_code(String err_code) {
+    public WechatCloseResData setErr_code(String err_code) {
         this.err_code = err_code;
         return this;
     }
@@ -89,7 +89,7 @@ public class CloseResData extends BaseResponseBeans {
         return err_code_des;
     }
 
-    public CloseResData setErr_code_des(String err_code_des) {
+    public WechatCloseResData setErr_code_des(String err_code_des) {
         this.err_code_des = err_code_des;
         return this;
     }

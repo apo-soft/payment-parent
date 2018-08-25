@@ -1,7 +1,7 @@
 package cn.aposoft.ecommerce.wechat.service.middle;
 
-import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.CloseResData;
-import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.DownloadBillResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
@@ -15,7 +15,7 @@ import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
 import cn.aposoft.ecommerce.wechat.service.PaymentService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * @author code
@@ -113,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService,AutoCloseable {
     }
 
     @Override
-    public CloseResData closeOrder(CloseOrderParams params) throws Exception {
+    public WechatCloseResData closeOrder(CloseOrderParams params) throws Exception {
         if (config == null) {
             config = new WechatPubPropertiesConfig();
         } else {
@@ -146,7 +146,7 @@ public class PaymentServiceImpl implements PaymentService,AutoCloseable {
     }
 
     @Override
-    public DownloadBillResData downloadBill(DownloadBillParams params) throws Exception {
+    public List<WechatDownloadBillResData> downloadBill(DownloadBillParams params) throws Exception {
         if (config == null) {
             config = new WechatPubPropertiesConfig();
         } else {

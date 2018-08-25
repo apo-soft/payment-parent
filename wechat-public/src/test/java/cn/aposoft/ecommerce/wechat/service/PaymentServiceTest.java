@@ -1,13 +1,14 @@
 package cn.aposoft.ecommerce.wechat.service;
 
 import cn.aposoft.ecommerce.wechat.beans.*;
-import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.CloseResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
-import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
 import cn.aposoft.ecommerce.wechat.params.CloseOrderParams;
+import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
 import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author code
@@ -87,7 +89,7 @@ public class PaymentServiceTest extends BaseAppTest {
         OrderParamsDTO orderParams = payTest();
         //关单
         CloseOrderParams params = getCloseParams(orderParams);
-        CloseResData closeResult = paymentService.closeOrder(params);
+        WechatCloseResData closeResult = paymentService.closeOrder(params);
         System.out.println(JSON.toJSONString(closeResult));
         Assert.assertNotNull(closeResult);
     }
@@ -137,6 +139,26 @@ public class PaymentServiceTest extends BaseAppTest {
         return paramsDTO;
     }
 
+    @Test
+    public void downloadBill() throws Exception {
+        DownloadBillParams params = getDownloadBillParams();
+        List<WechatDownloadBillResData> downloadBillResult = paymentService.downloadBill(params);
+
+        Assert.assertNotNull(downloadBillResult);
+    }
+
+    private DownloadBillParams getDownloadBillParams() {
+        DownloadBillParamsDTO paramsDTO = new DownloadBillParamsDTO();
+        paramsDTO.setBill_type("REFUND")
+//                .setBill_date(getYesterday());
+                .setBill_date("20180821");
+        return paramsDTO;
+    }
+
+    private String getYesterday(){
+        Date date = org.apache.commons.lang3.time.DateUtils.addDays(new Date(), -1);
+        return DateUtils.formatDate(date,"yyyyMMdd");
+    }
 
 }
 

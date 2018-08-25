@@ -3,7 +3,7 @@ package cn.aposoft.ecommerce.wechat.beans.protocol.notify_protocol;
 /**
  * https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_7
  */
-public class TradeResultNotify {
+public class WechatTradeResultNotify {
 
     //协议层
 
@@ -146,7 +146,7 @@ public class TradeResultNotify {
         return return_code;
     }
 
-    public TradeResultNotify setReturn_code(String return_code) {
+    public WechatTradeResultNotify setReturn_code(String return_code) {
         this.return_code = return_code;
         return this;
     }
@@ -155,7 +155,7 @@ public class TradeResultNotify {
         return return_msg;
     }
 
-    public TradeResultNotify setReturn_msg(String return_msg) {
+    public WechatTradeResultNotify setReturn_msg(String return_msg) {
         this.return_msg = return_msg;
         return this;
     }
@@ -164,7 +164,7 @@ public class TradeResultNotify {
         return appid;
     }
 
-    public TradeResultNotify setAppid(String appid) {
+    public WechatTradeResultNotify setAppid(String appid) {
         this.appid = appid;
         return this;
     }
@@ -173,7 +173,7 @@ public class TradeResultNotify {
         return mch_id;
     }
 
-    public TradeResultNotify setMch_id(String mch_id) {
+    public WechatTradeResultNotify setMch_id(String mch_id) {
         this.mch_id = mch_id;
         return this;
     }
@@ -182,7 +182,7 @@ public class TradeResultNotify {
         return sub_appid;
     }
 
-    public TradeResultNotify setSub_appid(String sub_appid) {
+    public WechatTradeResultNotify setSub_appid(String sub_appid) {
         this.sub_appid = sub_appid;
         return this;
     }
@@ -191,7 +191,7 @@ public class TradeResultNotify {
         return sub_mch_id;
     }
 
-    public TradeResultNotify setSub_mch_id(String sub_mch_id) {
+    public WechatTradeResultNotify setSub_mch_id(String sub_mch_id) {
         this.sub_mch_id = sub_mch_id;
         return this;
     }
@@ -200,7 +200,7 @@ public class TradeResultNotify {
         return device_info;
     }
 
-    public TradeResultNotify setDevice_info(String device_info) {
+    public WechatTradeResultNotify setDevice_info(String device_info) {
         this.device_info = device_info;
         return this;
     }
@@ -209,7 +209,7 @@ public class TradeResultNotify {
         return nonce_str;
     }
 
-    public TradeResultNotify setNonce_str(String nonce_str) {
+    public WechatTradeResultNotify setNonce_str(String nonce_str) {
         this.nonce_str = nonce_str;
         return this;
     }
@@ -218,7 +218,7 @@ public class TradeResultNotify {
         return sign;
     }
 
-    public TradeResultNotify setSign(String sign) {
+    public WechatTradeResultNotify setSign(String sign) {
         this.sign = sign;
         return this;
     }
@@ -227,7 +227,7 @@ public class TradeResultNotify {
         return result_code;
     }
 
-    public TradeResultNotify setResult_code(String result_code) {
+    public WechatTradeResultNotify setResult_code(String result_code) {
         this.result_code = result_code;
         return this;
     }
@@ -236,7 +236,7 @@ public class TradeResultNotify {
         return err_code;
     }
 
-    public TradeResultNotify setErr_code(String err_code) {
+    public WechatTradeResultNotify setErr_code(String err_code) {
         this.err_code = err_code;
         return this;
     }
@@ -245,7 +245,7 @@ public class TradeResultNotify {
         return err_code_des;
     }
 
-    public TradeResultNotify setErr_code_des(String err_code_des) {
+    public WechatTradeResultNotify setErr_code_des(String err_code_des) {
         this.err_code_des = err_code_des;
         return this;
     }
@@ -254,7 +254,7 @@ public class TradeResultNotify {
         return openid;
     }
 
-    public TradeResultNotify setOpenid(String openid) {
+    public WechatTradeResultNotify setOpenid(String openid) {
         this.openid = openid;
         return this;
     }
@@ -263,7 +263,7 @@ public class TradeResultNotify {
         return is_subscribe;
     }
 
-    public TradeResultNotify setIs_subscribe(String is_subscribe) {
+    public WechatTradeResultNotify setIs_subscribe(String is_subscribe) {
         this.is_subscribe = is_subscribe;
         return this;
     }
@@ -272,7 +272,7 @@ public class TradeResultNotify {
         return sub_openid;
     }
 
-    public TradeResultNotify setSub_openid(String sub_openid) {
+    public WechatTradeResultNotify setSub_openid(String sub_openid) {
         this.sub_openid = sub_openid;
         return this;
     }
@@ -281,7 +281,7 @@ public class TradeResultNotify {
         return sub_is_subscribe;
     }
 
-    public TradeResultNotify setSub_is_subscribe(String sub_is_subscribe) {
+    public WechatTradeResultNotify setSub_is_subscribe(String sub_is_subscribe) {
         this.sub_is_subscribe = sub_is_subscribe;
         return this;
     }
@@ -290,7 +290,7 @@ public class TradeResultNotify {
         return trade_type;
     }
 
-    public TradeResultNotify setTrade_type(String trade_type) {
+    public WechatTradeResultNotify setTrade_type(String trade_type) {
         this.trade_type = trade_type;
         return this;
     }
@@ -299,7 +299,7 @@ public class TradeResultNotify {
         return bank_type;
     }
 
-    public TradeResultNotify setBank_type(String bank_type) {
+    public WechatTradeResultNotify setBank_type(String bank_type) {
         this.bank_type = bank_type;
         return this;
     }
@@ -308,7 +308,7 @@ public class TradeResultNotify {
         return total_fee;
     }
 
-    public TradeResultNotify setTotal_fee(int total_fee) {
+    public WechatTradeResultNotify setTotal_fee(int total_fee) {
         this.total_fee = total_fee;
         return this;
     }
@@ -317,7 +317,7 @@ public class TradeResultNotify {
         return fee_type;
     }
 
-    public TradeResultNotify setFee_type(String fee_type) {
+    public WechatTradeResultNotify setFee_type(String fee_type) {
         this.fee_type = fee_type;
         return this;
     }
@@ -326,7 +326,7 @@ public class TradeResultNotify {
         return cash_fee;
     }
 
-    public TradeResultNotify setCash_fee(int cash_fee) {
+    public WechatTradeResultNotify setCash_fee(int cash_fee) {
         this.cash_fee = cash_fee;
         return this;
     }
@@ -335,7 +335,7 @@ public class TradeResultNotify {
         return cash_fee_type;
     }
 
-    public TradeResultNotify setCash_fee_type(String cash_fee_type) {
+    public WechatTradeResultNotify setCash_fee_type(String cash_fee_type) {
         this.cash_fee_type = cash_fee_type;
         return this;
     }
@@ -344,7 +344,7 @@ public class TradeResultNotify {
         return settlement_total_fee;
     }
 
-    public TradeResultNotify setSettlement_total_fee(int settlement_total_fee) {
+    public WechatTradeResultNotify setSettlement_total_fee(int settlement_total_fee) {
         this.settlement_total_fee = settlement_total_fee;
         return this;
     }
@@ -353,7 +353,7 @@ public class TradeResultNotify {
         return coupon_fee;
     }
 
-    public TradeResultNotify setCoupon_fee(int coupon_fee) {
+    public WechatTradeResultNotify setCoupon_fee(int coupon_fee) {
         this.coupon_fee = coupon_fee;
         return this;
     }
@@ -362,7 +362,7 @@ public class TradeResultNotify {
         return coupon_count;
     }
 
-    public TradeResultNotify setCoupon_count(int coupon_count) {
+    public WechatTradeResultNotify setCoupon_count(int coupon_count) {
         this.coupon_count = coupon_count;
         return this;
     }
@@ -371,7 +371,7 @@ public class TradeResultNotify {
         return coupon_type_$n;
     }
 
-    public TradeResultNotify setCoupon_type_$n(int coupon_type_$n) {
+    public WechatTradeResultNotify setCoupon_type_$n(int coupon_type_$n) {
         this.coupon_type_$n = coupon_type_$n;
         return this;
     }
@@ -380,7 +380,7 @@ public class TradeResultNotify {
         return coupon_id_$n;
     }
 
-    public TradeResultNotify setCoupon_id_$n(String coupon_id_$n) {
+    public WechatTradeResultNotify setCoupon_id_$n(String coupon_id_$n) {
         this.coupon_id_$n = coupon_id_$n;
         return this;
     }
@@ -389,7 +389,7 @@ public class TradeResultNotify {
         return coupon_fee_$n;
     }
 
-    public TradeResultNotify setCoupon_fee_$n(int coupon_fee_$n) {
+    public WechatTradeResultNotify setCoupon_fee_$n(int coupon_fee_$n) {
         this.coupon_fee_$n = coupon_fee_$n;
         return this;
     }
@@ -398,7 +398,7 @@ public class TradeResultNotify {
         return transaction_id;
     }
 
-    public TradeResultNotify setTransaction_id(String transaction_id) {
+    public WechatTradeResultNotify setTransaction_id(String transaction_id) {
         this.transaction_id = transaction_id;
         return this;
     }
@@ -407,7 +407,7 @@ public class TradeResultNotify {
         return out_trade_no;
     }
 
-    public TradeResultNotify setOut_trade_no(String out_trade_no) {
+    public WechatTradeResultNotify setOut_trade_no(String out_trade_no) {
         this.out_trade_no = out_trade_no;
         return this;
     }
@@ -416,7 +416,7 @@ public class TradeResultNotify {
         return attach;
     }
 
-    public TradeResultNotify setAttach(String attach) {
+    public WechatTradeResultNotify setAttach(String attach) {
         this.attach = attach;
         return this;
     }
@@ -425,7 +425,7 @@ public class TradeResultNotify {
         return time_end;
     }
 
-    public TradeResultNotify setTime_end(String time_end) {
+    public WechatTradeResultNotify setTime_end(String time_end) {
         this.time_end = time_end;
         return this;
     }
