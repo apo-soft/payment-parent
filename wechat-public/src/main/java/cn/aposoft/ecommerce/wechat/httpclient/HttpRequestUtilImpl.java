@@ -2,6 +2,7 @@ package cn.aposoft.ecommerce.wechat.httpclient;
 
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,6 +13,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileInputStream;
@@ -110,8 +112,8 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
     private CloseableHttpClient getPkcs12Client(BaseWechatConfig config) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         InputStream instream = null;
-        if (config.getStatementPath() != null) {
-            instream = new FileInputStream(new File(config.getStatementPath()));
+        if (StringUtils.isNotEmpty(config.getPKCS12_BASE64())) {
+            //TODO 进行base64转换,转换为输入流
         } else {
             instream = config.getCertStream();
         }
@@ -184,6 +186,7 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
 
     /**
      * 当应用停止时,应调用此方法,避免由未释放资源需要释放
+     *
      * @throws IOException
      */
     @Override

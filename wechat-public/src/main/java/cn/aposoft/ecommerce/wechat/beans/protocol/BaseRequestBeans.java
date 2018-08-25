@@ -37,7 +37,7 @@ public class BaseRequestBeans {
         try {
             if (StringUtils.isEmpty(signType)||WechatConstant.MD5.equals(signType)){
                 sign = WechatSignature.generateSignatureWithMD5(WechatUtil.objectToMap(obj), key);
-            }else if(WechatConstant.HMACSHA256.equals(sign)) {
+            }else if(WechatConstant.HMACSHA256.equals(signType)) {
                 sign = WechatSignature.generateSignatureWithHMACSHA256(WechatUtil.objectToMap(obj), key);
             }
         } catch (Exception e) {
