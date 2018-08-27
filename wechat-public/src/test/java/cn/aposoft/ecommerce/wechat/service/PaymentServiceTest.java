@@ -11,11 +11,16 @@ import cn.aposoft.ecommerce.wechat.params.CloseOrderParams;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
 import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
+import cn.aposoft.ecommerce.wechat.util.Base64;
 import com.alibaba.fastjson.JSON;
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +33,7 @@ import java.util.List;
  * @Created on 2018/8/19下午8:56
  */
 public class PaymentServiceTest extends BaseAppTest {
+
 
     @Test
     public void pay() throws Exception {
@@ -116,11 +122,11 @@ public class PaymentServiceTest extends BaseAppTest {
 
     private RefundParamsDTO getRefundData(OrderParamsDTO orderParams) {
         RefundParamsDTO data = new RefundParamsDTO();
-        data.setOut_refund_no(DateUtils.formatDate(new Date(),"yyyMMddHHmmss"))
+        data.setOut_refund_no(DateUtils.formatDate(new Date(), "yyyMMddHHmmss"))
                 .setTransaction_id("4200000139201808179060622869")
                 .setRefund_fee(1)
                 .setTotal_fee(1)
-                ;
+        ;
         return data;
     }
 
@@ -155,14 +161,34 @@ public class PaymentServiceTest extends BaseAppTest {
         return paramsDTO;
     }
 
-    private String getYesterday(){
+    private String getYesterday() {
         Date date = org.apache.commons.lang3.time.DateUtils.addDays(new Date(), -1);
-        return DateUtils.formatDate(date,"yyyyMMdd");
+        return DateUtils.formatDate(date, "yyyyMMdd");
     }
 
+    @Test
+    @Deprecated
+    public void createBase64_PKCS12() throws IOException {
+//        File filename = new File(pkcs12);
+//        FileInputStream inputFromFile = new FileInputStream(filename);
+//        byte[] byteData = new byte[inputFromFile.available()];
+//        inputFromFile.read(byteData);
+//        inputFromFile.close();
+//
+//        String pkcs12 = Base64.encode(byteData);
+//        System.out.println(pkcs12);
+
+        byte[] certData;
+
+        File file = new File(pkcs12);
+        InputStream certStream = new FileInputStream(file);
+        certData = new byte[(int) file.length()];
+        certStream.read(certData);
+        certStream.close();
+        String pkcs12 = Base64.encode(certData);
+        System.out.println(pkcs12);
+    }
 }
-
-
 
 
 enum TradeTypeEnum {

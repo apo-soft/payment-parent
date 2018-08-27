@@ -18,8 +18,8 @@ import org.junit.Before;
  */
 public class BaseAppTest {
 
-    private static String fileName="/Users/yujinshui/Desktop/千丁互联/项目资料/微信公众号信息/wechatpub.properties";
-    public static BaseWechatConfig config = new WechatPubPropertiesConfig(fileName,"UTF-8");
+    protected static String pkcs12="/Users/yujinshui/Desktop/千丁互联/项目资料/微信公众号信息/wechatpub.properties";
+    public static BaseWechatConfig config = new WechatPubPropertiesConfig(pkcs12,"UTF-8");
 //    public static BaseWechatConfig config = new WechatPubPropertiesConfig();
 
     private HttpRequestUtil httpClientUtl = null;
