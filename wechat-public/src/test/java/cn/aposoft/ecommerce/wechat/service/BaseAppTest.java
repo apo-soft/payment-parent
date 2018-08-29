@@ -23,8 +23,8 @@ public class BaseAppTest {
 //    public static BaseWechatConfig config = new WechatPubPropertiesConfig();
 
     private HttpRequestUtil httpClientUtl = null;
-    private BasePaymentService basePaymentService = null;
-    PaymentService paymentService = null;
+    protected BasePaymentService basePaymentService = null;
+    protected PaymentService paymentService = null;
 
     @Before
     public void config() {

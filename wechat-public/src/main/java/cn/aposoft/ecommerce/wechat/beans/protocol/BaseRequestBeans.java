@@ -26,7 +26,6 @@ public class BaseRequestBeans {
         return appid;
     }
 
-    //TODO 后期把它抽掉，改为赋值过程进行sign的生成
     public void generateSign(String key, Object obj,String signType) {
         //随机字符串，不长于32 位
         if (StringUtils.isEmpty(getNonce_str())) {//如果已赋值，不再重复赋值

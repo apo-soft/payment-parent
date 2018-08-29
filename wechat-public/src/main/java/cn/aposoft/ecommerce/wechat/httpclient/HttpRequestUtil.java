@@ -15,25 +15,23 @@ import java.io.IOException;
  */
 public interface HttpRequestUtil extends AutoCloseable {
     /**
-     * 支付post
+     * 不带证书的post操作
      *
      * @param request
      * @param config
-     * @param url
-     *            请求的url地址
+     * @param url     请求的url地址
      * @return
-     * @author Yujinshui
      * @throws IOException
+     * @author Yujinshui
      */
     String post(String request, BaseWechatConfig config, String url) throws IOException;
 
     /**
-     * 退款post
+     * 带证书的post操作
      *
      * @param request
      * @param config
-     * @param url
-     *            请求的url地址
+     * @param url     请求的url地址
      * @return
      * @throws Exception
      * @author Yujinshui

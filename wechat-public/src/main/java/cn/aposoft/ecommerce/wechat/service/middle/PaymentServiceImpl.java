@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 /**
+ * 支付接口的实现类
+ *
  * @author code
  * @Title: PaymentServiceImpl
  * @Copyright: Copyright (c) 2017
@@ -25,7 +27,7 @@ import java.util.List;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/19下午6:01
  */
-public class PaymentServiceImpl implements PaymentService,AutoCloseable {
+public class PaymentServiceImpl implements PaymentService, AutoCloseable {
     BaseWechatConfig config;
     BasePaymentService basePaymentService;
 

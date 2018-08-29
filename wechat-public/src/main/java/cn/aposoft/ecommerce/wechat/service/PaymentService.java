@@ -18,7 +18,7 @@ import java.util.List;
  * @Company: www.qdingnet.com
  * @Created on 2018/8/19上午10:13
  */
-public interface PaymentService {
+public interface PaymentService extends AutoCloseable{
 
     /**
      * 实现支付订单的发送及返回值的返回

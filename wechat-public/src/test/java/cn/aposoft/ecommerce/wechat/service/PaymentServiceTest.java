@@ -10,6 +10,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRe
 import cn.aposoft.ecommerce.wechat.params.CloseOrderParams;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
+import cn.aposoft.ecommerce.wechat.service.middle.PaymentServiceImpl;
 import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
 import cn.aposoft.ecommerce.wechat.util.Base64;
 import com.alibaba.fastjson.JSON;
@@ -41,9 +42,16 @@ public class PaymentServiceTest extends BaseAppTest {
 
     }
 
-    private OrderParamsDTO payTest() throws Exception {
+    private OrderParamsDTO payTest() {
         OrderParamsDTO orderParam = getOrderParamsDTO();
-        WeChatPayResData payResult = paymentService.pay(orderParam);
+        WeChatPayResData payResult = null;
+        //try-with方式实现自动close，要求接口与实现类都必须继承或者实现 AutoCloseable 接口
+        try(PaymentService paymentService = new PaymentServiceImpl(config, basePaymentService)) {
+            payResult = paymentService.pay(orderParam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Assert.assertNotNull(payResult);
         System.out.println(JSON.toJSONString(payResult));
         return orderParam;
@@ -71,6 +79,7 @@ public class PaymentServiceTest extends BaseAppTest {
     public void query() throws Exception {
         OrderQueryParams params = getQueryParams();
         WechatPayQueryResData queryResult = paymentService.query(params);
+        paymentService.close();
         Assert.assertNotNull(queryResult);
         System.out.println(queryResult);
     }
@@ -96,6 +105,7 @@ public class PaymentServiceTest extends BaseAppTest {
         //关单
         CloseOrderParams params = getCloseParams(orderParams);
         WechatCloseResData closeResult = paymentService.closeOrder(params);
+        paymentService.close();
         System.out.println(JSON.toJSONString(closeResult));
         Assert.assertNotNull(closeResult);
     }
@@ -116,6 +126,7 @@ public class PaymentServiceTest extends BaseAppTest {
 
         RefundParamsDTO data = getRefundData(null);
         WeChatRefundResData refundResult = paymentService.refund(data);
+        paymentService.close();
         System.out.println(JSON.toJSONString(refundResult));
         Assert.assertNotNull(refundResult);
     }
@@ -134,6 +145,7 @@ public class PaymentServiceTest extends BaseAppTest {
     public void refundQuery() throws Exception {
         RefundQueryParamsDTO paramsDTO = getRefundQueryData();
         WechatRefundQueryResData refundQueryResult = paymentService.refundQuery(paramsDTO);
+        paymentService.close();
         System.out.println(JSON.toJSONString(refundQueryResult));
         Assert.assertNotNull(refundQueryResult);
 
@@ -149,6 +161,7 @@ public class PaymentServiceTest extends BaseAppTest {
     public void downloadBill() throws Exception {
         DownloadBillParams params = getDownloadBillParams();
         List<WechatDownloadBillResData> downloadBillResult = paymentService.downloadBill(params);
+        paymentService.close();
 
         Assert.assertNotNull(downloadBillResult);
     }
