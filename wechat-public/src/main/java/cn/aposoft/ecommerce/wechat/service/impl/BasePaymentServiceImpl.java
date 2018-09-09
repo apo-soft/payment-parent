@@ -1,5 +1,6 @@
 package cn.aposoft.ecommerce.wechat.service.impl;
 
+import cn.aposoft.ecommerce.wechat.beans.invoke.HttpInvokeParams;
 import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.close_protocol.WechatCloseResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillReqData;
@@ -12,6 +13,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundRe
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.params.*;
 import cn.aposoft.ecommerce.wechat.tencent.WechatUtil;
@@ -32,7 +34,6 @@ import java.util.List;
  * @Created on 2018/8/21下午8:57
  */
 public class BasePaymentServiceImpl extends AbstractBasePaymentService {
-    HttpRequestUtil httpRequestUtil;
 
     public BasePaymentServiceImpl(HttpRequestUtil httpRequestUtil) {
         this.httpRequestUtil = httpRequestUtil;
@@ -43,31 +44,48 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
 
         String xml = createPayRequest(orderParams, config);
         String response = httpRequestUtil.post(xml, config, config.getPayUrl());
+        //签名校验
+        checkVerify(xml, response, config.getKey(), SignTypeEnum.HMACSHA256);
         return WechatUtil.getObjectFromXML(response, WeChatPayResData.class);
     }
 
     @Override
     public WechatPayQueryResData query(OrderQueryParams params, BaseWechatConfig config) throws Exception {
-        return httpInvoke(params, config,
-                WechatPayQueryReqData.class, WechatPayQueryResData.class, config.getOrderQueryUrl());
+
+        HttpInvokeParams<WechatPayQueryResData> invokeParams = convertInvoke(params, config,
+                WechatPayQueryReqData.class, WechatPayQueryResData.class, config.getOrderQueryUrl(), SignTypeEnum.MD5);
+
+        return httpInvoke(invokeParams);
     }
+
 
     @Override
     public WechatCloseResData closeOrder(CloseOrderParams params, BaseWechatConfig config) throws Exception {
-        return httpInvoke(params, config,
-                WechatCloseReqData.class, WechatCloseResData.class, config.getCloseOrderUrl());
+        HttpInvokeParams<WechatCloseResData> invokeParams = convertInvoke(params, config,
+                WechatCloseReqData.class, WechatCloseResData.class, config.getCloseOrderUrl(), SignTypeEnum.MD5);
+
+        return httpInvoke(invokeParams);
     }
 
     @Override
     public WeChatRefundResData refund(RefundParams params, BaseWechatConfig config) throws Exception {
-        return httpsInvoke(params, config,
-                WeChatRefundReqData.class, WeChatRefundResData.class, config.getRefundUrl());
+
+        HttpInvokeParams<WeChatRefundResData> invokeParams = convertInvoke(params, config,
+                WeChatRefundReqData.class, WeChatRefundResData.class, config.getRefundUrl(), SignTypeEnum.MD5);
+
+        return httpsInvoke(invokeParams);
+
     }
 
     @Override
     public WechatRefundQueryResData refundQuery(RefundQueryParams params, BaseWechatConfig config) throws Exception {
-        return httpInvoke(params, config,
-                WechatRefundQueryReqData.class, WechatRefundQueryResData.class, config.getRefundQueryUrl());
+
+        HttpInvokeParams<WechatRefundQueryResData> invokeParams = convertInvoke(params, config,
+                WechatRefundQueryReqData.class, WechatRefundQueryResData.class, config.getRefundQueryUrl(), SignTypeEnum.MD5);
+
+        return httpInvoke(invokeParams);
+
+
     }
 
     @Override
@@ -95,42 +113,6 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
         httpRequestUtil.close();
     }
 
-    /**
-     * HTTP请求调用封装
-     *
-     * @param requestParams 请求bean
-     * @param config        微信基础配置
-     * @param requestBean   请求对象的类名称
-     * @param responseBean  返回对象的类名称
-     * @param url           需要调用的URL地址
-     * @param <T>           泛型
-     * @return
-     * @throws Exception
-     */
-    private <T> T httpInvoke(Object requestParams, BaseWechatConfig config,
-                             Class requestBean, Class<T> responseBean, String url) throws Exception {
-        String xml = createXmlRequest(requestParams, config, requestBean);
-        String response = httpRequestUtil.post(xml, config, url);
-        return WechatUtil.getObjectFromXML(response, responseBean);
-    }
 
 
-    /**
-     * 需要证书的请求
-     *
-     * @param requestParams
-     * @param config
-     * @param requestBean
-     * @param responseBean
-     * @param url
-     * @param <T>
-     * @return
-     * @throws Exception
-     */
-    private <T> T httpsInvoke(Object requestParams, BaseWechatConfig config,
-                              Class requestBean, Class<T> responseBean, String url) throws Exception {
-        String xml = createXmlRequest(requestParams, config, requestBean);
-        String response = httpRequestUtil.keyCertPost(xml, config, url);
-        return WechatUtil.getObjectFromXML(response, responseBean);
-    }
 }

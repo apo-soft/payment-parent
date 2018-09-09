@@ -8,6 +8,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundRe
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.config.WechatPubPropertiesConfig;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.enums.UrlEnum;
 import cn.aposoft.ecommerce.wechat.exceptions.WechatConfigNullException;
 import cn.aposoft.ecommerce.wechat.params.*;
@@ -156,6 +157,11 @@ public class PaymentServiceImpl implements PaymentService, AutoCloseable {
         }
         //检查完成没有问题，开始发起HTTP请求
         return basePaymentService.downloadBill(params, config);
+    }
+
+    @Override
+    public boolean verifySign(String xml, SignTypeEnum signType) {
+        return false;
     }
 
     @Override

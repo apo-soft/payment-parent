@@ -88,7 +88,7 @@ public class FileUtil {
         fileChannel = FileChannel.open(localFilePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.READ);
         fileChannel.transferFrom(Channels.newChannel(inputStream), 0, Long.MAX_VALUE);
         fileChannel.close();
-
+        LogPortal.info("文件写入成功，路径地址：[{}]", pathName);
         //从文件中读出内容 暂不启用
 //        BufferedReader br = new BufferedReader(Channels.newReader(fileChannel, "UTF-8"));
 //        String line;

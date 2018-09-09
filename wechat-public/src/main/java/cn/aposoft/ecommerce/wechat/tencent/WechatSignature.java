@@ -1,5 +1,6 @@
 package cn.aposoft.ecommerce.wechat.tencent;
 
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
 
 import javax.crypto.Mac;
@@ -15,9 +16,7 @@ import java.util.Set;
  * Time: 15:23
  */
 public class WechatSignature {
-    public enum SignType {
-        MD5, HMACSHA256
-    }
+    
 
     /**
      * HmacSHA256加密模式判断签名是否正确
@@ -28,19 +27,19 @@ public class WechatSignature {
      * @throws Exception
      */
     public static boolean verifySignWithHMACSHA256(String xml, String key) throws Exception {
-        return verifySign(WechatUtil.xmlToMap(xml), key, SignType.HMACSHA256);
+        return verifySign(WechatUtil.xmlToMap(xml), key, SignTypeEnum.HMACSHA256);
     }
 
     public static boolean verifySignWithMD5(String xml, String key) throws Exception {
-        return verifySign(WechatUtil.xmlToMap(xml), key, SignType.MD5);
+        return verifySign(WechatUtil.xmlToMap(xml), key, SignTypeEnum.MD5);
     }
 
     public static boolean verifySignWithHMACSHA256(Map<String, String> data, String key) throws Exception {
-        return verifySign(data, key, SignType.HMACSHA256);
+        return verifySign(data, key, SignTypeEnum.HMACSHA256);
     }
 
     public static boolean verifySignWithMD5(Map<String, String> data, String key) throws Exception {
-        return verifySign(data, key, SignType.MD5);
+        return verifySign(data, key, SignTypeEnum.MD5);
     }
 
 
@@ -53,7 +52,7 @@ public class WechatSignature {
      * @return 签名是否正确
      * @throws Exception
      */
-    public static boolean verifySign(Map<String, String> data, String key, SignType signType) throws Exception {
+    public static boolean verifySign(Map<String, String> data, String key, SignTypeEnum signType) throws Exception {
         if (!data.containsKey(WechatConstant.SIGN)) {
             return false;
         }
@@ -70,7 +69,7 @@ public class WechatSignature {
      * @return 签名
      */
     public static String generateSignatureWithHMACSHA256(final Map<String, String> data, String key) throws Exception {
-        return generateSignature(data, key, SignType.HMACSHA256);
+        return generateSignature(data, key, SignTypeEnum.HMACSHA256);
     }
     /**
      * 生成签名
@@ -80,7 +79,7 @@ public class WechatSignature {
      * @return 签名
      */
     public static String generateSignatureWithMD5(final Map<String, String> data, String key) throws Exception {
-        return generateSignature(data, key, SignType.MD5);
+        return generateSignature(data, key, SignTypeEnum.MD5);
     }
     /**
      * 生成签名信息
@@ -91,7 +90,7 @@ public class WechatSignature {
      * @return
      * @throws Exception
      */
-    public static String generateSignature(final Map<String, String> data, String key, SignType signType) throws Exception {
+    public static String generateSignature(final Map<String, String> data, String key, SignTypeEnum signType) throws Exception {
         String[] keyArray = sortKey(data);
         StringBuilder sb = new StringBuilder();
         for (String k : keyArray) {
@@ -103,9 +102,9 @@ public class WechatSignature {
         }
         sb.append("key=").append(key);
         LogPortal.info("签名字符串：" + sb.toString());
-        if (SignType.MD5.equals(signType)) {
+        if (SignTypeEnum.MD5.equals(signType)) {
             return MD5(sb.toString()).toUpperCase();
-        } else if (SignType.HMACSHA256.equals(signType)) {
+        } else if (SignTypeEnum.HMACSHA256.equals(signType)) {
             return HMACSHA256(sb.toString(), key);
         } else {
             throw new Exception(String.format("Invalid sign_type: %s", signType));

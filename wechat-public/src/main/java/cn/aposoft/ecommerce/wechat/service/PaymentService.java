@@ -6,8 +6,8 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.params.*;
-
 import java.util.List;
 
 /**
@@ -148,6 +148,8 @@ public interface PaymentService extends AutoCloseable{
      * @author codejiayou
      */
     List<WechatDownloadBillResData> downloadBill(DownloadBillParams params) throws Exception;
+
+    boolean verifySign(String xml, SignTypeEnum signType);
 
     void close() throws Exception;
 }

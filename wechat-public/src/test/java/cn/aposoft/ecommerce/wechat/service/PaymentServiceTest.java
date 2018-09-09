@@ -56,7 +56,15 @@ public class PaymentServiceTest extends BaseAppTest {
         System.out.println(JSON.toJSONString(payResult));
         return orderParam;
     }
+    private OrderParamsDTO payTest_Close() throws Exception {
+        OrderParamsDTO orderParam = getOrderParamsDTO();
+        WeChatPayResData payResult = null;
+            payResult = paymentService.pay(orderParam);
 
+        Assert.assertNotNull(payResult);
+        System.out.println(JSON.toJSONString(payResult));
+        return orderParam;
+    }
 
     private OrderParamsDTO getOrderParamsDTO() {
         OrderParamsDTO orderParam = new OrderParamsDTO();
@@ -101,7 +109,7 @@ public class PaymentServiceTest extends BaseAppTest {
     @Test
     public void closeOrder() throws Exception {
         //下单
-        OrderParamsDTO orderParams = payTest();
+        OrderParamsDTO orderParams = payTest_Close();
         //关单
         CloseOrderParams params = getCloseParams(orderParams);
         WechatCloseResData closeResult = paymentService.closeOrder(params);
@@ -124,14 +132,14 @@ public class PaymentServiceTest extends BaseAppTest {
     @Test
     public void refund() throws Exception {
 
-        RefundParamsDTO data = getRefundData(null);
+        RefundParamsDTO data = getRefundData();
         WeChatRefundResData refundResult = paymentService.refund(data);
         paymentService.close();
         System.out.println(JSON.toJSONString(refundResult));
         Assert.assertNotNull(refundResult);
     }
 
-    private RefundParamsDTO getRefundData(OrderParamsDTO orderParams) {
+    private RefundParamsDTO getRefundData() {
         RefundParamsDTO data = new RefundParamsDTO();
         data.setOut_refund_no(DateUtils.formatDate(new Date(), "yyyMMddHHmmss"))
                 .setTransaction_id("4200000139201808179060622869")

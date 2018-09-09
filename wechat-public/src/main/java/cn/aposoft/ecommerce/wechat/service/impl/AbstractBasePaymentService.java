@@ -1,16 +1,21 @@
 package cn.aposoft.ecommerce.wechat.service.impl;
 
+import cn.aposoft.ecommerce.wechat.beans.invoke.HttpInvokeParams;
 import cn.aposoft.ecommerce.wechat.beans.protocol.BaseRequestBeans;
 import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryReqData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.enums.BillTypeEnum;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
+import cn.aposoft.ecommerce.wechat.exceptions.VerifySignFailException;
+import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
 import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
 import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
+import cn.aposoft.ecommerce.wechat.tencent.WechatSignature;
 import cn.aposoft.ecommerce.wechat.tencent.WechatUtil;
 import cn.aposoft.ecommerce.wechat.util.BeanConvertUtils;
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
@@ -30,7 +35,7 @@ import java.util.List;
  * @Created on 2018/8/22下午10:27
  */
 public abstract class AbstractBasePaymentService implements BasePaymentService {
-
+    protected HttpRequestUtil httpRequestUtil;
     /**
      * 转换为下单请求参数
      *
@@ -83,6 +88,70 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
 
     }
 
+    //------
+    /**
+     * HTTP请求调用封装
+     * 包含返回值签名校验操作
+     *
+     * @param params
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    protected  <T> T httpInvoke(HttpInvokeParams<T> params) throws Exception {
+        String xml = createXmlRequest(params.getRequestParams(), params.getConfig(), params.getRequestBean());
+        String response = httpRequestUtil.post(xml, params.getConfig(), params.getUrl());
+        checkVerify(params, xml, response);
+        return WechatUtil.getObjectFromXML(response, params.getResponseBean());
+    }
+
+
+    /**
+     * 需要证书的请求
+     * 包含返回值签名校验操作
+     *
+     * @param params
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    protected <T> T httpsInvoke(HttpInvokeParams<T> params) throws Exception {
+        String xml = createXmlRequest(params.getRequestParams(), params.getConfig(), params.getRequestBean());
+        String response = httpRequestUtil.keyCertPost(xml, params.getConfig(), params.getUrl());
+
+        checkVerify(params, xml, response);
+        return WechatUtil.getObjectFromXML(response, params.getResponseBean());
+    }
+
+    protected <T> void checkVerify(HttpInvokeParams<T> params, String xml, String response) throws Exception {
+        checkVerify(xml, response, params.getConfig().getKey(), params.getSignTypeEnum());
+    }
+
+    protected <T> void checkVerify(String xml, String response, String key, SignTypeEnum signTypeEnum) throws Exception {
+        boolean verify = WechatSignature.verifySign(WechatUtil.xmlToMap(xml), key, signTypeEnum);
+        if (!verify) {//签名校验失败
+            LogPortal.error("签名校验失败,payResponse=[{}]", response);
+            throw new VerifySignFailException("返回结果签名校验失败");
+
+        }
+    }
+
+    protected <T> HttpInvokeParams<T> convertInvoke(Object requestParams, BaseWechatConfig config,
+                                                  Class requestBean, Class<T> responseBean, String url, SignTypeEnum signTypeEnum) {
+
+        HttpInvokeParams<T> invokeParams = new HttpInvokeParams();
+        invokeParams.setRequestParams(requestParams)
+                .setConfig(config)
+                .setRequestBean(requestBean)
+                .setResponseBean(responseBean)
+                .setUrl(url)
+                .setSignTypeEnum(signTypeEnum);
+
+        return invokeParams;
+
+    }
+
+    //------
 
     protected List<WechatDownloadBillResData> convertWechatDownloadBillDataList(String responseData, DownloadBillParams params) {
         List<WechatDownloadBillResData> list = new ArrayList<>();
