@@ -10,10 +10,14 @@ import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.config.WechatPubPropertiesConfig;
 import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.enums.UrlEnum;
+import cn.aposoft.ecommerce.wechat.exceptions.VerifySignFailException;
 import cn.aposoft.ecommerce.wechat.exceptions.WechatConfigNullException;
 import cn.aposoft.ecommerce.wechat.params.*;
 import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
 import cn.aposoft.ecommerce.wechat.service.PaymentService;
+import cn.aposoft.ecommerce.wechat.tencent.WechatSignature;
+import cn.aposoft.ecommerce.wechat.tencent.WechatUtil;
+import cn.aposoft.ecommerce.wechat.util.LogPortal;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -161,7 +165,12 @@ public class PaymentServiceImpl implements PaymentService, AutoCloseable {
 
     @Override
     public boolean verifySign(String xml, SignTypeEnum signType) {
-        return false;
+        try {
+            return WechatSignature.verifySign(WechatUtil.xmlToMap(xml), config.getKey(), signType);
+        } catch (Exception e) {
+            LogPortal.error("签名校验失败,xml=[{}],[{}]", xml, e);
+            return false;
+        }
     }
 
     @Override

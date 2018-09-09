@@ -149,6 +149,12 @@ public interface PaymentService extends AutoCloseable{
      */
     List<WechatDownloadBillResData> downloadBill(DownloadBillParams params) throws Exception;
 
+    /**
+     * 从微信端接收的xml数据
+     * @param xml
+     * @param signType 签名类型
+     * @return
+     */
     boolean verifySign(String xml, SignTypeEnum signType);
 
     void close() throws Exception;

@@ -7,6 +7,7 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.params.CloseOrderParams;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
@@ -35,9 +36,44 @@ import java.util.List;
  */
 public class PaymentServiceTest extends BaseAppTest {
 
+    @Test
+    public void verifySign()  {
+
+        String xml = "123";
+        boolean verify = paymentService.verifySign(xml, SignTypeEnum.HMACSHA256);
+        Assert.assertFalse(verify);
+
+          xml = getSuccessXml();
+          verify = paymentService.verifySign(xml, SignTypeEnum.HMACSHA256);
+        Assert.assertTrue(verify);
+    }
+
+    private String getSuccessXml() {
+        return ("<xml><appid><![CDATA[wxd23d0632ad28c805]]></appid>\n" +
+                "<bank_type><![CDATA[CFT]]></bank_type>\n" +
+                "<cash_fee><![CDATA[1]]></cash_fee>\n" +
+                "<fee_type><![CDATA[CNY]]></fee_type>\n" +
+                "<is_subscribe><![CDATA[N]]></is_subscribe>\n" +
+                "<mch_id><![CDATA[1510598081]]></mch_id>\n" +
+                "<nonce_str><![CDATA[7CNAOpo5BbmbK8vOiqGoZu7hcufQLkCJ]]></nonce_str>\n" +
+                "<openid><![CDATA[o44s5uBeQvP0Oof_s3u7SdacmkJ0]]></openid>\n" +
+                "<out_trade_no><![CDATA[2018081701]]></out_trade_no>\n" +
+                "<result_code><![CDATA[SUCCESS]]></result_code>\n" +
+                "<return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "<sign><![CDATA[DAA9BCD9CE052A6B0843AFABADEEE610EF613750345711C6ECDF35092072C42C]]></sign>\n" +
+                "<sub_appid><![CDATA[wx34723380b2d8a699]]></sub_appid>\n" +
+                "<sub_is_subscribe><![CDATA[N]]></sub_is_subscribe>\n" +
+                "<sub_mch_id><![CDATA[1511458511]]></sub_mch_id>\n" +
+                "<sub_openid><![CDATA[oDodT0XcpFfrHVR9Kc_VgpFOj8lQ]]></sub_openid>\n" +
+                "<time_end><![CDATA[20180817170723]]></time_end>\n" +
+                "<total_fee>1</total_fee>\n" +
+                "<trade_type><![CDATA[NATIVE]]></trade_type>\n" +
+                "<transaction_id><![CDATA[4200000139201808179060622869]]></transaction_id>\n" +
+                "</xml>");
+    }
 
     @Test
-    public void pay() throws Exception {
+    public void pay(){
         payTest();
 
     }
