@@ -36,6 +36,7 @@
 4. 申请退款  https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_4
 5. 查询退款 https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_5
 6. 下载对账单 https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_6
+7. 验签接口
 
 http资源关闭采用1.8方式的自动关闭方式操作，参见单元测试中的`cn.aposoft.ecommerce.wechat.service.PaymentServiceTest#payTest()`方法
 
