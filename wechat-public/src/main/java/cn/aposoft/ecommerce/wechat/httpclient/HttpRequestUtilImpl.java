@@ -4,6 +4,7 @@ import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.util.LogPortal;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ParseException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -36,7 +37,10 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
 
     // 单一主机最大并发连接数:默认为2,这里增大到200,避免高并发时,因此导致支付阻塞.
     private int connectionPerRoute = 200;
-
+    //连接超时时间，毫秒
+    private int httpConnectTimeoutMs = 60 * 1000;
+    //读取超时时间，毫秒
+    private int httpReadTimeoutMs = 60 * 1000;
     // 用于发送普通http连接的client
     private CloseableHttpClient client = null;
 
@@ -45,11 +49,13 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
 
 
     private HttpRequestUtilImpl() {
-        this(200);
+        this(200, 60 * 1000, 60 * 1000);
     }
 
-    private HttpRequestUtilImpl(int connectionPerRoute) {
+    private HttpRequestUtilImpl(int connectionPerRoute, int httpConnectTimeoutMs, int httpReadTimeoutMs) {
         this.connectionPerRoute = connectionPerRoute;
+        this.httpConnectTimeoutMs = httpConnectTimeoutMs;
+        this.httpReadTimeoutMs = httpReadTimeoutMs;
         client = createHttpClient();
     }
 
@@ -81,10 +87,21 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
      */
     public static final HttpRequestUtilImpl getInstance(BaseWechatConfig config) {
         int connectionPerRoute = 200;
-        if (config.connectionsPerRoute() != null) {
+        //连接超时时间，毫秒
+        int httpConnectTimeoutMs = 60 * 1000;
+        //读取超时时间，毫秒
+        int httpReadTimeoutMs = 60 * 1000;
+        if (StringUtils.isNotEmpty(config.connectionsPerRoute())) {
             connectionPerRoute = Integer.valueOf(config.connectionsPerRoute());
         }
-        return new HttpRequestUtilImpl(connectionPerRoute);
+        if (config.getHttpConnectTimeoutMs() > 0) {
+            httpConnectTimeoutMs = config.getHttpConnectTimeoutMs();
+        }
+        if (config.getHttpReadTimeoutMs() > 0) {
+            httpReadTimeoutMs = config.getHttpReadTimeoutMs();
+        }
+
+        return new HttpRequestUtilImpl(connectionPerRoute, httpConnectTimeoutMs, httpReadTimeoutMs);
     }
 
     /**
@@ -174,10 +191,18 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
         return EntityUtils.toString(response.getEntity(), "UTF-8");
     }
 
+    /**
+     * 创建httpPost
+     *
+     * @param request
+     * @param url
+     * @return
+     */
     private HttpPost createHttpPost(String request, String url) {
         // 定义POST请求
         HttpPost httpPost = new HttpPost(url);
-
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(httpReadTimeoutMs).setConnectTimeout(httpConnectTimeoutMs).build();
+        httpPost.setConfig(requestConfig);
         StringEntity postEntity = new StringEntity(request, "UTF-8");
         httpPost.addHeader("Content-Type", "text/xml");
         httpPost.setEntity(postEntity);
