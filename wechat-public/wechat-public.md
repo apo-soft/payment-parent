@@ -1,8 +1,11 @@
 ## wechat-public
 
 * 单元测试添加mock部分，同时，完成有参构造函数的初始化操作。
+* mock测试官网demo地址：  
+ [https://github.com/powermock](https://github.com/powermock)  
+ [https://github.com/powermock/powermock-examples-maven](https://github.com/powermock/powermock-examples-maven)
 
-* mock测试完整依赖包如下：
+* mock测试完整依赖包如下(亲测可用，高版本尚未找到兼容关系)：
 
  ```xml
  <!--power mockito依赖部分 start-->
@@ -52,3 +55,5 @@
  | 3.0 - 3.2    |    1.3.9 - 1.6.0 |
  | 2.5.x    |    1.3.7 & 1.3.8 |
  | 2.4.x or older  |     1.3.6  |
+ 
+ 其他更详细的的mock以及Junit测试参考地址：[https://github.com/os-technology/books/blob/dev/JunitMockTest/doc/JunitMockTest.md](https://github.com/os-technology/books/blob/dev/JunitMockTest/doc/JunitMockTest.md)
