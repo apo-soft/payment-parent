@@ -28,10 +28,6 @@ public class WechatPubPropertiesConfig implements BaseWechatConfig {
     private String PKCS12_PATH = null;
 
     /**
-     * 认证证书base64内容
-     */
-    private String PKCS12_BASE64 = null;
-    /**
      * 商户KEY
      */
     private String KEY = null;
@@ -128,7 +124,6 @@ public class WechatPubPropertiesConfig implements BaseWechatConfig {
         SUB_MCH_ID = p.getProperty("SUB_MCH_ID");
         SUB_APPID = p.getProperty("SUB_APPID");
         STATEMENT_FILE_PATH = p.getProperty("STATEMENT_FILE_PATH");
-        PKCS12_BASE64 = p.getProperty("PKCS12_BASE64");
     }
 
     /**
@@ -160,7 +155,6 @@ public class WechatPubPropertiesConfig implements BaseWechatConfig {
         SUB_MCH_ID = map.get("SUB_MCH_ID");
         SUB_APPID = map.get("SUB_APPID");
         STATEMENT_FILE_PATH = map.get("STATEMENT_FILE_PATH");
-        PKCS12_BASE64 = map.get("PKCS12_BASE64");
     }
 
     public WechatPubPropertiesConfig(String fileName) {
@@ -340,10 +334,7 @@ public class WechatPubPropertiesConfig implements BaseWechatConfig {
     public String getKey() {
         return KEY;
     }
-    @Override
-    public String getPKCS12_BASE64() {
-        return PKCS12_BASE64;
-    }
+
     @Override
     public InputStream getCertStream() throws Exception {
         return new FileInputStream(new File(PKCS12_PATH));

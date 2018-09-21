@@ -65,9 +65,7 @@ public class PaymentServiceImpl implements PaymentService, AutoCloseable {
         if (StringUtils.isEmpty(config.getSubMchId())) {
             throw new WechatConfigNullException("subMchId is null");
         }
-        if (StringUtils.isEmpty(config.getPKCS12_BASE64()) && config.getCertStream() == null) {
-            throw new WechatConfigNullException("PKCS12 is null");
-        }
+
         switch (urlEnum) {
             case PAY_URL:
                 if (StringUtils.isEmpty(config.getPayUrl())

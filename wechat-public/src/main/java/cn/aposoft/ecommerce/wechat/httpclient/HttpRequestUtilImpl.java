@@ -129,11 +129,9 @@ public class HttpRequestUtilImpl implements HttpRequestUtil {
     private CloseableHttpClient getPkcs12Client(BaseWechatConfig config) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         InputStream instream = null;
-        if (StringUtils.isNotEmpty(config.getPKCS12_BASE64())) {
-            //TODO 进行base64转换,转换为输入流
-        } else {
-            instream = config.getCertStream();
-        }
+
+        instream = config.getCertStream();
+
         try {
             keyStore.load(instream, config.getMchID().toCharArray());
         } finally {

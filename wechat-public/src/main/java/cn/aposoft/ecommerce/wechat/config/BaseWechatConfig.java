@@ -48,13 +48,6 @@ public interface BaseWechatConfig {
 
     public String getStatementPath();
 
-    /**
-     * 获取base64加密后的证书内容
-     *
-     * @return
-     */
-    public String getPKCS12_BASE64();
-
 
     public InputStream getCertStream() throws Exception;
     /**
