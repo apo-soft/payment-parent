@@ -46,7 +46,7 @@ public class BasePaymentServiceMockTest {
     @Mock
     private HttpRequestUtilImpl httpClientUtil;
     /**
-     * 注意，此处进行创建的实例类为 BasePaymentServiceImpl，但是待测试的类为 PaymentServiceImpl(即 @PrepareForTest(PaymentServiceImpl.class))，
+     * 注意，此处进行创建的实例类为 BasePaymentServiceImpl，但是待测试的类必须为 PaymentServiceImpl(即 @PrepareForTest(PaymentServiceImpl.class))，
      * 如果改为  @PrepareForTest(BasePaymentServiceImpl.class)  当调用 HttpRequestUtilImpl 的实例时，会提示 null 异常。具体为什么会这样尚不清楚
      *
      * 如果要强制使用  @PrepareForTest(BasePaymentServiceImpl.class) 方式，需要通过构造函数注入参数信息，参见 PrepareForBasePaymentServiceMockTest测试类
