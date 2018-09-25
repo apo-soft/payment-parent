@@ -62,7 +62,9 @@ public class BasePaymentServiceMockTest {
 
     @Test
     public void downloadbill() throws Exception {
+        //初始化config信息
         mockitoConfig();
+        //创建对账单下载请求参数
         DownloadBillParams params = getDownloadBillParamsDTO();
 
         //此处可以免去执行  createXmlRequest 方法，直接得到返回值，但是，PaymentServiceMockTest类里面，暂时无法对该方法进行监控，问题信息(即使监控也会执行方法体)原因不明。

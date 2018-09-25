@@ -125,7 +125,7 @@ public class PaymentServiceTest extends BaseAppTest {
         WechatPayQueryResData queryResult = paymentService.query(params);
         paymentService.close();
         Assert.assertNotNull(queryResult);
-        System.out.println(queryResult);
+        System.out.println(JSON.toJSONString(queryResult));
     }
 
     private OrderQueryParams getQueryParams() {

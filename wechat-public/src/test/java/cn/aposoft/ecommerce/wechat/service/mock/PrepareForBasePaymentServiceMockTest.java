@@ -1,13 +1,22 @@
 package cn.aposoft.ecommerce.wechat.service.mock;
 
 import cn.aposoft.ecommerce.wechat.beans.DownloadBillParamsDTO;
+import cn.aposoft.ecommerce.wechat.beans.OrderParamsDTO;
+import cn.aposoft.ecommerce.wechat.beans.OrderQueryParamsDTO;
 import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.config.WechatPubPropertiesConfig;
+import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
 import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtilImpl;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
+import cn.aposoft.ecommerce.wechat.params.OrderParams;
+import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
 import cn.aposoft.ecommerce.wechat.service.impl.BasePaymentServiceImpl;
+import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
+import org.apache.http.client.utils.DateUtils;
 import org.easymock.ConstructorArgs;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +32,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import static org.powermock.api.easymock.PowerMock.createMock;
@@ -59,22 +70,138 @@ public class PrepareForBasePaymentServiceMockTest {
         basePaymentService = createMock(BasePaymentServiceImpl.class, constructorArgs);
         //开始监控待测类实例
         basePaymentService = PowerMockito.spy(basePaymentService);
+        //config-支付账户参数初始化
+        mockitoConfig();
+    }
+
+
+    @Test
+    public void pay() throws Exception {
+
+
+        OrderParams orderParams = getOrderParamsDTO();
+
+        mockResponseAndIgnoreVerifySign(responsePayData());
+
+        WeChatPayResData payResponse = basePaymentService.pay(orderParams, config);
+        Assert.assertEquals("1BD02B5A04BDD5283482995C3F121E5B9230FB3A65248716B50FA5C6D4A9031C", payResponse.getSign());
+
+    }
+
+
+    @Test
+    public void query() throws Exception {
+
+        OrderQueryParams orderQueryParams = getOrderQueryParamsDTO();
+
+        mockResponseAndIgnoreVerifySign(responseQueryData());
+
+        WechatPayQueryResData queryResponse = basePaymentService.query(orderQueryParams, config);
+        Assert.assertEquals("485D0719791753451F4E1A57034B9D3F", queryResponse.getSign());
+
+    }
+
+    /**
+     * HTTP返回值xml设置并设置验签通过
+     *
+     * @param response
+     * @throws Exception
+     */
+    private void mockResponseAndIgnoreVerifySign(String response) throws Exception {
+        //模拟HTTP请求后的返回值
+        PowerMockito.doReturn(response).when(httpClientUtil).post(Mockito.any(String.class), Mockito.any(BaseWechatConfig.class), Mockito.any(String.class));
+
+        //验签通过设置
+        PowerMockito.doNothing().when(basePaymentService, "checkVerify",
+                Mockito.any(String.class), Mockito.any(String.class), Mockito.any(String.class), Mockito.any(SignTypeEnum.class));
+    }
+
+    private String responseQueryData() {
+
+        return "<xml><return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "<return_msg><![CDATA[OK]]></return_msg>\n" +
+                "<appid><![CDATA[wxd23d0632ad28c805]]></appid>\n" +
+                "<mch_id><![CDATA[1510598081]]></mch_id>\n" +
+                "<sub_mch_id><![CDATA[1511458511]]></sub_mch_id>\n" +
+                "<nonce_str><![CDATA[Bt6pD8HzuWcKWv2i]]></nonce_str>\n" +
+                "<sign><![CDATA[485D0719791753451F4E1A57034B9D3F]]></sign>\n" +
+                "<result_code><![CDATA[SUCCESS]]></result_code>\n" +
+                "<openid><![CDATA[o44s5uBeQvP0Oof_s3u7SdacmkJ0]]></openid>\n" +
+                "<is_subscribe><![CDATA[N]]></is_subscribe>\n" +
+                "<trade_type><![CDATA[NATIVE]]></trade_type>\n" +
+                "<bank_type><![CDATA[CFT]]></bank_type>\n" +
+                "<total_fee>1</total_fee>\n" +
+                "<fee_type><![CDATA[CNY]]></fee_type>\n" +
+                "<transaction_id><![CDATA[4200000139201808179060622869]]></transaction_id>\n" +
+                "<out_trade_no><![CDATA[2018081701]]></out_trade_no>\n" +
+                "<attach><![CDATA[]]></attach>\n" +
+                "<time_end><![CDATA[20180817170723]]></time_end>\n" +
+                "<trade_state><![CDATA[SUCCESS]]></trade_state>\n" +
+                "<sub_appid><![CDATA[wx34723380b2d8a699]]></sub_appid>\n" +
+                "<sub_openid><![CDATA[oDodT0XcpFfrHVR9Kc_VgpFOj8lQ]]></sub_openid>\n" +
+                "<sub_is_subscribe><![CDATA[N]]></sub_is_subscribe>\n" +
+                "<cash_fee>1</cash_fee>\n" +
+                "<trade_state_desc><![CDATA[支付成功]]></trade_state_desc>\n" +
+                "</xml>";
+    }
+
+    private OrderQueryParams getOrderQueryParamsDTO() {
+
+        OrderQueryParamsDTO dto = new OrderQueryParamsDTO();
+        dto.setTransaction_id("4200000139201808179060622869");
+
+        return dto;
+    }
+
+    private String responsePayData() {
+        return "<xml><return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "<return_msg><![CDATA[OK]]></return_msg>\n" +
+                "<appid><![CDATA[wxd23d0632ad28c123]]></appid>\n" +
+                "<mch_id><![CDATA[15112320598081]]></mch_id>\n" +
+                "<sub_mch_id><![CDATA[151145211511]]></sub_mch_id>\n" +
+                "<nonce_str><![CDATA[axSEHKtN5qx1tx71]]></nonce_str>\n" +
+                "<sign><![CDATA[1BD02B5A04BDD5283482995C3F121E5B9230FB3A65248716B50FA5C6D4A9031C]]></sign>\n" +
+                "<result_code><![CDATA[SUCCESS]]></result_code>\n" +
+                "<prepay_id><![CDATA[wx2510483854944624004fa83b3962796053]]></prepay_id>\n" +
+                "<trade_type><![CDATA[NATIVE]]></trade_type>\n" +
+                "<code_url><![CDATA[weixin://wxpay/bizpayurl?pr=eq9ouCT]]></code_url>\n" +
+                "<sub_appid><![CDATA[wx34723380b2d8a129]]></sub_appid>\n" +
+                "</xml>";
+    }
+
+    private OrderParamsDTO getOrderParamsDTO() {
+        OrderParamsDTO orderParam = new OrderParamsDTO();
+        String outTradeNo = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        System.out.println("商户订单号：" + outTradeNo);
+        orderParam.setTotal_fee(1)
+                .setBody("下单测试")
+                .setTrade_type("NATIVE")
+//                .setTrade_type(TradeTypeEnum.JSAPI.name())
+                .setNotify_url("http://123")
+                .setOut_trade_no(outTradeNo)
+                .setSpbill_create_ip("123.32.15.22")
+//                .setOpenid("o44s5uBeQvP0Oof_s3u7SdacmkJ0")
+                .setSign_type(WechatConstant.HMACSHA256)
+        ;
+        return orderParam;
     }
 
 
     @Test
     public void downloadbill() throws Exception {
-        mockitoConfig();
+
         DownloadBillParams params = getDownloadBillParamsDTO();
 
         PowerMockito.doReturn(requestXml()).when(basePaymentService, "createXmlRequest",
                 Mockito.any(DownloadBillParams.class), Mockito.any(WechatPubPropertiesConfig.class), Mockito.any());
 
-        PowerMockito.doReturn(responseAllData()).when(httpClientUtil).post(Mockito.any(String.class), Mockito.any(BaseWechatConfig.class), Mockito.any(String.class));
+        mockResponseAndIgnoreVerifySign(responseAllData());
+
         List<WechatDownloadBillResData> result = basePaymentService.downloadBill(params, config);
         Assert.assertEquals(3, result.size());
 
     }
+
 
     private DownloadBillParams getDownloadBillParamsDTO() {
         DownloadBillParamsDTO params = new DownloadBillParamsDTO();
