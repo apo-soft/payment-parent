@@ -101,7 +101,7 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
     protected  <T> T httpInvoke(HttpInvokeParams<T> params) throws Exception {
         String xml = createXmlRequest(params.getRequestParams(), params.getConfig(), params.getRequestBean());
         String response = httpRequestUtil.post(xml, params.getConfig(), params.getUrl());
-        checkVerify(params, xml, response);
+        checkVerify(params, response);
         return WechatUtil.getObjectFromXML(response, params.getResponseBean());
     }
 
@@ -119,16 +119,16 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
         String xml = createXmlRequest(params.getRequestParams(), params.getConfig(), params.getRequestBean());
         String response = httpRequestUtil.keyCertPost(xml, params.getConfig(), params.getUrl());
 
-        checkVerify(params, xml, response);
+        checkVerify(params, response);
         return WechatUtil.getObjectFromXML(response, params.getResponseBean());
     }
 
-    protected <T> void checkVerify(HttpInvokeParams<T> params, String xml, String response) throws Exception {
-        checkVerify(xml, response, params.getConfig().getKey(), params.getSignTypeEnum());
+    protected <T> void checkVerify(HttpInvokeParams<T> params, String response) throws Exception {
+        checkVerify(response, params.getConfig().getKey(), params.getSignTypeEnum());
     }
 
-    protected <T> void checkVerify(String xml, String response, String key, SignTypeEnum signTypeEnum) throws Exception {
-        boolean verify = WechatSignature.verifySign(WechatUtil.xmlToMap(xml), key, signTypeEnum);
+    protected void checkVerify(String response, String key, SignTypeEnum signTypeEnum) throws Exception {
+        boolean verify = WechatSignature.verifySign(WechatUtil.xmlToMap(response), key, signTypeEnum);
         if (!verify) {//签名校验失败
             LogPortal.error("签名校验失败,payResponse=[{}]", response);
             throw new VerifySignFailException("返回结果签名校验失败");

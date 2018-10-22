@@ -45,7 +45,7 @@ public class BasePaymentServiceImpl extends AbstractBasePaymentService {
         String xml = createPayRequest(orderParams, config);
         String response = httpRequestUtil.post(xml, config, config.getPayUrl());
         //签名校验
-        checkVerify(xml, response, config.getKey(), SignTypeEnum.HMACSHA256);
+        checkVerify(response, config.getKey(), SignTypeEnum.HMACSHA256);
         return WechatUtil.getObjectFromXML(response, WeChatPayResData.class);
     }
 
