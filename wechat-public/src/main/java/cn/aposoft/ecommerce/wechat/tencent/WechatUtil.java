@@ -60,6 +60,7 @@ public class WechatUtil {
         return mapToXml(map);
     }
 
+    @Deprecated
     public static Map<String, Object> getMapFromXML(String xmlString) throws ParserConfigurationException, IOException, SAXException {
 
         //这里用Dom的方式解析回包的最主要目的是防止API新增回包字段

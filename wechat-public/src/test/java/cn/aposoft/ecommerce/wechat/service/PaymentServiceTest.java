@@ -171,7 +171,7 @@ public class PaymentServiceTest extends BaseAppTest {
         RefundParamsDTO data = getRefundData();
         WeChatRefundResData refundResult = paymentService.refund(data);
         paymentService.close();
-        System.out.println(JSON.toJSONString(refundResult));
+        System.out.println("退款返回结果："+JSON.toJSONString(refundResult));
         Assert.assertNotNull(refundResult);
     }
 
@@ -197,7 +197,7 @@ public class PaymentServiceTest extends BaseAppTest {
 
     private RefundQueryParamsDTO getRefundQueryData() {
         RefundQueryParamsDTO paramsDTO = new RefundQueryParamsDTO();
-        paramsDTO.setTransaction_id("4200000139201808179060622869");//四个单号四选一，(商户订单号，微信下单订单号，商户退款订单号,微信退款订单号)
+        paramsDTO.setTransaction_id("4200000153201808209352891155");//四个单号四选一，(商户订单号，微信下单订单号，商户退款订单号,微信退款订单号)
         return paramsDTO;
     }
 

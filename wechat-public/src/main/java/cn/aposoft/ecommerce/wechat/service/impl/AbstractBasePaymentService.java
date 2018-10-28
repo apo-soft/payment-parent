@@ -5,6 +5,9 @@ import cn.aposoft.ecommerce.wechat.beans.protocol.BaseRequestBeans;
 import cn.aposoft.ecommerce.wechat.beans.protocol.downloadbill_protocol.WechatDownloadBillResData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_protocol.WeChatPayReqData;
 import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryReqData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.pay_query_protocol.WechatPayQueryResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.refund_protocol.WeChatRefundResData;
+import cn.aposoft.ecommerce.wechat.beans.protocol.refund_query_protocol.WechatRefundQueryResData;
 import cn.aposoft.ecommerce.wechat.config.BaseWechatConfig;
 import cn.aposoft.ecommerce.wechat.enums.BillTypeEnum;
 import cn.aposoft.ecommerce.wechat.enums.SignTypeEnum;
@@ -13,6 +16,7 @@ import cn.aposoft.ecommerce.wechat.httpclient.HttpRequestUtil;
 import cn.aposoft.ecommerce.wechat.params.DownloadBillParams;
 import cn.aposoft.ecommerce.wechat.params.OrderParams;
 import cn.aposoft.ecommerce.wechat.params.OrderQueryParams;
+import cn.aposoft.ecommerce.wechat.parser.*;
 import cn.aposoft.ecommerce.wechat.service.BasePaymentService;
 import cn.aposoft.ecommerce.wechat.tencent.WechatConstant;
 import cn.aposoft.ecommerce.wechat.tencent.WechatSignature;
@@ -25,6 +29,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author code
@@ -36,6 +41,7 @@ import java.util.List;
  */
 public abstract class AbstractBasePaymentService implements BasePaymentService {
     protected HttpRequestUtil httpRequestUtil;
+
     /**
      * 转换为下单请求参数
      *
@@ -89,6 +95,7 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
     }
 
     //------
+
     /**
      * HTTP请求调用封装
      * 包含返回值签名校验操作
@@ -98,11 +105,138 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
      * @return
      * @throws Exception
      */
-    protected  <T> T httpInvoke(HttpInvokeParams<T> params) throws Exception {
+    protected <T> T httpInvoke(HttpInvokeParams<T> params) throws Exception {
         String xml = createXmlRequest(params.getRequestParams(), params.getConfig(), params.getRequestBean());
         String response = httpRequestUtil.post(xml, params.getConfig(), params.getUrl());
         checkVerify(params, response);
-        return WechatUtil.getObjectFromXML(response, params.getResponseBean());
+        T responseData = WechatUtil.getObjectFromXML(response, params.getResponseBean());
+        //动态属性解析并赋值
+        convertCouponParams(response, responseData);
+        return responseData;
+    }
+
+
+    protected <T> void convertCouponParams(String xml, T responseData) throws Exception {
+        Map<String, String> responseMap = WechatUtil.xmlToMap(xml);
+        if (responseData instanceof WechatRefundQueryResData) {//退款查询
+            // 1.1 解析退款查询动态属性部分
+            analysisRefundQueryResData((WechatRefundQueryResData) responseData, responseMap);
+
+        } else if (responseData instanceof WechatPayQueryResData) {//订单查询
+            // 1.1 解析订单查询动态属性部分
+            analysisOrderQueryResData((WechatPayQueryResData) responseData, responseMap);
+        } else if (responseData instanceof WeChatRefundResData) {//退款申请
+            // 1.1 解析退款申请动态属性部分
+            analysisRefundResData((WeChatRefundResData) responseData, responseMap);
+        }
+    }
+    /**
+     * 退款申请动态属性解析
+     *
+     * @param resData
+     * @param responseMap
+     */
+    protected void analysisRefundResData(WeChatRefundResData resData, Map<String, String> responseMap) {
+        CouponParser parser = new RefundCouponParser();
+        for (Map.Entry<String, String> entry : responseMap.entrySet()) {
+            checkAndSetRefundResData(entry, resData, parser);
+        }
+    }
+
+    /**
+     * 退款申请动态属性赋值
+     *
+     * @param entry
+     * @param resData
+     * @param parser
+     */
+    private void checkAndSetRefundResData(Map.Entry<String, String> entry, WeChatRefundResData resData, CouponParser parser) {
+        if (parser.isCoupon_id(entry.getKey())) {
+            resData.setCoupon_refund_id_$n(entry.getValue());
+        } else if (parser.isCoupon_fee(entry.getKey())) {
+            resData.setCoupon_refund_fee_$n(Integer.valueOf(entry.getValue()));
+        } else if (parser.isCoupon_type(entry.getKey())) {
+            resData.setCoupon_type_$n(entry.getValue());
+        }
+    }
+
+    /**
+     * 解析订单查询返回结果的动态属性
+     *
+     * @param resData
+     * @param responseMap
+     */
+    protected void analysisOrderQueryResData(WechatPayQueryResData resData, Map<String, String> responseMap) {
+        CouponParser parser = new OrderQueryCouponParser();
+        for (Map.Entry<String, String> entry : responseMap.entrySet()) {
+            checkAndSetOrderQueryResDataCouponValues(entry, resData, parser);
+        }
+    }
+
+    /**
+     * 订单查询返回结果动态属性赋值
+     *
+     * @param entry
+     * @param resData
+     * @param parser
+     */
+    private void checkAndSetOrderQueryResDataCouponValues(Map.Entry<String, String> entry, WechatPayQueryResData resData, CouponParser parser) {
+        if (parser.isCoupon_id(entry.getKey())) {
+            resData.setCoupon_id_$n(entry.getValue());
+        } else if (parser.isCoupon_fee(entry.getKey())) {
+            resData.setCoupon_fee_$n(Integer.valueOf(entry.getValue()));
+        } else if (parser.isCoupon_type(entry.getKey())) {
+            resData.setCoupon_type_$n(entry.getValue());
+        }
+    }
+    /**
+     * 解析退款查询返回结果的动态属性
+     *
+     * @param resData
+     * @param responseMap
+     */
+    protected void analysisRefundQueryResData(WechatRefundQueryResData resData, Map<String, String> responseMap) {
+        RefundQueryParser parser = new RefundQueryCouponParser();
+        for (Map.Entry<String, String> entry : responseMap.entrySet()) {
+            checkAndSetRefundQueryCouponValues(entry, resData, parser);
+        }
+    }
+
+    /**
+     * 动态属性解析赋值
+     *
+     * @param entry
+     * @param resData
+     * @param parser
+     */
+    private void checkAndSetRefundQueryCouponValues(Map.Entry<String, String> entry, WechatRefundQueryResData resData, RefundQueryParser parser) {
+        if (parser.isCoupon_id(entry.getKey())) {
+            resData.setCoupon_refund_id_$n_$m(entry.getValue());
+        } else if (parser.isCoupon_fee(entry.getKey())) {
+            resData.setCoupon_refund_fee_$n_$m(Integer.valueOf(entry.getValue()));
+        } else if (parser.isOut_refund_no(entry.getKey())) {
+            resData.setOut_refund_no_$n(entry.getValue());
+        } else if (parser.isRefund_id(entry.getKey())) {
+            resData.setRefund_id_$n(entry.getValue());
+        } else if (parser.isRefund_channel(entry.getKey())) {
+            resData.setRefund_channel_$n(entry.getValue());
+        } else if (parser.isRefund_fee(entry.getKey())) {
+            resData.setRefund_fee_$n(Integer.valueOf(entry.getValue()));
+        } else if (parser.isSettlement_refund_fee(entry.getKey())) {
+            resData.setSettlement_refund_fee_$n(Integer.valueOf(entry.getValue()));
+        } else if (parser.isCoupon_type(entry.getKey())) {
+            resData.setCoupon_type_$n_$m(entry.getValue());
+        } else if (parser.isCoupon_refund_count(entry.getKey())) {
+            resData.setCoupon_refund_count_$n(Integer.valueOf(entry.getValue()));
+        } else if (parser.isRefund_status(entry.getKey())) {
+            resData.setRefund_status_$n(entry.getValue());
+        } else if (parser.isRefund_account(entry.getKey())) {
+            resData.setRefund_account_$n(entry.getValue());
+        } else if (parser.isRefund_recv_accout(entry.getKey())) {
+            resData.setRefund_recv_accout_$n(entry.getValue());
+        } else if (parser.isRefund_success_time(entry.getKey())) {
+            resData.setRefund_success_time_$n(entry.getValue());
+        }
     }
 
 
@@ -120,7 +254,11 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
         String response = httpRequestUtil.keyCertPost(xml, params.getConfig(), params.getUrl());
 
         checkVerify(params, response);
-        return WechatUtil.getObjectFromXML(response, params.getResponseBean());
+        T responseData = WechatUtil.getObjectFromXML(response, params.getResponseBean());
+
+        //动态属性解析并赋值
+        convertCouponParams(response, responseData);
+        return responseData;
     }
 
     protected <T> void checkVerify(HttpInvokeParams<T> params, String response) throws Exception {
@@ -137,7 +275,7 @@ public abstract class AbstractBasePaymentService implements BasePaymentService {
     }
 
     protected <T> HttpInvokeParams<T> convertInvoke(Object requestParams, BaseWechatConfig config,
-                                                  Class requestBean, Class<T> responseBean, String url, SignTypeEnum signTypeEnum) {
+                                                    Class requestBean, Class<T> responseBean, String url, SignTypeEnum signTypeEnum) {
 
         HttpInvokeParams<T> invokeParams = new HttpInvokeParams();
         invokeParams.setRequestParams(requestParams)
